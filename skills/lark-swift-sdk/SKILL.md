@@ -117,7 +117,9 @@ let dispatcher = EventDispatcher()
     .register(.imMessageReceiveV1) { e, _ in            // typed: IM.MessageReceiveV1Event
         let m = e.message                                 // messageId, chatId, chatType, messageType, content, mentions, rootId, parentId
         let sender = e.sender.senderId?.openId
-        Task { try await handle(m, sender, e.text) }      // keep handlers fast; do slow work in a Task
+        Task {                                            // keep handlers fast; do slow work in a Task
+            do { try await handle(m, sender, e.text) } catch { print("handler failed:", error) }
+        }
         return nil
     }
     .register(.imChatMemberBotAddedV1) { e, _ in print("added to", e.chatId ?? ""); return nil }

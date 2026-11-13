@@ -79,9 +79,13 @@ let client = try LarkClient(appId: "cli_xxx", appSecret: "xxx")   // domain: .la
 let dispatcher = EventDispatcher()
     .register(.imMessageReceiveV1) { event, _ in                   // typed IM.MessageReceiveV1Event
         Task {
-            _ = try await client.im.v1.message.reply(
-                messageId: event.message.messageId,
-                body: .text("echo: \(event.text ?? "")"))
+            do {
+                _ = try await client.im.v1.message.reply(
+                    messageId: event.message.messageId,
+                    body: .text("echo: \(event.text ?? "")"))
+            } catch {
+                print("reply failed: \(error)")
+            }
         }
         return nil
     }
