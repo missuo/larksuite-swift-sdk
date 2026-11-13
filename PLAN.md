@@ -95,12 +95,12 @@ Categories present in node-sdk with no APIs (59, nothing to port): `aily_rag`, `
 |---|---|---|---|
 | `Client` (appId/appSecret, domain, appType, logger, cache, httpInstance, source UA) | `LarkClient`, `LarkConfiguration` | ✅ | mock HTTP |
 | Managed `tenant_access_token` (self-built), 3-min early expiry, cache namespace = appId | `TokenManager` | ✅ | mock HTTP |
-| Marketplace (ISV) apps: `app_ticket` cache + resend, `app_access_token`, per-tenant token | `TokenManager` | ✅ | ⬜ dedicated test |
-| Keyless `ClientAssertionProvider` (tenant token, WS endpoint, GDPR proxy URL) | `ClientAssertionProvider`, `LarkOAuth` | ✅ | ⬜ dedicated test |
-| `client.accessToken` (OAuth v3 code exchange / refresh) | `AccessTokenService` | ✅ | ⬜ dedicated test |
-| `client.userAccessToken` (OIDC cache + refresh) | `UserAccessTokenManager` | ✅ | ⬜ dedicated test |
+| Marketplace (ISV) apps: `app_ticket` cache + resend, `app_access_token`, per-tenant token | `TokenManager` | ✅ | ported node tests + ISV test |
+| Keyless `ClientAssertionProvider` (tenant token, WS endpoint, GDPR proxy URL) | `ClientAssertionProvider`, `LarkOAuth` | ✅ | ported node tests (client, token manager, WS) |
+| `client.accessToken` (OAuth v3 code exchange / refresh) | `AccessTokenService` | ✅ | ported node tests |
+| `client.userAccessToken` (OIDC cache + refresh) | `UserAccessTokenManager` | ✅ | dedicated tests (node has none) |
 | `client.request` (raw request) | `client.request` / `client.send` / `client.download` | ✅ | mock HTTP |
-| `withTenantKey` / `withUserAccessToken` / `withTenantToken` / `withHelpDeskCredential` / `withAll` | `RequestOptions` | ✅ | ⬜ dedicated test |
+| `withTenantKey` / `withUserAccessToken` / `withTenantToken` / `withHelpDeskCredential` / `withAll` | `RequestOptions` | ✅ | dedicated tests (node has none) |
 | `xxxWithIterator` pagination | `xxxWithIterator` → `LarkPageSequence` | ✅ | mock HTTP + parity |
 | File upload (multipart) / download (`writeFile`) | `LarkFile`, `MultipartForm`, `LarkBinaryResponse` | ✅ | parity |
 | `WSClient` long connection: endpoint, handshake headers/host, ping/pong config, fragments, ack, reconnect, liveness, status, close | `WSClient` | ✅ | node vectors + mock end-to-end |
@@ -147,7 +147,11 @@ Driven by the first consumer, a long-connection Feishu bot (`feishu-agent`).
   with LarkCore types are suffixed (`LarkEventAPI`); service code uses fully qualified model
   types; numeric `page_token`s are converted for iterators.
 - ✅ Full clean build of every module + tests: ~3 min (debug, M-series Mac); `swift test`: 1932 tests.
-- ⬜ Dedicated tests for the runtime rows in §2 still marked ⬜ (ISV tokens, ClientAssertion, OAuth, options).
+- ✅ node-sdk's runtime test suites ported 1:1 (23 files: client, token manager, ClientAssertion,
+  OAuth, dispatcher, adaptor, WS reconnect/receive/data-cache/callbacks/connection-config, utils,
+  logger). They exposed and fixed parity bugs in the event dispatcher, ISV token flow and WSClient;
+  inapplicable Node-only cases are documented in the test files.
+- ✅ Dedicated tests for request options and the user-access-token cache (node has none).
 
 ### M2 — cards and Channel
 - ✅ `messageCard` helpers and card typings.

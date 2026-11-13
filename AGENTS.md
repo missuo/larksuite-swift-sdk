@@ -65,6 +65,10 @@ and fails if the checked-in generated code drifts. Progress and scope live in [P
 | `registerApp` malformed begin response | TypeError / polls with `device_code=undefined` | throws `LarkError.decoding` | Fail fast instead of undefined behaviour |
 | `registerApp` unknown addons keys | reports the first key in insertion order | reports the first key in sorted order | `JSONValue` objects are unordered |
 | `registerApp` QR `source` param | `node-sdk` / `node-sdk/<source>` | same literal `node-sdk` (User-Agent is still `oapi-swift-sdk/...`) | The landing page sees the same value |
+| Path parameters | inserted into the URL raw | percent-encoded per path segment | A raw value containing `/`, `?` or `#` produces a broken URL in node |
+| User-Agent | `oapi-node-sdk/<version>`; sanitising works on UTF-16 units | `oapi-swift-sdk/<version>`; sanitising works on Unicode scalars | Identifies the SDK truthfully; Swift strings are Unicode |
+| ISV token without tenant key / app ticket | logs, sends the request without `Authorization` | throws `LarkError.tokenUnavailable` | Fail fast instead of a guaranteed auth error from the server |
+| WS fragment expiry | 10 s sweep timer | expired fragments are dropped whenever the next frame arrives | No background timer; same effective lifetime |
 | gzip (addons encoding) | `zlib.gzipSync` | platform zlib (linked on Apple, `dlopen("libz.so.1")` on Linux), stored-block fallback if zlib is missing | Byte-identical output without a dependency |
 
 ## Layout

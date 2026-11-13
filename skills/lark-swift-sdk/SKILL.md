@@ -152,8 +152,8 @@ Rules:
 ```swift
 let dispatcher = EventDispatcher(encryptKey: "...", verificationToken: "...")
 // In any HTTP framework:
-let resp = await dispatcher.handleWebhook(WebhookRequest(headers: reqHeaders, body: reqBody))
-// -> resp.statusCode, resp.headers, resp.body (handles url_verification automatically)
+let resp = await dispatcher.handleWebhook(WebhookRequest(headers: reqHeaders, body: reqBody), autoChallenge: true)
+// -> resp.statusCode, resp.headers, resp.body; autoChallenge answers url_verification (default false, as in node)
 ```
 
 Legacy card callbacks: `CardActionHandler(verificationToken:encryptKey:) { event in ... }.handleWebhook(...)`.

@@ -321,7 +321,7 @@ public final class EventDispatcher: Sendable {
 
     /// Full webhook handling: challenge, verification, dispatch and response encoding.
     /// Plug this into any HTTP server (Vapor, Hummingbird, SwiftNIO...).
-    public func handleWebhook(_ request: WebhookRequest, autoChallenge: Bool = true) async -> WebhookResponse {
+    public func handleWebhook(_ request: WebhookRequest, autoChallenge: Bool = false) async -> WebhookResponse {
         await WebhookAdapter.handle(request, autoChallenge: autoChallenge, logger: logger, resolveHandle: { try await self.handle() }) {
             handle, json in
             if !handle.isEventValid(request, json: json) {
@@ -409,7 +409,7 @@ public final class CardActionHandler: Sendable {
     }
 
     /// Full webhook handling (challenge, verification, dispatch, response).
-    public func handleWebhook(_ request: WebhookRequest, autoChallenge: Bool = true) async -> WebhookResponse {
+    public func handleWebhook(_ request: WebhookRequest, autoChallenge: Bool = false) async -> WebhookResponse {
         await WebhookAdapter.handle(request, autoChallenge: autoChallenge, logger: logger, resolveHandle: { try await self.handle() }) {
             handle, json in await self.run(handle, request, json)
         }
@@ -448,7 +448,9 @@ public enum WebhookAdapter {
         }
         do {
             let value = try await invoke(handle, json)
-            return .json(value ?? .null)
+            // node: `res.end(JSON.stringify(value))` — an undefined result yields an empty body.
+            guard let value else { return WebhookResponse(statusCode: 200, body: Data()) }
+            return .json(value)
         } catch {
             logger.error("webhook handler failed: \(error)")
             return .json(["msg": "internal error"], status: 500)

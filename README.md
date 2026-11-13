@@ -231,8 +231,9 @@ The SDK is independent of any HTTP framework; pass the request headers and body 
 write the response out:
 
 ```swift
-let response = await dispatcher.handleWebhook(WebhookRequest(headers: headers, body: body))
-// response.statusCode, response.headers, response.body — URL verification is handled for you.
+let response = await dispatcher.handleWebhook(WebhookRequest(headers: headers, body: body), autoChallenge: true)
+// response.statusCode, response.headers, response.body. autoChallenge: true answers the URL
+// verification request (default false, as in node-sdk).
 ```
 
 Legacy card callbacks use `CardActionHandler(verificationToken:encryptKey:handler:)` the same way.

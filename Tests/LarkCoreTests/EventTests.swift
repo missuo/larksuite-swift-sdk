@@ -53,18 +53,22 @@ import Testing
         #expect(try await dispatcher.invoke(bad) == nil)
         let resp = await dispatcher.handleWebhook(bad)
         #expect(resp.statusCode == 200)
-        #expect(String(decoding: resp.body, as: UTF8.self) == "null")
+        #expect(resp.body.isEmpty)  // node: res.end(JSON.stringify(undefined))
     }
 
     @Test func verificationTokenAndChallenge() async throws {
         let dispatcher = EventDispatcher(verificationToken: "vt", logLevel: .error)
         let challenge = WebhookRequest(headers: [:], body: Data(#"{"type":"url_verification","challenge":"abc","token":"vt"}"#.utf8))
-        let resp = await dispatcher.handleWebhook(challenge)
+        let resp = await dispatcher.handleWebhook(challenge, autoChallenge: true)
         #expect(resp.statusCode == 200)
         #expect(try JSONValue(data: resp.body)["challenge"]?.stringValue == "abc")
 
+        // Like node-sdk adaptDefault, the challenge is only answered when autoChallenge is enabled.
+        let unanswered = await dispatcher.handleWebhook(challenge)
+        #expect((try? JSONValue(data: unanswered.body))?["challenge"] == nil)
+
         let wrong = WebhookRequest(headers: [:], body: Data(#"{"type":"url_verification","challenge":"abc","token":"nope"}"#.utf8))
-        #expect(await dispatcher.handleWebhook(wrong).statusCode == 403)
+        #expect(await dispatcher.handleWebhook(wrong, autoChallenge: true).statusCode == 403)
     }
 
     @Test func appTicketIsCached() async throws {

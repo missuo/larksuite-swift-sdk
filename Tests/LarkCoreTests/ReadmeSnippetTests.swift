@@ -54,7 +54,8 @@ import LarkIM
             _ = event.action?.value
             return CardActionResponse(toast: .init(type: .info, content: "Saved"), card: .raw(newCardJSON))
         }
-        let response = await dispatcher.handleWebhook(WebhookRequest(headers: [:], body: Data(#"{"type":"url_verification","challenge":"c","token":"t"}"#.utf8)))
+        let response = await dispatcher.handleWebhook(
+            WebhookRequest(headers: [:], body: Data(#"{"type":"url_verification","challenge":"c","token":"t"}"#.utf8)), autoChallenge: true)
         // Same as node-sdk generateChallenge: a plain challenge with the right token is answered.
         #expect(response.statusCode == 200)
         #expect(try JSONValue(data: response.body)["challenge"]?.stringValue == "c")

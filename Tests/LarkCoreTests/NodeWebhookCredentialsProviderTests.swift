@@ -217,10 +217,10 @@ private func jsonBody(_ r: WebhookResponse) -> JSONValue? { try? JSONValue(data:
         if kind == "event" {
             let d = EventDispatcher(credentialsProvider: provider.provider, cache: DefaultLarkCache(), logLevel: .fatal)
                 .register("audit.test", handler.handler)
-            respond = { await d.handleWebhook($0) }
+            respond = { await d.handleWebhook($0, autoChallenge: true) }
         } else {
             let c = CardActionHandler(credentialsProvider: provider.provider, cache: DefaultLarkCache(), logLevel: .fatal, handler: handler.handler)
-            respond = { await c.handleWebhook($0) }
+            respond = { await c.handleWebhook($0, autoChallenge: true) }
         }
         #expect(provider.count == 0)
         let response = await respond(webhook(["type": "url_verification", "token": "token-1", "challenge": "fixture"]))
@@ -246,7 +246,7 @@ private func jsonBody(_ r: WebhookResponse) -> JSONValue? { try? JSONValue(data:
     func adapterEmptyCredentialsChallenge() async throws {
         let provider = ProviderSpy { _ in credentials("") }
         let d = dispatcher(provider, verificationToken: "static")
-        let response = await d.handleWebhook(webhook(["type": "url_verification", "challenge": "fixture"]))
+        let response = await d.handleWebhook(webhook(["type": "url_verification", "challenge": "fixture"]), autoChallenge: true)
         #expect(jsonBody(response) == ["challenge": "fixture"])
         #expect(provider.count == 1)
     }
@@ -258,7 +258,7 @@ private func jsonBody(_ r: WebhookResponse) -> JSONValue? { try? JSONValue(data:
         let d = dispatcher(provider)
         for nextKey in ["first", "second"] {
             key.value = nextKey
-            let response = await d.handleWebhook(Vectors.request(Vectors.dynamicChallenge[nextKey]!))
+            let response = await d.handleWebhook(Vectors.request(Vectors.dynamicChallenge[nextKey]!), autoChallenge: true)
             #expect(jsonBody(response) == ["challenge": "fixture"])
         }
         #expect(provider.count == 2)
@@ -270,9 +270,9 @@ private func jsonBody(_ r: WebhookResponse) -> JSONValue? { try? JSONValue(data:
         let provider = ProviderSpy { _ in credentials("", key.value) }
         let handler = HandlerSpy()
         let d = dispatcher(provider).register("audit.test", handler.handler)
-        _ = await d.handleWebhook(Vectors.request(Vectors.emptyToken["first"]!))
+        _ = await d.handleWebhook(Vectors.request(Vectors.emptyToken["first"]!), autoChallenge: true)
         key.value = "second"
-        _ = await d.handleWebhook(Vectors.request(Vectors.emptyToken["second"]!))
+        _ = await d.handleWebhook(Vectors.request(Vectors.emptyToken["second"]!), autoChallenge: true)
         #expect(provider.count == 2)
         #expect(handler.count == 2)
     }
