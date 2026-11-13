@@ -8,6 +8,7 @@ let package = Package(
     products: [
         .library(name: "Lark", targets: ["Lark"]),
         .library(name: "LarkCore", targets: ["LarkCore"]),
+        .library(name: "LarkChannel", targets: ["LarkChannel"]),
         .library(name: "LarkACS", targets: ["LarkACS"]),
         .library(name: "LarkAPaaS", targets: ["LarkAPaaS"]),
         .library(name: "LarkAdmin", targets: ["LarkAdmin"]),
@@ -76,7 +77,7 @@ let package = Package(
                 .product(name: "_CryptoExtras", package: "swift-crypto"),
             ]
         ),
-        .target(name: "Lark", dependencies: ["LarkCore", "LarkACS", "LarkAPaaS", "LarkAdmin", "LarkAily", "LarkApplication", "LarkApproval", "LarkAttendance", "LarkAuth", "LarkAuthen", "LarkBaike", "LarkBase", "LarkBitable", "LarkBlock", "LarkBoard", "LarkBot", "LarkCalendar", "LarkCardKit", "LarkCompensation", "LarkContact", "LarkCoreHR", "LarkDirectory", "LarkDocs", "LarkDocumentAI", "LarkDocx", "LarkDrive", "LarkEHR", "LarkEventAPI", "LarkHelpdesk", "LarkHire", "LarkHumanAuthentication", "LarkIM", "LarkLingo", "LarkMDM", "LarkMail", "LarkMinutes", "LarkMoments", "LarkOKR", "LarkOpticalCharRecognition", "LarkOtherEvents", "LarkPassport", "LarkPayroll", "LarkPerformance", "LarkPersonalSettings", "LarkReport", "LarkSearch", "LarkSecurityAndCompliance", "LarkSheets", "LarkSpark", "LarkSpeechToText", "LarkTask", "LarkTenant", "LarkTranslation", "LarkTrustParty", "LarkVC", "LarkVerification", "LarkWiki"]),
+        .target(name: "Lark", dependencies: ["LarkCore", "LarkACS", "LarkAPaaS", "LarkAdmin", "LarkAily", "LarkApplication", "LarkApproval", "LarkAttendance", "LarkAuth", "LarkAuthen", "LarkBaike", "LarkBase", "LarkBitable", "LarkBlock", "LarkBoard", "LarkBot", "LarkCalendar", "LarkCardKit", "LarkCompensation", "LarkContact", "LarkCoreHR", "LarkDirectory", "LarkDocs", "LarkDocumentAI", "LarkDocx", "LarkDrive", "LarkEHR", "LarkEventAPI", "LarkHelpdesk", "LarkHire", "LarkHumanAuthentication", "LarkIM", "LarkLingo", "LarkMDM", "LarkMail", "LarkMinutes", "LarkMoments", "LarkOKR", "LarkOpticalCharRecognition", "LarkOtherEvents", "LarkPassport", "LarkPayroll", "LarkPerformance", "LarkPersonalSettings", "LarkReport", "LarkSearch", "LarkSecurityAndCompliance", "LarkSheets", "LarkSpark", "LarkSpeechToText", "LarkTask", "LarkTenant", "LarkTranslation", "LarkTrustParty", "LarkVC", "LarkVerification", "LarkWiki", "LarkChannel"]),
         .target(name: "LarkACS", dependencies: ["LarkCore"]),
         .testTarget(name: "LarkACSTests", dependencies: ["LarkCore", "LarkACS"]),
         .target(name: "LarkAPaaS", dependencies: ["LarkCore"]),
@@ -189,6 +190,9 @@ let package = Package(
         .testTarget(name: "LarkVerificationTests", dependencies: ["LarkCore", "LarkVerification"]),
         .target(name: "LarkWiki", dependencies: ["LarkCore"]),
         .testTarget(name: "LarkWikiTests", dependencies: ["LarkCore", "LarkWiki"]),
+        // Hand-written high-level modules (ports of node-sdk channel/ and scenes).
+        .target(name: "LarkChannel", dependencies: ["LarkCore", "LarkIM", "LarkCardKit"]),
+        .testTarget(name: "LarkChannelTests", dependencies: ["LarkCore", "LarkIM", "LarkCardKit", "LarkChannel"]),
         .executableTarget(name: "lark-bot-example", dependencies: ["LarkCore", "LarkIM"], path: "Examples/LongConnectionBot"),
         .testTarget(name: "LarkCoreTests", dependencies: ["LarkCore", "LarkIM", "LarkContact", "LarkDocx"]),
     ]

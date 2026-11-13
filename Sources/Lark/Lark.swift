@@ -58,3 +58,4 @@
 @_exported import LarkVC
 @_exported import LarkVerification
 @_exported import LarkWiki
+@_exported import LarkChannel
