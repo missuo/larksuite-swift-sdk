@@ -157,7 +157,9 @@ Driven by the first consumer, a long-connection Feishu bot (`feishu-agent`).
 - ⬜ Aily, app registration.
 
 ### M4 — polish
-- ⬜ Skills for every module, Linux CI, dependency review.
+- ✅ CI (GitHub Actions): Linux Swift 6.2 + latest, macOS, and a codegen drift check that regenerates
+  from the pinned node-sdk commit. Minimum toolchain is Swift 6.2 (required by swift-crypto 5.x).
+- ⬜ Skills for every module, dependency review.
 
 ## 4. How to refresh this file
 
