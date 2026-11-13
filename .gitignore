@@ -4,3 +4,4 @@
 Tools/codegen/node_modules/
 Tools/codegen/ir.json
 .DS_Store
+.claude/

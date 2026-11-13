@@ -111,7 +111,7 @@ Categories present in node-sdk with no APIs (59, nothing to port): `aily_rag`, `
 | `AESCipher` | `AESCipher` | ✅ | node vector |
 | `generateChallenge`, `adaptDefault` / express / koa / koa-router adapters | `WebhookAdapter`, `handleWebhook(_:)` (framework-agnostic) | ✅ | ✅ |
 | Typed events (`EventHandles` + `other-event-handles`, 227 events) | `LarkEventKey` per category + `LarkOtherEvents` | ✅ | generated event tests |
-| `messageCard.defaultCard`, card typings (`typings/card`) | — | ⬜ | |
+| `messageCard.defaultCard`, card typings (`typings/card`), `InteractiveCardActionEvent` | `MessageCard.defaultCard`, `InteractiveCard`, `InteractiveCardElement`, `InteractiveCardActionItem`, `InteractiveCardActionEvent` | ✅ | node vector + round trip |
 | `LoggerProxy`, `defaultLogger`, log levels | `LoggerProxy`, `ConsoleLarkLogger` | ✅ | |
 | `DefaultCache`, `Cache` interface | `DefaultLarkCache`, `LarkCache` | ✅ | |
 | Channel (`channel/`: normalized inbound messages, outbound sender, markdown → post/card, streaming cards, media upload, safety pipeline) | — | ⬜ | |
@@ -150,7 +150,7 @@ Driven by the first consumer, a long-connection Feishu bot (`feishu-agent`).
 - ⬜ Dedicated tests for the runtime rows in §2 still marked ⬜ (ISV tokens, ClientAssertion, OAuth, options).
 
 ### M2 — cards and Channel
-- ⬜ `messageCard` helpers and card typings.
+- ✅ `messageCard` helpers and card typings.
 - ⬜ Channel module.
 
 ### M3 — scenes
