@@ -252,16 +252,15 @@ public actor WSClient {
         var url = domain + Self.endpointURI
         var headers = ["locale": "zh", "User-Agent": userAgent, "Content-Type": "application/json; charset=utf-8"]
         var body: [String: JSONValue] = ["AppID": .string(options.appId)]
+        // Mirrors node-sdk: only credential (ClientAssertion) and connection-config problems are
+        // terminal; every other failure (provider/transport errors, bad proxy target...) is retried.
         do {
             if let provider = options.clientAssertionProvider {
                 let aud = try LarkOAuth.extractAud(fromURL: domain)
-                let assertion: ClientAssertionToken
-                do {
-                    assertion = try await provider.retrieveToken(aud: aud)
-                } catch {
-                    return .fatal("client assertion provider failed: \(error)")
+                let assertion = try await provider.retrieveToken(aud: aud)
+                guard !assertion.value.isEmpty else {
+                    throw LarkError.clientAssertion(code: ClientAssertionErrorCode.tokenEmpty, msg: "client assertion token is empty")
                 }
-                guard !assertion.value.isEmpty else { return .fatal("client assertion token is empty") }
                 body["AppSecret"] = ""
                 body["ClientAssertion"] = .string(assertion.value)
                 if let target = assertion.targetInfo {
@@ -271,7 +270,7 @@ public actor WSClient {
             } else {
                 body["AppSecret"] = .string(options.appSecret)
             }
-            guard let u = URL(string: url) else { return .fatal("invalid endpoint url") }
+            guard let u = URL(string: url) else { throw LarkError.transport(message: "invalid endpoint url") }
             let resp = try await options.httpClient.send(
                 LarkHTTPRequest(method: .post, url: u, headers: headers, body: try LarkJSON.encoder.encode(JSONValue.object(body)), timeout: 15))
             guard let json = try? JSONValue(data: resp.body) else {
@@ -287,7 +286,14 @@ public actor WSClient {
             }
             guard let rawURL = json["data"]?["URL"]?.stringValue else { return .retryable }
             let cfg = json["data"]?["ClientConfig"]
-            let connectURL = try Self.buildConnectionURL(rawURL, host: options.connectionHost)
+            let connectURL: URL
+            do {
+                connectURL = try Self.buildConnectionURL(rawURL, host: options.connectionHost)
+            } catch {
+                // ConnectionConfigError in node-sdk: terminal.
+                logger.error("[ws] invalid websocket connection endpoint")
+                return .fatal("invalid websocket connection endpoint")
+            }
             let query = URLComponents(string: rawURL)?.queryItems ?? []
             settings.connectURL = connectURL
             settings.deviceId = query.first { $0.name == "device_id" }?.value ?? ""
@@ -295,10 +301,9 @@ public actor WSClient {
             applyClientConfig(cfg)
             logger.debug("[ws] get connect config success, ws url: \(rawURL)")
             return .ok
-        } catch let e as LarkError {
-            if case .invalidArgument(let m) = e { return .fatal(m) }
-            logger.error("[ws] \(e)")
-            return .retryable
+        } catch LarkError.clientAssertion(_, let msg) {
+            logger.error("[ws] \(msg)")
+            return .fatal(msg)
         } catch {
             logger.error("[ws] \(error)")
             return .retryable
@@ -330,8 +335,9 @@ public actor WSClient {
         if authority.isEmpty || authority.contains("@") {
             throw LarkError.invalidArgument("invalid websocket connection endpoint")
         }
-        var tail = String(rest[authorityEnd...])
-        if let hash = tail.firstIndex(of: "#") { tail = String(tail[..<hash]) }
+        let tail = String(rest[authorityEnd...])
+        // node-sdk's pattern `^(wss?)://([^/?#]+)([^#]*)$` rejects any fragment, even an empty one.
+        if tail.contains("#") { throw LarkError.invalidArgument("invalid websocket connection endpoint") }
         guard let u = URL(string: "\(scheme)://\(host)\(tail)") else {
             throw LarkError.invalidArgument("invalid websocket connection endpoint")
         }
@@ -343,7 +349,7 @@ public actor WSClient {
     func connect() async -> Bool {
         guard let url = settings.connectURL else { return false }
         do {
-            let conn = try await options.webSocketConnector.connect(url: url, headers: connectionHeaders, timeout: options.handshakeTimeout)
+            let conn = try await openConnection(url: url)
             logger.debug("[ws] ws connect success")
             connectionID += 1
             connection = conn
@@ -353,6 +359,43 @@ public actor WSClient {
         } catch {
             logger.error("[ws] ws connect failed: \(error)")
             return false
+        }
+    }
+
+    /// Opens the socket. Like node-sdk's `connect()`, the client itself owns the optional handshake
+    /// watchdog, so a connector that hangs (stuck DNS / proxy / NAT path) cannot stall the client: the
+    /// attempt is abandoned as a retryable failure and a connection completing later is discarded.
+    nonisolated func openConnection(url: URL) async throws -> any WebSocketConnection {
+        let connector = options.webSocketConnector
+        let headers = connectionHeaders
+        guard let timeout = options.handshakeTimeout, timeout > 0 else {
+            return try await connector.connect(url: url, headers: headers, timeout: nil)
+        }
+        let logger = self.logger
+        let attempt = HandshakeAttempt()
+        return try await withCheckedThrowingContinuation { continuation in
+            attempt.begin(continuation)
+            let work = Task {
+                do {
+                    let conn = try await connector.connect(url: url, headers: headers, timeout: timeout)
+                    if !attempt.finish(.success(conn)) {
+                        // Lost the race with the watchdog: nobody owns this socket.
+                        conn.close(force: true)
+                    }
+                } catch {
+                    _ = attempt.finish(.failure(error))
+                }
+            }
+            attempt.setWatchdog(
+                Task {
+                    try? await Task.sleep(nanoseconds: UInt64(timeout * 1_000_000_000))
+                    guard !Task.isCancelled else { return }
+                    let ms = Int((timeout * 1000).rounded())
+                    if attempt.finish(.failure(LarkError.transport(message: "handshake timeout after \(ms)ms"))) {
+                        logger.error("[ws] handshake timeout after \(ms)ms")
+                        work.cancel()
+                    }
+                })
         }
     }
 
@@ -574,8 +617,11 @@ public actor WSClient {
     func handleControl(_ frame: WSFrame) {
         guard frame.header("type") == "pong", let payload = frame.payload else { return }
         logger.trace("[ws] receive pong")
-        guard let json = try? JSONValue(data: payload) else {
-            logger.error("[ws] invalid pong payload")
+        let json: JSONValue
+        do {
+            json = try JSONValue(data: payload)
+        } catch {
+            logger.error("[ws] invalid pong payload: \(error)")
             return
         }
         applyClientConfig(json)
@@ -597,6 +643,15 @@ public actor WSClient {
             return
         }
         guard let merged else { return }
+        // node-sdk parses the merged payload inside `mergeData`: invalid JSON is logged as a merge
+        // failure and the frame is not acknowledged.
+        let json: JSONValue
+        do {
+            json = try JSONValue(data: merged)
+        } catch {
+            logger.error("[ws] failed to merge event fragments, message_id: \(messageId); trace_id: \(traceId); error: \(error)")
+            return
+        }
         logger.debug(
             "[ws] receive message, message_type: event; message_id: \(messageId); trace_id: \(traceId); data: \(String(decoding: merged, as: UTF8.self))"
         )
@@ -607,7 +662,6 @@ public actor WSClient {
             let start = Date()
             var resp: [String: JSONValue] = ["code": 200]
             do {
-                let json = try JSONValue(data: merged)
                 if let result = try await dispatcher?.dispatch(json: json) {
                     resp["data"] = .string(Data(result.jsonString().utf8).base64EncodedString())
                 }
@@ -646,15 +700,20 @@ struct FragmentCache {
 
     mutating func removeAll() { entries.removeAll() }
 
+    /// Drops fragment sets older than ``expiry`` (node-sdk sweeps the same 10 s window on a timer).
+    mutating func sweep(now: Date = Date(), logger: LoggerProxy? = nil) {
+        for (k, v) in entries where now.timeIntervalSince(v.created) > Self.expiry {
+            logger?.debug("\(k) event data is deleted as expired, trace_id: \(v.traceId)")
+            entries[k] = nil
+        }
+    }
+
     mutating func merge(messageId: String, sum: Int?, seq: Int?, traceId: String, data: Data, logger: LoggerProxy? = nil) throws -> Data? {
         guard let sum, let seq, sum > 0, seq >= 0, seq < sum else {
             throw LarkError.invalidArgument("invalid event fragment metadata (sum: \(sum.map(String.init) ?? "nil"), seq: \(seq.map(String.init) ?? "nil"))")
         }
         let now = Date()
-        for (k, v) in entries where now.timeIntervalSince(v.created) > Self.expiry {
-            logger?.debug("\(k) event data is deleted as expired, trace_id: \(v.traceId)")
-            entries[k] = nil
-        }
+        sweep(now: now, logger: logger)
         if sum == 1 { return data }
         var entry = entries[messageId] ?? Entry(parts: Array(repeating: nil, count: sum), traceId: traceId, created: now)
         guard entry.parts.count == sum else {
@@ -668,5 +727,42 @@ struct FragmentCache {
         }
         entries[messageId] = entry
         return nil
+    }
+}
+
+/// One-shot settlement shared by a handshake attempt and its watchdog.
+final class HandshakeAttempt: @unchecked Sendable {
+    private let lock = NSLock()
+    private var continuation: CheckedContinuation<any WebSocketConnection, any Error>?
+    private var watchdog: Task<Void, Never>?
+    private var settled = false
+
+    func begin(_ c: CheckedContinuation<any WebSocketConnection, any Error>) {
+        lock.withLock { continuation = c }
+    }
+
+    func setWatchdog(_ task: Task<Void, Never>) {
+        let alreadySettled = lock.withLock { () -> Bool in
+            if settled { return true }
+            watchdog = task
+            return false
+        }
+        if alreadySettled { task.cancel() }
+    }
+
+    /// Resumes the waiter once; returns false if the attempt was already settled.
+    func finish(_ result: Result<any WebSocketConnection, any Error>) -> Bool {
+        let pending = lock.withLock { () -> (CheckedContinuation<any WebSocketConnection, any Error>?, Task<Void, Never>?) in
+            if settled { return (nil, nil) }
+            settled = true
+            let out = (continuation, watchdog)
+            continuation = nil
+            watchdog = nil
+            return out
+        }
+        guard let c = pending.0 else { return false }
+        pending.1?.cancel()
+        c.resume(with: result)
+        return true
     }
 }
