@@ -896,7 +896,7 @@ let package = Package(
 ${libs}
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "5.1.0"),
+        .package(url: "https://github.com/apple/swift-crypto.git", "4.0.0"..<"6.0.0"),
     ],
     targets: [
         .target(

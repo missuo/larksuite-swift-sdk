@@ -165,6 +165,10 @@ Driven by the first consumer, a long-connection Feishu bot (`feishu-agent`).
   from the pinned node-sdk commit. Minimum toolchain is Swift 6.2 (required by swift-crypto 5.x).
 - ✅ Dependency review: the only dependency is `apple/swift-crypto` 5.1.1 (latest release; brings
   `swift-asn1` 1.7.4).
+- ✅ swift-crypto range widened to `"4.0.0"..<"6.0.0"`: apps that also depend on kwwk (pinned to
+  swift-crypto 4.x) could not resolve both packages. Only `SHA256`, `Insecure.SHA1` and
+  `AES._CBC` are used, all present in 4.x; the LarkCore and LarkChannel suites pass against
+  swift-crypto 4.5.0, and the lockfile / CI still resolve 5.1.1.
 - ⬜ Per-category skills (the main skill covers all modules generically; dedicated skills for heavy
   categories such as Docx/Bitable/Approval could follow).
 
