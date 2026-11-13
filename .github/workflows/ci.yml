@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux:
+    name: Linux (Swift ${{ matrix.swift }})
+    runs-on: ubuntu-latest
+    container: swift:${{ matrix.swift }}
+    strategy:
+      fail-fast: false
+      matrix:
+        swift: ["6.0", "latest"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: swift build --build-tests
+      - name: Test
+        run: swift test --skip-build
+
+  macos:
+    name: macOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Swift version
+        run: swift --version
+      - name: Build
+        run: swift build --build-tests
+      - name: Test
+        run: swift test --skip-build
+
+  codegen:
+    name: Generated code is up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: larksuite/node-sdk
+          ref: b188be60134d409b61259546bcf69c731d2b0b7c  # node-sdk 1.76.0, the generation baseline
+          path: node-sdk
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Regenerate
+        working-directory: Tools/codegen
+        run: |
+          npm ci
+          node extract.js ../../node-sdk ir.json
+          node generate.js ir.json ../..
+          node status.js ir.json ../..
+      - name: Check for drift
+        run: git diff --exit-code -- . ':(exclude)node-sdk'

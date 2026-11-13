@@ -1,8 +1,9 @@
 # AGENTS.md — larksuite-swift-sdk
 
 Swift port of the official Feishu/Lark Node SDK. The reference implementation is
-**https://github.com/larksuite/node-sdk** (currently generated from 1.76.0; clone it next to
-this repository to regenerate). Progress and scope live in [PLAN.md](PLAN.md).
+**https://github.com/larksuite/node-sdk** (currently generated from 1.76.0, commit
+`b188be6`; clone it next to this repository to regenerate). CI regenerates from that commit
+and fails if the checked-in generated code drifts. Progress and scope live in [PLAN.md](PLAN.md).
 
 ## Language
 
