@@ -14,7 +14,7 @@ API is covered by a parity test against the node-sdk definition.
 
 ## Requirements
 
-- Swift 6.0+ (Xcode 16+)
+- Swift 6.2+ (Xcode 26+) — required by the latest `swift-crypto`
 - macOS 13+, iOS 16+, tvOS 16+, watchOS 9+, visionOS 1+, or Linux
 
 ## Installation
@@ -24,7 +24,7 @@ API is covered by a parity test against the node-sdk definition.
 Add the package to `Package.swift`:
 
 ```swift
-// swift-tools-version: 6.0
+// swift-tools-version: 6.2
 import PackageDescription
 
 let package = Package(

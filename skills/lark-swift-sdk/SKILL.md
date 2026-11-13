@@ -32,7 +32,7 @@ Swift naming. If you know the Node SDK, map it like this:
 // or everything: .product(name: "Lark", package: "larksuite-swift-sdk")
 ```
 
-Swift 6 toolchain, macOS 13+/iOS 16+ (Linux via FoundationNetworking). Only dependency: swift-crypto.
+Swift 6.2+ toolchain, macOS 13+/iOS 16+ or Linux (CI-tested). Only dependency: swift-crypto.
 
 ## Client
 

@@ -111,6 +111,14 @@ final class OpenWaiter: NSObject, URLSessionWebSocketDelegate, @unchecked Sendab
         finish(.success(()))
     }
 
+    // Required on Linux (swift-corelibs-foundation has no default implementation).
+    func urlSession(
+        _ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
+        reason: Data?
+    ) {
+        finish(.failure(LarkError.transport(message: "websocket closed during handshake (code \(closeCode.rawValue))")))
+    }
+
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         let status = (task.response as? HTTPURLResponse)?.statusCode
         finish(.failure(error ?? LarkError.transport(message: "websocket handshake failed\(status.map { " (HTTP \($0))" } ?? "")")))
