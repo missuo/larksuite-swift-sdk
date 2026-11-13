@@ -83,17 +83,15 @@ public struct RequestHandle: Sendable {
     public func isEventValid(_ request: WebhookRequest, json: JSONValue) -> Bool {
         if encryptKey.isEmpty {
             if verificationToken.isEmpty { return true }
-            let token: String?
+            guard case .object = json else { return false }
+            let token: JSONValue?
             if json["schema"] != nil || json["header"] != nil {
-                token = json["header"]?["token"]?.stringValue
-            } else if json["encrypt"] != nil {
-                // Encrypted body without an encrypt key cannot be checked by token.
-                return false
+                token = json["header"]?["token"]
             } else {
-                token = json["token"]?.stringValue
+                // An encrypted body without an encrypt key carries no top-level token and fails here.
+                token = json["token"]
             }
-            guard let token, !token.isEmpty else { return false }
-            return LarkDigest.constantTimeEquals(token, verificationToken)
+            return Self.isVerificationTokenValid(token, verificationToken)
         }
         guard let ts = request.headers["x-lark-request-timestamp"], let nonce = request.headers["x-lark-request-nonce"],
             let signature = request.headers["x-lark-signature"]
@@ -117,13 +115,25 @@ public struct RequestHandle: Sendable {
     /// if this request is a challenge, `nil` otherwise.
     public func challengeResponse(for json: JSONValue) throws -> JSONValue? {
         let target = try decryptBody(json)
-        guard target["type"]?.stringValue == "url_verification" else { return nil }
-        if !verificationToken.isEmpty {
-            guard let token = target["token"]?.stringValue, LarkDigest.constantTimeEquals(token, verificationToken) else {
-                throw LarkError.verificationFailed("invalid verification token")
-            }
+        guard target["type"] == .string("url_verification") else { return nil }
+        if !verificationToken.isEmpty && !Self.isVerificationTokenValid(target["token"], verificationToken) {
+            throw LarkError.verificationFailed("invalid verification token")
         }
-        return ["challenge": target["challenge"] ?? .null]
+        return Self.challengeBody(target)
+    }
+
+    /// `{ challenge: data.challenge }`; a missing challenge is omitted, like `undefined` in JSON.stringify.
+    static func challengeBody(_ data: JSONValue) -> JSONValue {
+        var out: [String: JSONValue] = [:]
+        if let c = data["challenge"] { out["challenge"] = c }
+        return .object(out)
+    }
+
+    /// Port of `isVerificationTokenValid`: only non-empty JSON strings are compared (no coercion of
+    /// numbers, booleans, objects or arrays), in constant time.
+    static func isVerificationTokenValid(_ token: JSONValue?, _ expected: String) -> Bool {
+        guard case .string(let received)? = token, !received.isEmpty, !expected.isEmpty else { return false }
+        return LarkDigest.constantTimeEquals(received, expected)
     }
 }
 
@@ -218,7 +228,7 @@ public final class EventDispatcher: Sendable {
     public func register(_ eventType: String, _ handler: @escaping LarkEventHandler) -> Self {
         if registry.set(eventType, handler), eventType != Self.appTicketEvent {
             logger.warn(
-                "\(eventType) handle is already registered and has been replaced, call unregister(\"\(eventType)\") first to replace it explicitly"
+                "\(eventType) handle is already registered and has been replaced, call unregister('\(eventType)') first to replace it explicitly"
             )
         }
         logger.debug("register \(eventType) handle")
@@ -248,7 +258,8 @@ public final class EventDispatcher: Sendable {
                 logger.debug("unregister \(key) handle")
                 if key == Self.appTicketEvent {
                     logger.warn(
-                        "the built-in app_ticket handle is unregistered, pushed app tickets are no longer cached")
+                        "the built-in app_ticket handle is unregistered, pushed app tickets are no longer cached and every app_access_token request of an ISV app will miss the cache and trigger an app_ticket resend"
+                    )
                 }
             } else {
                 logger.debug("no \(key) handle to unregister")
@@ -454,6 +465,6 @@ public enum WebhookAdapter {
         }
         let handle = RequestHandle(encryptKey: encryptKey, verificationToken: verificationToken)
         if let c = try handle.challengeResponse(for: body) { return (true, c) }
-        return (false, ["challenge": .null])
+        return (false, RequestHandle.challengeBody(try handle.decryptBody(body)))
     }
 }
