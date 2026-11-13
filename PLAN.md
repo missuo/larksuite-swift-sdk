@@ -163,7 +163,10 @@ Driven by the first consumer, a long-connection Feishu bot (`feishu-agent`).
 ### M4 — polish
 - ✅ CI (GitHub Actions): Linux Swift 6.2 + latest, macOS, and a codegen drift check that regenerates
   from the pinned node-sdk commit. Minimum toolchain is Swift 6.2 (required by swift-crypto 5.x).
-- ⬜ Skills for every module, dependency review.
+- ✅ Dependency review: the only dependency is `apple/swift-crypto` 5.1.1 (latest release; brings
+  `swift-asn1` 1.7.4).
+- ⬜ Per-category skills (the main skill covers all modules generically; dedicated skills for heavy
+  categories such as Docx/Bitable/Approval could follow).
 
 ## 4. How to refresh this file
 
