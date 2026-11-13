@@ -209,8 +209,18 @@ public actor TokenManager {
             logger.debug("use cache token")
             return cached
         }
+        logger.debug("get app ticket")
+        guard let ticket = await appTicket() else {
+            logger.warn("no app ticket")
+            throw LarkError.tokenUnavailable("no app ticket")
+        }
+        // Like node-sdk, the market flow requests a fresh app_access_token every time it needs a
+        // tenant token (it is never cached here).
         logger.debug("get app access token")
-        let appToken = try await fetchAppAccessToken()
+        let appToken = try await requestToken(
+            "\(baseURL)/open-apis/auth/v3/app_access_token",
+            body: ["app_id": .string(appId), "app_secret": .string(appSecret), "app_ticket": .string(ticket)],
+            requiredField: "app_access_token")["app_access_token"]!.stringValue!
         logger.debug("get tenant access token")
         let resp = try await requestToken(
             "\(baseURL)/open-apis/auth/v3/tenant_access_token",
