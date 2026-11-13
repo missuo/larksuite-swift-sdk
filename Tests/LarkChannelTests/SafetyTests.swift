@@ -93,7 +93,9 @@ import Testing
             }
         }
         await p.push(Self.msg("m1", "a"), slow("m1", 40))
-        await sleepMillis(30)
+        // node waits 30 ms so that m1's 10 ms batch has flushed; wait for that explicitly so a
+        // slow machine cannot merge m2 into m1's batch (node keeps the first handler too).
+        #expect(await eventually { order.items.contains("m1-start") })
         await p.push(Self.msg("m2", "b"), slow("m2", 20))
         #expect(await eventually { order.items.contains("m2-end") })
         let o = order.items

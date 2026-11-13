@@ -182,8 +182,14 @@ final class StubStreamingSender: StreamingSender, @unchecked Sendable {
             #expect(await c.current == ["v": 2])
         }
         #expect(r.messageId == "om_1")
-        // Only the terminal flush patched (the 1000 s timer never fired).
-        #expect(s.patches.map { $0.1.stringify() } == [#"{"v":2}"#])
+        // The first note schedules an immediate fire (lastFireAt starts at 0, as in node). In
+        // node the producer above only awaits microtasks, so the terminal flush always wins the
+        // race; in Swift the timer is a concurrent task and may also fire. Either way the last
+        // patch is the final state and nothing else is patched (the 1000 s interval never elapses).
+        let patches = s.patches.map { $0.1.stringify() }
+        #expect(patches.last == #"{"v":2}"#)
+        #expect((1...2).contains(patches.count))
+        #expect(patches.allSatisfy { [#"{"v":1}"#, #"{"v":2}"#].contains($0) })
 
         let s2 = StubStreamingSender(throttleMs: 1_000_000, throttleChars: 1_000_000_000)
         struct Failure: Error {}
@@ -194,9 +200,14 @@ final class StubStreamingSender: StreamingSender, @unchecked Sendable {
                     throw Failure()
                 }
         }
+        // The terminal patch carries the error footer; at most one earlier (immediate-fire) patch
+        // with the plain update may precede it (see above).
+        let patches2 = s2.patches.map { $0.1.stringify() }
         #expect(
-            s2.patches.map { $0.1.stringify() }
-                == [#"{"elements":[{"tag":"img"},{"tag":"note","elements":[{"tag":"plain_text","content":"⚠️ 生成中断"}]}],"header":{"t":1}}"#])
+            patches2.last
+                == #"{"elements":[{"tag":"img"},{"tag":"note","elements":[{"tag":"plain_text","content":"⚠️ 生成中断"}]}],"header":{"t":1}}"#)
+        #expect(patches2.dropLast().allSatisfy { $0 == #"{"elements":[{"tag":"img"}],"header":{"t":1}}"# })
+        #expect((1...2).contains(patches2.count))
     }
 
     @Test func appendErrorFooterShapes() {
@@ -225,12 +236,16 @@ final class StubStreamingSender: StreamingSender, @unchecked Sendable {
         let fires = Recorder<Double>()
         let t = Throttle(ms: 80, chars: 1_000)
         await t.setFire { fires.append(Date().timeIntervalSince1970) }
+        // Lower bound of the throttle's internal "last fire" time (the first callback may be
+        // recorded late on a slow machine, so it is not a reliable reference point).
+        let beforeFirst = Date().timeIntervalSince1970
         await t.note(1)
         #expect(await eventually { fires.count == 1 })
         await t.note(1)
         await t.note(1)  // timer already scheduled
         #expect(await eventually { fires.count == 2 })
-        #expect(fires.items[1] - fires.items[0] >= 0.07)
+        let second = try #require(fires.items.dropFirst().first)
+        #expect(second - beforeFirst >= 0.075)
         await sleepMillis(120)
         #expect(fires.count == 2)
     }
