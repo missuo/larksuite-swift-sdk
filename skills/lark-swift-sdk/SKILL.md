@@ -158,6 +158,27 @@ let resp = await dispatcher.handleWebhook(WebhookRequest(headers: reqHeaders, bo
 
 Legacy card callbacks: `CardActionHandler(verificationToken:encryptKey:) { event in ... }.handleWebhook(...)`.
 
+## Aily (AI agent) conversations
+
+```swift
+import LarkAily
+let aily = AilyClient(client: client)
+let reply = try await aily.completions.create(.init(message: "hi", ailyAppId: "spring_xxx"))   // waits for the run
+for try await chunk in try await aily.completions.createWithStream(.init(message: "hi", ailyAppId: "spring_xxx")) {
+    print(chunk)
+}
+```
+
+Sessions are reused per `sessionId` via the client cache (`aily.completions.sessionRecords`).
+
+## Registering a new app by QR code (`registerApp`)
+
+```swift
+let result = try await registerApp(RegisterAppOptions(
+    onQRCodeReady: { qr in print("scan:", qr.url) }))   // polls until the user confirms
+print(result.clientId, result.clientSecret)
+```
+
 ## Other APIs and events
 
 All 55 node-sdk API categories (1,680 APIs) are available, one module each:

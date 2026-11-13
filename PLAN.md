@@ -115,8 +115,8 @@ Categories present in node-sdk with no APIs (59, nothing to port): `aily_rag`, `
 | `LoggerProxy`, `defaultLogger`, log levels | `LoggerProxy`, `ConsoleLarkLogger` | ✅ | |
 | `DefaultCache`, `Cache` interface | `DefaultLarkCache`, `LarkCache` | ✅ | |
 | Channel (`channel/`: normalized inbound messages, outbound sender, markdown → post/card, streaming cards, media upload, safety pipeline) | — | ⬜ | |
-| Aily scene (`scene/aily`) | — | ⬜ | |
-| App registration scene (`registerApp`, `scene/registration`) | — | ⬜ | |
+| Aily scene (`scene/aily`) | `AilyClient` in `LarkAily` (`completions.create` / `createWithStream`, session cache) | ✅ | 30 tests (node cases + failure paths) |
+| App registration scene (`registerApp`, `scene/registration`) | `registerApp(_:)`, `AppAddons`, `AppPreset`, `RegisterAppError` in `LarkCore` | ✅ | 77 tests (all 44 node cases + node vectors) |
 
 ## 3. Milestones
 
@@ -154,7 +154,7 @@ Driven by the first consumer, a long-connection Feishu bot (`feishu-agent`).
 - ⬜ Channel module.
 
 ### M3 — scenes
-- ⬜ Aily, app registration.
+- ✅ Aily, app registration.
 
 ### M4 — polish
 - ✅ CI (GitHub Actions): Linux Swift 6.2 + latest, macOS, and a codegen drift check that regenerates

@@ -57,6 +57,15 @@ and fails if the checked-in generated code drifts. Progress and scope live in [P
 | WS ack `biz_rt` | `startTime - endTime` (negative, a bug) | elapsed milliseconds (positive) | Field is a duration |
 | Explicit tenant token | `withTenantToken` header is overwritten by the managed token unless `disableTokenCache` | an explicit token in `RequestOptions` always wins | Avoids silently ignoring caller input |
 | Downloads | `writeFile(path)` / `getReadableStream()` | `LarkBinaryResponse` with `data`, `write(to:)`, `writeFile(_:)` | No Node streams in Swift |
+| Aily class name | `Aily` | `AilyClient` | `Aily` is the generated models namespace |
+| Aily failures | rejects with bare numbers; a transport error while polling a run hangs forever | throws `AilyExecStatus` (same values); polling transport errors are rethrown; task cancellation stops polling | Swift errors; avoid a never-ending task |
+| Aily stream state | "output started" flag shared across iterations of the same iterable | per-iteration state | Independent iterations |
+| Aily session records | stored under a `Symbol` key | stored in `LarkCache` as JSON under `aily-session-record`; non-scalar values skipped | `LarkCache` stores strings |
+| `registerApp` cancellation | `AbortSignal` | task cancellation → `RegisterAppError(code: .abort)` (begin request still completes, as in node) | Swift concurrency |
+| `registerApp` malformed begin response | TypeError / polls with `device_code=undefined` | throws `LarkError.decoding` | Fail fast instead of undefined behaviour |
+| `registerApp` unknown addons keys | reports the first key in insertion order | reports the first key in sorted order | `JSONValue` objects are unordered |
+| `registerApp` QR `source` param | `node-sdk` / `node-sdk/<source>` | same literal `node-sdk` (User-Agent is still `oapi-swift-sdk/...`) | The landing page sees the same value |
+| gzip (addons encoding) | `zlib.gzipSync` | platform zlib (linked on Apple, `dlopen("libz.so.1")` on Linux), stored-block fallback if zlib is missing | Byte-identical output without a dependency |
 
 ## Layout
 

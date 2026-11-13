@@ -36,6 +36,15 @@ import LarkIM
         _ = try await client.im.v1.message.list(params: params, options: .userAccessToken("u-x"))
     }
 
+    func registerAppSnippet() async throws {
+        let result = try await registerApp(RegisterAppOptions(onQRCodeReady: { qr in print("scan:", qr.url) }))
+        print(result.clientId, result.clientSecret)
+        let app = try await registerApp(RegisterAppOptions(
+            appPreset: AppPreset(name: "My Agent"),
+            onQRCodeReady: { qr in print("Scan to create the app:", qr.url) }))
+        print(app.clientId, app.clientSecret)
+    }
+
     @Test func dispatcherSnippetBuilds() async throws {
         let dispatcher = EventDispatcher(logLevel: .fatal)
             .register(.imMessageReceiveV1) { e, _ in

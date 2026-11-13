@@ -237,6 +237,27 @@ let response = await dispatcher.handleWebhook(WebhookRequest(headers: headers, b
 
 Legacy card callbacks use `CardActionHandler(verificationToken:encryptKey:handler:)` the same way.
 
+## Aily (AI agents)
+
+```swift
+import LarkAily
+
+let aily = AilyClient(client: client)
+let reply = try await aily.completions.create(.init(message: "hi", ailyAppId: "spring_xxx"))
+for try await chunk in try await aily.completions.createWithStream(.init(message: "hi", ailyAppId: "spring_xxx")) {
+    print(chunk)
+}
+```
+
+## Registering an app by QR code
+
+```swift
+let app = try await registerApp(RegisterAppOptions(
+    appPreset: AppPreset(name: "My Agent"),
+    onQRCodeReady: { qr in print("Scan to create the app:", qr.url) }))
+print(app.clientId, app.clientSecret)
+```
+
 ## Differences from node-sdk
 
 The wire behaviour is identical. The few intentional API differences (Swift naming, thrown
