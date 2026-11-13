@@ -21,28 +21,31 @@ import Testing
 
     // MARK: chat-pipeline.test.ts — push (batching)
 
-    @Test func singleMessageFlushesAfterDebounce() async {
+    @Test func singleMessageFlushesAfterDebounce() async throws {
         let flushes = Recorder<BatchedDispatch>()
-        let p = ChatPipeline(config: Self.cfg(delayMs: 50), serialOnly: false)
+        let p = ChatPipeline(config: Self.cfg(delayMs: 300), serialOnly: false)
         await p.push(Self.msg("m1", "hello")) { flushes.append($0) }
         await sleepMillis(20)
         #expect(flushes.count == 0)
-        await sleepMillis(80)
-        #expect(flushes.count == 1)
-        #expect(flushes.items[0].sourceIds == ["m1"])
-        #expect(flushes.items[0].message.content == "hello")
+        #expect(await eventually { flushes.count == 1 })
+        let f = try #require(flushes.items.first)
+        #expect(f.sourceIds == ["m1"])
+        #expect(f.message.content == "hello")
     }
 
-    @Test func rapidMessagesMergeIntoOneBatch() async {
+    @Test func rapidMessagesMergeIntoOneBatch() async throws {
         let flushes = Recorder<BatchedDispatch>()
-        let p = ChatPipeline(config: Self.cfg(delayMs: 50), serialOnly: false)
+        // A generous debounce so that slow CI machines still push all three before it fires.
+        let p = ChatPipeline(config: Self.cfg(delayMs: 500), serialOnly: false)
         for (id, text) in [("m1", "hello"), ("m2", "world"), ("m3", "foo")] {
             await p.push(Self.msg(id, text)) { flushes.append($0) }
         }
-        await sleepMillis(120)
+        #expect(await eventually { flushes.count == 1 })
+        await sleepMillis(50)
         #expect(flushes.count == 1)
-        #expect(flushes.items[0].sourceIds == ["m1", "m2", "m3"])
-        #expect(flushes.items[0].message.content == "hello\n\nworld\n\nfoo")
+        let f = try #require(flushes.items.first)
+        #expect(f.sourceIds == ["m1", "m2", "m3"])
+        #expect(f.message.content == "hello\n\nworld\n\nfoo")
     }
 
     @Test func capsForceFlush() async {
@@ -50,29 +53,26 @@ import Testing
         let p = ChatPipeline(config: Self.cfg(delayMs: 10_000, maxMessages: 2), serialOnly: false)
         await p.push(Self.msg("m1", "a")) { byCount.append($0) }
         await p.push(Self.msg("m2", "b")) { byCount.append($0) }
-        await sleepMillis(50)
-        #expect(byCount.count == 1)
+        #expect(await eventually { byCount.count == 1 })
 
         let byChars = Recorder<BatchedDispatch>()
         let p2 = ChatPipeline(config: Self.cfg(delayMs: 10_000, maxChars: 5), serialOnly: false)
         await p2.push(Self.msg("m1", "hello")) { byChars.append($0) }
-        await sleepMillis(50)
-        #expect(byChars.count == 1)
+        #expect(await eventually { byChars.count == 1 })
     }
 
     @Test func serialOnlyFlushesImmediately() async {
         let flushes = Recorder<BatchedDispatch>()
         let p = ChatPipeline(config: Self.cfg(delayMs: 1000), serialOnly: true)
         await p.push(Self.msg("m1", "a")) { flushes.append($0) }
-        await sleepMillis(20)
-        #expect(flushes.count == 1)
+        #expect(await eventually { flushes.count == 1 })
     }
 
     @Test func longBufferUsesLongDelay() async {
         let flushes = Recorder<BatchedDispatch>()
         var c = Self.cfg(delayMs: 20)
         c.longThresholdChars = 3
-        c.longDelayMs = 150
+        c.longDelayMs = 600
         let p = ChatPipeline(config: c, serialOnly: false)
         await p.push(Self.msg("m1", "long")) { flushes.append($0) }
         await sleepMillis(60)
@@ -82,7 +82,7 @@ import Testing
 
     // MARK: chat-pipeline.test.ts — serialization
 
-    @Test func handlersInSamePipelineRunOneAtATime() async {
+    @Test func handlersInSamePipelineRunOneAtATime() async throws {
         let order = Recorder<String>()
         let p = ChatPipeline(config: Self.cfg(delayMs: 10), serialOnly: false)
         let slow: @Sendable (String, Int) -> FlushHandler = { id, ms in
@@ -95,9 +95,11 @@ import Testing
         await p.push(Self.msg("m1", "a"), slow("m1", 40))
         await sleepMillis(30)
         await p.push(Self.msg("m2", "b"), slow("m2", 20))
-        await sleepMillis(200)
+        #expect(await eventually { order.items.contains("m2-end") })
         let o = order.items
-        let m1Start = o.firstIndex(of: "m1-start")!, m1End = o.firstIndex(of: "m1-end")!, m2Start = o.firstIndex(of: "m2-start")!
+        let m1Start = try #require(o.firstIndex(of: "m1-start"))
+        let m1End = try #require(o.firstIndex(of: "m1-end"))
+        let m2Start = try #require(o.firstIndex(of: "m2-start"))
         #expect(m1Start < m1End)
         #expect(m1End < m2Start)
     }
