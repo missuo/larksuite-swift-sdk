@@ -1,0 +1,201 @@
+{
+ "admin": [
+  "busy_month_meeting_duration",
+  "busy_month_sum_duration",
+  "feishu_duration_busy_month_hours",
+  "minutes_duration",
+  "num",
+  "usage_value_ai_notes_quota",
+  "usage_value_feishu_aily_quota",
+  "usage_value_general_ai_quota",
+  "used_quota",
+  "vc_join_meeting_duration"
+ ],
+ "aily": [
+  "avg_daily_active_user_num",
+  "avg_daily_credit_usage",
+  "avg_daily_run_num",
+  "created_at",
+  "last_chat_at",
+  "score",
+  "total_credit_usage"
+ ],
+ "apaas": [
+  "value"
+ ],
+ "attendance": [
+  "accuracy",
+  "attendance_time",
+  "duration",
+  "latitude",
+  "longitude",
+  "off_attendance_time",
+  "on_attendance_time"
+ ],
+ "baike": [
+  "send_eng_message_rate_ring_growth"
+ ],
+ "base": [
+  "lat",
+  "lng"
+ ],
+ "bitable": [
+  "max",
+  "min"
+ ],
+ "board": [
+  "angle",
+  "border_opacity",
+  "caption_position",
+  "central_angle",
+  "col_sizes",
+  "fill_opacity",
+  "height",
+  "opacity",
+  "position",
+  "radius",
+  "row_sizes",
+  "sector_ratio",
+  "size",
+  "start_radial_line_angle",
+  "top_length",
+  "width",
+  "x",
+  "y"
+ ],
+ "calendar": [
+  "latitude",
+  "longitude"
+ ],
+ "corehr": [
+  "assessment_score",
+  "duration_period",
+  "final_assessment_score",
+  "new_rate",
+  "origin_duration_period",
+  "rate",
+  "renewed_duration_period",
+  "seniority_adjustment",
+  "weekly_working_hours_v2",
+  "working_years_v2"
+ ],
+ "document_ai": [
+  "contract_price",
+  "frequency_penalty",
+  "presence_penalty",
+  "temperature"
+ ],
+ "docx": [
+  "current",
+  "offset_ratio_x",
+  "offset_ratio_y",
+  "percent",
+  "scale",
+  "start",
+  "target",
+  "weight"
+ ],
+ "ehr": [
+  "probation_months"
+ ],
+ "elearning": [
+  "average_learner_duration",
+  "avg_rating",
+  "score"
+ ],
+ "helpdesk": [
+  "agent_service_duration",
+  "score"
+ ],
+ "hire": [
+  "amount",
+  "module_score",
+  "module_weight",
+  "score",
+  "score_result",
+  "total_score",
+  "weight"
+ ],
+ "im": [
+  "avg_bot_imp_msg_read_rate_12h",
+  "avg_imp_msg_read_rate_12h",
+  "avg_imp_read_msg_cnt",
+  "avg_imp_receive_msg_cnt",
+  "avg_read_msg_cnt",
+  "avg_receive_bot_msg_cnt",
+  "avg_receive_imp_msg_chat_cnt",
+  "avg_receive_msg_cnt",
+  "avg_send_msg_cnt",
+  "big_group_msg_rate",
+  "big_group_topic_msg_rate",
+  "dept_group_send_msg_rate",
+  "file_send_msg_rate",
+  "group_at_msg_rate",
+  "group_reply_msg_rate",
+  "high_load_rate",
+  "img_send_msg_rate",
+  "meeting_group_send_msg_rate",
+  "mobile_avg_send_msg_cnt",
+  "mobile_send_msg_rate",
+  "msg_read_rate_12h",
+  "p2p_send_msg_rate",
+  "pc_avg_send_msg_cnt",
+  "pc_send_msg_rate",
+  "post_send_msg_rate",
+  "reaction_rate",
+  "read_mute_msg_rate",
+  "receive_bot_msg_rate",
+  "receive_mute_msg_rate",
+  "send_msg_rate",
+  "sticker_send_msg_rate",
+  "tenant_group_send_msg_rate",
+  "topic_group_send_msg_rate",
+  "use_chat_box_rate"
+ ],
+ "lingo": [
+  "send_eng_message_rate_ring_growth"
+ ],
+ "mdm": [
+  "num"
+ ],
+ "okr": [
+  "alpha",
+  "current_value",
+  "height",
+  "kr_weight",
+  "metric_current_value",
+  "metric_initial_value",
+  "metric_target_value",
+  "percent",
+  "progress_percent",
+  "score",
+  "start_value",
+  "target_value",
+  "weight",
+  "width"
+ ],
+ "performance": [
+  "max",
+  "score",
+  "weight"
+ ],
+ "search": [
+  "score",
+  "temperature"
+ ],
+ "sheets": [
+  "height",
+  "offset_x",
+  "offset_y",
+  "width"
+ ],
+ "spark": [
+  "value"
+ ],
+ "vc": [
+  "meeting_duration"
+ ],
+ "wiki": [
+  "sort_id"
+ ]
+}

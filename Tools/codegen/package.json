@@ -1,0 +1,12 @@
+{
+  "name": "larksuite-swift-sdk-codegen",
+  "private": true,
+  "description": "Generates the Swift API modules from @larksuiteoapi/node-sdk",
+  "scripts": {
+    "extract": "node extract.js ../../../node-sdk ir.json",
+    "generate": "node generate.js ir.json ../.."
+  },
+  "dependencies": {
+    "typescript": "^5.9.3"
+  }
+}
