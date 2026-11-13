@@ -15,7 +15,28 @@ if (!irPath || !root) {
     process.exit(1);
 }
 const ir = JSON.parse(fs.readFileSync(irPath, 'utf8'));
+
 const floatFields = JSON.parse(fs.readFileSync(path.join(__dirname, 'float-fields.json'), 'utf8'));
+
+
+// Public type names declared in LarkCore; generated module names must not collide with them.
+function coreTypeNames(root) {
+    const dir = path.join(root, 'Sources', 'LarkCore');
+    const names = new Set();
+    const walk = (d) => {
+        for (const f of fs.readdirSync(d)) {
+            const p = path.join(d, f);
+            if (fs.statSync(p).isDirectory()) walk(p);
+            else if (f.endsWith('.swift')) {
+                for (const m of fs.readFileSync(p, 'utf8').matchAll(/public (?:final )?(?:struct|enum|class|actor|protocol|typealias) (\w+)/g)) names.add(m[1]);
+            }
+        }
+    };
+    walk(dir);
+    return names;
+}
+
+const CORE_TYPES = coreTypeNames(root);
 
 // ---------------------------------------------------------------------------
 // Naming helpers
@@ -64,6 +85,10 @@ function moduleShort(project) {
         .map((w) => ACRONYMS[w] || w.charAt(0).toUpperCase() + w.slice(1))
         .join('');
 }
+/** Argument labels only need escaping for `inout`, `var` and `let`. */
+function label(name) {
+    return ['inout', 'var', 'let'].includes(name) ? '`' + name + '`' : name;
+}
 function ident(name) {
     return SWIFT_KEYWORDS.has(name) ? '`' + name + '`' : name;
 }
@@ -97,7 +122,12 @@ function docLines(text, indent) {
 class Registry {
     constructor(project) {
         this.project = project;
-        this.ns = moduleShort(project);
+        this.short = moduleShort(project); // module / file naming
+        // Model namespace; avoid shadowing Swift / Foundation types for `import Lark` users.
+        this.ns = RESERVED_TYPE_NAMES.has(this.short) ? this.short + 'API' : this.short;
+        // Fully qualified namespace for service code (resource structs may share the namespace's name).
+        this.moduleName = CORE_TYPES.has(`Lark${this.short}`) ? `Lark${this.short}API` : `Lark${this.short}`;
+        this.qns = `${this.moduleName}.${this.ns}`;
         this.floats = new Set(floatFields[project] || []);
         this.names = new Map(); // name -> key
         this.byKey = new Map(); // key -> name
@@ -107,6 +137,7 @@ class Registry {
         this.aliasTarget = new Map(); // alias -> target
         this.enums = new Map(); // name -> values
         this.tests = [];
+        this.eventTests = [];
     }
 
     takeName(cands, key) {
@@ -298,7 +329,7 @@ class Registry {
         if (this.aliasTarget.has(ty)) return this.sampleExpr(this.aliasTarget.get(ty), depth);
         if (this.enums.has(ty)) return JSON.stringify(String(this.enums.get(ty)[0]));
         if (this.structs.has(ty)) {
-            const args = this.structs.get(ty).filter((p) => !p.optional).map((p) => `${ident(p.name)}: ${this.sampleExpr(p.type, depth + 1)}`);
+            const args = this.structs.get(ty).filter((p) => !p.optional).map((p) => `${label(p.name)}: ${this.sampleExpr(p.type, depth + 1)}`);
             return `${this.ns}.${ty}(${args.join(', ')})`;
         }
         throw new Error('no sample for type ' + ty);
@@ -371,7 +402,7 @@ function allOptional(fields) {
 }
 
 function qual(reg, t) {
-    return t === 'LarkEmpty' || t === 'JSONValue' ? t : `${reg.ns}.${t}`;
+    return t === 'LarkEmpty' || t === 'JSONValue' ? t : `${reg.qns}.${t}`;
 }
 
 function genMethod(reg, m, versionSuffix) {
@@ -463,24 +494,30 @@ function genMethod(reg, m, versionSuffix) {
         const dataField = (m.response && m.response.fields || []).find((f) => f.name === 'data');
         if (!dataField || dataField.type.kind !== 'object') respType = 'JSONValue';
         else respType = reg.topLevel(dataField.type, `${base}Response`, versionSuffix) || 'JSONValue';
-        lines.push(`            public func ${fname}(${args.join(', ')}) async throws -> LarkResponse<${reg.ns}.${respType}> {`);
+        lines.push(`            public func ${fname}(${args.join(', ')}) async throws -> LarkResponse<${reg.qns}.${respType}> {`);
         lines.push(`                try await client.request(${httpMethod}, ${pathLiteral}, query: ${q}, body: ${bodyExpr}, options: options)`);
         lines.push(`            }`);
         if (respType === 'JSONValue' || respType === 'LarkEmpty') {
-            lines[lines.length - 3] = lines[lines.length - 3].replace(`LarkResponse<${reg.ns}.${respType}>`, `LarkResponse<${respType}>`);
+            lines[lines.length - 3] = lines[lines.length - 3].replace(`LarkResponse<${reg.qns}.${respType}>`, `LarkResponse<${respType}>`);
         }
     }
 
     reg.tests.push({ m, pathArgs, queryType, bodyType, respType, qFields, dFields });
 
     // Pagination helper
+    const t_qFields = qFields;
     if (m.paginated && queryProps && queryProps.find((p) => p.raw === 'page_token') && respType && respType !== 'JSONValue' && respType !== 'LarkEmpty') {
         const dataField = m.response.fields.find((f) => f.name === 'data');
         const dnames = dataField.type.fields.map((f) => f.name);
         const hasMore = dnames.includes('has_more') ? 'r.data?.hasMore ?? false' : 'true';
+        const isNum = (f) => f && (f.type.kind === 'number' || (f.type.kind === 'enum' && f.type.base === 'number'));
         const tokenParts = [];
-        if (dnames.includes('page_token')) tokenParts.push('r.data?.pageToken');
-        if (dnames.includes('next_page_token')) tokenParts.push('r.data?.nextPageToken');
+        for (const [raw, prop] of [['page_token', 'pageToken'], ['next_page_token', 'nextPageToken']]) {
+            const f = dataField.type.fields.find((x) => x.name === raw);
+            if (f) tokenParts.push(isNum(f) ? `r.data?.${prop}.map { String($0) }` : `r.data?.${prop}`);
+        }
+        const qTokenField = t_qFields.find((f) => f.name === 'page_token');
+        const assign = isNum(qTokenField) ? 'if let token, let n = Int(token) { p.pageToken = n }' : 'if let token { p.pageToken = token }';
         const token = tokenParts.length ? tokenParts.join(' ?? ') : 'nil';
         const itArgs = args.join(', ');
         const passArgs = [
@@ -489,13 +526,13 @@ function genMethod(reg, m, versionSuffix) {
             ...(bodyType ? ['body: body'] : []),
             'options: options',
         ].join(', ');
-        const rt = `${reg.ns}.${respType}`;
+        const rt = `${reg.qns}.${respType}`;
         lines.push('');
         lines.push(`            /// Iterates over every page of \`${m.name}\` (equivalent of \`${m.name}WithIterator\`).`);
         lines.push(`            public func ${m.name}WithIterator(${itArgs}) -> LarkPageSequence<${rt}> {`);
         lines.push(`                LarkPageSequence { token in`);
         lines.push(`                    var p = params`);
-        lines.push(`                    if let token { p.pageToken = token }`);
+        lines.push(`                    ${assign}`);
         lines.push(`                    let r = try await self.${fname}(${passArgs})`);
         lines.push(`                    return LarkPage(data: r.data, hasMore: ${hasMore}, nextPageToken: ${token})`);
         lines.push(`                }`);
@@ -511,8 +548,7 @@ function eventsFor(project) {
     return ir.events.filter((e) => e.name.split('.')[0] === project);
 }
 
-function genEvents(reg, project) {
-    const evs = eventsFor(project);
+function genEvents(reg, evs) {
     if (!evs.length) return null;
     const lines = [];
     const keys = [];
@@ -523,19 +559,21 @@ function genEvents(reg, project) {
         const keyName = camel(e.name);
         const doc = [e.doc && e.doc.summary, e.doc && e.doc.description].filter(Boolean).join('\n\n');
         keys.push({ keyName, typeName, name: e.name, doc });
+        reg.eventTests.push({ keyName, name: e.name, sample: sampleJSON(reg, e.type, '') });
     }
     lines.push(`extension ${reg.ns} {`);
     lines.push(`    /// Event type names in this module.`);
     lines.push(`    public enum Events {`);
     for (const k of keys) {
         lines.push(...docLines(k.doc, '        '));
-        lines.push(`        public static let ${ident(camel(k.name.split('.').slice(1).join('_')))} = LarkEventKey<${reg.ns}.${k.typeName}>(${JSON.stringify(k.name)})`);
+        const shortKey = k.name.includes('.') ? camel(k.name.split('.').slice(1).join('_')) : camel(k.name);
+        lines.push(`        public static let ${ident(shortKey)} = LarkEventKey<${reg.qns}.${k.typeName}>(${JSON.stringify(k.name)})`);
     }
     lines.push(`    }`);
     lines.push(`}`);
     lines.push('');
     for (const k of keys) {
-        lines.push(`extension LarkEventKey where Payload == ${reg.ns}.${k.typeName} {`);
+        lines.push(`extension LarkEventKey where Payload == ${reg.qns}.${k.typeName} {`);
         lines.push(...docLines(`\`${k.name}\``, '    '));
         lines.push(`    public static var ${ident(k.keyName)}: Self { .init(${JSON.stringify(k.name)}) }`);
         lines.push(`}`);
@@ -553,7 +591,8 @@ function header() {
 function genProject(p) {
     const reg = new Registry(p.name);
     const ns = reg.ns;
-    const svc = `${ns}Service`;
+    const short = reg.short;
+    const svc = `${short}Service`;
     const versioned = p.methods.filter((m) => /^v\d+$/.test(m.nsPath[1] || ''));
     const unversioned = p.methods.filter((m) => !/^v\d+$/.test(m.nsPath[1] || ''));
     const versions = [...new Set(versioned.map((m) => m.nsPath[1]))].sort((a, b) => Number(a.slice(1)) - Number(b.slice(1)));
@@ -625,7 +664,7 @@ function genProject(p) {
         }
     }
 
-    const eventsText = genEvents(reg, p.name);
+    const eventsText = genEvents(reg, eventsFor(p.name));
 
     // Models, split into chunks so the compiler can parallelise.
     const decls = [...reg.aliases, ...reg.decls.filter(Boolean)];
@@ -633,7 +672,7 @@ function genProject(p) {
     const CHUNK = 250;
     for (let i = 0; i < decls.length; i += CHUNK) chunks.push(decls.slice(i, i + CHUNK));
 
-    const moduleName = `Lark${ns}`;
+    const moduleName = reg.moduleName;
     const dir = path.join(root, 'Sources', moduleName);
     // Remove previously generated files only; hand-written files (without the header) are kept.
     fs.mkdirSync(dir, { recursive: true });
@@ -641,18 +680,18 @@ function genProject(p) {
         const fp = path.join(dir, f);
         if (f.endsWith('.swift') && fs.readFileSync(fp, 'utf8').startsWith('// Code generated by Tools/codegen')) fs.rmSync(fp);
     }
-    fs.writeFileSync(path.join(dir, `${ns}Service.swift`), svcLines.join('\n'));
+    fs.writeFileSync(path.join(dir, `${short}Service.swift`), svcLines.join('\n'));
     chunks.forEach((c, i) => {
         fs.writeFileSync(
-            path.join(dir, `${ns}Models${chunks.length > 1 ? i + 1 : ''}.swift`),
+            path.join(dir, `${short}Models${chunks.length > 1 ? i + 1 : ''}.swift`),
             header() + `\nextension ${ns} {\n` + c.join('\n\n') + '\n}\n'
         );
     });
-    if (eventsText) fs.writeFileSync(path.join(dir, `${ns}Events.swift`), header() + '\n' + eventsText + '\n');
+    if (eventsText) fs.writeFileSync(path.join(dir, `${short}Events.swift`), header() + '\n' + eventsText + '\n');
     const testDir = path.join(root, 'Tests', `${moduleName}Tests`);
     fs.mkdirSync(testDir, { recursive: true });
     fs.writeFileSync(path.join(testDir, 'ParityHarness.swift'), HARNESS);
-    fs.writeFileSync(path.join(testDir, `${ns}ParityTests.swift`), genTests(reg, p));
+    fs.writeFileSync(path.join(testDir, `${short}ParityTests.swift`), genTests(reg, p));
     return { moduleName, ns, methods: versioned.length, types: decls.length };
 }
 
@@ -692,9 +731,9 @@ function genTests(reg, p) {
         'import Foundation',
         'import Testing',
         '@testable import LarkCore',
-        `import Lark${ns}`,
+        `import ${reg.moduleName}`,
         '',
-        `@Suite struct ${ns}ParityTests {`,
+        `@Suite struct ${reg.short}ParityTests {`,
     ];
     const used = new Set();
     for (const t of reg.tests) {
@@ -708,7 +747,7 @@ function genTests(reg, p) {
         let expectedPath = m.path;
         for (const pa of t.pathArgs) {
             const v = pa.type === 'Int' ? '1' : 's';
-            args.push(`${ident(pa.name)}: ${pa.type === 'Int' ? '1' : '"s"'}`);
+            args.push(`${label(pa.name)}: ${pa.type === 'Int' ? '1' : '"s"'}`);
             expectedPath = expectedPath.replace(new RegExp(`(^|/):${pa.raw}(?=/|$)`), `$1${v}`);
         }
         if (t.queryType) args.push(`params: ${reg.sampleExpr(t.queryType)}`);
@@ -732,7 +771,7 @@ function genTests(reg, p) {
         }
         lines.push(`        let req = try #require(http.apiRequest)`);
         lines.push(`        #expect(req.method.rawValue == ${JSON.stringify(m.httpMethod)})`);
-        lines.push(`        #expect(req.url.path == ${JSON.stringify(expectedPath)})`);
+        lines.push(`        #expect(ParityHarness.path(req) == ${JSON.stringify(expectedPath)})`);
         if (reqQuery.length) lines.push(`        #expect(ParityHarness.queryKeys(req).isSuperset(of: ${JSON.stringify(reqQuery)}))`);
         if (t.bodyType && m.isMultipart) {
             lines.push(`        #expect(req.headers["Content-Type"]?.hasPrefix("multipart/form-data") == true)`);
@@ -742,6 +781,24 @@ function genTests(reg, p) {
         } else {
             lines.push(`        #expect(req.body == nil)`);
         }
+        lines.push(`    }`, '');
+    }
+    for (const ev of reg.eventTests) {
+        let body;
+        if (ev.name.includes('.')) {
+            body = { schema: '2.0', header: { event_id: 'e', event_type: ev.name, create_time: '1', token: 't', app_id: 'cli_x', tenant_key: 'tk' }, event: ev.sample };
+        } else {
+            body = { uuid: 'u', token: 't', ts: '1', type: 'event_callback', event: { ...ev.sample, type: ev.name } };
+        }
+        let fname = `event_${ev.keyName}`;
+        while (used.has(fname)) fname += '_';
+        used.add(fname);
+        lines.push(`    @Test(${JSON.stringify('event ' + ev.name)}) func ${fname}() async throws {`);
+        lines.push(`        let body = try JSONValue(jsonString: ${swiftRaw(JSON.stringify(body))})`);
+        lines.push(`        let dispatcher = EventDispatcher(logLevel: .fatal).register(.${ident(ev.keyName)}) { _, event in`);
+        lines.push(`            JSONValue.string(event.type)`);
+        lines.push(`        }`);
+        lines.push(`        #expect(try await dispatcher.dispatch(json: body) == .string(${JSON.stringify(ev.name)}))`);
         lines.push(`    }`, '');
     }
     lines.push('}', '');
@@ -762,15 +819,16 @@ final class ParityHTTP: LarkHTTPClient, @unchecked Sendable {
 
     func send(_ request: LarkHTTPRequest) async throws -> LarkHTTPResponse {
         lock.withLock { requests.append(request) }
-        if request.url.path == "/open-apis/auth/v3/tenant_access_token/internal" {
+        // The SDK's own token fetch is the only request without an Authorization header.
+        if request.headers["Authorization"] == nil && request.url.path == "/open-apis/auth/v3/tenant_access_token/internal" {
             return LarkHTTPResponse(statusCode: 200, headers: [:], body: Data(#"{"code":0,"tenant_access_token":"t-test","expire":7200}"#.utf8))
         }
         return response
     }
 
-    /// The last request that is not a token request.
+    /// The last API request (excludes the SDK's internal token fetch).
     var apiRequest: LarkHTTPRequest? {
-        lock.withLock { requests.last { !$0.url.path.hasPrefix("/open-apis/auth/v3/") } }
+        lock.withLock { requests.last { $0.headers["Authorization"] != nil } }
     }
 }
 
@@ -787,6 +845,11 @@ enum ParityHarness {
 
     static func make(_ http: ParityHTTP) throws -> LarkClient {
         try LarkClient(LarkConfiguration(appId: "cli_parity", appSecret: "secret", logLevel: .fatal, cache: DefaultLarkCache(), httpClient: http))
+    }
+
+    /// The raw path, keeping a trailing slash (\`URL.path\` drops it).
+    static func path(_ r: LarkHTTPRequest) -> String {
+        URLComponents(url: r.url, resolvingAgainstBaseURL: false)?.percentEncodedPath ?? r.url.path
     }
 
     static func queryKeys(_ r: LarkHTTPRequest) -> Set<String> {
@@ -845,7 +908,7 @@ ${libs}
         .target(name: "Lark", dependencies: [${umbrellaDeps}]),
 ${targets}
         .executableTarget(name: "lark-bot-example", dependencies: ["LarkCore", "LarkIM"], path: "Examples/LongConnectionBot"),
-        .testTarget(name: "LarkCoreTests", dependencies: ["LarkCore", "LarkIM"]),
+        .testTarget(name: "LarkCoreTests", dependencies: ["LarkCore", "LarkIM", "LarkContact", "LarkDocx"]),
     ]
 )
 `;
@@ -859,6 +922,48 @@ ${targets}
     );
 }
 
+// ---------------------------------------------------------------------------
+// Events that do not belong to any API category (legacy v1 events, categories without APIs).
+// ---------------------------------------------------------------------------
+function allOptionalDeep(t) {
+    if (t.kind === 'object') return { kind: 'object', fields: t.fields.map((f) => ({ ...f, optional: true, type: allOptionalDeep(f.type) })) };
+    if (t.kind === 'array') return { kind: 'array', element: allOptionalDeep(t.element) };
+    if (t.kind === 'map') return { kind: 'map', value: allOptionalDeep(t.value) };
+    return t;
+}
+
+function genOtherEvents() {
+    const categories = new Set(ir.projects.filter((p) => p.methods.length).map((p) => p.name));
+    // Legacy (dot-less) events are hand-typed in node-sdk with every field required; the
+    // platform does not guarantee that, so every field is optional here.
+    const evs = ir.events
+        .filter((e) => !categories.has(e.name.split('.')[0]))
+        .map((e) => (e.name.includes('.') ? e : { ...e, type: allOptionalDeep(e.type) }));
+    const reg = new Registry('other_events');
+    reg.short = 'OtherEvents';
+    reg.ns = 'OtherEvents';
+    reg.moduleName = 'LarkOtherEvents';
+    reg.qns = 'LarkOtherEvents.OtherEvents';
+    const eventsText = genEvents(reg, evs);
+    const dir = path.join(root, 'Sources', reg.moduleName);
+    fs.mkdirSync(dir, { recursive: true });
+    for (const f of fs.readdirSync(dir)) {
+        const fp = path.join(dir, f);
+        if (f.endsWith('.swift') && fs.readFileSync(fp, 'utf8').startsWith('// Code generated by Tools/codegen')) fs.rmSync(fp);
+    }
+    const decls = [...reg.aliases, ...reg.decls.filter(Boolean)];
+    fs.writeFileSync(
+        path.join(dir, 'OtherEventsModels.swift'),
+        header() + `\n/// Events outside the API categories (legacy v1 events and categories without APIs).\npublic enum OtherEvents {}\n\nextension OtherEvents {\n` + decls.join('\n\n') + '\n}\n'
+    );
+    fs.writeFileSync(path.join(dir, 'OtherEventsEvents.swift'), header() + '\n' + eventsText + '\n');
+    const testDir = path.join(root, 'Tests', `${reg.moduleName}Tests`);
+    fs.mkdirSync(testDir, { recursive: true });
+    fs.writeFileSync(path.join(testDir, 'ParityHarness.swift'), HARNESS);
+    fs.writeFileSync(path.join(testDir, 'OtherEventsParityTests.swift'), genTests(reg, { name: 'other_events' }));
+    return { moduleName: reg.moduleName, ns: reg.ns, methods: 0, types: decls.length, events: evs.length };
+}
+
 const targets = ir.projects.filter((p) => p.methods.length && (!only.length || only.includes(p.name)));
 const summary = [];
 for (const p of targets) {
@@ -866,6 +971,12 @@ for (const p of targets) {
     summary.push(r);
     process.stderr.write(`${r.moduleName}: ${r.methods} methods, ${r.types} types\n`);
 }
+if (!only.length || only.includes('other_events')) {
+    const r = genOtherEvents();
+    summary.push(r);
+    process.stderr.write(`${r.moduleName}: ${r.events} events, ${r.types} types\n`);
+}
+
 // Package.swift always lists every generated module present on disk.
 const genFile = path.join(__dirname, 'generated-modules.json');
 const previous = fs.existsSync(genFile) ? JSON.parse(fs.readFileSync(genFile, 'utf8')) : [];

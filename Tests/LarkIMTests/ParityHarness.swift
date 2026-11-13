@@ -12,15 +12,16 @@ final class ParityHTTP: LarkHTTPClient, @unchecked Sendable {
 
     func send(_ request: LarkHTTPRequest) async throws -> LarkHTTPResponse {
         lock.withLock { requests.append(request) }
-        if request.url.path == "/open-apis/auth/v3/tenant_access_token/internal" {
+        // The SDK's own token fetch is the only request without an Authorization header.
+        if request.headers["Authorization"] == nil && request.url.path == "/open-apis/auth/v3/tenant_access_token/internal" {
             return LarkHTTPResponse(statusCode: 200, headers: [:], body: Data(#"{"code":0,"tenant_access_token":"t-test","expire":7200}"#.utf8))
         }
         return response
     }
 
-    /// The last request that is not a token request.
+    /// The last API request (excludes the SDK's internal token fetch).
     var apiRequest: LarkHTTPRequest? {
-        lock.withLock { requests.last { !$0.url.path.hasPrefix("/open-apis/auth/v3/") } }
+        lock.withLock { requests.last { $0.headers["Authorization"] != nil } }
     }
 }
 
@@ -37,6 +38,11 @@ enum ParityHarness {
 
     static func make(_ http: ParityHTTP) throws -> LarkClient {
         try LarkClient(LarkConfiguration(appId: "cli_parity", appSecret: "secret", logLevel: .fatal, cache: DefaultLarkCache(), httpClient: http))
+    }
+
+    /// The raw path, keeping a trailing slash (`URL.path` drops it).
+    static func path(_ r: LarkHTTPRequest) -> String {
+        URLComponents(url: r.url, resolvingAgainstBaseURL: false)?.percentEncodedPath ?? r.url.path
     }
 
     static func queryKeys(_ r: LarkHTTPRequest) -> Set<String> {

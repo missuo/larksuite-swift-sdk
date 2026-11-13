@@ -131,7 +131,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=push_follow_up&project=im&resource=message&version=v1>
         ///
         /// `POST /open-apis/im/v1/messages/:message_id/push_follow_up`
-        public func pushFollowUp(messageId: String, body: IM.MessagePushFollowUpBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
+        public func pushFollowUp(messageId: String, body: LarkIM.IM.MessagePushFollowUpBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
             try await client.request(.post, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))/push_follow_up", query: nil, body: .json(body), options: options)
         }
 
@@ -142,7 +142,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=urgent_app&project=im&resource=message&version=v1>
         ///
         /// `PATCH /open-apis/im/v1/messages/:message_id/urgent_app`
-        public func urgentApp(messageId: String, params: IM.MessageUrgentAppQuery, body: IM.MessageUrgentAppBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageUrgentAppResponse> {
+        public func urgentApp(messageId: String, params: LarkIM.IM.MessageUrgentAppQuery, body: LarkIM.IM.MessageUrgentAppBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageUrgentAppResponse> {
             try await client.request(.patch, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))/urgent_app", query: params, body: .json(body), options: options)
         }
 
@@ -167,7 +167,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=urgent_phone&project=im&resource=message&version=v1>
         ///
         /// `PATCH /open-apis/im/v1/messages/:message_id/urgent_phone`
-        public func urgentPhone(messageId: String, params: IM.MessageUrgentPhoneQuery, body: IM.MessageUrgentPhoneBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageUrgentPhoneResponse> {
+        public func urgentPhone(messageId: String, params: LarkIM.IM.MessageUrgentPhoneQuery, body: LarkIM.IM.MessageUrgentPhoneBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageUrgentPhoneResponse> {
             try await client.request(.patch, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))/urgent_phone", query: params, body: .json(body), options: options)
         }
 
@@ -192,7 +192,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=urgent_sms&project=im&resource=message&version=v1>
         ///
         /// `PATCH /open-apis/im/v1/messages/:message_id/urgent_sms`
-        public func urgentSms(messageId: String, params: IM.MessageUrgentSmsQuery, body: IM.MessageUrgentSmsBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageUrgentSmsResponse> {
+        public func urgentSms(messageId: String, params: LarkIM.IM.MessageUrgentSmsQuery, body: LarkIM.IM.MessageUrgentSmsBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageUrgentSmsResponse> {
             try await client.request(.patch, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))/urgent_sms", query: params, body: .json(body), options: options)
         }
 
@@ -203,7 +203,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=patch&project=im&resource=message&version=v1>
         ///
         /// `PATCH /open-apis/im/v1/messages/:message_id`
-        public func patch(messageId: String, body: IM.MessagePatchBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
+        public func patch(messageId: String, body: LarkIM.IM.MessagePatchBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
             try await client.request(.patch, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))", query: nil, body: .json(body), options: options)
         }
 
@@ -214,12 +214,12 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=search&project=im&resource=message&version=v1>
         ///
         /// `POST /open-apis/im/v1/messages/search`
-        public func search(params: IM.MessageSearchQuery = .init(), body: IM.MessageSearchBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageSearchResponse> {
+        public func search(params: LarkIM.IM.MessageSearchQuery = .init(), body: LarkIM.IM.MessageSearchBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageSearchResponse> {
             try await client.request(.post, "/open-apis/im/v1/messages/search", query: params, body: .json(body), options: options)
         }
 
         /// Iterates over every page of `search` (equivalent of `searchWithIterator`).
-        public func searchWithIterator(params: IM.MessageSearchQuery = .init(), body: IM.MessageSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<IM.MessageSearchResponse> {
+        public func searchWithIterator(params: LarkIM.IM.MessageSearchQuery = .init(), body: LarkIM.IM.MessageSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.MessageSearchResponse> {
             LarkPageSequence { token in
                 var p = params
                 if let token { p.pageToken = token }
@@ -240,7 +240,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=reply&project=im&resource=message&version=v1>
         ///
         /// `POST /open-apis/im/v1/messages/:message_id/reply`
-        public func reply(messageId: String, body: IM.MessageReplyBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageReplyResponse> {
+        public func reply(messageId: String, body: LarkIM.IM.MessageReplyBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageReplyResponse> {
             try await client.request(.post, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))/reply", query: nil, body: .json(body), options: options)
         }
 
@@ -251,12 +251,12 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=list&project=im&resource=message&version=v1>
         ///
         /// `GET /open-apis/im/v1/messages`
-        public func list(params: IM.MessageListQuery, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageListResponse> {
+        public func list(params: LarkIM.IM.MessageListQuery, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageListResponse> {
             try await client.request(.get, "/open-apis/im/v1/messages", query: params, body: .none, options: options)
         }
 
         /// Iterates over every page of `list` (equivalent of `listWithIterator`).
-        public func listWithIterator(params: IM.MessageListQuery, options: RequestOptions = .none) -> LarkPageSequence<IM.MessageListResponse> {
+        public func listWithIterator(params: LarkIM.IM.MessageListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.MessageListResponse> {
             LarkPageSequence { token in
                 var p = params
                 if let token { p.pageToken = token }
@@ -272,7 +272,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=merge_forward&project=im&resource=message&version=v1>
         ///
         /// `POST /open-apis/im/v1/messages/merge_forward`
-        public func mergeForward(params: IM.MessageMergeForwardQuery, body: IM.MessageMergeForwardBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageMergeForwardResponse> {
+        public func mergeForward(params: LarkIM.IM.MessageMergeForwardQuery, body: LarkIM.IM.MessageMergeForwardBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageMergeForwardResponse> {
             try await client.request(.post, "/open-apis/im/v1/messages/merge_forward", query: params, body: .json(body), options: options)
         }
 
@@ -286,7 +286,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=get&project=im&resource=message&version=v1>
         ///
         /// `GET /open-apis/im/v1/messages/:message_id`
-        public func get(messageId: String, params: IM.MessageGetQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageGetResponse> {
+        public func get(messageId: String, params: LarkIM.IM.MessageGetQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageGetResponse> {
             try await client.request(.get, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))", query: params, body: .none, options: options)
         }
 
@@ -297,7 +297,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=message&version=v1>
         ///
         /// `POST /open-apis/im/v1/messages`
-        public func create(params: IM.MessageCreateQuery, body: IM.MessageCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageCreateResponse> {
+        public func create(params: LarkIM.IM.MessageCreateQuery, body: LarkIM.IM.MessageCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageCreateResponse> {
             try await client.request(.post, "/open-apis/im/v1/messages", query: params, body: .json(body), options: options)
         }
 
@@ -308,7 +308,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=forward&project=im&resource=message&version=v1>
         ///
         /// `POST /open-apis/im/v1/messages/:message_id/forward`
-        public func forward(messageId: String, params: IM.MessageForwardQuery, body: IM.MessageForwardBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageForwardResponse> {
+        public func forward(messageId: String, params: LarkIM.IM.MessageForwardQuery, body: LarkIM.IM.MessageForwardBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageForwardResponse> {
             try await client.request(.post, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))/forward", query: params, body: .json(body), options: options)
         }
 
@@ -319,7 +319,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=update&project=im&resource=message&version=v1>
         ///
         /// `PUT /open-apis/im/v1/messages/:message_id`
-        public func update(messageId: String, body: IM.MessageUpdateBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageUpdateResponse> {
+        public func update(messageId: String, body: LarkIM.IM.MessageUpdateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageUpdateResponse> {
             try await client.request(.put, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))", query: nil, body: .json(body), options: options)
         }
 
@@ -336,7 +336,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=read_users&project=im&resource=message&version=v1>
         ///
         /// `GET /open-apis/im/v1/messages/:message_id/read_users`
-        public func readUsers(messageId: String, params: IM.MessageReadUsersQuery, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageReadUsersResponse> {
+        public func readUsers(messageId: String, params: LarkIM.IM.MessageReadUsersQuery, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageReadUsersResponse> {
             try await client.request(.get, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))/read_users", query: params, body: .none, options: options)
         }
 
@@ -350,7 +350,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=reply&project=im&resource=message&version=v1>
         ///
         /// `POST /open-apis/im/v1/messages/:message_id/reply`
-        public func replyByCard(messageId: String, body: IM.MessageReplyByCardBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageReplyByCardResponse> {
+        public func replyByCard(messageId: String, body: LarkIM.IM.MessageReplyByCardBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageReplyByCardResponse> {
             try await client.request(.post, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))/reply", query: nil, body: .json(body), options: options)
         }
 
@@ -359,7 +359,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=message&version=v1>
         ///
         /// `POST /open-apis/im/v1/messages`
-        public func createByCard(params: IM.MessageCreateByCardQuery, body: IM.MessageCreateByCardBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageCreateByCardResponse> {
+        public func createByCard(params: LarkIM.IM.MessageCreateByCardQuery, body: LarkIM.IM.MessageCreateByCardBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageCreateByCardResponse> {
             try await client.request(.post, "/open-apis/im/v1/messages", query: params, body: .json(body), options: options)
         }
 
@@ -368,7 +368,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=update&project=im&resource=message&version=v1>
         ///
         /// `PUT /open-apis/im/v1/messages/:message_id`
-        public func updateByCard(messageId: String, body: IM.MessageUpdateByCardBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageUpdateByCardResponse> {
+        public func updateByCard(messageId: String, body: LarkIM.IM.MessageUpdateByCardBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageUpdateByCardResponse> {
             try await client.request(.put, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))", query: nil, body: .json(body), options: options)
         }
 
@@ -395,7 +395,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=read_user&project=im&resource=batch_message&version=v1>
         ///
         /// `GET /open-apis/im/v1/batch_messages/:batch_message_id/read_user`
-        public func readUser(batchMessageId: String, options: RequestOptions = .none) async throws -> LarkResponse<IM.BatchMessageReadUserResponse> {
+        public func readUser(batchMessageId: String, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.BatchMessageReadUserResponse> {
             try await client.request(.get, "/open-apis/im/v1/batch_messages/\(LarkURL.escapePathSegment(batchMessageId))/read_user", query: nil, body: .none, options: options)
         }
 
@@ -427,7 +427,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=get_progress&project=im&resource=batch_message&version=v1>
         ///
         /// `GET /open-apis/im/v1/batch_messages/:batch_message_id/get_progress`
-        public func getProgress(batchMessageId: String, options: RequestOptions = .none) async throws -> LarkResponse<IM.BatchMessageGetProgressResponse> {
+        public func getProgress(batchMessageId: String, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.BatchMessageGetProgressResponse> {
             try await client.request(.get, "/open-apis/im/v1/batch_messages/\(LarkURL.escapePathSegment(batchMessageId))/get_progress", query: nil, body: .none, options: options)
         }
 
@@ -464,7 +464,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=chat.members&version=v1>
         ///
         /// `POST /open-apis/im/v1/chats/:chat_id/members`
-        public func create(chatId: String, params: IM.ChatMembersCreateQuery = .init(), body: IM.ChatMembersCreateBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatMembersCreateResponse> {
+        public func create(chatId: String, params: LarkIM.IM.ChatMembersCreateQuery = .init(), body: LarkIM.IM.ChatMembersCreateBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatMembersCreateResponse> {
             try await client.request(.post, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/members", query: params, body: .json(body), options: options)
         }
 
@@ -483,7 +483,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=is_in_chat&project=im&resource=chat.members&version=v1>
         ///
         /// `GET /open-apis/im/v1/chats/:chat_id/members/is_in_chat`
-        public func isInChat(chatId: String, options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatMembersIsInChatResponse> {
+        public func isInChat(chatId: String, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatMembersIsInChatResponse> {
             try await client.request(.get, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/members/is_in_chat", query: nil, body: .none, options: options)
         }
 
@@ -506,7 +506,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=delete&project=im&resource=chat.members&version=v1>
         ///
         /// `DELETE /open-apis/im/v1/chats/:chat_id/members`
-        public func delete(chatId: String, params: IM.ChatMembersDeleteQuery = .init(), body: IM.ChatMembersDeleteBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatMembersDeleteResponse> {
+        public func delete(chatId: String, params: LarkIM.IM.ChatMembersDeleteQuery = .init(), body: LarkIM.IM.ChatMembersDeleteBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatMembersDeleteResponse> {
             try await client.request(.delete, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/members", query: params, body: .json(body), options: options)
         }
 
@@ -554,12 +554,12 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=get&project=im&resource=chat.members&version=v1>
         ///
         /// `GET /open-apis/im/v1/chats/:chat_id/members`
-        public func get(chatId: String, params: IM.ChatMembersGetQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatMembersGetResponse> {
+        public func get(chatId: String, params: LarkIM.IM.ChatMembersGetQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatMembersGetResponse> {
             try await client.request(.get, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/members", query: params, body: .none, options: options)
         }
 
         /// Iterates over every page of `get` (equivalent of `getWithIterator`).
-        public func getWithIterator(chatId: String, params: IM.ChatMembersGetQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<IM.ChatMembersGetResponse> {
+        public func getWithIterator(chatId: String, params: LarkIM.IM.ChatMembersGetQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.ChatMembersGetResponse> {
             LarkPageSequence { token in
                 var p = params
                 if let token { p.pageToken = token }
@@ -595,12 +595,12 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=list&project=im&resource=pin&version=v1>
         ///
         /// `GET /open-apis/im/v1/pins`
-        public func list(params: IM.PinListQuery, options: RequestOptions = .none) async throws -> LarkResponse<IM.PinListResponse> {
+        public func list(params: LarkIM.IM.PinListQuery, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.PinListResponse> {
             try await client.request(.get, "/open-apis/im/v1/pins", query: params, body: .none, options: options)
         }
 
         /// Iterates over every page of `list` (equivalent of `listWithIterator`).
-        public func listWithIterator(params: IM.PinListQuery, options: RequestOptions = .none) -> LarkPageSequence<IM.PinListResponse> {
+        public func listWithIterator(params: LarkIM.IM.PinListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.PinListResponse> {
             LarkPageSequence { token in
                 var p = params
                 if let token { p.pageToken = token }
@@ -616,7 +616,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=pin&version=v1>
         ///
         /// `POST /open-apis/im/v1/pins`
-        public func create(body: IM.PinCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.PinCreateResponse> {
+        public func create(body: LarkIM.IM.PinCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.PinCreateResponse> {
             try await client.request(.post, "/open-apis/im/v1/pins", query: nil, body: .json(body), options: options)
         }
 
@@ -674,7 +674,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=link&project=im&resource=chat&version=v1>
         ///
         /// `POST /open-apis/im/v1/chats/:chat_id/link`
-        public func link(chatId: String, body: IM.ChatLinkBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatLinkResponse> {
+        public func link(chatId: String, body: LarkIM.IM.ChatLinkBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatLinkResponse> {
             try await client.request(.post, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/link", query: nil, body: .json(body), options: options)
         }
 
@@ -685,7 +685,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=update&project=im&resource=chat&version=v1>
         ///
         /// `PUT /open-apis/im/v1/chats/:chat_id`
-        public func update(chatId: String, params: IM.ChatUpdateQuery = .init(), body: IM.ChatUpdateBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
+        public func update(chatId: String, params: LarkIM.IM.ChatUpdateQuery = .init(), body: LarkIM.IM.ChatUpdateBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
             try await client.request(.put, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))", query: params, body: .json(body), options: options)
         }
 
@@ -710,7 +710,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=chat&version=v1>
         ///
         /// `POST /open-apis/im/v1/chats`
-        public func create(params: IM.ChatCreateQuery = .init(), body: IM.ChatCreateBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatCreateResponse> {
+        public func create(params: LarkIM.IM.ChatCreateQuery = .init(), body: LarkIM.IM.ChatCreateBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatCreateResponse> {
             try await client.request(.post, "/open-apis/im/v1/chats", query: params, body: .json(body), options: options)
         }
 
@@ -730,7 +730,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=get&project=im&resource=chat&version=v1>
         ///
         /// `GET /open-apis/im/v1/chats/:chat_id`
-        public func get(chatId: String, params: IM.ChatGetQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatGetResponse> {
+        public func get(chatId: String, params: LarkIM.IM.ChatGetQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatGetResponse> {
             try await client.request(.get, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))", query: params, body: .none, options: options)
         }
 
@@ -745,12 +745,12 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=search&project=im&resource=chat&version=v1>
         ///
         /// `GET /open-apis/im/v1/chats/search`
-        public func search(params: IM.ChatSearchQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatSearchResponse> {
+        public func search(params: LarkIM.IM.ChatSearchQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatSearchResponse> {
             try await client.request(.get, "/open-apis/im/v1/chats/search", query: params, body: .none, options: options)
         }
 
         /// Iterates over every page of `search` (equivalent of `searchWithIterator`).
-        public func searchWithIterator(params: IM.ChatSearchQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<IM.ChatSearchResponse> {
+        public func searchWithIterator(params: LarkIM.IM.ChatSearchQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.ChatSearchResponse> {
             LarkPageSequence { token in
                 var p = params
                 if let token { p.pageToken = token }
@@ -777,12 +777,12 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=list&project=im&resource=chat&version=v1>
         ///
         /// `GET /open-apis/im/v1/chats`
-        public func list(params: IM.ChatListQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatListResponse> {
+        public func list(params: LarkIM.IM.ChatListQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatListResponse> {
             try await client.request(.get, "/open-apis/im/v1/chats", query: params, body: .none, options: options)
         }
 
         /// Iterates over every page of `list` (equivalent of `listWithIterator`).
-        public func listWithIterator(params: IM.ChatListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<IM.ChatListResponse> {
+        public func listWithIterator(params: LarkIM.IM.ChatListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.ChatListResponse> {
             LarkPageSequence { token in
                 var p = params
                 if let token { p.pageToken = token }
@@ -815,12 +815,12 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=get&project=im&resource=chat.moderation&version=v1>
         ///
         /// `GET /open-apis/im/v1/chats/:chat_id/moderation`
-        public func get(chatId: String, params: IM.ChatModerationGetQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatModerationGetResponse> {
+        public func get(chatId: String, params: LarkIM.IM.ChatModerationGetQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatModerationGetResponse> {
             try await client.request(.get, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/moderation", query: params, body: .none, options: options)
         }
 
         /// Iterates over every page of `get` (equivalent of `getWithIterator`).
-        public func getWithIterator(chatId: String, params: IM.ChatModerationGetQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<IM.ChatModerationGetResponse> {
+        public func getWithIterator(chatId: String, params: LarkIM.IM.ChatModerationGetQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.ChatModerationGetResponse> {
             LarkPageSequence { token in
                 var p = params
                 if let token { p.pageToken = token }
@@ -847,7 +847,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=update&project=im&resource=chat.moderation&version=v1>
         ///
         /// `PUT /open-apis/im/v1/chats/:chat_id/moderation`
-        public func update(chatId: String, params: IM.ChatModerationUpdateQuery = .init(), body: IM.ChatModerationUpdateBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
+        public func update(chatId: String, params: LarkIM.IM.ChatModerationUpdateQuery = .init(), body: LarkIM.IM.ChatModerationUpdateBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
             try await client.request(.put, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/moderation", query: params, body: .json(body), options: options)
         }
 
@@ -867,7 +867,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=list_tabs&project=im&resource=chat.tab&version=v1>
         ///
         /// `GET /open-apis/im/v1/chats/:chat_id/chat_tabs/list_tabs`
-        public func listTabs(chatId: String, options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatTabListTabsResponse> {
+        public func listTabs(chatId: String, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatTabListTabsResponse> {
             try await client.request(.get, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/chat_tabs/list_tabs", query: nil, body: .none, options: options)
         }
 
@@ -878,7 +878,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=sort_tabs&project=im&resource=chat.tab&version=v1>
         ///
         /// `POST /open-apis/im/v1/chats/:chat_id/chat_tabs/sort_tabs`
-        public func sortTabs(chatId: String, body: IM.ChatTabSortTabsBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatTabSortTabsResponse> {
+        public func sortTabs(chatId: String, body: LarkIM.IM.ChatTabSortTabsBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatTabSortTabsResponse> {
             try await client.request(.post, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/chat_tabs/sort_tabs", query: nil, body: .json(body), options: options)
         }
 
@@ -889,7 +889,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=delete_tabs&project=im&resource=chat.tab&version=v1>
         ///
         /// `DELETE /open-apis/im/v1/chats/:chat_id/chat_tabs/delete_tabs`
-        public func deleteTabs(chatId: String, body: IM.ChatTabDeleteTabsBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatTabDeleteTabsResponse> {
+        public func deleteTabs(chatId: String, body: LarkIM.IM.ChatTabDeleteTabsBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatTabDeleteTabsResponse> {
             try await client.request(.delete, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/chat_tabs/delete_tabs", query: nil, body: .json(body), options: options)
         }
 
@@ -900,7 +900,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=update_tabs&project=im&resource=chat.tab&version=v1>
         ///
         /// `POST /open-apis/im/v1/chats/:chat_id/chat_tabs/update_tabs`
-        public func updateTabs(chatId: String, body: IM.ChatTabUpdateTabsBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatTabUpdateTabsResponse> {
+        public func updateTabs(chatId: String, body: LarkIM.IM.ChatTabUpdateTabsBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatTabUpdateTabsResponse> {
             try await client.request(.post, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/chat_tabs/update_tabs", query: nil, body: .json(body), options: options)
         }
 
@@ -911,7 +911,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=chat.tab&version=v1>
         ///
         /// `POST /open-apis/im/v1/chats/:chat_id/chat_tabs`
-        public func create(chatId: String, body: IM.ChatTabCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatTabCreateResponse> {
+        public func create(chatId: String, body: LarkIM.IM.ChatTabCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatTabCreateResponse> {
             try await client.request(.post, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/chat_tabs", query: nil, body: .json(body), options: options)
         }
 
@@ -942,7 +942,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=put_top_notice&project=im&resource=chat.top_notice&version=v1>
         ///
         /// `POST /open-apis/im/v1/chats/:chat_id/top_notice/put_top_notice`
-        public func putTopNotice(chatId: String, body: IM.ChatTopNoticePutTopNoticeBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
+        public func putTopNotice(chatId: String, body: LarkIM.IM.ChatTopNoticePutTopNoticeBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
             try await client.request(.post, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/top_notice/put_top_notice", query: nil, body: .json(body), options: options)
         }
 
@@ -973,7 +973,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=patch&project=im&resource=chat.announcement&version=v1>
         ///
         /// `PATCH /open-apis/im/v1/chats/:chat_id/announcement`
-        public func patch(chatId: String, body: IM.ChatAnnouncementPatchBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
+        public func patch(chatId: String, body: LarkIM.IM.ChatAnnouncementPatchBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
             try await client.request(.patch, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/announcement", query: nil, body: .json(body), options: options)
         }
 
@@ -990,7 +990,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=get&project=im&resource=chat.announcement&version=v1>
         ///
         /// `GET /open-apis/im/v1/chats/:chat_id/announcement`
-        public func get(chatId: String, params: IM.ChatAnnouncementGetQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatAnnouncementGetResponse> {
+        public func get(chatId: String, params: LarkIM.IM.ChatAnnouncementGetQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatAnnouncementGetResponse> {
             try await client.request(.get, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/announcement", query: params, body: .none, options: options)
         }
 
@@ -1019,7 +1019,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=get&project=im&resource=chat.menu_tree&version=v1>
         ///
         /// `GET /open-apis/im/v1/chats/:chat_id/menu_tree`
-        public func get(chatId: String, options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatMenuTreeGetResponse> {
+        public func get(chatId: String, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatMenuTreeGetResponse> {
             try await client.request(.get, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/menu_tree", query: nil, body: .none, options: options)
         }
 
@@ -1040,7 +1040,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=delete&project=im&resource=chat.menu_tree&version=v1>
         ///
         /// `DELETE /open-apis/im/v1/chats/:chat_id/menu_tree`
-        public func delete(chatId: String, body: IM.ChatMenuTreeDeleteBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatMenuTreeDeleteResponse> {
+        public func delete(chatId: String, body: LarkIM.IM.ChatMenuTreeDeleteBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatMenuTreeDeleteResponse> {
             try await client.request(.delete, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/menu_tree", query: nil, body: .json(body), options: options)
         }
 
@@ -1061,7 +1061,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=sort&project=im&resource=chat.menu_tree&version=v1>
         ///
         /// `POST /open-apis/im/v1/chats/:chat_id/menu_tree/sort`
-        public func sort(chatId: String, body: IM.ChatMenuTreeSortBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatMenuTreeSortResponse> {
+        public func sort(chatId: String, body: LarkIM.IM.ChatMenuTreeSortBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatMenuTreeSortResponse> {
             try await client.request(.post, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/menu_tree/sort", query: nil, body: .json(body), options: options)
         }
 
@@ -1084,7 +1084,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=chat.menu_tree&version=v1>
         ///
         /// `POST /open-apis/im/v1/chats/:chat_id/menu_tree`
-        public func create(chatId: String, body: IM.ChatMenuTreeCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatMenuTreeCreateResponse> {
+        public func create(chatId: String, body: LarkIM.IM.ChatMenuTreeCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatMenuTreeCreateResponse> {
             try await client.request(.post, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/menu_tree", query: nil, body: .json(body), options: options)
         }
 
@@ -1113,7 +1113,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=delete_managers&project=im&resource=chat.managers&version=v1>
         ///
         /// `POST /open-apis/im/v1/chats/:chat_id/managers/delete_managers`
-        public func deleteManagers(chatId: String, params: IM.ChatManagersDeleteManagersQuery = .init(), body: IM.ChatManagersDeleteManagersBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatManagersDeleteManagersResponse> {
+        public func deleteManagers(chatId: String, params: LarkIM.IM.ChatManagersDeleteManagersQuery = .init(), body: LarkIM.IM.ChatManagersDeleteManagersBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatManagersDeleteManagersResponse> {
             try await client.request(.post, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/managers/delete_managers", query: params, body: .json(body), options: options)
         }
 
@@ -1133,7 +1133,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=add_managers&project=im&resource=chat.managers&version=v1>
         ///
         /// `POST /open-apis/im/v1/chats/:chat_id/managers/add_managers`
-        public func addManagers(chatId: String, params: IM.ChatManagersAddManagersQuery = .init(), body: IM.ChatManagersAddManagersBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatManagersAddManagersResponse> {
+        public func addManagers(chatId: String, params: LarkIM.IM.ChatManagersAddManagersQuery = .init(), body: LarkIM.IM.ChatManagersAddManagersBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatManagersAddManagersResponse> {
             try await client.request(.post, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/managers/add_managers", query: params, body: .json(body), options: options)
         }
 
@@ -1163,7 +1163,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=patch&project=im&resource=chat.menu_item&version=v1>
         ///
         /// `PATCH /open-apis/im/v1/chats/:chat_id/menu_items/:menu_item_id`
-        public func patch(chatId: String, menuItemId: String, body: IM.ChatMenuItemPatchBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatMenuItemPatchResponse> {
+        public func patch(chatId: String, menuItemId: String, body: LarkIM.IM.ChatMenuItemPatchBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatMenuItemPatchResponse> {
             try await client.request(.patch, "/open-apis/im/v1/chats/\(LarkURL.escapePathSegment(chatId))/menu_items/\(LarkURL.escapePathSegment(menuItemId))", query: nil, body: .json(body), options: options)
         }
 
@@ -1222,7 +1222,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=image&version=v1>
         ///
         /// `POST /open-apis/im/v1/images`
-        public func create(body: IM.ImageCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.ImageCreateResponse> {
+        public func create(body: LarkIM.IM.ImageCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ImageCreateResponse> {
             try await client.request(.post, "/open-apis/im/v1/images", query: nil, body: .multipart(body.multipartForm()), options: options)
         }
 
@@ -1252,7 +1252,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=delete&project=im&resource=message.reaction&version=v1>
         ///
         /// `DELETE /open-apis/im/v1/messages/:message_id/reactions/:reaction_id`
-        public func delete(messageId: String, reactionId: String, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageReactionDeleteResponse> {
+        public func delete(messageId: String, reactionId: String, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageReactionDeleteResponse> {
             try await client.request(.delete, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))/reactions/\(LarkURL.escapePathSegment(reactionId))", query: nil, body: .none, options: options)
         }
 
@@ -1273,12 +1273,12 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=list&project=im&resource=message.reaction&version=v1>
         ///
         /// `GET /open-apis/im/v1/messages/:message_id/reactions`
-        public func list(messageId: String, params: IM.MessageReactionListQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageReactionListResponse> {
+        public func list(messageId: String, params: LarkIM.IM.MessageReactionListQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageReactionListResponse> {
             try await client.request(.get, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))/reactions", query: params, body: .none, options: options)
         }
 
         /// Iterates over every page of `list` (equivalent of `listWithIterator`).
-        public func listWithIterator(messageId: String, params: IM.MessageReactionListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<IM.MessageReactionListResponse> {
+        public func listWithIterator(messageId: String, params: LarkIM.IM.MessageReactionListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.MessageReactionListResponse> {
             LarkPageSequence { token in
                 var p = params
                 if let token { p.pageToken = token }
@@ -1303,7 +1303,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=batch_query&project=im&resource=message.reaction&version=v1>
         ///
         /// `POST /open-apis/im/v1/messages/reactions/batch_query`
-        public func batchQuery(params: IM.MessageReactionBatchQueryQuery = .init(), body: IM.MessageReactionBatchQueryBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageReactionBatchQueryResponse> {
+        public func batchQuery(params: LarkIM.IM.MessageReactionBatchQueryQuery = .init(), body: LarkIM.IM.MessageReactionBatchQueryBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageReactionBatchQueryResponse> {
             try await client.request(.post, "/open-apis/im/v1/messages/reactions/batch_query", query: params, body: .json(body), options: options)
         }
 
@@ -1324,7 +1324,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=message.reaction&version=v1>
         ///
         /// `POST /open-apis/im/v1/messages/:message_id/reactions`
-        public func create(messageId: String, body: IM.MessageReactionCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.MessageReactionCreateResponse> {
+        public func create(messageId: String, body: LarkIM.IM.MessageReactionCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.MessageReactionCreateResponse> {
             try await client.request(.post, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))/reactions", query: nil, body: .json(body), options: options)
         }
 
@@ -1373,7 +1373,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=file&version=v1>
         ///
         /// `POST /open-apis/im/v1/files`
-        public func create(body: IM.FileCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.FileCreateResponse> {
+        public func create(body: LarkIM.IM.FileCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.FileCreateResponse> {
             try await client.request(.post, "/open-apis/im/v1/files", query: nil, body: .multipart(body.multipartForm()), options: options)
         }
 
@@ -1401,7 +1401,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=get&project=im&resource=message.resource&version=v1>
         ///
         /// `GET /open-apis/im/v1/messages/:message_id/resources/:file_key`
-        public func get(messageId: String, fileKey: String, params: IM.MessageResourceGetQuery, options: RequestOptions = .none) async throws -> LarkBinaryResponse {
+        public func get(messageId: String, fileKey: String, params: LarkIM.IM.MessageResourceGetQuery, options: RequestOptions = .none) async throws -> LarkBinaryResponse {
             try await client.download(.get, "/open-apis/im/v1/messages/\(LarkURL.escapePathSegment(messageId))/resources/\(LarkURL.escapePathSegment(fileKey))", query: params, body: .none, options: options)
         }
 
@@ -1421,7 +1421,7 @@ extension IMService.V1 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=forward&project=im&resource=thread&version=v1>
         ///
         /// `POST /open-apis/im/v1/threads/:thread_id/forward`
-        public func forward(threadId: String, params: IM.ThreadForwardQuery, body: IM.ThreadForwardBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.ThreadForwardResponse> {
+        public func forward(threadId: String, params: LarkIM.IM.ThreadForwardQuery, body: LarkIM.IM.ThreadForwardBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ThreadForwardResponse> {
             try await client.request(.post, "/open-apis/im/v1/threads/\(LarkURL.escapePathSegment(threadId))/forward", query: params, body: .json(body), options: options)
         }
 
@@ -1456,7 +1456,7 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=update&project=im&resource=biz_entity_tag_relation&version=v2>
         ///
         /// `PUT /open-apis/im/v2/biz_entity_tag_relation`
-        public func update(body: IM.BizEntityTagRelationUpdateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
+        public func update(body: LarkIM.IM.BizEntityTagRelationUpdateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
             try await client.request(.put, "/open-apis/im/v2/biz_entity_tag_relation", query: nil, body: .json(body), options: options)
         }
 
@@ -1467,7 +1467,7 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=biz_entity_tag_relation&version=v2>
         ///
         /// `POST /open-apis/im/v2/biz_entity_tag_relation`
-        public func create(body: IM.BizEntityTagRelationCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
+        public func create(body: LarkIM.IM.BizEntityTagRelationCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
             try await client.request(.post, "/open-apis/im/v2/biz_entity_tag_relation", query: nil, body: .json(body), options: options)
         }
 
@@ -1478,7 +1478,7 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=get&project=im&resource=biz_entity_tag_relation&version=v2>
         ///
         /// `GET /open-apis/im/v2/biz_entity_tag_relation`
-        public func get(params: IM.BizEntityTagRelationGetQuery, options: RequestOptions = .none) async throws -> LarkResponse<IM.BizEntityTagRelationGetResponse> {
+        public func get(params: LarkIM.IM.BizEntityTagRelationGetQuery, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.BizEntityTagRelationGetResponse> {
             try await client.request(.get, "/open-apis/im/v2/biz_entity_tag_relation", query: params, body: .none, options: options)
         }
 
@@ -1500,7 +1500,7 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=batch_update&project=im&resource=url_preview&version=v2>
         ///
         /// `POST /open-apis/im/v2/url_previews/batch_update`
-        public func batchUpdate(body: IM.UrlPreviewBatchUpdateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
+        public func batchUpdate(body: LarkIM.IM.UrlPreviewBatchUpdateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkEmpty> {
             try await client.request(.post, "/open-apis/im/v2/url_previews/batch_update", query: nil, body: .json(body), options: options)
         }
 
@@ -1520,7 +1520,7 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=delete&project=im&resource=app_feed_card.batch&version=v2>
         ///
         /// `DELETE /open-apis/im/v2/app_feed_card/batch`
-        public func delete(params: IM.AppFeedCardBatchDeleteQuery = .init(), body: IM.AppFeedCardBatchDeleteBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.AppFeedCardBatchDeleteResponse> {
+        public func delete(params: LarkIM.IM.AppFeedCardBatchDeleteQuery = .init(), body: LarkIM.IM.AppFeedCardBatchDeleteBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.AppFeedCardBatchDeleteResponse> {
             try await client.request(.delete, "/open-apis/im/v2/app_feed_card/batch", query: params, body: .json(body), options: options)
         }
 
@@ -1533,7 +1533,7 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=update&project=im&resource=app_feed_card.batch&version=v2>
         ///
         /// `PUT /open-apis/im/v2/app_feed_card/batch`
-        public func update(params: IM.AppFeedCardBatchUpdateQuery = .init(), body: IM.AppFeedCardBatchUpdateBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.AppFeedCardBatchUpdateResponse> {
+        public func update(params: LarkIM.IM.AppFeedCardBatchUpdateQuery = .init(), body: LarkIM.IM.AppFeedCardBatchUpdateBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.AppFeedCardBatchUpdateResponse> {
             try await client.request(.put, "/open-apis/im/v2/app_feed_card/batch", query: params, body: .json(body), options: options)
         }
 
@@ -1553,7 +1553,7 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=bot_time_sentive&project=im&resource=feed_card&version=v2>
         ///
         /// `PATCH /open-apis/im/v2/feed_cards/bot_time_sentive`
-        public func botTimeSentive(params: IM.FeedCardBotTimeSentiveQuery, body: IM.FeedCardBotTimeSentiveBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.FeedCardBotTimeSentiveResponse> {
+        public func botTimeSentive(params: LarkIM.IM.FeedCardBotTimeSentiveQuery, body: LarkIM.IM.FeedCardBotTimeSentiveBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.FeedCardBotTimeSentiveResponse> {
             try await client.request(.patch, "/open-apis/im/v2/feed_cards/bot_time_sentive", query: params, body: .json(body), options: options)
         }
 
@@ -1564,7 +1564,7 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=patch&project=im&resource=feed_card&version=v2>
         ///
         /// `PATCH /open-apis/im/v2/feed_cards/:feed_card_id`
-        public func patch(feedCardId: String, params: IM.FeedCardPatchQuery, body: IM.FeedCardPatchBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.FeedCardPatchResponse> {
+        public func patch(feedCardId: String, params: LarkIM.IM.FeedCardPatchQuery, body: LarkIM.IM.FeedCardPatchBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.FeedCardPatchResponse> {
             try await client.request(.patch, "/open-apis/im/v2/feed_cards/\(LarkURL.escapePathSegment(feedCardId))", query: params, body: .json(body), options: options)
         }
 
@@ -1584,7 +1584,7 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=tag&version=v2>
         ///
         /// `POST /open-apis/im/v2/tags`
-        public func create(body: IM.TagCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.TagCreateResponse> {
+        public func create(body: LarkIM.IM.TagCreateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.TagCreateResponse> {
             try await client.request(.post, "/open-apis/im/v2/tags", query: nil, body: .json(body), options: options)
         }
 
@@ -1595,7 +1595,7 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=patch&project=im&resource=tag&version=v2>
         ///
         /// `PATCH /open-apis/im/v2/tags/:tag_id`
-        public func patch(tagId: String, body: IM.TagPatchBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.TagPatchResponse> {
+        public func patch(tagId: String, body: LarkIM.IM.TagPatchBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.TagPatchResponse> {
             try await client.request(.patch, "/open-apis/im/v2/tags/\(LarkURL.escapePathSegment(tagId))", query: nil, body: .json(body), options: options)
         }
 
@@ -1615,7 +1615,7 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=update&project=im&resource=chat_button&version=v2>
         ///
         /// `PUT /open-apis/im/v2/chat_button`
-        public func update(params: IM.ChatButtonUpdateQuery = .init(), body: IM.ChatButtonUpdateBody, options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatButtonUpdateResponse> {
+        public func update(params: LarkIM.IM.ChatButtonUpdateQuery = .init(), body: LarkIM.IM.ChatButtonUpdateBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatButtonUpdateResponse> {
             try await client.request(.put, "/open-apis/im/v2/chat_button", query: params, body: .json(body), options: options)
         }
 
@@ -1637,7 +1637,7 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=create&project=im&resource=app_feed_card&version=v2>
         ///
         /// `POST /open-apis/im/v2/app_feed_card`
-        public func create(params: IM.AppFeedCardCreateQuery = .init(), body: IM.AppFeedCardCreateBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.AppFeedCardCreateResponse> {
+        public func create(params: LarkIM.IM.AppFeedCardCreateQuery = .init(), body: LarkIM.IM.AppFeedCardCreateBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.AppFeedCardCreateResponse> {
             try await client.request(.post, "/open-apis/im/v2/app_feed_card", query: params, body: .json(body), options: options)
         }
 
@@ -1659,12 +1659,12 @@ extension IMService.V2 {
         /// - SeeAlso: <https://open.feishu.cn/api-explorer?from=op_doc_tab&apiName=search&project=im&resource=chat&version=v2>
         ///
         /// `POST /open-apis/im/v2/chats/search`
-        public func search(params: IM.MessageSearchQuery = .init(), body: IM.ChatSearchBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<IM.ChatSearchResponseV2> {
+        public func search(params: LarkIM.IM.MessageSearchQuery = .init(), body: LarkIM.IM.ChatSearchBody = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkIM.IM.ChatSearchResponseV2> {
             try await client.request(.post, "/open-apis/im/v2/chats/search", query: params, body: .json(body), options: options)
         }
 
         /// Iterates over every page of `search` (equivalent of `searchWithIterator`).
-        public func searchWithIterator(params: IM.MessageSearchQuery = .init(), body: IM.ChatSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<IM.ChatSearchResponseV2> {
+        public func searchWithIterator(params: LarkIM.IM.MessageSearchQuery = .init(), body: LarkIM.IM.ChatSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.ChatSearchResponseV2> {
             LarkPageSequence { token in
                 var p = params
                 if let token { p.pageToken = token }

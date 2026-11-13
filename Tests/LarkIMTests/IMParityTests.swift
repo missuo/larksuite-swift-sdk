@@ -14,7 +14,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "DELETE")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s")
         #expect(req.body == nil)
     }
 
@@ -24,7 +24,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s/push_follow_up")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s/push_follow_up")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["follow_ups"]))
     }
 
@@ -35,7 +35,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s/urgent_app")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s/urgent_app")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["user_id_type"]))
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["user_id_list"]))
     }
@@ -47,7 +47,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s/urgent_phone")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s/urgent_phone")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["user_id_type"]))
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["user_id_list"]))
     }
@@ -59,7 +59,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s/urgent_sms")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s/urgent_sms")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["user_id_type"]))
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["user_id_list"]))
     }
@@ -70,7 +70,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["content"]))
     }
 
@@ -81,7 +81,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/messages/search")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/search")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -92,7 +92,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s/reply")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s/reply")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["content","msg_type"]))
     }
 
@@ -103,7 +103,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/messages")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["container_id_type","container_id"]))
         #expect(req.body == nil)
     }
@@ -115,7 +115,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/messages/merge_forward")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/merge_forward")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["receive_id_type"]))
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["receive_id","message_id_list"]))
     }
@@ -127,7 +127,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s")
         #expect(req.body == nil)
     }
 
@@ -138,7 +138,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/messages")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["receive_id_type"]))
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["receive_id","msg_type","content"]))
     }
@@ -150,7 +150,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s/forward")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s/forward")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["receive_id_type"]))
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["receive_id"]))
     }
@@ -162,7 +162,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PUT")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["msg_type","content"]))
     }
 
@@ -173,7 +173,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s/read_users")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s/read_users")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["user_id_type"]))
         #expect(req.body == nil)
     }
@@ -185,7 +185,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s/reply")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s/reply")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["template_id"]))
     }
 
@@ -196,7 +196,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/messages")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["receive_id_type"]))
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["receive_id","template_id"]))
     }
@@ -208,7 +208,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PUT")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["template_id"]))
     }
 
@@ -219,7 +219,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/batch_messages/s/read_user")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/batch_messages/s/read_user")
         #expect(req.body == nil)
     }
 
@@ -229,7 +229,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "DELETE")
-        #expect(req.url.path == "/open-apis/im/v1/batch_messages/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/batch_messages/s")
         #expect(req.body == nil)
     }
 
@@ -240,7 +240,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/batch_messages/s/get_progress")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/batch_messages/s/get_progress")
         #expect(req.body == nil)
     }
 
@@ -251,7 +251,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/members")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/members")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -262,7 +262,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/members/is_in_chat")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/members/is_in_chat")
         #expect(req.body == nil)
     }
 
@@ -273,7 +273,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "DELETE")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/members")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/members")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -283,7 +283,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/members/me_join")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/members/me_join")
         #expect(req.body == nil)
     }
 
@@ -294,7 +294,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/members")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/members")
         #expect(req.body == nil)
     }
 
@@ -304,7 +304,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "DELETE")
-        #expect(req.url.path == "/open-apis/im/v1/pins/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/pins/s")
         #expect(req.body == nil)
     }
 
@@ -315,7 +315,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/pins")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/pins")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["chat_id"]))
         #expect(req.body == nil)
     }
@@ -327,7 +327,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/pins")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/pins")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["message_id"]))
     }
 
@@ -337,7 +337,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "DELETE")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s")
         #expect(req.body == nil)
     }
 
@@ -348,7 +348,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/link")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/link")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -358,7 +358,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PUT")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -369,7 +369,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/chats")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -380,7 +380,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s")
         #expect(req.body == nil)
     }
 
@@ -391,7 +391,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/chats/search")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/search")
         #expect(req.body == nil)
     }
 
@@ -402,7 +402,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/chats")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats")
         #expect(req.body == nil)
     }
 
@@ -413,7 +413,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/moderation")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/moderation")
         #expect(req.body == nil)
     }
 
@@ -423,7 +423,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PUT")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/moderation")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/moderation")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -434,7 +434,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/chat_tabs/list_tabs")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/chat_tabs/list_tabs")
         #expect(req.body == nil)
     }
 
@@ -445,7 +445,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/chat_tabs/sort_tabs")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/chat_tabs/sort_tabs")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -456,7 +456,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "DELETE")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/chat_tabs/delete_tabs")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/chat_tabs/delete_tabs")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["tab_ids"]))
     }
 
@@ -467,7 +467,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/chat_tabs/update_tabs")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/chat_tabs/update_tabs")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -478,7 +478,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/chat_tabs")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/chat_tabs")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["chat_tabs"]))
     }
 
@@ -488,7 +488,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/top_notice/delete_top_notice")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/top_notice/delete_top_notice")
         #expect(req.body == nil)
     }
 
@@ -498,7 +498,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/top_notice/put_top_notice")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/top_notice/put_top_notice")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["chat_top_notice"]))
     }
 
@@ -508,7 +508,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/announcement")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/announcement")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["revision"]))
     }
 
@@ -519,7 +519,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/announcement")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/announcement")
         #expect(req.body == nil)
     }
 
@@ -530,7 +530,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/menu_tree")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/menu_tree")
         #expect(req.body == nil)
     }
 
@@ -541,7 +541,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "DELETE")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/menu_tree")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/menu_tree")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["chat_menu_top_level_ids"]))
     }
 
@@ -552,7 +552,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/menu_tree/sort")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/menu_tree/sort")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["chat_menu_top_level_ids"]))
     }
 
@@ -563,7 +563,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/menu_tree")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/menu_tree")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["menu_tree"]))
     }
 
@@ -574,7 +574,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/managers/delete_managers")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/managers/delete_managers")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -585,7 +585,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/managers/add_managers")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/managers/add_managers")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -596,7 +596,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
-        #expect(req.url.path == "/open-apis/im/v1/chats/s/menu_items/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/menu_items/s")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["update_fields","chat_menu_item"]))
     }
 
@@ -606,7 +606,7 @@ import LarkIM
         #expect(resp.data == Data("bin".utf8))
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/images/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/images/s")
         #expect(req.body == nil)
     }
 
@@ -617,7 +617,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/images")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/images")
         #expect(req.headers["Content-Type"]?.hasPrefix("multipart/form-data") == true)
         #expect(ParityHarness.multipartNames(req).contains("image_type"))
         #expect(ParityHarness.multipartNames(req).contains("image"))
@@ -630,7 +630,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "DELETE")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s/reactions/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s/reactions/s")
         #expect(req.body == nil)
     }
 
@@ -641,7 +641,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s/reactions")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s/reactions")
         #expect(req.body == nil)
     }
 
@@ -652,7 +652,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/messages/reactions/batch_query")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/reactions/batch_query")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["queries"]))
     }
 
@@ -663,7 +663,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s/reactions")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s/reactions")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["reaction_type"]))
     }
 
@@ -673,7 +673,7 @@ import LarkIM
         #expect(resp.data == Data("bin".utf8))
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/files/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/files/s")
         #expect(req.body == nil)
     }
 
@@ -684,7 +684,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/files")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/files")
         #expect(req.headers["Content-Type"]?.hasPrefix("multipart/form-data") == true)
         #expect(ParityHarness.multipartNames(req).contains("file_type"))
         #expect(ParityHarness.multipartNames(req).contains("file_name"))
@@ -697,7 +697,7 @@ import LarkIM
         #expect(resp.data == Data("bin".utf8))
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v1/messages/s/resources/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages/s/resources/s")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["type"]))
         #expect(req.body == nil)
     }
@@ -709,7 +709,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v1/threads/s/forward")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v1/threads/s/forward")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["receive_id_type"]))
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["receive_id"]))
     }
@@ -720,7 +720,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PUT")
-        #expect(req.url.path == "/open-apis/im/v2/biz_entity_tag_relation")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/biz_entity_tag_relation")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["tag_biz_type","biz_entity_id"]))
     }
 
@@ -730,7 +730,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v2/biz_entity_tag_relation")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/biz_entity_tag_relation")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["tag_biz_type","biz_entity_id"]))
     }
 
@@ -741,7 +741,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "GET")
-        #expect(req.url.path == "/open-apis/im/v2/biz_entity_tag_relation")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/biz_entity_tag_relation")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["tag_biz_type","biz_entity_id"]))
         #expect(req.body == nil)
     }
@@ -752,7 +752,7 @@ import LarkIM
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v2/url_previews/batch_update")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/url_previews/batch_update")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["preview_tokens"]))
     }
 
@@ -763,7 +763,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "DELETE")
-        #expect(req.url.path == "/open-apis/im/v2/app_feed_card/batch")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/app_feed_card/batch")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -774,7 +774,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PUT")
-        #expect(req.url.path == "/open-apis/im/v2/app_feed_card/batch")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/app_feed_card/batch")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -785,7 +785,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
-        #expect(req.url.path == "/open-apis/im/v2/feed_cards/bot_time_sentive")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/feed_cards/bot_time_sentive")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["user_id_type"]))
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["time_sensitive","user_ids"]))
     }
@@ -797,7 +797,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
-        #expect(req.url.path == "/open-apis/im/v2/feed_cards/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/feed_cards/s")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["user_id_type"]))
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["time_sensitive","user_ids"]))
     }
@@ -809,7 +809,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v2/tags")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/tags")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["create_tag"]))
     }
 
@@ -820,7 +820,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
-        #expect(req.url.path == "/open-apis/im/v2/tags/s")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/tags/s")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -831,7 +831,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PUT")
-        #expect(req.url.path == "/open-apis/im/v2/chat_button")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/chat_button")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["chat_id"]))
     }
 
@@ -842,7 +842,7 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v2/app_feed_card")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/app_feed_card")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
@@ -853,8 +853,112 @@ import LarkIM
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
-        #expect(req.url.path == "/open-apis/im/v2/chats/search")
+        #expect(ParityHarness.path(req) == "/open-apis/im/v2/chats/search")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("event im.message.message_read_v1") func event_imMessageMessageReadV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.message.message_read_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","reader":{"reader_id":{"union_id":"s","user_id":"s","open_id":"s"},"read_time":"s","tenant_key":"s"},"message_id_list":["s"]}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imMessageMessageReadV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.message.message_read_v1"))
+    }
+
+    @Test("event im.chat.member.user.deleted_v1") func event_imChatMemberUserDeletedV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.chat.member.user.deleted_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","chat_id":"s","operator_id":{"union_id":"s","user_id":"s","open_id":"s"},"external":true,"operator_tenant_key":"s","users":[{"name":"s","tenant_key":"s","user_id":{"union_id":"s","user_id":"s","open_id":"s"}}],"name":"s","i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imChatMemberUserDeletedV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.chat.member.user.deleted_v1"))
+    }
+
+    @Test("event im.message.reaction.deleted_v1") func event_imMessageReactionDeletedV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.message.reaction.deleted_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","message_id":"s","reaction_type":{"emoji_type":"s"},"operator_type":"s","user_id":{"union_id":"s","user_id":"s","open_id":"s"},"action_time":"s"}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imMessageReactionDeletedV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.message.reaction.deleted_v1"))
+    }
+
+    @Test("event im.chat.updated_v1") func event_imChatUpdatedV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.chat.updated_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","chat_id":"s","operator_id":{"union_id":"s","user_id":"s","open_id":"s"},"external":true,"operator_tenant_key":"s","after_change":{"avatar":"s","name":"s","description":"s","i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"add_member_permission":"s","share_card_permission":"s","at_all_permission":"s","edit_permission":"s","membership_approval":"s","join_message_visibility":"s","leave_message_visibility":"s","moderation_permission":"s","owner_id":{"union_id":"s","user_id":"s","open_id":"s"},"labels":["s"],"restricted_mode_setting":{"status":true,"screenshot_has_permission_setting":"all_members","download_has_permission_setting":"all_members","message_has_permission_setting":"all_members"},"group_message_type":"s"},"before_change":{"avatar":"s","name":"s","description":"s","i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"add_member_permission":"s","share_card_permission":"s","at_all_permission":"s","edit_permission":"s","membership_approval":"s","join_message_visibility":"s","leave_message_visibility":"s","moderation_permission":"s","owner_id":{"union_id":"s","user_id":"s","open_id":"s"},"labels":["s"],"restricted_mode_setting":{"status":true,"screenshot_has_permission_setting":"all_members","download_has_permission_setting":"all_members","message_has_permission_setting":"all_members"},"group_message_type":"s"},"moderator_list":{"added_member_list":[{"tenant_key":"s","user_id":{"union_id":"s","user_id":"s","open_id":"s"}}],"removed_member_list":[{"tenant_key":"s","user_id":{"union_id":"s","user_id":"s","open_id":"s"}}]}}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imChatUpdatedV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.chat.updated_v1"))
+    }
+
+    @Test("event im.chat.member.user.withdrawn_v1") func event_imChatMemberUserWithdrawnV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.chat.member.user.withdrawn_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","chat_id":"s","operator_id":{"union_id":"s","user_id":"s","open_id":"s"},"external":true,"operator_tenant_key":"s","users":[{"name":"s","tenant_key":"s","user_id":{"union_id":"s","user_id":"s","open_id":"s"}}],"name":"s","i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imChatMemberUserWithdrawnV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.chat.member.user.withdrawn_v1"))
+    }
+
+    @Test("event im.chat.access_event.bot_p2p_chat_entered_v1") func event_imChatAccessEventBotP2pChatEnteredV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.chat.access_event.bot_p2p_chat_entered_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","chat_id":"s","operator_id":{"union_id":"s","user_id":"s","open_id":"s"},"last_message_id":"s","last_message_create_time":"s"}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imChatAccessEventBotP2pChatEnteredV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.chat.access_event.bot_p2p_chat_entered_v1"))
+    }
+
+    @Test("event im.message.reaction.created_v1") func event_imMessageReactionCreatedV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.message.reaction.created_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","message_id":"s","reaction_type":{"emoji_type":"s"},"operator_type":"s","user_id":{"union_id":"s","user_id":"s","open_id":"s"},"action_time":"s"}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imMessageReactionCreatedV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.message.reaction.created_v1"))
+    }
+
+    @Test("event im.message.recalled_v1") func event_imMessageRecalledV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.message.recalled_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","message_id":"s","chat_id":"s","recall_time":"s","recall_type":"message_owner"}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imMessageRecalledV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.message.recalled_v1"))
+    }
+
+    @Test("event im.chat.member.bot.added_v1") func event_imChatMemberBotAddedV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.chat.member.bot.added_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","chat_id":"s","operator_id":{"union_id":"s","user_id":"s","open_id":"s"},"external":true,"operator_tenant_key":"s","name":"s","i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imChatMemberBotAddedV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.chat.member.bot.added_v1"))
+    }
+
+    @Test("event im.chat.member.bot.deleted_v1") func event_imChatMemberBotDeletedV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.chat.member.bot.deleted_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","chat_id":"s","operator_id":{"union_id":"s","user_id":"s","open_id":"s"},"external":true,"operator_tenant_key":"s","name":"s","i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imChatMemberBotDeletedV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.chat.member.bot.deleted_v1"))
+    }
+
+    @Test("event im.chat.member.user.added_v1") func event_imChatMemberUserAddedV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.chat.member.user.added_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","chat_id":"s","operator_id":{"union_id":"s","user_id":"s","open_id":"s"},"external":true,"operator_tenant_key":"s","users":[{"name":"s","tenant_key":"s","user_id":{"union_id":"s","user_id":"s","open_id":"s"}}],"name":"s","i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imChatMemberUserAddedV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.chat.member.user.added_v1"))
+    }
+
+    @Test("event im.chat.disbanded_v1") func event_imChatDisbandedV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.chat.disbanded_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","chat_id":"s","operator_id":{"union_id":"s","user_id":"s","open_id":"s"},"external":true,"operator_tenant_key":"s","name":"s","i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imChatDisbandedV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.chat.disbanded_v1"))
+    }
+
+    @Test("event im.message.receive_v1") func event_imMessageReceiveV1() async throws {
+        let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"im.message.receive_v1","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","sender":{"sender_id":{"union_id":"s","user_id":"s","open_id":"s"},"sender_type":"s","tenant_key":"s"},"message":{"message_id":"s","root_id":"s","parent_id":"s","create_time":"s","update_time":"s","chat_id":"s","thread_id":"s","chat_type":"s","message_type":"s","content":"s","mentions":[{"key":"s","id":{"union_id":"s","user_id":"s","open_id":"s"},"mentioned_type":"s","name":"s","tenant_key":"s"}],"user_agent":"s","lark_agent_context":{"active_chat_id":"s"}}}}"##)
+        let dispatcher = EventDispatcher(logLevel: .fatal).register(.imMessageReceiveV1) { _, event in
+            JSONValue.string(event.type)
+        }
+        #expect(try await dispatcher.dispatch(json: body) == .string("im.message.receive_v1"))
     }
 
 }

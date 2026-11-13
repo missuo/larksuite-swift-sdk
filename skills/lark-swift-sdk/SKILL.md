@@ -25,7 +25,7 @@ Swift naming. If you know the Node SDK, map it like this:
 
 ```swift
 // Package.swift
-.package(url: "<repo-url>", branch: "main"),
+.package(url: "https://github.com/missuo/larksuite-swift-sdk.git", branch: "main"),
 // target dependencies — pick only the API modules you use:
 .product(name: "LarkCore", package: "larksuite-swift-sdk"),
 .product(name: "LarkIM", package: "larksuite-swift-sdk"),
@@ -156,8 +156,21 @@ let resp = await dispatcher.handleWebhook(WebhookRequest(headers: reqHeaders, bo
 
 Legacy card callbacks: `CardActionHandler(verificationToken:encryptKey:) { event in ... }.handleWebhook(...)`.
 
-## Other APIs
+## Other APIs and events
 
-Every API category from node-sdk is a module `Lark<Category>` exposing
-`client.<category>.<version>.<resource>.<method>(...)`. Check `PLAN.md` for which categories
-are already generated. Method docs (summary + official doc link) are on each method.
+All 55 node-sdk API categories (1,680 APIs) are available, one module each:
+`Lark<Category>` → `client.<category>.<version>.<resource>.<method>(...)`, e.g.
+`LarkContact` → `client.contact.v3.user.get(userId:params:)`, `LarkDocx` →
+`client.docx.v1.document.get(documentId:)`, `LarkApproval`, `LarkCalendar`, `LarkDrive`,
+`LarkBitable`, `LarkSheets`, `LarkTask`, `LarkVC`, ... (full table in the README).
+
+- Models live in a namespace per category: `IM.MessageListQuery`, `Contact.UserGetQuery`, ...
+  (`TaskAPI` and `CalendarAPI` avoid clashing with Swift's `Task` / Foundation's `Calendar`;
+  the `event` category's module is `LarkEventAPI`).
+- Request types are named `<Resource><Method>Query` / `<Resource><Method>Body`, responses
+  `<Resource><Method>Response`; every method has doc comments with the official doc link.
+- Typed event keys: `.<category><Resource><Event>` (e.g. `.contactUserCreatedV3`,
+  `.approvalInstanceStatusChangedV4`) or `<Namespace>.Events.<name>`. Legacy v1 events
+  (`message`, `add_bot`, `app_ticket`, ...) are in `LarkOtherEvents`.
+- To find a method: grep `Sources/Lark<Category>/<Category>Service.swift` for the HTTP path
+  from the official docs (each method's doc comment ends with `` `METHOD /open-apis/...` ``).

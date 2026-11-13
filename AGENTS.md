@@ -1,8 +1,8 @@
 # AGENTS.md — larksuite-swift-sdk
 
 Swift port of the official Feishu/Lark Node SDK. The reference implementation is
-**https://github.com/larksuite/node-sdk** (local checkout: `/Users/missuo/Personal/node-sdk`,
-currently 1.76.0). Progress and scope live in [PLAN.md](PLAN.md).
+**https://github.com/larksuite/node-sdk** (currently generated from 1.76.0; clone it next to
+this repository to regenerate). Progress and scope live in [PLAN.md](PLAN.md).
 
 ## Language
 
@@ -72,8 +72,9 @@ currently 1.76.0). Progress and scope live in [PLAN.md](PLAN.md).
 ```bash
 # Regenerate after updating node-sdk (all modules, or name some: ... im contact)
 cd Tools/codegen && npm install
-node extract.js /Users/missuo/Personal/node-sdk ir.json
-node generate.js ir.json ../.. im
+node extract.js <path-to-node-sdk> ir.json
+node generate.js ir.json ../..
+node status.js ir.json ../..      # refresh the coverage table in PLAN.md
 cd ../.. && swift build && swift test
 ```
 

@@ -19,18 +19,37 @@ const ACRONYMS = {
 };
 const moduleShort = (p) => p.split('_').map((w) => ACRONYMS[w] || w.charAt(0).toUpperCase() + w.slice(1)).join('');
 
+
+// Public type names declared in LarkCore; generated module names must not collide with them.
+function coreTypeNames(root) {
+    const dir = path.join(root, 'Sources', 'LarkCore');
+    const names = new Set();
+    const walk = (d) => {
+        for (const f of fs.readdirSync(d)) {
+            const p = path.join(d, f);
+            if (fs.statSync(p).isDirectory()) walk(p);
+            else if (f.endsWith('.swift')) {
+                for (const m of fs.readFileSync(p, 'utf8').matchAll(/public (?:final )?(?:struct|enum|class|actor|protocol|typealias) (\w+)/g)) names.add(m[1]);
+            }
+        }
+    };
+    walk(dir);
+    return names;
+}
+
 function count(file, re) {
     if (!fs.existsSync(file)) return 0;
     return (fs.readFileSync(file, 'utf8').match(re) || []).length;
 }
 
+const CORE_TYPES = coreTypeNames(root);
 const rows = [];
 let tot = { apis: 0, done: 0, tests: 0, events: 0, eventsDone: 0, cats: 0, catsDone: 0 };
 for (const p of ir.projects) {
     const apis = p.methods.filter((m) => /^v\d+$/.test(m.nsPath[1] || ''));
     if (!apis.length) continue;
     const ns = moduleShort(p.name);
-    const mod = `Lark${ns}`;
+    const mod = CORE_TYPES.has(`Lark${ns}`) ? `Lark${ns}API` : `Lark${ns}`;
     const srcDir = path.join(root, 'Sources', mod);
     const testFile = path.join(root, 'Tests', `${mod}Tests`, `${ns}ParityTests.swift`);
     let done = 0;
@@ -43,11 +62,12 @@ for (const p of ir.projects) {
             }
         }
     }
-    const tests = count(testFile, /@Test\(/g);
+    const tests = count(testFile, /@Test\("(?!event )/g);
+    const eventTests = count(testFile, /@Test\("event /g);
     const events = ir.events.filter((e) => e.name.split('.')[0] === p.name).length;
     const eventsDone = count(path.join(srcDir, `${ns}Events.swift`), /public static let /g);
     const versions = [...new Set(apis.map((m) => m.nsPath[1]))].join(', ');
-    const complete = done === apis.length && tests === apis.length && eventsDone === events;
+    const complete = done === apis.length && tests === apis.length && eventsDone === events && eventTests === events;
     const status = complete ? '✅' : done || tests ? '🚧' : '⬜';
     rows.push({ name: p.name, mod, versions, apis: apis.length, done, tests, events, eventsDone, status });
     tot.apis += apis.length;
@@ -59,6 +79,7 @@ for (const p of ir.projects) {
     if (complete) tot.catsDone += 1;
 }
 const otherEvents = ir.events.filter((e) => !rows.some((r) => r.name === e.name.split('.')[0]));
+const otherDone = count(path.join(root, 'Sources', 'LarkOtherEvents', 'OtherEventsEvents.swift'), /public static let /g);
 const empty = ir.projects.filter((p) => !p.methods.length).map((p) => p.name);
 
 const pct = (a, b) => (b ? `${Math.round((a / b) * 100)}%` : '–');
@@ -71,8 +92,10 @@ lines.push(`| API categories fully complete | ${tot.catsDone} | ${tot.cats} | ${
 lines.push(`| API methods generated | ${tot.done} | ${tot.apis} | ${pct(tot.done, tot.apis)} |`);
 lines.push(`| API methods with parity tests | ${tot.tests} | ${tot.apis} | ${pct(tot.tests, tot.apis)} |`);
 lines.push(`| Typed events (in API categories) | ${tot.eventsDone} | ${tot.events} | ${pct(tot.eventsDone, tot.events)} |`);
+lines.push(`| Typed events outside API categories (\`LarkOtherEvents\`) | ${otherDone} | ${otherEvents.length} | ${pct(otherDone, otherEvents.length)} |`);
+lines.push(`| **All typed events** | **${tot.eventsDone + otherDone}** | **${tot.events + otherEvents.length}** | **${pct(tot.eventsDone + otherDone, tot.events + otherEvents.length)}** |`);
 lines.push('');
-lines.push('A category is ✅ only when every method is generated, every method has a parity test (and `swift test` passes), and every event of the category is typed. 🚧 = partially done, ⬜ = not started.');
+lines.push('A category is ✅ only when every method is generated, every method has a parity test, every event of the category is typed and has an event test (dispatch + typed decode), and `swift test` passes. 🚧 = partially done, ⬜ = not started.');
 lines.push('');
 lines.push('| | Category (node-sdk) | Swift module | Versions | APIs done / total | Parity tests | Typed events |');
 lines.push('|---|---|---|---|---:|---:|---:|');
@@ -82,7 +105,7 @@ for (const r of rows.sort((a, b) => (a.status === b.status ? a.name.localeCompar
 lines.push(`| | **Total** | | | **${tot.done} / ${tot.apis}** | **${tot.tests} / ${tot.apis}** | **${tot.eventsDone} / ${tot.events}** |`);
 lines.push('');
 lines.push(
-    `Events outside API categories (${otherEvents.length}, handled in \`LarkCore\` or pending): ` +
+    `Events outside API categories (${otherEvents.length}, module \`LarkOtherEvents\`, ${otherDone} typed): ` +
         otherEvents.map((e) => `\`${e.name}\``).join(', ') + '.'
 );
 lines.push('');

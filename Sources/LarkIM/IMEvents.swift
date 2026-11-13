@@ -9,111 +9,111 @@ extension IM {
         /// 消息已读
         ///
         /// 用户阅读机器人发送的单聊消息后触发此事件。
-        public static let messageMessageReadV1 = LarkEventKey<IM.MessageMessageReadV1Event>("im.message.message_read_v1")
+        public static let messageMessageReadV1 = LarkEventKey<LarkIM.IM.MessageMessageReadV1Event>("im.message.message_read_v1")
         /// 用户出群
         ///
         /// 用户主动退出群聊或被移出群聊时推触发此事件，在群组内的、已订阅该事件的机器人会收到事件数据。
-        public static let chatMemberUserDeletedV1 = LarkEventKey<IM.ChatMemberUserDeletedV1Event>("im.chat.member.user.deleted_v1")
+        public static let chatMemberUserDeletedV1 = LarkEventKey<LarkIM.IM.ChatMemberUserDeletedV1Event>("im.chat.member.user.deleted_v1")
         /// 删除消息表情回复
         ///
         /// 应用订阅该事件后，消息被删除表情回复时会触发此事件。事件体包含被删除表情回复的消息 message_id、删除表情回复的操作人 ID、表情类型、添加时间等信息。
-        public static let messageReactionDeletedV1 = LarkEventKey<IM.MessageReactionDeletedV1Event>("im.message.reaction.deleted_v1")
+        public static let messageReactionDeletedV1 = LarkEventKey<LarkIM.IM.MessageReactionDeletedV1Event>("im.message.reaction.deleted_v1")
         /// 群配置修改
         ///
         /// 群组配置被修改后触发此事件，在该群组内的、已订阅当前事件的应用机器人将会收到事件通知。修改操作包含：
         ///
         /// - 转移群主;- 修改群基本信息，包括：群头像、群名称、群描述、群国际化名称;- 修改群权限，包括：加人入群权限、群编辑权限、at 所有人权限、群分享权限等
-        public static let chatUpdatedV1 = LarkEventKey<IM.ChatUpdatedV1Event>("im.chat.updated_v1")
+        public static let chatUpdatedV1 = LarkEventKey<LarkIM.IM.ChatUpdatedV1Event>("im.chat.updated_v1")
         /// 撤销拉用户进群
         ///
         /// 撤销拉用户进群后触发此事件，在群组内的、已订阅该事件的机器人会收到事件消息。撤销操作是指如下图所示的群内 **撤销邀请**。
         ///
         /// ![image.png](//sf3-cn.feishucdn.com/obj/open-platform-opendoc/2faba42d3e4203e1dd899931da6dbfc8_DFXlHNscdw.png?height=278&maxWidth=550&width=1383)
-        public static let chatMemberUserWithdrawnV1 = LarkEventKey<IM.ChatMemberUserWithdrawnV1Event>("im.chat.member.user.withdrawn_v1")
+        public static let chatMemberUserWithdrawnV1 = LarkEventKey<LarkIM.IM.ChatMemberUserWithdrawnV1Event>("im.chat.member.user.withdrawn_v1")
         /// 用户进入与机器人的会话
         ///
         /// 用户进入与机器人的会话时触发此事件。
-        public static let chatAccessEventBotP2pChatEnteredV1 = LarkEventKey<IM.ChatAccessEventBotP2pChatEnteredV1Event>("im.chat.access_event.bot_p2p_chat_entered_v1")
+        public static let chatAccessEventBotP2pChatEnteredV1 = LarkEventKey<LarkIM.IM.ChatAccessEventBotP2pChatEnteredV1Event>("im.chat.access_event.bot_p2p_chat_entered_v1")
         /// 新增消息表情回复
         ///
         /// 应用订阅该事件后，消息被添加表情回复时会触发此事件。事件体包含被添加表情回复的消息 message_id、添加表情回复的操作人 ID、表情类型、添加时间等信息。
-        public static let messageReactionCreatedV1 = LarkEventKey<IM.MessageReactionCreatedV1Event>("im.message.reaction.created_v1")
+        public static let messageReactionCreatedV1 = LarkEventKey<LarkIM.IM.MessageReactionCreatedV1Event>("im.message.reaction.created_v1")
         /// 撤回消息
         ///
         /// 机器人所在会话内的消息被撤回时触发此事件。
-        public static let messageRecalledV1 = LarkEventKey<IM.MessageRecalledV1Event>("im.message.recalled_v1")
+        public static let messageRecalledV1 = LarkEventKey<LarkIM.IM.MessageRecalledV1Event>("im.message.recalled_v1")
         /// 机器人进群
         ///
         /// 机器人被用户添加至群聊时触发此事件，在群组内的、已订阅该事件的机器人会收到事件消息。
-        public static let chatMemberBotAddedV1 = LarkEventKey<IM.ChatMemberBotAddedV1Event>("im.chat.member.bot.added_v1")
+        public static let chatMemberBotAddedV1 = LarkEventKey<LarkIM.IM.ChatMemberBotAddedV1Event>("im.chat.member.bot.added_v1")
         /// 机器人被移出群
         ///
         /// 机器人被移出群聊后触发此事件，仅被移除群组且订阅该事件的机器人会收到事件数据。
-        public static let chatMemberBotDeletedV1 = LarkEventKey<IM.ChatMemberBotDeletedV1Event>("im.chat.member.bot.deleted_v1")
+        public static let chatMemberBotDeletedV1 = LarkEventKey<LarkIM.IM.ChatMemberBotDeletedV1Event>("im.chat.member.bot.deleted_v1")
         /// 用户进群
         ///
         /// 新用户进群（包含话题群）时触发此事件，在群组内的、已订阅该事件的机器人会收到事件数据。
-        public static let chatMemberUserAddedV1 = LarkEventKey<IM.ChatMemberUserAddedV1Event>("im.chat.member.user.added_v1")
+        public static let chatMemberUserAddedV1 = LarkEventKey<LarkIM.IM.ChatMemberUserAddedV1Event>("im.chat.member.user.added_v1")
         /// 群解散
         ///
         /// 群组被解散后触发此事件，在该群组内的、已订阅当前事件的应用机器人将会收到事件通知。
-        public static let chatDisbandedV1 = LarkEventKey<IM.ChatDisbandedV1Event>("im.chat.disbanded_v1")
+        public static let chatDisbandedV1 = LarkEventKey<LarkIM.IM.ChatDisbandedV1Event>("im.chat.disbanded_v1")
         /// 接收消息
         ///
         /// 机器人接收到用户/机器人发送的消息后触发此事件。
-        public static let messageReceiveV1 = LarkEventKey<IM.MessageReceiveV1Event>("im.message.receive_v1")
+        public static let messageReceiveV1 = LarkEventKey<LarkIM.IM.MessageReceiveV1Event>("im.message.receive_v1")
     }
 }
 
-extension LarkEventKey where Payload == IM.MessageMessageReadV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.MessageMessageReadV1Event {
     /// `im.message.message_read_v1`
     public static var imMessageMessageReadV1: Self { .init("im.message.message_read_v1") }
 }
-extension LarkEventKey where Payload == IM.ChatMemberUserDeletedV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.ChatMemberUserDeletedV1Event {
     /// `im.chat.member.user.deleted_v1`
     public static var imChatMemberUserDeletedV1: Self { .init("im.chat.member.user.deleted_v1") }
 }
-extension LarkEventKey where Payload == IM.MessageReactionDeletedV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.MessageReactionDeletedV1Event {
     /// `im.message.reaction.deleted_v1`
     public static var imMessageReactionDeletedV1: Self { .init("im.message.reaction.deleted_v1") }
 }
-extension LarkEventKey where Payload == IM.ChatUpdatedV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.ChatUpdatedV1Event {
     /// `im.chat.updated_v1`
     public static var imChatUpdatedV1: Self { .init("im.chat.updated_v1") }
 }
-extension LarkEventKey where Payload == IM.ChatMemberUserWithdrawnV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.ChatMemberUserWithdrawnV1Event {
     /// `im.chat.member.user.withdrawn_v1`
     public static var imChatMemberUserWithdrawnV1: Self { .init("im.chat.member.user.withdrawn_v1") }
 }
-extension LarkEventKey where Payload == IM.ChatAccessEventBotP2pChatEnteredV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.ChatAccessEventBotP2pChatEnteredV1Event {
     /// `im.chat.access_event.bot_p2p_chat_entered_v1`
     public static var imChatAccessEventBotP2pChatEnteredV1: Self { .init("im.chat.access_event.bot_p2p_chat_entered_v1") }
 }
-extension LarkEventKey where Payload == IM.MessageReactionCreatedV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.MessageReactionCreatedV1Event {
     /// `im.message.reaction.created_v1`
     public static var imMessageReactionCreatedV1: Self { .init("im.message.reaction.created_v1") }
 }
-extension LarkEventKey where Payload == IM.MessageRecalledV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.MessageRecalledV1Event {
     /// `im.message.recalled_v1`
     public static var imMessageRecalledV1: Self { .init("im.message.recalled_v1") }
 }
-extension LarkEventKey where Payload == IM.ChatMemberBotAddedV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.ChatMemberBotAddedV1Event {
     /// `im.chat.member.bot.added_v1`
     public static var imChatMemberBotAddedV1: Self { .init("im.chat.member.bot.added_v1") }
 }
-extension LarkEventKey where Payload == IM.ChatMemberBotDeletedV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.ChatMemberBotDeletedV1Event {
     /// `im.chat.member.bot.deleted_v1`
     public static var imChatMemberBotDeletedV1: Self { .init("im.chat.member.bot.deleted_v1") }
 }
-extension LarkEventKey where Payload == IM.ChatMemberUserAddedV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.ChatMemberUserAddedV1Event {
     /// `im.chat.member.user.added_v1`
     public static var imChatMemberUserAddedV1: Self { .init("im.chat.member.user.added_v1") }
 }
-extension LarkEventKey where Payload == IM.ChatDisbandedV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.ChatDisbandedV1Event {
     /// `im.chat.disbanded_v1`
     public static var imChatDisbandedV1: Self { .init("im.chat.disbanded_v1") }
 }
-extension LarkEventKey where Payload == IM.MessageReceiveV1Event {
+extension LarkEventKey where Payload == LarkIM.IM.MessageReceiveV1Event {
     /// `im.message.receive_v1`
     public static var imMessageReceiveV1: Self { .init("im.message.receive_v1") }
 }
