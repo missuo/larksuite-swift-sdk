@@ -59,6 +59,7 @@ then pick `LarkCore` plus the API products you need.
 | `LarkCore` | Always needed: `LarkClient`, tokens, `EventDispatcher`, `CardActionHandler`, `WSClient`, webhooks, raw requests |
 | `Lark<Category>` | One per API category, e.g. `LarkIM`, `LarkContact`, `LarkDocx`. Adds `client.<category>` and the category's typed events |
 | `LarkOtherEvents` | Typed legacy v1 events (`message`, `add_bot`, `app_ticket`, …) and events of categories without APIs |
+| `LarkChannel` | High-level bot toolkit: normalized messages, safety pipeline, markdown/media/streaming sends |
 | `Lark` | Everything (`import Lark` re-exports all modules). Convenient, but compiles all 55 categories |
 
 Prefer adding only the categories you use — each is an independent module, so build times
@@ -237,6 +238,28 @@ let response = await dispatcher.handleWebhook(WebhookRequest(headers: headers, b
 ```
 
 Legacy card callbacks use `CardActionHandler(verificationToken:encryptKey:handler:)` the same way.
+
+## Channel: a high-level bot toolkit
+
+`LarkChannel` (port of node-sdk `channel/`) wraps the long connection, message normalisation,
+dedup / per-chat ordering / policy checks, and outbound sending (markdown → post or card,
+chunking, media upload with an SSRF guard, typewriter-style streaming cards):
+
+```swift
+import LarkChannel
+
+let channel = try createLarkChannel(LarkChannelOptions(appId: "cli_xxx", appSecret: "xxx"))
+_ = channel.on(.message) { msg in                     // NormalizedMessage: text, mentions, resources, ...
+    guard msg.chatType == .p2p || msg.mentionedBot else { return }
+    _ = try await channel.send(msg.chatId, .markdown("**echo** \(msg.content)"), options: SendOptions(replyTo: msg.messageId))
+}
+try await channel.connect()
+
+_ = try await channel.send("oc_xxx", .image("/tmp/chart.png"))
+_ = try await channel.stream("oc_xxx", .markdown { stream in
+    for word in ["Hello", ", ", "world"] { try await stream.append(word) }
+})
+```
 
 ## Aily (AI agents)
 

@@ -69,6 +69,13 @@ and fails if the checked-in generated code drifts. Progress and scope live in [P
 | User-Agent | `oapi-node-sdk/<version>`; sanitising works on UTF-16 units | `oapi-swift-sdk/<version>`; sanitising works on Unicode scalars | Identifies the SDK truthfully; Swift strings are Unicode |
 | ISV token without tenant key / app ticket | logs, sends the request without `Authorization` | throws `LarkError.tokenUnavailable` | Fail fast instead of a guaranteed auth error from the server |
 | WS fragment expiry | 10 s sweep timer | expired fragments are dropped whenever the next frame arrives | No background timer; same effective lifetime |
+| Multipart file parts | `form-data` omits the filename for Buffers | file parts carry `filename` (`LarkFile.fileName`) | Required by some upload endpoints; harmless elsewhere |
+| Channel: caller-supplied cards/posts | serialised in insertion key order | `JSONValue` → sorted keys | `JSONValue` objects are unordered; everything the channel builds itself is byte-identical |
+| Channel: SSRF guard | pins the request to the validated IP; 50 MB cap enforced mid-stream | validates every resolved IP, the fetch re-resolves; cap checked after download; resolver injectable | `URLSession` cannot pin IPs without breaking TLS hostname checks |
+| Channel: errors | axios error shapes; plain `Error` for an empty receive id | classified from `LarkError` (also business codes on HTTP 200); `LarkError.invalidArgument` | Swift error model |
+| Channel: event handlers | some events fire-and-forget | handlers are `async throws` and awaited | Structured concurrency |
+| Channel: webhook/agent options | `adapter`, `agent` | `dispatcher` / `handleWebhook(_:autoChallenge:)`, `webSocketConnector` | No Express/Koa or Node agents in Swift |
+| Channel: types | loose JS values | `ChatInfo.memberCount: Int`, numeric-only `durationMs`, `content: String`, `normalize` throws `LarkChannelError(.unknown)` without a message | Swift types; node would hit a TypeError |
 | gzip (addons encoding) | `zlib.gzipSync` | platform zlib (linked on Apple, `dlopen("libz.so.1")` on Linux), stored-block fallback if zlib is missing | Byte-identical output without a dependency |
 
 ## Layout

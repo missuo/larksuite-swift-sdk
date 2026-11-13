@@ -158,6 +158,28 @@ let resp = await dispatcher.handleWebhook(WebhookRequest(headers: reqHeaders, bo
 
 Legacy card callbacks: `CardActionHandler(verificationToken:encryptKey:) { event in ... }.handleWebhook(...)`.
 
+## High-level bots with LarkChannel
+
+Use `LarkChannel` (product `LarkChannel`) when you want node-sdk's channel behaviour: normalized
+inbound messages (`NormalizedMessage` with `content`, `mentions`, `mentionedBot`, `resources`),
+dedup + per-chat ordering + group/DM policy, and smart sending.
+
+```swift
+import LarkChannel
+let channel = try createLarkChannel(LarkChannelOptions(appId: "cli_xxx", appSecret: "xxx"))
+_ = channel.on(.message) { msg in
+    guard msg.chatType == .p2p || msg.mentionedBot else { return }
+    _ = try await channel.send(msg.chatId, .markdown("**echo** \(msg.content)"), options: SendOptions(replyTo: msg.messageId))
+}
+try await channel.connect()
+// SendInput: .text, .markdown, .post, .card, .image(MediaSource), .file(_, fileName:), .audio, .video, .sticker, .shareChat, .shareUser
+// MediaSource: raw Data or a "path"/"https://..." string (URLs go through an SSRF guard)
+_ = try await channel.stream(chatId, .markdown { s in try await s.append("partial…") })   // streaming card
+```
+
+Other events: `.cardAction`, `.reaction`, `.botAdded`, `.comment`, `.reject`, `.error`,
+`.reconnecting`, `.reconnected`. Lower level: `channel.rawClient` (a `LarkClient`), `channel.dispatcher`.
+
 ## Aily (AI agent) conversations
 
 ```swift

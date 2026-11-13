@@ -299,8 +299,8 @@ public final class LarkChannel: Sendable {
     }
 
     /// Verifies and dispatches a webhook request (webhook transport).
-    public func handleWebhook(_ request: WebhookRequest) async -> WebhookResponse {
-        await dispatcher.handleWebhook(request)
+    public func handleWebhook(_ request: WebhookRequest, autoChallenge: Bool = false) async -> WebhookResponse {
+        await dispatcher.handleWebhook(request, autoChallenge: autoChallenge)
     }
 
     // MARK: Event subscription

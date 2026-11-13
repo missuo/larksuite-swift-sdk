@@ -114,7 +114,7 @@ Categories present in node-sdk with no APIs (59, nothing to port): `aily_rag`, `
 | `messageCard.defaultCard`, card typings (`typings/card`), `InteractiveCardActionEvent` | `MessageCard.defaultCard`, `InteractiveCard`, `InteractiveCardElement`, `InteractiveCardActionItem`, `InteractiveCardActionEvent` | ✅ | node vector + round trip |
 | `LoggerProxy`, `defaultLogger`, log levels | `LoggerProxy`, `ConsoleLarkLogger` | ✅ | |
 | `DefaultCache`, `Cache` interface | `DefaultLarkCache`, `LarkCache` | ✅ | |
-| Channel (`channel/`: normalized inbound messages, outbound sender, markdown → post/card, streaming cards, media upload, safety pipeline) | — | ⬜ | |
+| Channel (`channel/`: normalized inbound messages, outbound sender, markdown → post/card, streaming cards, media upload, safety pipeline) | `LarkChannel` module (`createLarkChannel`, `on`, `send`, `stream`, normalizers) | ✅ | 180 tests: all node channel cases + node-produced vectors and byte-compared wire bodies |
 | Aily scene (`scene/aily`) | `AilyClient` in `LarkAily` (`completions.create` / `createWithStream`, session cache) | ✅ | 30 tests (node cases + failure paths) |
 | App registration scene (`registerApp`, `scene/registration`) | `registerApp(_:)`, `AppAddons`, `AppPreset`, `RegisterAppError` in `LarkCore` | ✅ | 77 tests (all 44 node cases + node vectors) |
 
@@ -155,7 +155,7 @@ Driven by the first consumer, a long-connection Feishu bot (`feishu-agent`).
 
 ### M2 — cards and Channel
 - ✅ `messageCard` helpers and card typings.
-- ⬜ Channel module.
+- ✅ Channel module.
 
 ### M3 — scenes
 - ✅ Aily, app registration.
