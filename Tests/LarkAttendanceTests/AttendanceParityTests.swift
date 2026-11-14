@@ -41,6 +41,17 @@ import LarkAttendance
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/attendance/v1/groups") func v1_group_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"group_list":[{"group_id":"s","group_name":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"group_list":[{"group_id":"s","group_name":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.attendance.v1.group.listWithIterator(params: Attendance.GroupListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/attendance/v1/groups/search") func v1_group_search() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"group_list":[{"group_id":"s","group_name":"s"}]}}"##)
         let resp = try await client.attendance.v1.group.search(body: Attendance.GroupSearchBody(groupName: "s"))
@@ -181,6 +192,17 @@ import LarkAttendance
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/attendance/v1/shifts") func v1_shift_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"shift_list":[{"shift_id":"s","shift_name":"s","punch_times":1,"sub_shift_leader_ids":["s"],"is_flexible":true,"flexible_minutes":1,"flexible_rule":[{"flexible_early_minutes":1,"flexible_late_minutes":1}],"no_need_off":true,"punch_time_rule":[{"on_time":"s","off_time":"s","late_minutes_as_late":1,"late_minutes_as_lack":1,"on_advance_minutes":1,"early_minutes_as_early":1,"early_minutes_as_lack":1,"off_delay_minutes":1,"late_minutes_as_serious_late":1,"no_need_on":true,"no_need_off":true}],"late_off_late_on_rule":[{"late_off_minutes":1,"late_on_minutes":1}],"rest_time_rule":[{"rest_begin_time":"s","rest_end_time":"s"}],"overtime_rule":[{"on_overtime":"s","off_overtime":"s"}],"day_type":1,"overtime_rest_time_rule":[{"rest_begin_time":"s","rest_end_time":"s"}],"late_minutes_as_serious_late":1,"shift_middle_time_rule":{"middle_time_type":1,"fixed_middle_time":"s"},"shift_attendance_time_config":{"attendance_time":1.5,"on_attendance_time":1.5,"off_attendance_time":1.5},"late_off_late_on_setting":{"late_off_base_on_time_type":1,"late_on_base_on_time_type":1},"id":"s","rest_time_flexible_configs":[{"need_flexible":true,"late_mins":1}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"shift_list":[{"shift_id":"s","shift_name":"s","punch_times":1,"sub_shift_leader_ids":["s"],"is_flexible":true,"flexible_minutes":1,"flexible_rule":[{"flexible_early_minutes":1,"flexible_late_minutes":1}],"no_need_off":true,"punch_time_rule":[{"on_time":"s","off_time":"s","late_minutes_as_late":1,"late_minutes_as_lack":1,"on_advance_minutes":1,"early_minutes_as_early":1,"early_minutes_as_lack":1,"off_delay_minutes":1,"late_minutes_as_serious_late":1,"no_need_on":true,"no_need_off":true}],"late_off_late_on_rule":[{"late_off_minutes":1,"late_on_minutes":1}],"rest_time_rule":[{"rest_begin_time":"s","rest_end_time":"s"}],"overtime_rule":[{"on_overtime":"s","off_overtime":"s"}],"day_type":1,"overtime_rest_time_rule":[{"rest_begin_time":"s","rest_end_time":"s"}],"late_minutes_as_serious_late":1,"shift_middle_time_rule":{"middle_time_type":1,"fixed_middle_time":"s"},"shift_attendance_time_config":{"attendance_time":1.5,"on_attendance_time":1.5,"off_attendance_time":1.5},"late_off_late_on_setting":{"late_off_base_on_time_type":1,"late_on_base_on_time_type":1},"id":"s","rest_time_flexible_configs":[{"need_flexible":true,"late_mins":1}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.attendance.v1.shift.listWithIterator(params: Attendance.GroupListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("DELETE /open-apis/attendance/v1/shifts/:shift_id") func v1_shift_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.attendance.v1.shift.delete(shiftId: "s")
@@ -317,6 +339,17 @@ import LarkAttendance
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/attendance/v1/archive_rule")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/attendance/v1/archive_rule") func v1_archiveRule_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"report_id":"s","report_name":{"zh":"s","en":"s","ja":"s"},"archive_rule_id":"s","archive_rule_name":{"zh":"s","en":"s","ja":"s"}}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"report_id":"s","report_name":{"zh":"s","en":"s","ja":"s"},"archive_rule_id":"s","archive_rule_name":{"zh":"s","en":"s","ja":"s"}}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.attendance.v1.archiveRule.listWithIterator(params: Attendance.GroupListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/attendance/v1/archive_rule/user_stats_fields_query") func v1_archiveRule_userStatsFieldsQuery() async throws {

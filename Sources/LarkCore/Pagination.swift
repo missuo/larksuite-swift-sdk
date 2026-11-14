@@ -55,3 +55,24 @@ public struct LarkPageSequence<Data: Sendable>: AsyncSequence, Sendable {
         return out
     }
 }
+
+/// The query of an iterator whose method does not declare `page_token`.
+///
+/// node-sdk's `xxxWithIterator` helpers always send `page_token` as a query parameter, even for
+/// methods whose own query has no such field; this reproduces that (`nil` is omitted).
+public struct LarkPageTokenQuery: Encodable, Sendable {
+    public let base: (any Encodable & Sendable)?
+    public let pageToken: String?
+
+    public init(_ base: (any Encodable & Sendable)?, pageToken: String?) {
+        self.base = base
+        self.pageToken = pageToken
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        var object: [String: JSONValue] = [:]
+        if let base, case .object(let o) = try JSONValue(data: LarkJSON.encoder.encode(base)) { object = o }
+        if let pageToken { object["page_token"] = .string(pageToken) }
+        try JSONValue.object(object).encode(to: encoder)
+    }
+}

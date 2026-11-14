@@ -31,6 +31,17 @@ import LarkPayroll
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["source_code"]))
     }
 
+    @Test("iterator POST /open-apis/payroll/v1/datasource_records/query") func v1_datasourceRecord_query_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"page_token":"tok2","has_more":true,"records":[{"active_status":1,"field_values":[{"field_code":"s","value":"s","field_type":1}]}]}}"##, ##"{"code":0,"msg":"success","data":{"page_token":"","has_more":false,"records":[{"active_status":1,"field_values":[{"field_code":"s","value":"s","field_type":1}]}]}}"##])
+        var pages = 0
+        for try await _ in client.payroll.v1.datasourceRecord.queryWithIterator(params: Payroll.DatasourceRecordQueryQuery(pageSize: 1), body: Payroll.DatasourceRecordQueryBody(sourceCode: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/payroll/v1/payment_detail/query") func v1_paymentDetail_query() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"payment_details":[{"employee_id":"s","activity_id":"s","payment_accounting_items":[{"id":"s","accounting_item_names":[{"locale":"s","value":"s","id":"s"}],"accounting_item_value":{"original_value":"s","reference_values":[{"locale":"s","value":"s","id":"s"}]},"segment_values":[{"start_time":"s","end_time":"s","reference_values":[{"locale":"s","value":"s","id":"s"}],"original_value":"s"}],"accounting_item_type":1}]}],"total":1}}"##)
         let resp = try await client.payroll.v1.paymentDetail.query(body: Payroll.PaymentDetailQueryBody(pageIndex: 1, pageSize: 1, employeeIds: ["s"]))
@@ -64,6 +75,17 @@ import LarkPayroll
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/payroll/v1/payment_activitys") func v1_paymentActivity_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"payment_activitys":[{"activity_id":"s","activity_names":[{"locale":"s","value":"s","id":"s"}],"pay_date":"s","total_number_of_payroll":1,"number_of_calculation_activities":1,"calculation_activities":[{"calculation_activity_id":"s","calculation_activity_names":[{"locale":"s","value":"s","id":"s"}]}],"activity_status":1}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"payment_activitys":[{"activity_id":"s","activity_names":[{"locale":"s","value":"s","id":"s"}],"pay_date":"s","total_number_of_payroll":1,"number_of_calculation_activities":1,"calculation_activities":[{"calculation_activity_id":"s","calculation_activity_names":[{"locale":"s","value":"s","id":"s"}]}],"activity_status":1}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.payroll.v1.paymentActivity.listWithIterator(params: Payroll.PaymentActivityListQuery(payPeriodStartDate: "s", payPeriodEndDate: "s", pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/payroll/v1/cost_allocation_plans") func v1_costAllocationPlan_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","names":[{"locale":"s","value":"s","id":"s"}],"applicable_country_region":"s","dimensions":[{"i18n_names":[{"locale":"s","value":"s","id":"s"}],"api_name":"s","obj_api_name":"s"}],"cost_items":[{"id":"s","name":[{"locale":"s","value":"s","id":"s"}],"enable_correct":true}]}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.payroll.v1.costAllocationPlan.list(params: Payroll.CostAllocationPlanListQuery(pageSize: 1, payPeriod: "s"))
@@ -74,6 +96,17 @@ import LarkPayroll
         #expect(ParityHarness.path(req) == "/open-apis/payroll/v1/cost_allocation_plans")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["page_size","pay_period"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/payroll/v1/cost_allocation_plans") func v1_costAllocationPlan_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","names":[{"locale":"s","value":"s","id":"s"}],"applicable_country_region":"s","dimensions":[{"i18n_names":[{"locale":"s","value":"s","id":"s"}],"api_name":"s","obj_api_name":"s"}],"cost_items":[{"id":"s","name":[{"locale":"s","value":"s","id":"s"}],"enable_correct":true}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","names":[{"locale":"s","value":"s","id":"s"}],"applicable_country_region":"s","dimensions":[{"i18n_names":[{"locale":"s","value":"s","id":"s"}],"api_name":"s","obj_api_name":"s"}],"cost_items":[{"id":"s","name":[{"locale":"s","value":"s","id":"s"}],"enable_correct":true}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.payroll.v1.costAllocationPlan.listWithIterator(params: Payroll.CostAllocationPlanListQuery(pageSize: 1, payPeriod: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/payroll/v1/payment_activity_details") func v1_paymentActivityDetail_list() async throws {
@@ -100,6 +133,17 @@ import LarkPayroll
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/payroll/v1/datasources") func v1_datasource_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"page_token":"tok2","has_more":true,"datasources":[{"code":"s","i18n_names":[{"locale":"s","value":"s","id":"s"}],"active_status":1,"fields":[{"code":"s","i18n_names":[{"locale":"s","value":"s","id":"s"}],"field_type":1,"active_status":1,"i18n_description":[{"locale":"s","value":"s","id":"s"}],"decimal_places":1}],"i18n_description":[{"locale":"s","value":"s","id":"s"}],"data_period_type":1}]}}"##, ##"{"code":0,"msg":"success","data":{"page_token":"","has_more":false,"datasources":[{"code":"s","i18n_names":[{"locale":"s","value":"s","id":"s"}],"active_status":1,"fields":[{"code":"s","i18n_names":[{"locale":"s","value":"s","id":"s"}],"field_type":1,"active_status":1,"i18n_description":[{"locale":"s","value":"s","id":"s"}],"decimal_places":1}],"i18n_description":[{"locale":"s","value":"s","id":"s"}],"data_period_type":1}]}}"##])
+        var pages = 0
+        for try await _ in client.payroll.v1.datasource.listWithIterator(params: Payroll.DatasourceRecordQueryQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/payroll/v1/cost_allocation_details") func v1_costAllocationDetail_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"cost_allocation_report_datas":[{"data_summary_dimensions":[{"dimension_level":1,"dimension_type":1,"dimension_value_id":"s","enum_dimension":{"enum_value_id":"s","enum_key":"s"},"dimension_value_lookup_info":{"type":"s","id":"s","code":"s"},"dimension_names":[{"locale":"s","value":"s","id":"s"}],"dimension_titles":[{"locale":"s","value":"s","id":"s"}]}],"compensation_cost_item":{"number_of_individuals_for_payment":1,"compensation_costs":[{"compensation_cost_value":"s","i18n_names":[{"locale":"s","value":"s","id":"s"}]}]},"employment_id":"s"}],"cost_allocation_report_names":[{"locale":"s","value":"s","id":"s"}],"pay_period":"s","page_token":"s","has_more":true}}"##)
         let resp = try await client.payroll.v1.costAllocationDetail.list(params: Payroll.CostAllocationDetailListQuery(pageSize: 1, costAllocationPlanId: "s", payPeriod: "s", reportType: 1))
@@ -110,6 +154,17 @@ import LarkPayroll
         #expect(ParityHarness.path(req) == "/open-apis/payroll/v1/cost_allocation_details")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["page_size","cost_allocation_plan_id","pay_period","report_type"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/payroll/v1/cost_allocation_details") func v1_costAllocationDetail_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"cost_allocation_report_datas":[{"data_summary_dimensions":[{"dimension_level":1,"dimension_type":1,"dimension_value_id":"s","enum_dimension":{"enum_value_id":"s","enum_key":"s"},"dimension_value_lookup_info":{"type":"s","id":"s","code":"s"},"dimension_names":[{"locale":"s","value":"s","id":"s"}],"dimension_titles":[{"locale":"s","value":"s","id":"s"}]}],"compensation_cost_item":{"number_of_individuals_for_payment":1,"compensation_costs":[{"compensation_cost_value":"s","i18n_names":[{"locale":"s","value":"s","id":"s"}]}]},"employment_id":"s"}],"cost_allocation_report_names":[{"locale":"s","value":"s","id":"s"}],"pay_period":"s","page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"cost_allocation_report_datas":[{"data_summary_dimensions":[{"dimension_level":1,"dimension_type":1,"dimension_value_id":"s","enum_dimension":{"enum_value_id":"s","enum_key":"s"},"dimension_value_lookup_info":{"type":"s","id":"s","code":"s"},"dimension_names":[{"locale":"s","value":"s","id":"s"}],"dimension_titles":[{"locale":"s","value":"s","id":"s"}]}],"compensation_cost_item":{"number_of_individuals_for_payment":1,"compensation_costs":[{"compensation_cost_value":"s","i18n_names":[{"locale":"s","value":"s","id":"s"}]}]},"employment_id":"s"}],"cost_allocation_report_names":[{"locale":"s","value":"s","id":"s"}],"pay_period":"s","page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.payroll.v1.costAllocationDetail.listWithIterator(params: Payroll.CostAllocationDetailListQuery(pageSize: 1, costAllocationPlanId: "s", payPeriod: "s", reportType: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/payroll/v1/cost_allocation_reports") func v1_costAllocationReport_list() async throws {
@@ -124,6 +179,17 @@ import LarkPayroll
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/payroll/v1/cost_allocation_reports") func v1_costAllocationReport_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"pay_period":"s","page_token":"tok2","has_more":true,"cost_allocation_report_names":[{"locale":"s","value":"s","id":"s"}],"cost_allocation_report_datas":[{"data_summary_dimensions":[{"dimension_level":1,"dimension_type":1,"dimension_value_id":"s","enum_dimension":{"enum_value_id":"s","enum_key":"s"},"dimension_value_lookup_info":{"type":"s","id":"s","code":"s"},"dimension_names":[{"locale":"s","value":"s","id":"s"}],"dimension_titles":[{"locale":"s","value":"s","id":"s"}]}],"compensation_cost_item":{"number_of_individuals_for_payment":1,"compensation_costs":[{"compensation_cost_value":"s","i18n_names":[{"locale":"s","value":"s","id":"s"}]}]},"employment_id":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"pay_period":"s","page_token":"","has_more":false,"cost_allocation_report_names":[{"locale":"s","value":"s","id":"s"}],"cost_allocation_report_datas":[{"data_summary_dimensions":[{"dimension_level":1,"dimension_type":1,"dimension_value_id":"s","enum_dimension":{"enum_value_id":"s","enum_key":"s"},"dimension_value_lookup_info":{"type":"s","id":"s","code":"s"},"dimension_names":[{"locale":"s","value":"s","id":"s"}],"dimension_titles":[{"locale":"s","value":"s","id":"s"}]}],"compensation_cost_item":{"number_of_individuals_for_payment":1,"compensation_costs":[{"compensation_cost_value":"s","i18n_names":[{"locale":"s","value":"s","id":"s"}]}]},"employment_id":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.payroll.v1.costAllocationReport.listWithIterator(params: Payroll.CostAllocationDetailListQuery(pageSize: 1, costAllocationPlanId: "s", payPeriod: "s", reportType: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/payroll/v1/paygroups") func v1_paygroup_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"pay_group_id":"s","name":{"zh_cn":"s","en_us":"s"},"code":"s","status":1,"country_region":{"id":"s","alpha3_code":"s"},"is_global_region":true}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.payroll.v1.paygroup.list(params: Payroll.PaygroupListQuery())
@@ -133,6 +199,17 @@ import LarkPayroll
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/payroll/v1/paygroups")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/payroll/v1/paygroups") func v1_paygroup_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"pay_group_id":"s","name":{"zh_cn":"s","en_us":"s"},"code":"s","status":1,"country_region":{"id":"s","alpha3_code":"s"},"is_global_region":true}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"pay_group_id":"s","name":{"zh_cn":"s","en_us":"s"},"code":"s","status":1,"country_region":{"id":"s","alpha3_code":"s"},"is_global_region":true}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.payroll.v1.paygroup.listWithIterator(params: Payroll.PaygroupListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/payroll/v1/acct_items") func v1_acctItem_list() async throws {
@@ -145,6 +222,17 @@ import LarkPayroll
         #expect(ParityHarness.path(req) == "/open-apis/payroll/v1/acct_items")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["page_size"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/payroll/v1/acct_items") func v1_acctItem_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","i18n_names":[{"locale":"s","value":"s","id":"s"}],"category_id":"s","data_type":1,"decimal_places":1,"active_status":1}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","i18n_names":[{"locale":"s","value":"s","id":"s"}],"category_id":"s","data_type":1,"decimal_places":1,"active_status":1}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.payroll.v1.acctItem.listWithIterator(params: Payroll.DatasourceRecordQueryQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("event payroll.payment_activity.approved_v1") func event_payrollPaymentActivityApprovedV1() async throws {

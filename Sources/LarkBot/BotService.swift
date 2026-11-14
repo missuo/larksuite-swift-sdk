@@ -47,7 +47,7 @@ extension BotService.V4 {
         public func searchWithIterator(params: LarkBot.Bot.BotSearchQuery = .init(), body: LarkBot.Bot.BotSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBot.Bot.BotSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

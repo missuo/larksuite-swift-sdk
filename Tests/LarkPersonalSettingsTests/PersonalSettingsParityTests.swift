@@ -40,6 +40,17 @@ import LarkPersonalSettings
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/personal_settings/v1/system_statuses") func v1_systemStatus_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"system_status_id":"s","title":"s","i18n_title":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"icon_key":"GeneralDoNotDisturb","color":"BLUE","priority":1,"sync_setting":{"is_open_by_default":true,"title":"s","i18n_title":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"explain":"s","i18n_explain":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"system_status_id":"s","title":"s","i18n_title":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"icon_key":"GeneralDoNotDisturb","color":"BLUE","priority":1,"sync_setting":{"is_open_by_default":true,"title":"s","i18n_title":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"explain":"s","i18n_explain":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.personalSettings.v1.systemStatus.listWithIterator(params: PersonalSettings.SystemStatusListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/personal_settings/v1/system_statuses/:system_status_id/batch_close") func v1_systemStatus_batchClose() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"result_list":[{"user_id":"s","result":"success"}]}}"##)
         let resp = try await client.personalSettings.v1.systemStatus.batchClose(systemStatusId: "s", params: PersonalSettings.SystemStatusBatchCloseQuery(), body: PersonalSettings.SystemStatusBatchCloseBody(userList: ["s"]))

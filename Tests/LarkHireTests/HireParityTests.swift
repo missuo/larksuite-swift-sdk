@@ -247,6 +247,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/referral_websites/job_posts") func v1_referralWebsiteJobPost_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","title":"s","job_id":"s","job_code":"s","job_expire_time":"s","job_active_status":1,"job_process_type":1,"job_recruitment_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_department":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"min_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"max_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"address":{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}},"min_salary":"s","max_salary":"s","required_degree":1,"experience":1,"headcount":1,"high_light_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}],"description":"s","requirement":"s","creator":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"create_time":"s","modify_time":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s"}}],"job_function":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"address_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}}]}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","title":"s","job_id":"s","job_code":"s","job_expire_time":"s","job_active_status":1,"job_process_type":1,"job_recruitment_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_department":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"min_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"max_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"address":{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}},"min_salary":"s","max_salary":"s","required_degree":1,"experience":1,"headcount":1,"high_light_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}],"description":"s","requirement":"s","creator":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"create_time":"s","modify_time":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s"}}],"job_function":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"address_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}}]}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.referralWebsiteJobPost.listWithIterator(params: Hire.ReferralWebsiteJobPostListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/hire/v1/jobs/:job_id/config") func v1_job_config() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"job_config":{"offer_apply_schema":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"offer_process_conf":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"recommended_evaluator_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}],"assessment_template":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"id":"s","interview_round_list":[{"interviewer_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}],"round":1}],"job_requirement_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}],"interview_registration":{"schema_id":"s","name":"s"},"onboard_registration":{"schema_id":"s","name":"s"},"interview_round_type_list":[{"assessment_round":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"assessment_template":{"id":"s","name":{"zh_cn":"s","en_us":"s"}}}],"related_job_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}],"job_attribute":1,"interview_appointment_config":{"enable_interview_appointment_by_interviewer":true,"config":{"interview_type":1,"talent_timezone_code":"s","contact_user_id":"s","contact_mobile":"s","contact_email":"s","address_id":"s","video_type":1,"cc":["s"],"remark":"s","interview_notification_template_id":"s","appointment_notification_template_id":"s","cancel_interview_notification_template_id":"s"}},"portal_website_apply_form_schema_info":{"schema_id":"s","name":"s"}}}}"##)
         let resp = try await client.hire.v1.job.config(jobId: "s", params: Hire.TalentCombinedCreateQuery())
@@ -379,6 +390,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/locations") func v1_location_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"active_status":1}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"active_status":1}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.location.listWithIterator(params: Hire.LocationListQuery(usage: "position_location")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/hire/v1/external_referral_rewards") func v1_externalReferralReward_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"id":"s"}}"##)
         let resp = try await client.hire.v1.externalReferralReward.create(params: Hire.WebsiteDeliveryCreateByResumeQuery(), body: Hire.ExternalReferralRewardCreateBody(referralUserId: "s", externalId: "s", ruleType: 1, bonus: Hire.Bonus(), stage: 1))
@@ -477,6 +499,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/websites") func v1_website_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"process_type_list":[1],"job_channel_id":"s"}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"process_type_list":[1],"job_channel_id":"s"}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.website.listWithIterator(params: Hire.WebsiteListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/hire/v1/exam_marking_tasks") func v1_examMarkingTask_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"s","items":[{"id":"s","job_id":"s","talent_id":"s","application_id":"s","activity_status":1}]}}"##)
         let resp = try await client.hire.v1.examMarkingTask.list(params: Hire.ExamMarkingTaskListQuery(userId: "s"))
@@ -487,6 +520,17 @@ import LarkHire
         #expect(ParityHarness.path(req) == "/open-apis/hire/v1/exam_marking_tasks")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["user_id"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/hire/v1/exam_marking_tasks") func v1_examMarkingTask_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","job_id":"s","talent_id":"s","application_id":"s","activity_status":1}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","job_id":"s","talent_id":"s","application_id":"s","activity_status":1}]}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.examMarkingTask.listWithIterator(params: Hire.ExamMarkingTaskListQuery(userId: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/hire/v1/referrals/get_by_application") func v1_referral_getByApplication() async throws {
@@ -810,6 +854,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/talent_pools/") func v1_talentPool_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","i18n_name":{"zh_cn":"s","en_us":"s"},"i18n_description":{"zh_cn":"s","en_us":"s"},"parent_id":"s","is_private":1,"create_time":"s","modify_time":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","i18n_name":{"zh_cn":"s","en_us":"s"},"i18n_description":{"zh_cn":"s","en_us":"s"},"parent_id":"s","is_private":1,"create_time":"s","modify_time":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.talentPool.searchWithIterator(params: Hire.TalentPoolSearchQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/hire/v1/talent_pools/:talent_pool_id/batch_change_talent_pool") func v1_talentPool_batchChangeTalentPool() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.hire.v1.talentPool.batchChangeTalentPool(talentPoolId: "s", body: Hire.TalentPoolBatchChangeTalentPoolBody(talentIdList: ["s"], optionType: 1))
@@ -873,6 +928,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/termination_reasons") func v1_terminationReason_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"referral_name":{"zh_cn":"s","en_us":"s"},"termination_type":1,"is_used_as_evaluation":true,"active_status":1}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"referral_name":{"zh_cn":"s","en_us":"s"},"termination_type":1,"is_used_as_evaluation":true,"active_status":1}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.terminationReason.listWithIterator(params: Hire.WebsiteListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/hire/v1/jobs/:job_id/managers/batch_update") func v1_jobManager_batchUpdate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"job_manager":{"id":"s","recruiter_id":"s","hiring_manager_id_list":["s"],"assistant_id_list":["s"]}}}"##)
         let resp = try await client.hire.v1.jobManager.batchUpdate(jobId: "s", params: Hire.WebsiteDeliveryCreateByResumeQuery(), body: Hire.JobManagerBatchUpdateBody(updateOptionList: [1]))
@@ -917,6 +983,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/websites/:website_id/job_posts") func v1_websiteJobPost_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","title":"s","job_id":"s","job_code":"s","job_expire_time":"s","job_active_status":1,"job_process_type":1,"job_recruitment_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_department":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"min_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"max_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"address":{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}},"min_salary":"s","max_salary":"s","required_degree":1,"experience":1,"headcount":1,"high_light_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}],"description":"s","requirement":"s","creator":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"create_time":"s","modify_time":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s"}}],"address_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}}],"job_sequence_info":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"currency":1,"target_major_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}]}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","title":"s","job_id":"s","job_code":"s","job_expire_time":"s","job_active_status":1,"job_process_type":1,"job_recruitment_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_department":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"min_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"max_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"address":{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}},"min_salary":"s","max_salary":"s","required_degree":1,"experience":1,"headcount":1,"high_light_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}],"description":"s","requirement":"s","creator":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"create_time":"s","modify_time":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s"}}],"address_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}}],"job_sequence_info":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"currency":1,"target_major_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}]}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.websiteJobPost.listWithIterator(websiteId: "s", params: Hire.WebsiteJobPostListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/hire/v1/websites/:website_id/job_posts/search") func v1_websiteJobPost_search() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","title":"s","job_id":"s","job_code":"s","job_expire_time":"s","job_active_status":1,"job_process_type":1,"job_recruitment_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_department":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"min_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"max_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"address":{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}},"min_salary":"s","max_salary":"s","required_degree":1,"experience":1,"headcount":1,"high_light_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}],"description":"s","requirement":"s","creator":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"create_time":"s","modify_time":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s"}}],"job_function":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"subject":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"address_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}}],"job_sequence_info":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"currency":1,"target_major_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}]}],"has_more":true,"page_token":"s"}}"##)
         let resp = try await client.hire.v1.websiteJobPost.search(websiteId: "s", params: Hire.WebsiteJobPostSearchQuery(), body: Hire.WebsiteJobPostSearchBody())
@@ -926,6 +1003,17 @@ import LarkHire
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/hire/v1/websites/s/job_posts/search")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator POST /open-apis/hire/v1/websites/:website_id/job_posts/search") func v1_websiteJobPost_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","title":"s","job_id":"s","job_code":"s","job_expire_time":"s","job_active_status":1,"job_process_type":1,"job_recruitment_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_department":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"min_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"max_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"address":{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}},"min_salary":"s","max_salary":"s","required_degree":1,"experience":1,"headcount":1,"high_light_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}],"description":"s","requirement":"s","creator":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"create_time":"s","modify_time":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s"}}],"job_function":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"subject":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"address_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}}],"job_sequence_info":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"currency":1,"target_major_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}]}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","title":"s","job_id":"s","job_code":"s","job_expire_time":"s","job_active_status":1,"job_process_type":1,"job_recruitment_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_department":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"job_type":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"min_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"max_job_level":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"address":{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}},"min_salary":"s","max_salary":"s","required_degree":1,"experience":1,"headcount":1,"high_light_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}],"description":"s","requirement":"s","creator":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"create_time":"s","modify_time":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s"}}],"job_function":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"subject":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"address_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"district":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"city":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"state":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"country":{"code":"s","name":{"zh_cn":"s","en_us":"s"}}}],"job_sequence_info":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"currency":1,"target_major_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}]}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.websiteJobPost.searchWithIterator(websiteId: "s", params: Hire.WebsiteJobPostSearchQuery(), body: Hire.WebsiteJobPostSearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/hire/v1/websites/:website_id/job_posts/:job_post_id") func v1_websiteJobPost_get() async throws {
@@ -950,6 +1038,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/job_types") func v1_jobType_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"parent_id":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"parent_id":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.jobType.listWithIterator(params: Hire.JobTypeListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/hire/v1/external_applications") func v1_externalApplication_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","job_recruitment_type":1,"job_title":"s","resume_source":"s","stage":"s","talent_id":"s","termination_reason":"s","delivery_type":1,"modify_time":1,"create_time":1,"termination_type":"s"}],"has_more":true,"page_token":"s"}}"##)
         let resp = try await client.hire.v1.externalApplication.list(params: Hire.ExternalApplicationListQuery(talentId: "s"))
@@ -960,6 +1059,17 @@ import LarkHire
         #expect(ParityHarness.path(req) == "/open-apis/hire/v1/external_applications")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["talent_id"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/hire/v1/external_applications") func v1_externalApplication_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","job_recruitment_type":1,"job_title":"s","resume_source":"s","stage":"s","talent_id":"s","termination_reason":"s","delivery_type":1,"modify_time":1,"create_time":1,"termination_type":"s"}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","job_recruitment_type":1,"job_title":"s","resume_source":"s","stage":"s","talent_id":"s","termination_reason":"s","delivery_type":1,"modify_time":1,"create_time":1,"termination_type":"s"}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.externalApplication.listWithIterator(params: Hire.ExternalApplicationListQuery(talentId: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("DELETE /open-apis/hire/v1/external_applications/:external_application_id") func v1_externalApplication_delete() async throws {
@@ -1142,6 +1252,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/registration_schemas") func v1_registrationSchema_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","scenarios":[1],"objects":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"is_customized":true,"is_required":true,"is_visible":true,"active_status":1,"children_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"parent_id":"s","is_customized":true,"is_required":true,"is_visible":true,"active_status":1}]}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","scenarios":[1],"objects":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"is_customized":true,"is_required":true,"is_visible":true,"active_status":1,"children_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"parent_id":"s","is_customized":true,"is_required":true,"is_visible":true,"active_status":1}]}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.registrationSchema.listWithIterator(params: Hire.RegistrationSchemaListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/hire/v1/roles") func v1_role_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"scope_of_application":1,"modify_time":"s","role_status":1,"role_type":1}],"has_more":true,"page_token":"s"}}"##)
         let resp = try await client.hire.v1.role.list(params: Hire.WebsiteListQuery())
@@ -1151,6 +1272,17 @@ import LarkHire
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/hire/v1/roles")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/hire/v1/roles") func v1_role_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"scope_of_application":1,"modify_time":"s","role_status":1,"role_type":1}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"scope_of_application":1,"modify_time":"s","role_status":1,"role_type":1}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.role.listWithIterator(params: Hire.WebsiteListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/hire/v1/roles/:role_id") func v1_role_get() async throws {
@@ -1186,6 +1318,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/interview_records") func v1_interviewRecord_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","user_id":"s","content":"s","min_job_level_id":"s","max_job_level_id":"s","commit_status":1,"feedback_submit_time":1,"conclusion":1,"interview_score":{"id":"s","level":1,"zh_name":"s","zh_description":"s","en_name":"s","en_description":"s"},"assessment_score":{"calculate_type":1,"score":1.5,"full_score":1},"question_list":[{"id":"s","title":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"content":"s","ability_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"}}]}],"code_question_list":[{"id":"s","title":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"content":"s","ability_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"}}]}],"interviewer":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"image_list":[{"id":"s","url":"s","name":"s","mime":"s","create_time":"s"}],"dimension_assessment_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"full_score":1,"content":"s","dimension_id":"s","dimension_score":{"id":"s","name":{"zh_cn":"s","en_us":"s"},"score_val":1},"dimension_score_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"score_val":1}],"dimension_custom_score":1,"ability_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"}}],"question_list":[{"id":"s","title":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"content":"s","ability_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"}}]}],"dimension_type":1}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","user_id":"s","content":"s","min_job_level_id":"s","max_job_level_id":"s","commit_status":1,"feedback_submit_time":1,"conclusion":1,"interview_score":{"id":"s","level":1,"zh_name":"s","zh_description":"s","en_name":"s","en_description":"s"},"assessment_score":{"calculate_type":1,"score":1.5,"full_score":1},"question_list":[{"id":"s","title":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"content":"s","ability_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"}}]}],"code_question_list":[{"id":"s","title":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"content":"s","ability_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"}}]}],"interviewer":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"image_list":[{"id":"s","url":"s","name":"s","mime":"s","create_time":"s"}],"dimension_assessment_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"full_score":1,"content":"s","dimension_id":"s","dimension_score":{"id":"s","name":{"zh_cn":"s","en_us":"s"},"score_val":1},"dimension_score_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"score_val":1}],"dimension_custom_score":1,"ability_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"}}],"question_list":[{"id":"s","title":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"content":"s","ability_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"}}]}],"dimension_type":1}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.interviewRecord.listWithIterator(params: Hire.InterviewRecordListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("PATCH /open-apis/hire/v1/interviewers/:interviewer_id") func v1_interviewer_patch() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"interviewer":{"user_id":"s","verify_status":1}}}"##)
         let resp = try await client.hire.v1.interviewer.patch(interviewerId: "s", params: Hire.WebsiteDeliveryCreateByResumeQuery(), body: Hire.InterviewerPatchBody(interviewer: Hire.Interviewer()))
@@ -1208,6 +1351,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/interviewers") func v1_interviewer_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"user_id":"s","verify_status":1}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"user_id":"s","verify_status":1}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.interviewer.listWithIterator(params: Hire.InterviewerListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/hire/v1/talent_folders") func v1_talentFolder_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"s","items":[{"folder_id":"s","folder_name":"s","owner_id":"s"}]}}"##)
         let resp = try await client.hire.v1.talentFolder.list(params: Hire.TalentFolderListQuery())
@@ -1217,6 +1371,17 @@ import LarkHire
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/hire/v1/talent_folders")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/hire/v1/talent_folders") func v1_talentFolder_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"folder_id":"s","folder_name":"s","owner_id":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"folder_id":"s","folder_name":"s","owner_id":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.talentFolder.listWithIterator(params: Hire.TalentFolderListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/hire/v1/interviews/get_by_talent") func v1_interview_getByTalent() async throws {
@@ -1363,6 +1528,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/job_functions") func v1_jobFunction_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"active_status":1,"parent_id":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"active_status":1,"parent_id":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.jobFunction.listWithIterator(params: Hire.JobTypeListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/hire/v1/advertisements/:advertisement_id/publish") func v1_advertisement_publish() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.hire.v1.advertisement.publish(advertisementId: "s", body: Hire.AdvertisementPublishBody())
@@ -1451,6 +1627,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/tripartite_agreements") func v1_tripartiteAgreement_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","application_id":"s","state":1,"create_time":"s","modify_time":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","application_id":"s","state":1,"create_time":"s","modify_time":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.tripartiteAgreement.listWithIterator(params: Hire.TripartiteAgreementListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/hire/v1/tripartite_agreements") func v1_tripartiteAgreement_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"id":"s"}}"##)
         let resp = try await client.hire.v1.tripartiteAgreement.create(body: Hire.TripartiteAgreementCreateBody(applicationId: "s", state: 1, createTime: "s"))
@@ -1523,6 +1710,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/resume_sources") func v1_resumeSource_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","zh_name":"s","en_name":"s","active_status":1,"resume_source_type":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","zh_name":"s","en_name":"s","active_status":1,"resume_source_type":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.resumeSource.listWithIterator(params: Hire.JobTypeListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/hire/v1/offer_application_forms") func v1_offerApplicationForm_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"s","items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"create_time":"s"}]}}"##)
         let resp = try await client.hire.v1.offerApplicationForm.list(params: Hire.WebsiteListQuery())
@@ -1556,6 +1754,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/talent_tags") func v1_talentTag_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"type":1,"active_status":1}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"type":1,"active_status":1}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.talentTag.listWithIterator(params: Hire.TalentTagListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/hire/v1/talent_operation_logs/search") func v1_talentOperationLog_search() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"application_id":"s","talent_id":"s","operator":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"operation_type":1,"operation_time":"s","operator_type":1}],"has_more":true,"page_token":"s"}}"##)
         let resp = try await client.hire.v1.talentOperationLog.search(params: Hire.TalentOperationLogSearchQuery(), body: Hire.TalentOperationLogSearchBody(operatorIdList: ["s"], operationList: [1]))
@@ -1578,6 +1787,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/user_roles") func v1_userRole_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"user_id":"s","role_id":"s","modify_time":"s","role_name":{"zh_cn":"s","en_us":"s"},"role_description":{"zh_cn":"s","en_us":"s"},"business_management_scopes":[{"entity":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"scope_rule":{"rule_type":1}}]}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"user_id":"s","role_id":"s","modify_time":"s","role_name":{"zh_cn":"s","en_us":"s"},"role_description":{"zh_cn":"s","en_us":"s"},"business_management_scopes":[{"entity":{"code":"s","name":{"zh_cn":"s","en_us":"s"}},"scope_rule":{"rule_type":1}}]}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.userRole.listWithIterator(params: Hire.UserRoleListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("DELETE /open-apis/hire/v1/external_interviews/:external_interview_id") func v1_externalInterview_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.hire.v1.externalInterview.delete(externalInterviewId: "s")
@@ -1597,6 +1817,17 @@ import LarkHire
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/hire/v1/external_interviews/batch_query")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator POST /open-apis/hire/v1/external_interviews/batch_query") func v1_externalInterview_batchQuery_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"external_id":"s","external_application_id":"s","id":"s","participate_status":1,"begin_time":1,"end_time":1,"interview_assessments":[{"id":"s","external_id":"s","username":"s","conclusion":1,"assessment_dimension_list":[{"score":1.5,"option":"s","options":["s"],"content":"s","assessment_type":1,"title":"s","description":"s"}],"content":"s","external_interview_id":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"external_id":"s","external_application_id":"s","id":"s","participate_status":1,"begin_time":1,"end_time":1,"interview_assessments":[{"id":"s","external_id":"s","username":"s","conclusion":1,"assessment_dimension_list":[{"score":1.5,"option":"s","options":["s"],"content":"s","assessment_type":1,"title":"s","description":"s"}],"content":"s","external_interview_id":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.externalInterview.batchQueryWithIterator(params: Hire.ExternalInterviewBatchQueryQuery(), body: Hire.ExternalInterviewBatchQueryBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/hire/v1/external_interviews") func v1_externalInterview_create() async throws {
@@ -1664,6 +1895,17 @@ import LarkHire
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
+    @Test("iterator POST /open-apis/hire/v1/external_background_checks/batch_query") func v1_externalBackgroundCheck_batchQuery_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","external_id":"s","external_application_id":"s","date":1,"name":"s","result":"s","attachment_id_list":["s"],"attachment_list":[{"id":"s","name":"s","size":1}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","external_id":"s","external_application_id":"s","date":1,"name":"s","result":"s","attachment_id_list":["s"],"attachment_list":[{"id":"s","name":"s","size":1}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.externalBackgroundCheck.batchQueryWithIterator(params: Hire.ExternalInterviewBatchQueryQuery(), body: Hire.ExternalBackgroundCheckBatchQueryBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/hire/v1/todos") func v1_todo_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"evaluation":{"talent_id":"s","job_id":"s","application_id":"s","id":"s"},"offer":{"talent_id":"s","job_id":"s","application_id":"s","id":"s"},"exam":{"talent_id":"s","job_id":"s","application_id":"s","id":"s"},"interview":{"talent_id":"s","job_id":"s","application_id":"s","id":"s"}}],"has_more":true,"page_token":"s"}}"##)
         let resp = try await client.hire.v1.todo.list(params: Hire.TodoListQuery(type: "evaluation"))
@@ -1674,6 +1916,17 @@ import LarkHire
         #expect(ParityHarness.path(req) == "/open-apis/hire/v1/todos")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["type"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/hire/v1/todos") func v1_todo_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"evaluation":{"talent_id":"s","job_id":"s","application_id":"s","id":"s"},"offer":{"talent_id":"s","job_id":"s","application_id":"s","id":"s"},"exam":{"talent_id":"s","job_id":"s","application_id":"s","id":"s"},"interview":{"talent_id":"s","job_id":"s","application_id":"s","id":"s"}}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"evaluation":{"talent_id":"s","job_id":"s","application_id":"s","id":"s"},"offer":{"talent_id":"s","job_id":"s","application_id":"s","id":"s"},"exam":{"talent_id":"s","job_id":"s","application_id":"s","id":"s"},"interview":{"talent_id":"s","job_id":"s","application_id":"s","id":"s"}}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.todo.listWithIterator(params: Hire.TodoListQuery(type: "evaluation")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("DELETE /open-apis/hire/v1/external_offers/:external_offer_id") func v1_externalOffer_delete() async throws {
@@ -1695,6 +1948,17 @@ import LarkHire
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/hire/v1/external_offers/batch_query")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator POST /open-apis/hire/v1/external_offers/batch_query") func v1_externalOffer_batchQuery_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","external_id":"s","external_application_id":"s","biz_create_time":"s","owner":"s","creator":"s","offer_status":"s","attachment_id_list":["s"],"attachment_list":[{"id":"s","name":"s","size":1}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","external_id":"s","external_application_id":"s","biz_create_time":"s","owner":"s","creator":"s","offer_status":"s","attachment_id_list":["s"],"attachment_list":[{"id":"s","name":"s","size":1}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.externalOffer.batchQueryWithIterator(params: Hire.ExternalInterviewBatchQueryQuery(), body: Hire.ExternalOfferBatchQueryBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("PUT /open-apis/hire/v1/external_offers/:external_offer_id") func v1_externalOffer_update() async throws {
@@ -1740,6 +2004,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/portal_apply_schemas") func v1_portalApplySchema_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","scenarios":[1],"objects":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"is_customized":true,"is_required":true,"is_visible":true,"active_status":1,"children_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"parent_id":"s","is_customized":true,"is_required":true,"is_visible":true,"active_status":1}]}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","scenarios":[1],"objects":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"is_customized":true,"is_required":true,"is_visible":true,"active_status":1,"children_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"parent_id":"s","is_customized":true,"is_required":true,"is_visible":true,"active_status":1}]}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.portalApplySchema.listWithIterator(params: Hire.JobTypeListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/hire/v1/interview_registration_schemas") func v1_interviewRegistrationSchema_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","is_used_as_interview":true,"object_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"is_customized":true,"is_required":true,"is_visible":true,"active_status":1,"children_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"parent_id":"s","is_customized":true,"is_required":true,"is_visible":true,"active_status":1}]}]}],"has_more":true,"page_token":"s"}}"##)
         let resp = try await client.hire.v1.interviewRegistrationSchema.list(params: Hire.WebsiteListQuery())
@@ -1749,6 +2024,17 @@ import LarkHire
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/hire/v1/interview_registration_schemas")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/hire/v1/interview_registration_schemas") func v1_interviewRegistrationSchema_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","is_used_as_interview":true,"object_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"is_customized":true,"is_required":true,"is_visible":true,"active_status":1,"children_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"parent_id":"s","is_customized":true,"is_required":true,"is_visible":true,"active_status":1}]}]}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","is_used_as_interview":true,"object_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"is_customized":true,"is_required":true,"is_visible":true,"active_status":1,"children_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"setting":{"object_type":1,"config":{"options":[{"key":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"active_status":1}]}},"parent_id":"s","is_customized":true,"is_required":true,"is_visible":true,"active_status":1}]}]}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.interviewRegistrationSchema.listWithIterator(params: Hire.WebsiteListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("DELETE /open-apis/hire/v1/job_requirements/:job_requirement_id") func v1_jobRequirement_delete() async throws {
@@ -1882,6 +2168,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/interview_feedback_forms") func v1_interviewFeedbackForm_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","version":1,"name":{"zh_cn":"s","en_us":"s"},"type":1,"score_calculation_config":{"enabled":true,"calculation_mode":1},"modules":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"type":1,"sequence":1,"weight":1.5,"dimensions":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"type":1,"enabled":true,"sequence":1,"is_required":true,"weight":1.5,"score_dimension_config":{"score_dimension_type":1,"lower_limit_score":1,"upper_limit_score":1},"option_items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"score_val":1,"alias_name":{"zh_cn":"s","en_us":"s"}}],"display_not_evident":true,"ability_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"}}],"related_dimension_config":{"type":1,"related_dimension_settings":[{"dimension_id":"s","related_operator_type":1,"dimension_option_ids":["s"]}]},"dimension_ability_args":[{"ability_id":"s","place_holder":"s","en_place_holder":"s"}]}]}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","version":1,"name":{"zh_cn":"s","en_us":"s"},"type":1,"score_calculation_config":{"enabled":true,"calculation_mode":1},"modules":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"type":1,"sequence":1,"weight":1.5,"dimensions":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"type":1,"enabled":true,"sequence":1,"is_required":true,"weight":1.5,"score_dimension_config":{"score_dimension_type":1,"lower_limit_score":1,"upper_limit_score":1},"option_items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"score_val":1,"alias_name":{"zh_cn":"s","en_us":"s"}}],"display_not_evident":true,"ability_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"}}],"related_dimension_config":{"type":1,"related_dimension_settings":[{"dimension_id":"s","related_operator_type":1,"dimension_option_ids":["s"]}]},"dimension_ability_args":[{"ability_id":"s","place_holder":"s","en_place_holder":"s"}]}]}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.interviewFeedbackForm.listWithIterator(params: Hire.InterviewFeedbackFormListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/hire/v1/evaluation_tasks") func v1_evaluationTask_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"s","items":[{"id":"s","job_id":"s","talent_id":"s","application_id":"s","activity_status":1}]}}"##)
         let resp = try await client.hire.v1.evaluationTask.list(params: Hire.EvaluationTaskListQuery())
@@ -1891,6 +2188,17 @@ import LarkHire
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/hire/v1/evaluation_tasks")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/hire/v1/evaluation_tasks") func v1_evaluationTask_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","job_id":"s","talent_id":"s","application_id":"s","activity_status":1}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","job_id":"s","talent_id":"s","application_id":"s","activity_status":1}]}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.evaluationTask.listWithIterator(params: Hire.EvaluationTaskListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/hire/v1/evaluations") func v1_evaluation_list() async throws {
@@ -1904,6 +2212,17 @@ import LarkHire
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/hire/v1/evaluations") func v1_evaluation_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","application_id":"s","stage_id":"s","creator_id":"s","evaluator_id":"s","commit_status":1,"conclusion":1,"content":"s","create_time":"s","update_time":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","application_id":"s","stage_id":"s","creator_id":"s","evaluator_id":"s","commit_status":1,"conclusion":1,"content":"s","create_time":"s","update_time":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.evaluation.listWithIterator(params: Hire.EvaluationListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/hire/v1/interview_tasks") func v1_interviewTask_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"s","items":[{"id":"s","job_id":"s","talent_id":"s","application_id":"s","activity_status":1}]}}"##)
         let resp = try await client.hire.v1.interviewTask.list(params: Hire.EvaluationTaskListQuery())
@@ -1913,6 +2232,17 @@ import LarkHire
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/hire/v1/interview_tasks")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/hire/v1/interview_tasks") func v1_interviewTask_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","job_id":"s","talent_id":"s","application_id":"s","activity_status":1}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","job_id":"s","talent_id":"s","application_id":"s","activity_status":1}]}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.interviewTask.listWithIterator(params: Hire.EvaluationTaskListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/hire/v1/job_processes") func v1_jobProcess_list() async throws {
@@ -1949,6 +2279,17 @@ import LarkHire
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
+    @Test("iterator POST /open-apis/hire/v1/tests/search") func v1_test_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"test_id":"s","application_id":"s","talent_id":"s","job_id":"s","test_paper_id":"s","test_paper_name":"s","test_paper_source_id":"s","test_paper_source_name":{"zh_cn":"s","en_us":"s"},"reply_status":1,"test_status":1,"test_schedule":{"start_time":"s","end_time":"s"},"test_complete_time":"s","report_url_list":["s"],"result_detail_list":[{"subject":"s","result":"s"}],"result_upload_time":"s","score":"s","score_submit_time":"s","reviewer":"s","review_created_at":"s","created_at":"s"}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"test_id":"s","application_id":"s","talent_id":"s","job_id":"s","test_paper_id":"s","test_paper_name":"s","test_paper_source_id":"s","test_paper_source_name":{"zh_cn":"s","en_us":"s"},"reply_status":1,"test_status":1,"test_schedule":{"start_time":"s","end_time":"s"},"test_complete_time":"s","report_url_list":["s"],"result_detail_list":[{"subject":"s","result":"s"}],"result_upload_time":"s","score":"s","score_submit_time":"s","reviewer":"s","review_created_at":"s","created_at":"s"}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.hire.v1.test.searchWithIterator(params: Hire.TalentOperationLogSearchQuery(), body: Hire.TestSearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/hire/v2/talents/:talent_id") func v2_talent_get() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"talent_id":"s","basic_info":{"name":"s","mobile_number":"s","mobile_code":"s","email":"s","experience_years":1,"age":1,"nationality_code":"s","gender":1,"current_location_code":"s","hometown_location_code":"s","preferred_location_code_list":["s"],"home_address":"s","identification_type":1,"identification_number":"s","birthday":1,"marital_status":1,"customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s","customized_attachment":[{"file_id":"s","file_name":"s","content_type":"s","file_size":1}]}}],"hukou_location_code":"s","update_time":"s","create_time":"s","confidential":1},"education_list":[{"degree":1,"school_name":"s","major":"s","start_time":"s","end_time":"s","education_type":1,"academic_ranking":1,"tag_list":[1],"customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s","customized_attachment":[{"file_id":"s","file_name":"s","content_type":"s","file_size":1}]}}]}],"career_list":[{"company_name":"s","description":"s","end_time":"s","start_time":"s","title":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s","customized_attachment":[{"file_id":"s","file_name":"s","content_type":"s","file_size":1}]}}]}],"project_list":[{"project_name":"s","role":"s","link":"s","description":"s","start_time":"s","end_time":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s","customized_attachment":[{"file_id":"s","file_name":"s","content_type":"s","file_size":1}]}}]}],"works_list":[{"id":"s","link":"s","description":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s","customized_attachment":[{"file_id":"s","file_name":"s","content_type":"s","file_size":1}]}}]}],"award_list":[{"award_name":"s","award_time":"s","description":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s","customized_attachment":[{"file_id":"s","file_name":"s","content_type":"s","file_size":1}]}}]}],"language_list":[{"language":1,"proficiency":1,"customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s","customized_attachment":[{"file_id":"s","file_name":"s","content_type":"s","file_size":1}]}}]}],"sns_list":[{"sns_type":1,"link":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s","customized_attachment":[{"file_id":"s","file_name":"s","content_type":"s","file_size":1}]}}]}],"resume_source_list":[{"id":"s","zh_name":"s","en_name":"s"}],"internship_list":[{"company_name":"s","description":"s","end_time":"s","start_time":"s","title":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s","customized_attachment":[{"file_id":"s","file_name":"s","content_type":"s","file_size":1}]}}]}],"customized_data_list":[{"module_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"children":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s","customized_attachment":[{"file_id":"s","file_name":"s","content_type":"s","file_size":1}]}}]}],"resume_attachment_id_list":["s"],"resume_attachment_list":[{"id":"s","name":"s","mime":"s","create_time":"s"}],"interview_registration_list":[{"id":"s","registration_time":1,"download_url":"s"}],"registration_list":[{"id":"s","registration_time":1,"download_url":"s","scenario":1}],"is_onboarded":true,"is_in_agency_period":true,"top_degree":1,"talent_pool_id_list":["s"],"talent_folder_ref_list_v2":[{"name":"s","folder_id":"s","owner_id":"s","add_time":"s"}],"tag_list":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"type":1}],"similar_info_v2":{"is_similar_talent":true,"similar_talent_id_list":["s"]},"block_info":{"blocked_time":"s","creator_id":"s","reason":"s"},"talent_pool_ref_list_v2":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"add_time":"s"}],"note_list_v2":[{"id":"s","talent_id":"s","application_id":"s","create_time":"s","update_time":"s","creator_id":"s","content":"s","privacy":1}]}}"##)
         let resp = try await client.hire.v2.talent.get(talentId: "s", params: Hire.TalentCombinedCreateQuery())
@@ -1969,6 +2310,17 @@ import LarkHire
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/hire/v2/interview_records")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/hire/v2/interview_records") func v2_interviewRecord_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","feedback_form_id":"s","commit_status":1,"submit_time":"s","record_score":{"score":1.5,"total_score":1.5},"interviewer":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"attachments":[{"file_id":"s","file_name":"s","content_type":"s","file_size":1,"create_time":"s"}],"module_assessments":[{"interview_feedback_form_module_id":"s","module_name":{"zh_cn":"s","en_us":"s"},"module_type":1,"module_weight":1.5,"module_score":1.5,"dimension_assessments":[{"interview_feedback_form_dimension_id":"s","dimension_name":{"zh_cn":"s","en_us":"s"},"dimension_type":1,"weight":1.5,"dimension_content":"s","dimension_option":{"id":"s","name":{"zh_cn":"s","en_us":"s"},"score_val":1,"alias_name":{"zh_cn":"s","en_us":"s"}},"dimension_options":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"score_val":1,"alias_name":{"zh_cn":"s","en_us":"s"}}],"dimension_score":1,"recommended_job_level":{"lower_limit_job_level_name":{"zh_cn":"s","en_us":"s"},"higher_limit_job_level_name":{"zh_cn":"s","en_us":"s"}},"question_assessments":[{"question_type":1,"title":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"content":"s","abilities":[{"name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"}}]}],"ability_assessments":[{"id":"s","ability_id":"s","content":"s"}]}]}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","feedback_form_id":"s","commit_status":1,"submit_time":"s","record_score":{"score":1.5,"total_score":1.5},"interviewer":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"attachments":[{"file_id":"s","file_name":"s","content_type":"s","file_size":1,"create_time":"s"}],"module_assessments":[{"interview_feedback_form_module_id":"s","module_name":{"zh_cn":"s","en_us":"s"},"module_type":1,"module_weight":1.5,"module_score":1.5,"dimension_assessments":[{"interview_feedback_form_dimension_id":"s","dimension_name":{"zh_cn":"s","en_us":"s"},"dimension_type":1,"weight":1.5,"dimension_content":"s","dimension_option":{"id":"s","name":{"zh_cn":"s","en_us":"s"},"score_val":1,"alias_name":{"zh_cn":"s","en_us":"s"}},"dimension_options":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"score_val":1,"alias_name":{"zh_cn":"s","en_us":"s"}}],"dimension_score":1,"recommended_job_level":{"lower_limit_job_level_name":{"zh_cn":"s","en_us":"s"},"higher_limit_job_level_name":{"zh_cn":"s","en_us":"s"}},"question_assessments":[{"question_type":1,"title":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"content":"s","abilities":[{"name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"}}]}],"ability_assessments":[{"id":"s","ability_id":"s","content":"s"}]}]}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.hire.v2.interviewRecord.listWithIterator(params: Hire.InterviewRecordListQueryV2()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/hire/v2/interview_records/:interview_record_id") func v2_interviewRecord_get() async throws {

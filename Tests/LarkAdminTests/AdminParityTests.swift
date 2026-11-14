@@ -63,6 +63,17 @@ import LarkAdmin
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/admin/v1/badges/:badge_id/grants") func v1_badgeGrant_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"grants":[{"id":"s","badge_id":"s","name":"s","grant_type":1,"time_zone":"s","rule_detail":{"effective_time":"s","expiration_time":"s","anniversary":1,"effective_period":1},"is_grant_all":true,"user_ids":["s"],"department_ids":["s"],"group_ids":["s"]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"grants":[{"id":"s","badge_id":"s","name":"s","grant_type":1,"time_zone":"s","rule_detail":{"effective_time":"s","expiration_time":"s","anniversary":1,"effective_period":1},"is_grant_all":true,"user_ids":["s"],"department_ids":["s"],"group_ids":["s"]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.admin.v1.badgeGrant.listWithIterator(badgeId: "s", params: Admin.BadgeGrantListQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("PUT /open-apis/admin/v1/badges/:badge_id") func v1_badge_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"badge":{"id":"s","name":"s","explanation":"s","detail_image":"s","show_image":"s","i18n_name":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"i18n_explanation":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}}}"##)
         let resp = try await client.admin.v1.badge.update(badgeId: "s", body: Admin.BadgeUpdateBody(name: "s", detailImage: "s", showImage: "s"))
@@ -95,6 +106,17 @@ import LarkAdmin
         #expect(ParityHarness.path(req) == "/open-apis/admin/v1/badges")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["page_size"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/admin/v1/badges") func v1_badge_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"badges":[{"id":"s","name":"s","explanation":"s","detail_image":"s","show_image":"s","i18n_name":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"i18n_explanation":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"badges":[{"id":"s","name":"s","explanation":"s","detail_image":"s","show_image":"s","i18n_name":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"i18n_explanation":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.admin.v1.badge.listWithIterator(params: Admin.BadgeListQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/admin/v1/badges") func v1_badge_create() async throws {
@@ -141,6 +163,17 @@ import LarkAdmin
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/admin/v1/audit_infos")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/admin/v1/audit_infos") func v1_auditInfo_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"event_id":"s","unique_id":"s","event_name":"s","department_ids":["s"],"event_module":1,"operator_type":1,"operator_value":"s","objects":[{"object_type":"s","object_value":"s","object_name":"s","object_owner":"s","object_detail":{"clone_source":"s","text_detail":"s","file_name":"s","third_party_appID":"s","contain_file_num":1,"permission_setting_type":"s","permission_external_access_Type":true,"permission_share_type":"s","file_service_source":"s","okr_download_content":"s","container_type":"s","container_id":"s","current_page":"s"}}],"recipients":[{"recipient_type":"s","recipient_value":"s","recipient_detail":{"permission_action_type":"s","chat_id":"s","chat_name":"s","chat_type":1,"external_flag":true}}],"event_time":1,"ip":"s","operator_app":"s","audit_context":{"terminal_type":1,"ios_context":{"udid":"s","did":"s","app_ver":"s","ver":"s","os":"s","STZone":"s","ML":"s","sjd":"s","proxyip":"s","wifip":"s","location":"s","active_ip":"s","active_ip_detail":"s","cell_base_station":"s","IP":"s"},"pc_context":{"udid":"s","did":"s","app_ver":"s","ver":"s","os":"s","wifip":"s","region":"s","IP":"s"},"web_context":{"user_agent":"s","IP":"s"},"android_context":{"udid":"s","did":"s","app_ver":"s","ver":"s","region":"s","id_i":"s","id_r":"s","hw_brand":"s","hw_manuf":"s","wifip":"s","route_iip":"s","route_gip":"s","env_su":"s","env_tz":"s","env_ml":"s","location":"s","active_ip":"s","active_ip_detail":"s","cell_base_station":"s","IP":"s"}},"extend":{"comment_type":"s","app_detail":"s","two_step_validation":true,"login_method":"s","new_people_num_in_video":1,"external_people_num_in_video":1,"external_people_num_in_chat":1,"join_group":1,"quit_group":1,"external_people_num_in_doc_share":1},"operator_app_name":"s","common_drawers":{"common_draw_info_list":[{"info_key":"s","info_val":"s","key_i18n_key":"s","val_type":"s","val_i18n_key":"s"}]},"audit_detail":{"mc":"s","device_model":"s","os":"s","city":"s"},"operator_tenant":"s","operator_detail":{"operator_name":{"default_name":"s","i18n_value":{"zh_cn":"s","en_us":"s","ja_jp":"s"}},"tenant_name":"s"}}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"event_id":"s","unique_id":"s","event_name":"s","department_ids":["s"],"event_module":1,"operator_type":1,"operator_value":"s","objects":[{"object_type":"s","object_value":"s","object_name":"s","object_owner":"s","object_detail":{"clone_source":"s","text_detail":"s","file_name":"s","third_party_appID":"s","contain_file_num":1,"permission_setting_type":"s","permission_external_access_Type":true,"permission_share_type":"s","file_service_source":"s","okr_download_content":"s","container_type":"s","container_id":"s","current_page":"s"}}],"recipients":[{"recipient_type":"s","recipient_value":"s","recipient_detail":{"permission_action_type":"s","chat_id":"s","chat_name":"s","chat_type":1,"external_flag":true}}],"event_time":1,"ip":"s","operator_app":"s","audit_context":{"terminal_type":1,"ios_context":{"udid":"s","did":"s","app_ver":"s","ver":"s","os":"s","STZone":"s","ML":"s","sjd":"s","proxyip":"s","wifip":"s","location":"s","active_ip":"s","active_ip_detail":"s","cell_base_station":"s","IP":"s"},"pc_context":{"udid":"s","did":"s","app_ver":"s","ver":"s","os":"s","wifip":"s","region":"s","IP":"s"},"web_context":{"user_agent":"s","IP":"s"},"android_context":{"udid":"s","did":"s","app_ver":"s","ver":"s","region":"s","id_i":"s","id_r":"s","hw_brand":"s","hw_manuf":"s","wifip":"s","route_iip":"s","route_gip":"s","env_su":"s","env_tz":"s","env_ml":"s","location":"s","active_ip":"s","active_ip_detail":"s","cell_base_station":"s","IP":"s"}},"extend":{"comment_type":"s","app_detail":"s","two_step_validation":true,"login_method":"s","new_people_num_in_video":1,"external_people_num_in_video":1,"external_people_num_in_chat":1,"join_group":1,"quit_group":1,"external_people_num_in_doc_share":1},"operator_app_name":"s","common_drawers":{"common_draw_info_list":[{"info_key":"s","info_val":"s","key_i18n_key":"s","val_type":"s","val_i18n_key":"s"}]},"audit_detail":{"mc":"s","device_model":"s","os":"s","city":"s"},"operator_tenant":"s","operator_detail":{"operator_name":{"default_name":"s","i18n_value":{"zh_cn":"s","en_us":"s","ja_jp":"s"}},"tenant_name":"s"}}]}}"##])
+        var pages = 0
+        for try await _ in client.admin.v1.auditInfo.listWithIterator(params: Admin.AuditInfoListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/admin/v1/admin_user_stats") func v1_adminUserStat_list() async throws {

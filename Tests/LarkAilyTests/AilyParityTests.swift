@@ -62,6 +62,17 @@ import LarkAily
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/aily/v1/apps/:app_id/data_asset_tags") func v1_appDataAssetTag_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"data_asset_tag_id":"s","name":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"data_asset_tag_id":"s","name":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.aily.v1.appDataAssetTag.listWithIterator(appId: "s", params: Aily.AppDataAssetTagListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/aily/v1/apps/:app_id/skills") func v1_appSkill_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"skills":[{"id":"s","label":"s","description":"s","samples":["s"],"input_schema":"s","output_schema":"s"}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.aily.v1.appSkill.list(appId: "s", params: Aily.AppSkillListQuery())
@@ -71,6 +82,17 @@ import LarkAily
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/aily/v1/apps/s/skills")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/aily/v1/apps/:app_id/skills") func v1_appSkill_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"skills":[{"id":"s","label":"s","description":"s","samples":["s"],"input_schema":"s","output_schema":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"skills":[{"id":"s","label":"s","description":"s","samples":["s"],"input_schema":"s","output_schema":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.aily.v1.appSkill.listWithIterator(appId: "s", params: Aily.AppSkillListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/aily/v1/apps/:app_id/skills/:skill_id/start") func v1_appSkill_start() async throws {
@@ -150,6 +172,17 @@ import LarkAily
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/aily/v1/apps/:app_id/data_assets") func v1_appDataAsset_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"data_asset_id":"s","label":{"k":"s"},"description":{"k":"s"},"data_source_type":"excel","connect_status":"awaiting","tags":[{"data_asset_tag_id":"s","name":"s"}],"items":[{"data_asset_item_id":"s","api_name":"s","label":{"k":"s"},"description":{"k":"s"},"resources":[{"resource_id":"s","resource_type":"dataset"}]}],"connect_failed_reason":"s","import_knowledge_setting":{"chunk_setting":{"rule_type":"separator","separate_type":"paragraph","size":1,"overlap":1},"file":{"title":"s","token":"s","content":"s","mime_type":"s","url":"s"},"lark_doc":{"type":"doc","token":"s","with_sub_docs":true,"url":"s"},"lark_wiki_space":{"space_id":"s","sub_docs":[{"type":"wiki","token":"s","url":"s"}],"url":"s"},"lark_helpdesk":{"helpdesk_id":"s"}},"connect_type":"import","created_time":"s","updated_time":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"data_asset_id":"s","label":{"k":"s"},"description":{"k":"s"},"data_source_type":"excel","connect_status":"awaiting","tags":[{"data_asset_tag_id":"s","name":"s"}],"items":[{"data_asset_item_id":"s","api_name":"s","label":{"k":"s"},"description":{"k":"s"},"resources":[{"resource_id":"s","resource_type":"dataset"}]}],"connect_failed_reason":"s","import_knowledge_setting":{"chunk_setting":{"rule_type":"separator","separate_type":"paragraph","size":1,"overlap":1},"file":{"title":"s","token":"s","content":"s","mime_type":"s","url":"s"},"lark_doc":{"type":"doc","token":"s","with_sub_docs":true,"url":"s"},"lark_wiki_space":{"space_id":"s","sub_docs":[{"type":"wiki","token":"s","url":"s"}],"url":"s"},"lark_helpdesk":{"helpdesk_id":"s"}},"connect_type":"import","created_time":"s","updated_time":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.aily.v1.appDataAsset.listWithIterator(appId: "s", params: Aily.AppDataAssetListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/aily/v1/apps/:app_id/data_assets/upload_file") func v1_appDataAsset_uploadFile() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"file_info":{"token":"s","mime_type":"s"}}}"##)
         let resp = try await client.aily.v1.appDataAsset.uploadFile(appId: "s", params: Aily.AppDataAssetCreateQuery(), body: Aily.AppDataAssetUploadFileBody(file: LarkFile(data: Data("f".utf8), fileName: "f.txt")))
@@ -184,6 +217,17 @@ import LarkAily
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/aily/v1/sessions/:aily_session_id/runs") func v1_ailySessionRun_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"runs":[{"id":"s","created_at":"s","app_id":"s","session_id":"s","status":"QUEUED","started_at":"s","ended_at":"s","error":{"code":"s","message":"s"},"metadata":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"runs":[{"id":"s","created_at":"s","app_id":"s","session_id":"s","status":"QUEUED","started_at":"s","ended_at":"s","error":{"code":"s","message":"s"},"metadata":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.aily.v1.ailySessionRun.listWithIterator(ailySessionId: "s", params: Aily.AppSkillListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/aily/v1/sessions/:aily_session_id/runs/:run_id/cancel") func v1_ailySessionRun_cancel() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"run":{"id":"s","created_at":"s","app_id":"s","session_id":"s","status":"QUEUED","started_at":"s","ended_at":"s","error":{"code":"s","message":"s"},"metadata":"s"}}}"##)
         let resp = try await client.aily.v1.ailySessionRun.cancel(ailySessionId: "s", runId: "s")
@@ -215,6 +259,17 @@ import LarkAily
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/aily/v1/sessions/s/messages")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/aily/v1/sessions/:aily_session_id/messages") func v1_ailySessionAilyMessage_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"messages":[{"id":"s","session_id":"s","run_id":"s","content_type":"MDX","content":"s","files":[{"id":"s","mime_type":"s","file_name":"s","metadata":"s","created_at":"s","preview_url":{"url":"s","expired_at":"s"}}],"quote_message_id":"s","sender":{"entity_id":"s","identity_provider":"AILY","sender_type":"USER","aily_id":"s"},"mentions":[{"entity_id":"s","identity_provider":"AILY","key":"s","name":"s","aily_id":"s"}],"plain_text":"s","created_at":"s","status":"IN_PROGRESS","reasoning_content":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"messages":[{"id":"s","session_id":"s","run_id":"s","content_type":"MDX","content":"s","files":[{"id":"s","mime_type":"s","file_name":"s","metadata":"s","created_at":"s","preview_url":{"url":"s","expired_at":"s"}}],"quote_message_id":"s","sender":{"entity_id":"s","identity_provider":"AILY","sender_type":"USER","aily_id":"s"},"mentions":[{"entity_id":"s","identity_provider":"AILY","key":"s","name":"s","aily_id":"s"}],"plain_text":"s","created_at":"s","status":"IN_PROGRESS","reasoning_content":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.aily.v1.ailySessionAilyMessage.listWithIterator(ailySessionId: "s", params: Aily.AilySessionAilyMessageListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/aily/v1/sessions/:aily_session_id/messages/:aily_message_id") func v1_ailySessionAilyMessage_get() async throws {
@@ -272,6 +327,17 @@ import LarkAily
         #expect(ParityHarness.path(req) == "/open-apis/aily/v1/app_stats")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["start_at","end_at","filter_type"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/aily/v1/app_stats") func v1_tenantAppStat_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","avg_daily_active_user_num":1.5,"avg_daily_run_num":1.5,"avg_daily_credit_usage":1.5,"total_credit_usage":1.5,"owner":{"id":"s","name":"s","tenant_id":"s","lark_user_id":"s","open_user_id":"s","open_id":"s"},"app_created_at":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","avg_daily_active_user_num":1.5,"avg_daily_run_num":1.5,"avg_daily_credit_usage":1.5,"total_credit_usage":1.5,"owner":{"id":"s","name":"s","tenant_id":"s","lark_user_id":"s","open_user_id":"s","open_id":"s"},"app_created_at":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.aily.v1.tenantAppStat.listWithIterator(params: Aily.TenantAppStatListQuery(startAt: "s", endAt: "s", filterType: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/aily/v1/agents/:agent_id/chats/:agent_chat_id") func v1_agentAgentChat_get() async throws {

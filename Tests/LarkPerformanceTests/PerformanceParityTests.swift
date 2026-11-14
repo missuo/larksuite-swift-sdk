@@ -108,6 +108,17 @@ import LarkPerformance
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
+    @Test("iterator POST /open-apis/performance/v2/questions/query") func v2_question_query_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"tag_based_questions":[{"question_id":"s","name":{"zh_cn":"s","en_us":"s"},"tag_items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}]}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"tag_based_questions":[{"question_id":"s","name":{"zh_cn":"s","en_us":"s"},"tag_items":[{"id":"s","name":{"zh_cn":"s","en_us":"s"}}]}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.performance.v2.question.queryWithIterator(params: Performance.QuestionQueryQuery(), body: Performance.QuestionQueryBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/performance/v2/indicators/query") func v2_indicator_query() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"indicators":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"type":"general_review_item","options":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"lable":"s"}]}],"has_more":true,"page_token":"s"}}"##)
         let resp = try await client.performance.v2.indicator.query(params: Performance.QuestionQueryQuery(), body: Performance.IndicatorQueryBody())
@@ -117,6 +128,17 @@ import LarkPerformance
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/performance/v2/indicators/query")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator POST /open-apis/performance/v2/indicators/query") func v2_indicator_query_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"indicators":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"type":"general_review_item","options":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"lable":"s"}]}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"indicators":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"type":"general_review_item","options":[{"id":"s","name":{"zh_cn":"s","en_us":"s"},"lable":"s"}]}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.performance.v2.indicator.queryWithIterator(params: Performance.QuestionQueryQuery(), body: Performance.IndicatorQueryBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/performance/v2/activity/query") func v2_activity_query() async throws {
@@ -139,6 +161,17 @@ import LarkPerformance
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/performance/v2/metric_tags")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/performance/v2/metric_tags") func v2_metricTag_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"tag_id":"s","tag_name":{"zh_cn":"s","en_us":"s"},"index":1,"create_time":"s","update_time":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"tag_id":"s","tag_name":{"zh_cn":"s","en_us":"s"},"index":1,"create_time":"s","update_time":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.performance.v2.metricTag.listWithIterator(params: Performance.MetricTagListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/performance/v2/metric_fields/query") func v2_metricField_query() async throws {
@@ -207,6 +240,17 @@ import LarkPerformance
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
+    @Test("iterator POST /open-apis/performance/v2/review_templates/query") func v2_reviewTemplate_query_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"review_templates":[{"templates":[{"template_id":"s","name":{"zh_cn":"s","en_us":"s"},"stage_type":"s","review_stage_role":"s","review_stage_data_write_mode":"s"}],"units":[{"unit_id":"s","name":{"zh_cn":"s","en_us":"s"},"fields":[{"field_id":"s","name":{"zh_cn":"s","en_us":"s"},"indicator_id":"s","tag_based_question_id":"s","objective_text_qustion_title":{"zh_cn":"s","en_us":"s"},"keyresult_text_qustion_title":{"zh_cn":"s","en_us":"s"},"parent_field_id":"s","kpi_template_id":"s"}]}],"review_template_id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"status":"s"}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"review_templates":[{"templates":[{"template_id":"s","name":{"zh_cn":"s","en_us":"s"},"stage_type":"s","review_stage_role":"s","review_stage_data_write_mode":"s"}],"units":[{"unit_id":"s","name":{"zh_cn":"s","en_us":"s"},"fields":[{"field_id":"s","name":{"zh_cn":"s","en_us":"s"},"indicator_id":"s","tag_based_question_id":"s","objective_text_qustion_title":{"zh_cn":"s","en_us":"s"},"keyresult_text_qustion_title":{"zh_cn":"s","en_us":"s"},"parent_field_id":"s","kpi_template_id":"s"}]}],"review_template_id":"s","name":{"zh_cn":"s","en_us":"s"},"description":{"zh_cn":"s","en_us":"s"},"status":"s"}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.performance.v2.reviewTemplate.queryWithIterator(params: Performance.QuestionQueryQuery(), body: Performance.ReviewTemplateQueryBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/performance/v2/user_group_user_rels/write") func v2_userGroupUserRel_write() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"data":{"success_user_ids":["s"],"fail_user_datas":[{"user_id":"s","fail_code":1}]}}}"##)
         let resp = try await client.performance.v2.userGroupUserRel.write(params: Performance.MetricDetailImportQuery(clientToken: "s"), body: Performance.UserGroupUserRelWriteBody())
@@ -240,6 +284,17 @@ import LarkPerformance
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/performance/v2/additional_informations/query")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["semester_id"]))
+    }
+
+    @Test("iterator POST /open-apis/performance/v2/additional_informations/query") func v2_additionalInformation_query_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"additional_informations":[{"item_id":"s","external_id":"s","reviewee_user_id":"s","item":"s","time":"s","detailed_description":"s"}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"additional_informations":[{"item_id":"s","external_id":"s","reviewee_user_id":"s","item":"s","time":"s","detailed_description":"s"}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.performance.v2.additionalInformation.queryWithIterator(params: Performance.RevieweeQueryQuery(), body: Performance.AdditionalInformationQueryBody(semesterId: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("event performance.stage_task.open_result_v2") func event_performanceStageTaskOpenResultV2() async throws {

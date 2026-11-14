@@ -209,6 +209,17 @@ import LarkHelpdesk
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/helpdesk/v1/faqs") func v1_faq_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","page_size":1,"total":1,"items":[{"faq_id":"s","id":"s","helpdesk_id":"s","question":"s","answer":"s","answer_richtext":[{"content":"s","type":"s"}],"create_time":1,"update_time":1,"categories":[{"category_id":"s","id":"s","name":"s","parent_id":"s","helpdesk_id":"s","language":"s"}],"tags":["s"],"expire_time":1,"update_user":{"id":"s","avatar_url":"s","name":"s","department":"s","city":"s","country":"s"},"create_user":{"id":"s","avatar_url":"s","name":"s","department":"s","city":"s","country":"s"}}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","page_size":1,"total":1,"items":[{"faq_id":"s","id":"s","helpdesk_id":"s","question":"s","answer":"s","answer_richtext":[{"content":"s","type":"s"}],"create_time":1,"update_time":1,"categories":[{"category_id":"s","id":"s","name":"s","parent_id":"s","helpdesk_id":"s","language":"s"}],"tags":["s"],"expire_time":1,"update_user":{"id":"s","avatar_url":"s","name":"s","department":"s","city":"s","country":"s"},"create_user":{"id":"s","avatar_url":"s","name":"s","department":"s","city":"s","country":"s"}}]}}"##])
+        var pages = 0
+        for try await _ in client.helpdesk.v1.faq.listWithIterator(params: Helpdesk.FaqListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/helpdesk/v1/faqs/search") func v1_faq_search() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"s","items":[{"faq_id":"s","id":"s","helpdesk_id":"s","question":"s","answer":"s","answer_richtext":[{"content":"s","type":"s"}],"create_time":1,"update_time":1,"categories":[{"category_id":"s","id":"s","name":"s","parent_id":"s","helpdesk_id":"s","language":"s"}],"tags":["s"],"expire_time":1,"update_user":{"id":"s","avatar_url":"s","name":"s","department":"s","city":"s","country":"s"},"create_user":{"id":"s","avatar_url":"s","name":"s","department":"s","city":"s","country":"s"}}]}}"##)
         let resp = try await client.helpdesk.v1.faq.search(params: Helpdesk.FaqSearchQuery(query: "s"))
@@ -219,6 +230,17 @@ import LarkHelpdesk
         #expect(ParityHarness.path(req) == "/open-apis/helpdesk/v1/faqs/search")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["query"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/helpdesk/v1/faqs/search") func v1_faq_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"faq_id":"s","id":"s","helpdesk_id":"s","question":"s","answer":"s","answer_richtext":[{"content":"s","type":"s"}],"create_time":1,"update_time":1,"categories":[{"category_id":"s","id":"s","name":"s","parent_id":"s","helpdesk_id":"s","language":"s"}],"tags":["s"],"expire_time":1,"update_user":{"id":"s","avatar_url":"s","name":"s","department":"s","city":"s","country":"s"},"create_user":{"id":"s","avatar_url":"s","name":"s","department":"s","city":"s","country":"s"}}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"faq_id":"s","id":"s","helpdesk_id":"s","question":"s","answer":"s","answer_richtext":[{"content":"s","type":"s"}],"create_time":1,"update_time":1,"categories":[{"category_id":"s","id":"s","name":"s","parent_id":"s","helpdesk_id":"s","language":"s"}],"tags":["s"],"expire_time":1,"update_user":{"id":"s","avatar_url":"s","name":"s","department":"s","city":"s","country":"s"},"create_user":{"id":"s","avatar_url":"s","name":"s","department":"s","city":"s","country":"s"}}]}}"##])
+        var pages = 0
+        for try await _ in client.helpdesk.v1.faq.searchWithIterator(params: Helpdesk.FaqSearchQuery(query: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/helpdesk/v1/faqs") func v1_faq_create() async throws {
@@ -399,6 +421,17 @@ import LarkHelpdesk
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/helpdesk/v1/ticket_customized_fields")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator GET /open-apis/helpdesk/v1/ticket_customized_fields") func v1_ticketCustomizedField_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"next_page_token":"tok2","items":[{"ticket_customized_field_id":"s","helpdesk_id":"s","key_name":"s","display_name":"s","position":"s","field_type":"s","description":"s","visible":true,"editable":true,"required":true,"created_at":"s","updated_at":"s","created_by":{"id":"s","avatar_url":"s","name":"s","email":"s","department":"s","city":"s","country":"s"},"updated_by":{"id":"s","avatar_url":"s","name":"s","email":"s","department":"s","city":"s","country":"s"},"dropdown_allow_multiple":true}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"next_page_token":"","items":[{"ticket_customized_field_id":"s","helpdesk_id":"s","key_name":"s","display_name":"s","position":"s","field_type":"s","description":"s","visible":true,"editable":true,"required":true,"created_at":"s","updated_at":"s","created_by":{"id":"s","avatar_url":"s","name":"s","email":"s","department":"s","city":"s","country":"s"},"updated_by":{"id":"s","avatar_url":"s","name":"s","email":"s","department":"s","city":"s","country":"s"},"dropdown_allow_multiple":true}]}}"##])
+        var pages = 0
+        for try await _ in client.helpdesk.v1.ticketCustomizedField.listWithIterator(params: Helpdesk.TicketCustomizedFieldListQuery(), body: Helpdesk.TicketCustomizedFieldListBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("PATCH /open-apis/helpdesk/v1/ticket_customized_fields/:ticket_customized_field_id") func v1_ticketCustomizedField_patch() async throws {

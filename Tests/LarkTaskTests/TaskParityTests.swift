@@ -30,6 +30,17 @@ import LarkTask
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/task/v1/tasks") func v1_task_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","summary":"s","description":"s","complete_time":"s","creator_id":"s","extra":"s","create_time":"s","update_time":"s","due":{"time":"s","timezone":"s","is_all_day":true},"origin":{"platform_i18n_name":"s","href":{"url":"s","title":"s"}},"can_edit":true,"custom":"s","source":1,"followers":[{"id":"s","id_list":["s"]}],"collaborators":[{"id":"s","id_list":["s"]}],"collaborator_ids":["s"],"follower_ids":["s"],"repeat_rule":"s","rich_summary":"s","rich_description":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","summary":"s","description":"s","complete_time":"s","creator_id":"s","extra":"s","create_time":"s","update_time":"s","due":{"time":"s","timezone":"s","is_all_day":true},"origin":{"platform_i18n_name":"s","href":{"url":"s","title":"s"}},"can_edit":true,"custom":"s","source":1,"followers":[{"id":"s","id_list":["s"]}],"collaborators":[{"id":"s","id_list":["s"]}],"collaborator_ids":["s"],"follower_ids":["s"],"repeat_rule":"s","rich_summary":"s","rich_description":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v1.task.listWithIterator(params: TaskAPI.TaskListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/task/v1/tasks/:task_id/batch_delete_follower") func v1_task_batchDeleteFollower() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"followers":["s"]}}"##)
         let resp = try await client.task.v1.task.batchDeleteFollower(taskId: "s", params: TaskAPI.TaskGetQuery(), body: TaskAPI.TaskBatchDeleteFollowerBody())
@@ -147,6 +158,17 @@ import LarkTask
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/task/v1/tasks/:task_id/comments") func v1_taskComment_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"content":"s","parent_id":"s","id":"s","create_milli_time":"s","rich_content":"s","creator_id":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"content":"s","parent_id":"s","id":"s","create_milli_time":"s","rich_content":"s","creator_id":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v1.taskComment.listWithIterator(taskId: "s", params: TaskAPI.TaskCommentListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/task/v1/tasks/:task_id/comments") func v1_taskComment_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"comment":{"content":"s","parent_id":"s","id":"s","create_milli_time":"s","rich_content":"s","creator_id":"s"}}}"##)
         let resp = try await client.task.v1.taskComment.create(taskId: "s", params: TaskAPI.TaskGetQuery(), body: TaskAPI.TaskCommentCreateBody())
@@ -167,6 +189,17 @@ import LarkTask
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/task/v1/tasks/s/collaborators")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/task/v1/tasks/:task_id/collaborators") func v1_taskCollaborator_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","id_list":["s"]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","id_list":["s"]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v1.taskCollaborator.listWithIterator(taskId: "s", params: TaskAPI.TaskCollaboratorListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("DELETE /open-apis/task/v1/tasks/:task_id/collaborators/:collaborator_id") func v1_taskCollaborator_delete() async throws {
@@ -201,6 +234,17 @@ import LarkTask
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/task/v1/tasks/:task_id/followers") func v1_taskFollower_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","id_list":["s"]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","id_list":["s"]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v1.taskFollower.listWithIterator(taskId: "s", params: TaskAPI.TaskCollaboratorListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/task/v1/tasks/:task_id/followers") func v1_taskFollower_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"follower":{"id":"s","id_list":["s"]}}}"##)
         let resp = try await client.task.v1.taskFollower.create(taskId: "s", params: TaskAPI.TaskGetQuery(), body: TaskAPI.Follower())
@@ -231,6 +275,17 @@ import LarkTask
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/task/v1/tasks/s/reminders")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/task/v1/tasks/:task_id/reminders") func v1_taskReminder_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","relative_fire_minute":1}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","relative_fire_minute":1}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v1.taskReminder.listWithIterator(taskId: "s", params: TaskAPI.TaskReminderListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/task/v1/tasks/:task_id/reminders") func v1_taskReminder_create() async throws {
@@ -308,6 +363,17 @@ import LarkTask
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
+    @Test("iterator POST /open-apis/task/v2/tasks/search") func v2_task_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","display_info":"s","meta_data":{"app_link":"s","avatar":"s","description":"s"}}],"total":1,"has_more":true,"page_token":"tok2","notice":"s"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","display_info":"s","meta_data":{"app_link":"s","avatar":"s","description":"s"}}],"total":1,"has_more":false,"page_token":"","notice":"s"}}"##])
+        var pages = 0
+        for try await _ in client.task.v2.task.searchWithIterator(params: TaskAPI.TaskCollaboratorListQuery(), body: TaskAPI.TaskSearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/task/v2/tasks/:task_guid/set_ancestor_task") func v2_task_setAncestorTask() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.task.v2.task.setAncestorTask(taskGuid: "s", body: TaskAPI.TaskSetAncestorTaskBody())
@@ -338,6 +404,17 @@ import LarkTask
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/task/v2/tasks")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/task/v2/tasks") func v2_task_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","summary":"s","description":"s","due":{"timestamp":"s","is_all_day":true},"reminders":[{"id":"s","relative_fire_minute":1}],"creator":{"id":"s","type":"s","role":"s","name":"s"},"members":[{"id":"s","type":"s","role":"s","name":"s"}],"completed_at":"s","attachments":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s"}],"origin":{"platform_i18n_name":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"},"href":{"url":"s","title":"s"},"refer_resources":[{"resource_id":"s","type":"s","source_message":{"message_id":"s","content":"s"},"unavailable_reason":"s"}]},"extra":"s","tasklists":[{"tasklist_guid":"s","section_guid":"s"}],"repeat_rule":"s","parent_task_guid":"s","mode":1,"source":1,"custom_complete":{"pc":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"ios":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"android":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}}},"task_id":"s","created_at":"s","updated_at":"s","status":"s","url":"s","start":{"timestamp":"s","is_all_day":true},"subtask_count":1,"is_milestone":true,"custom_fields":[{"guid":"s","type":"s","number_value":"s","datetime_value":"s","member_value":[{"id":"s","type":"s","role":"s","name":"s"}],"single_select_value":"s","multi_select_value":["s"],"name":"s","text_value":"s"}],"dependencies":[{"type":"prev","task_guid":"s"}],"assignee_related":[{"id":"s","completed_at":"s"}],"positive_reminders":[{"id":"s","relative_fire_minute":1}],"agent_task_status":1,"agent_task_progress":"s","text_deliveries":["s"],"attachment_deliveries":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s","url":"s"}],"next_task_guid":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","summary":"s","description":"s","due":{"timestamp":"s","is_all_day":true},"reminders":[{"id":"s","relative_fire_minute":1}],"creator":{"id":"s","type":"s","role":"s","name":"s"},"members":[{"id":"s","type":"s","role":"s","name":"s"}],"completed_at":"s","attachments":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s"}],"origin":{"platform_i18n_name":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"},"href":{"url":"s","title":"s"},"refer_resources":[{"resource_id":"s","type":"s","source_message":{"message_id":"s","content":"s"},"unavailable_reason":"s"}]},"extra":"s","tasklists":[{"tasklist_guid":"s","section_guid":"s"}],"repeat_rule":"s","parent_task_guid":"s","mode":1,"source":1,"custom_complete":{"pc":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"ios":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"android":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}}},"task_id":"s","created_at":"s","updated_at":"s","status":"s","url":"s","start":{"timestamp":"s","is_all_day":true},"subtask_count":1,"is_milestone":true,"custom_fields":[{"guid":"s","type":"s","number_value":"s","datetime_value":"s","member_value":[{"id":"s","type":"s","role":"s","name":"s"}],"single_select_value":"s","multi_select_value":["s"],"name":"s","text_value":"s"}],"dependencies":[{"type":"prev","task_guid":"s"}],"assignee_related":[{"id":"s","completed_at":"s"}],"positive_reminders":[{"id":"s","relative_fire_minute":1}],"agent_task_status":1,"agent_task_progress":"s","text_deliveries":["s"],"attachment_deliveries":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s","url":"s"}],"next_task_guid":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v2.task.listWithIterator(params: TaskAPI.TaskListQueryV2()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/task/v2/tasks/:task_guid/add_reminders") func v2_task_addReminders() async throws {
@@ -451,6 +528,17 @@ import LarkTask
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/task/v2/comments") func v2_comment_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","content":"s","creator":{"id":"s","type":"s","role":"s","name":"s"},"reply_to_comment_id":"s","created_at":"s","updated_at":"s","resource_type":"s","resource_id":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","content":"s","creator":{"id":"s","type":"s","role":"s","name":"s"},"reply_to_comment_id":"s","created_at":"s","updated_at":"s","resource_type":"s","resource_id":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v2.comment.listWithIterator(params: TaskAPI.CommentListQuery(resourceId: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("DELETE /open-apis/task/v2/comments/:comment_id") func v2_comment_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.task.v2.comment.delete(commentId: "s")
@@ -505,6 +593,17 @@ import LarkTask
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/task/v2/sections/:section_guid/tasks") func v2_section_tasks_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","summary":"s","completed_at":"s","start":{"timestamp":"s","is_all_day":true},"due":{"timestamp":"s","is_all_day":true},"members":[{"id":"s","type":"s","role":"s","name":"s"}],"subtask_count":1}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","summary":"s","completed_at":"s","start":{"timestamp":"s","is_all_day":true},"due":{"timestamp":"s","is_all_day":true},"members":[{"id":"s","type":"s","role":"s","name":"s"}],"subtask_count":1}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v2.section.tasksWithIterator(sectionGuid: "s", params: TaskAPI.SectionTasksQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("DELETE /open-apis/task/v2/sections/:section_guid") func v2_section_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.task.v2.section.delete(sectionGuid: "s")
@@ -536,6 +635,17 @@ import LarkTask
         #expect(ParityHarness.path(req) == "/open-apis/task/v2/sections")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["resource_type"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/task/v2/sections") func v2_section_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","name":"s","is_default":true}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","name":"s","is_default":true}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v2.section.listWithIterator(params: TaskAPI.SectionListQuery(resourceType: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/task/v2/sections") func v2_section_create() async throws {
@@ -592,6 +702,17 @@ import LarkTask
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/task/v2/tasklists") func v2_tasklist_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","name":"s","creator":{"id":"s","type":"s","role":"s","name":"s"},"owner":{"id":"s","type":"s","role":"s","name":"s"},"members":[{"id":"s","type":"s","role":"s","name":"s"}],"url":"s","created_at":"s","updated_at":"s","archive_msec":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","name":"s","creator":{"id":"s","type":"s","role":"s","name":"s"},"owner":{"id":"s","type":"s","role":"s","name":"s"},"members":[{"id":"s","type":"s","role":"s","name":"s"}],"url":"s","created_at":"s","updated_at":"s","archive_msec":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v2.tasklist.listWithIterator(params: TaskAPI.TasklistListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/task/v2/tasklists/:tasklist_guid/add_members") func v2_tasklist_addMembers() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"tasklist":{"guid":"s","name":"s","creator":{"id":"s","type":"s","role":"s","name":"s"},"owner":{"id":"s","type":"s","role":"s","name":"s"},"members":[{"id":"s","type":"s","role":"s","name":"s"}],"url":"s","created_at":"s","updated_at":"s","archive_msec":"s"}}}"##)
         let resp = try await client.task.v2.tasklist.addMembers(tasklistGuid: "s", params: TaskAPI.TaskAddMembersQuery(), body: TaskAPI.TasklistAddMembersBody(members: [TaskAPI.Member()]))
@@ -645,6 +766,17 @@ import LarkTask
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/task/v2/tasklists/search")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator POST /open-apis/task/v2/tasklists/search") func v2_tasklist_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","display_info":"s","meta_data":{"app_link":"s","avatar":"s","description":"s"}}],"total":1,"has_more":true,"page_token":"tok2","notice":"s"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","display_info":"s","meta_data":{"app_link":"s","avatar":"s","description":"s"}}],"total":1,"has_more":false,"page_token":"","notice":"s"}}"##])
+        var pages = 0
+        for try await _ in client.task.v2.tasklist.searchWithIterator(params: TaskAPI.TaskCollaboratorListQuery(), body: TaskAPI.TasklistSearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/task/v2/custom_fields/:custom_field_guid") func v2_customField_get() async throws {
@@ -709,6 +841,17 @@ import LarkTask
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/task/v2/custom_fields")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/task/v2/custom_fields") func v2_customField_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","name":"s","type":"s","number_setting":{"format":"normal","custom_symbol":"s","custom_symbol_position":"left","separator":"none","decimal_count":1},"member_setting":{"multi":true},"datetime_setting":{"format":"s"},"single_select_setting":{"options":[{"guid":"s","name":"s","color_index":1,"is_hidden":true}]},"multi_select_setting":{"options":[{"guid":"s","name":"s","color_index":1,"is_hidden":true}]},"creator":{"id":"s","type":"s","role":"s","name":"s"},"created_at":"s","updated_at":"s","text_setting":{}}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","name":"s","type":"s","number_setting":{"format":"normal","custom_symbol":"s","custom_symbol_position":"left","separator":"none","decimal_count":1},"member_setting":{"multi":true},"datetime_setting":{"format":"s"},"single_select_setting":{"options":[{"guid":"s","name":"s","color_index":1,"is_hidden":true}]},"multi_select_setting":{"options":[{"guid":"s","name":"s","color_index":1,"is_hidden":true}]},"creator":{"id":"s","type":"s","role":"s","name":"s"},"created_at":"s","updated_at":"s","text_setting":{}}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v2.customField.listWithIterator(params: TaskAPI.CustomFieldListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/task/v2/tasklists/:tasklist_guid/activity_subscriptions/:activity_subscription_guid") func v2_tasklistActivitySubscription_get() async throws {
@@ -811,6 +954,17 @@ import LarkTask
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/task/v2/attachments") func v2_attachment_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s","url":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s","url":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v2.attachment.listWithIterator(params: TaskAPI.AttachmentListQuery(resourceId: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("PATCH /open-apis/task/v2/custom_fields/:custom_field_guid/options/:option_guid") func v2_customFieldOption_patch() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"option":{"guid":"s","name":"s","color_index":1,"is_hidden":true}}}"##)
         let resp = try await client.task.v2.customFieldOption.patch(customFieldGuid: "s", optionGuid: "s", body: TaskAPI.CustomFieldOptionPatchBody())
@@ -855,6 +1009,17 @@ import LarkTask
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/task/v2/task_v2/list_related_task") func v2_taskV2_listRelatedTask_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","summary":"s","description":"s","due":{"timestamp":"s","is_all_day":true},"reminders":[{"id":"s","relative_fire_minute":1}],"creator":{"id":"s","type":"s","role":"s","name":"s"},"members":[{"id":"s","type":"s","role":"s","name":"s"}],"completed_at":"s","attachments":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s","url":"s"}],"origin":{"platform_i18n_name":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"},"href":{"url":"s","title":"s"},"refer_resources":[{"resource_id":"s","type":"s","source_message":{"message_id":"s","content":"s"},"unavailable_reason":"s"}]},"extra":"s","tasklists":[{"tasklist_guid":"s","section_guid":"s"}],"repeat_rule":"s","parent_task_guid":"s","mode":1,"source":1,"custom_complete":{"pc":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"ios":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"android":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}}},"task_id":"s","created_at":"s","updated_at":"s","status":"s","url":"s","start":{"timestamp":"s","is_all_day":true},"subtask_count":1,"is_milestone":true,"custom_fields":[{"guid":"s","type":"s","number_value":"s","datetime_value":"s","member_value":[{"id":"s","type":"s","role":"s","name":"s"}],"single_select_value":"s","multi_select_value":["s"],"name":"s","text_value":"s"}],"dependencies":[{"type":"prev","task_guid":"s"}],"assignee_related":[{"id":"s","completed_at":"s"}],"positive_reminders":[{"id":"s","relative_fire_minute":1}],"agent_task_status":1,"agent_task_progress":"s","text_deliveries":["s"],"attachment_deliveries":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s","url":"s"}],"next_task_guid":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","summary":"s","description":"s","due":{"timestamp":"s","is_all_day":true},"reminders":[{"id":"s","relative_fire_minute":1}],"creator":{"id":"s","type":"s","role":"s","name":"s"},"members":[{"id":"s","type":"s","role":"s","name":"s"}],"completed_at":"s","attachments":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s","url":"s"}],"origin":{"platform_i18n_name":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"},"href":{"url":"s","title":"s"},"refer_resources":[{"resource_id":"s","type":"s","source_message":{"message_id":"s","content":"s"},"unavailable_reason":"s"}]},"extra":"s","tasklists":[{"tasklist_guid":"s","section_guid":"s"}],"repeat_rule":"s","parent_task_guid":"s","mode":1,"source":1,"custom_complete":{"pc":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"ios":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"android":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}}},"task_id":"s","created_at":"s","updated_at":"s","status":"s","url":"s","start":{"timestamp":"s","is_all_day":true},"subtask_count":1,"is_milestone":true,"custom_fields":[{"guid":"s","type":"s","number_value":"s","datetime_value":"s","member_value":[{"id":"s","type":"s","role":"s","name":"s"}],"single_select_value":"s","multi_select_value":["s"],"name":"s","text_value":"s"}],"dependencies":[{"type":"prev","task_guid":"s"}],"assignee_related":[{"id":"s","completed_at":"s"}],"positive_reminders":[{"id":"s","relative_fire_minute":1}],"agent_task_status":1,"agent_task_progress":"s","text_deliveries":["s"],"attachment_deliveries":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s","url":"s"}],"next_task_guid":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v2.taskV2.listRelatedTaskWithIterator(params: TaskAPI.TaskV2ListRelatedTaskQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/task/v2/tasks/:task_guid/subtasks") func v2_taskSubtask_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","summary":"s","description":"s","due":{"timestamp":"s","is_all_day":true},"reminders":[{"id":"s","relative_fire_minute":1}],"creator":{"id":"s","type":"s","role":"s","name":"s"},"members":[{"id":"s","type":"s","role":"s","name":"s"}],"completed_at":"s","attachments":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s"}],"origin":{"platform_i18n_name":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"},"href":{"url":"s","title":"s"},"refer_resources":[{"resource_id":"s","type":"s","source_message":{"message_id":"s","content":"s"},"unavailable_reason":"s"}]},"extra":"s","tasklists":[{"tasklist_guid":"s","section_guid":"s"}],"repeat_rule":"s","parent_task_guid":"s","mode":1,"source":1,"custom_complete":{"pc":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"ios":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"android":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}}},"task_id":"s","created_at":"s","updated_at":"s","status":"s","url":"s","start":{"timestamp":"s","is_all_day":true},"subtask_count":1,"is_milestone":true,"custom_fields":[{"guid":"s","type":"s","number_value":"s","datetime_value":"s","member_value":[{"id":"s","type":"s","role":"s","name":"s"}],"single_select_value":"s","multi_select_value":["s"],"name":"s","text_value":"s"}],"dependencies":[{"type":"prev","task_guid":"s"}],"assignee_related":[{"id":"s","completed_at":"s"}],"positive_reminders":[{"id":"s","relative_fire_minute":1}],"agent_task_status":1,"agent_task_progress":"s","text_deliveries":["s"],"attachment_deliveries":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s","url":"s"}],"next_task_guid":"s"}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.task.v2.taskSubtask.list(taskGuid: "s", params: TaskAPI.TasklistListQuery())
@@ -864,6 +1029,17 @@ import LarkTask
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/task/v2/tasks/s/subtasks")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/task/v2/tasks/:task_guid/subtasks") func v2_taskSubtask_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","summary":"s","description":"s","due":{"timestamp":"s","is_all_day":true},"reminders":[{"id":"s","relative_fire_minute":1}],"creator":{"id":"s","type":"s","role":"s","name":"s"},"members":[{"id":"s","type":"s","role":"s","name":"s"}],"completed_at":"s","attachments":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s"}],"origin":{"platform_i18n_name":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"},"href":{"url":"s","title":"s"},"refer_resources":[{"resource_id":"s","type":"s","source_message":{"message_id":"s","content":"s"},"unavailable_reason":"s"}]},"extra":"s","tasklists":[{"tasklist_guid":"s","section_guid":"s"}],"repeat_rule":"s","parent_task_guid":"s","mode":1,"source":1,"custom_complete":{"pc":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"ios":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"android":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}}},"task_id":"s","created_at":"s","updated_at":"s","status":"s","url":"s","start":{"timestamp":"s","is_all_day":true},"subtask_count":1,"is_milestone":true,"custom_fields":[{"guid":"s","type":"s","number_value":"s","datetime_value":"s","member_value":[{"id":"s","type":"s","role":"s","name":"s"}],"single_select_value":"s","multi_select_value":["s"],"name":"s","text_value":"s"}],"dependencies":[{"type":"prev","task_guid":"s"}],"assignee_related":[{"id":"s","completed_at":"s"}],"positive_reminders":[{"id":"s","relative_fire_minute":1}],"agent_task_status":1,"agent_task_progress":"s","text_deliveries":["s"],"attachment_deliveries":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s","url":"s"}],"next_task_guid":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"guid":"s","summary":"s","description":"s","due":{"timestamp":"s","is_all_day":true},"reminders":[{"id":"s","relative_fire_minute":1}],"creator":{"id":"s","type":"s","role":"s","name":"s"},"members":[{"id":"s","type":"s","role":"s","name":"s"}],"completed_at":"s","attachments":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s"}],"origin":{"platform_i18n_name":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"},"href":{"url":"s","title":"s"},"refer_resources":[{"resource_id":"s","type":"s","source_message":{"message_id":"s","content":"s"},"unavailable_reason":"s"}]},"extra":"s","tasklists":[{"tasklist_guid":"s","section_guid":"s"}],"repeat_rule":"s","parent_task_guid":"s","mode":1,"source":1,"custom_complete":{"pc":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"ios":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}},"android":{"href":"s","tip":{"en_us":"s","zh_cn":"s","zh_hk":"s","zh_tw":"s","ja_jp":"s","fr_fr":"s","it_it":"s","de_de":"s","ru_ru":"s","th_th":"s","es_es":"s","ko_kr":"s"}}},"task_id":"s","created_at":"s","updated_at":"s","status":"s","url":"s","start":{"timestamp":"s","is_all_day":true},"subtask_count":1,"is_milestone":true,"custom_fields":[{"guid":"s","type":"s","number_value":"s","datetime_value":"s","member_value":[{"id":"s","type":"s","role":"s","name":"s"}],"single_select_value":"s","multi_select_value":["s"],"name":"s","text_value":"s"}],"dependencies":[{"type":"prev","task_guid":"s"}],"assignee_related":[{"id":"s","completed_at":"s"}],"positive_reminders":[{"id":"s","relative_fire_minute":1}],"agent_task_status":1,"agent_task_progress":"s","text_deliveries":["s"],"attachment_deliveries":[{"guid":"s","file_token":"s","name":"s","size":1,"resource":{"type":"s","id":"s"},"uploader":{"id":"s","type":"s","role":"s","name":"s"},"is_cover":true,"uploaded_at":"s","url":"s"}],"next_task_guid":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.task.v2.taskSubtask.listWithIterator(taskGuid: "s", params: TaskAPI.TasklistListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/task/v2/tasks/:task_guid/subtasks") func v2_taskSubtask_create() async throws {

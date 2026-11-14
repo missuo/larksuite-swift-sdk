@@ -384,6 +384,17 @@ import LarkAPaaS
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/apaas/v1/seat_assignments") func v1_seatAssignment_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"user_id":1,"namespace":"s","status":"in_use"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"user_id":1,"namespace":"s","status":"in_use"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.apaas.v1.seatAssignment.listWithIterator(params: APaaS.SeatAssignmentListQuery(seatType: "per_user", pageSize: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/apaas/v1/seat_activities") func v1_seatActivity_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"user_id":1,"namespace":"s","status":"in_use","active_time":1}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.apaas.v1.seatActivity.list(params: APaaS.SeatAssignmentListQuery(seatType: "per_user", pageSize: "s"))
@@ -396,6 +407,17 @@ import LarkAPaaS
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/apaas/v1/seat_activities") func v1_seatActivity_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"user_id":1,"namespace":"s","status":"in_use","active_time":1}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"user_id":1,"namespace":"s","status":"in_use","active_time":1}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.apaas.v1.seatActivity.listWithIterator(params: APaaS.SeatAssignmentListQuery(seatType: "per_user", pageSize: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/apaas/v1/apps") func v1_app_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"name":[{"language_code":"s","text":"s"}],"namespace":"s","created_at":1,"creator":1,"owner":1,"status":"pending_launch","app_roles_info":{"admins":[1],"developers":[1],"test_users":[1],"data_admins":[1]},"icon":"s","description":[{"language_code":"s","text":"s"}],"type":"custom","enable_status":"enabled","release_status":"released","service_status":"available","service_unavailable_reason":"from_isv","feature_set":"paid","charge_mode":"per_user_per_app","isv_tenant":{"id":"s","name":"s"}}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.apaas.v1.app.list(params: APaaS.AppListQuery())
@@ -405,6 +427,17 @@ import LarkAPaaS
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/apaas/v1/apps")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/apaas/v1/apps") func v1_app_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"name":[{"language_code":"s","text":"s"}],"namespace":"s","created_at":1,"creator":1,"owner":1,"status":"pending_launch","app_roles_info":{"admins":[1],"developers":[1],"test_users":[1],"data_admins":[1]},"icon":"s","description":[{"language_code":"s","text":"s"}],"type":"custom","enable_status":"enabled","release_status":"released","service_status":"available","service_unavailable_reason":"from_isv","feature_set":"paid","charge_mode":"per_user_per_app","isv_tenant":{"id":"s","name":"s"}}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"name":[{"language_code":"s","text":"s"}],"namespace":"s","created_at":1,"creator":1,"owner":1,"status":"pending_launch","app_roles_info":{"admins":[1],"developers":[1],"test_users":[1],"data_admins":[1]},"icon":"s","description":[{"language_code":"s","text":"s"}],"type":"custom","enable_status":"enabled","release_status":"released","service_status":"available","service_unavailable_reason":"from_isv","feature_set":"paid","charge_mode":"per_user_per_app","isv_tenant":{"id":"s","name":"s"}}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.apaas.v1.app.listWithIterator(params: APaaS.AppListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("PATCH /open-apis/apaas/v1/workspaces/:workspace_id/tables/:table_name/records_batch_update") func v1_workspaceTable_recordsBatchUpdate() async throws {

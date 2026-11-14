@@ -518,39 +518,53 @@ function genMethod(reg, m, versionSuffix) {
 
     reg.tests.push({ m, pathArgs, queryType, bodyType, respType, qFields, dFields });
 
-    // Pagination helper
-    const t_qFields = qFields;
-    if (m.paginated && queryProps && queryProps.find((p) => p.raw === 'page_token') && respType && respType !== 'JSONValue' && respType !== 'LarkEmpty') {
+    // Pagination helper (node-sdk's `xxxWithIterator`). node's loop: send `page_token` (undefined on
+    // the first request, so a caller-supplied page_token is ignored), yield `data`, continue while
+    // `Boolean(has_more)`, next token = `page_token || next_page_token`. Swift additionally stops
+    // when no token comes back (node would re-request the first page forever).
+    if (m.paginated && !m.isStream && respType && respType !== 'JSONValue' && respType !== 'LarkEmpty') {
+        const t_qFields = qFields;
+        const queryToken = !!(queryProps && queryProps.find((p) => p.raw === 'page_token'));
         const dataField = m.response.fields.find((f) => f.name === 'data');
         const dnames = dataField.type.fields.map((f) => f.name);
-        const hasMore = dnames.includes('has_more') ? 'r.data?.hasMore ?? false' : 'true';
+        const hasMoreField = dnames.includes('has_more');
+        const hasMore = hasMoreField ? 'r.data?.hasMore ?? false' : 'false';
         const isNum = (f) => f && (f.type.kind === 'number' || (f.type.kind === 'enum' && f.type.base === 'number'));
         const tokenParts = [];
+        let tokenField = null;
         for (const [raw, prop] of [['page_token', 'pageToken'], ['next_page_token', 'nextPageToken']]) {
             const f = dataField.type.fields.find((x) => x.name === raw);
-            if (f) tokenParts.push(isNum(f) ? `r.data?.${prop}.map { String($0) }` : `r.data?.${prop}`);
+            if (f) {
+                tokenParts.push(isNum(f) ? `r.data?.${prop}.map { String($0) }` : `r.data?.${prop}`);
+                if (!tokenField) tokenField = { raw, num: isNum(f) };
+            }
         }
-        const qTokenField = t_qFields.find((f) => f.name === 'page_token');
-        const assign = isNum(qTokenField) ? 'if let token, let n = Int(token) { p.pageToken = n }' : 'if let token { p.pageToken = token }';
         const token = tokenParts.length ? tokenParts.join(' ?? ') : 'nil';
-        const itArgs = args.join(', ');
-        const passArgs = [
-            ...pathArgs.map((p) => `${p.name}: ${ident(p.name)}`),
-            'params: p',
-            ...(bodyType ? ['body: body'] : []),
-            'options: options',
-        ].join(', ');
         const rt = `${reg.qns}.${respType}`;
         lines.push('');
         lines.push(`            /// Iterates over every page of \`${m.name}\` (equivalent of \`${m.name}WithIterator\`).`);
-        lines.push(`            public func ${m.name}WithIterator(${itArgs}) -> LarkPageSequence<${rt}> {`);
+        lines.push(`            public func ${m.name}WithIterator(${args.join(', ')}) -> LarkPageSequence<${rt}> {`);
         lines.push(`                LarkPageSequence { token in`);
-        lines.push(`                    var p = params`);
-        lines.push(`                    ${assign}`);
-        lines.push(`                    let r = try await self.${fname}(${passArgs})`);
+        if (queryToken) {
+            const qTokenField = t_qFields.find((f) => f.name === 'page_token');
+            const passArgs = [
+                ...pathArgs.map((p) => `${p.name}: ${ident(p.name)}`),
+                'params: p',
+                ...(bodyType ? ['body: body'] : []),
+                'options: options',
+            ].join(', ');
+            lines.push(`                    var p = params`);
+            lines.push(isNum(qTokenField) ? `                    p.pageToken = token.flatMap { Int($0) }` : `                    p.pageToken = token`);
+            lines.push(`                    let r = try await self.${fname}(${passArgs})`);
+        } else {
+            // The method itself has no page_token; node still sends it as an extra query parameter.
+            lines.push(`                    let r: LarkResponse<${rt}> = try await client.request(`);
+            lines.push(`                        ${httpMethod}, ${pathLiteral}, query: LarkPageTokenQuery(${q}, pageToken: token), body: ${bodyExpr}, options: options)`);
+        }
         lines.push(`                    return LarkPage(data: r.data, hasMore: ${hasMore}, nextPageToken: ${token})`);
         lines.push(`                }`);
         lines.push(`            }`);
+        reg.tests[reg.tests.length - 1].iterator = { hasMoreField, tokenField };
     }
     return lines.join('\n');
 }
@@ -796,6 +810,36 @@ function genTests(reg, p) {
             lines.push(`        #expect(req.body == nil)`);
         }
         lines.push(`    }`, '');
+
+        if (t.iterator) {
+            // Page 1 says has_more + a token, page 2 ends. node stops when has_more is absent; Swift
+            // also stops when no token comes back (see AGENTS.md).
+            const { hasMoreField, tokenField } = t.iterator;
+            const dataField = m.response.fields.find((f) => f.name === 'data');
+            const page = (more, tok) => {
+                const d = sampleJSON(reg, dataField.type, 'data');
+                if (hasMoreField) d.has_more = more;
+                if (tokenField) d[tokenField.raw] = tok;
+                for (const k of ['page_token', 'next_page_token']) if (k in d && (!tokenField || k !== tokenField.raw)) delete d[k];
+                return JSON.stringify({ code: 0, msg: 'success', data: d });
+            };
+            const tok = tokenField && tokenField.num ? 2 : 'tok2';
+            const pages = hasMoreField && tokenField ? 2 : 1;
+            let iname = fname + '_iterator';
+            while (used.has(iname)) iname += '_';
+            used.add(iname);
+            const itCall = call.replace(new RegExp(`\\.${ident(m.name)}\\(`), `.${m.name}WithIterator(`);
+            lines.push(`    @Test(${JSON.stringify(`iterator ${m.httpMethod} ${m.path}`)}) func ${iname}() async throws {`);
+            lines.push(`        let (client, http) = try ParityHarness.client(jsonPages: [${swiftRaw(page(true, tok))}, ${swiftRaw(page(false, ''))}])`);
+            lines.push(`        var pages = 0`);
+            lines.push(`        for try await _ in ${itCall} { pages += 1 }`);
+            lines.push(`        #expect(pages == ${pages})`);
+            lines.push(`        let reqs = http.apiRequests`);
+            lines.push(`        #expect(reqs.count == ${pages})`);
+            lines.push(`        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)`);
+            if (pages === 2) lines.push(`        #expect(ParityHarness.queryValues(reqs[1], "page_token") == [${JSON.stringify(String(tok))}])`);
+            lines.push(`    }`, '');
+        }
     }
     for (const ev of reg.eventTests) {
         let body;
@@ -827,28 +871,45 @@ import Foundation
 final class ParityHTTP: LarkHTTPClient, @unchecked Sendable {
     private let lock = NSLock()
     private var requests: [LarkHTTPRequest] = []
-    let response: LarkHTTPResponse
+    private var served = 0
+    /// Responses for successive API requests; the last one repeats.
+    let responses: [LarkHTTPResponse]
 
-    init(response: LarkHTTPResponse) { self.response = response }
+    init(response: LarkHTTPResponse) { self.responses = [response] }
+    init(responses: [LarkHTTPResponse]) { self.responses = responses }
 
     func send(_ request: LarkHTTPRequest) async throws -> LarkHTTPResponse {
-        lock.withLock { requests.append(request) }
         // The SDK's own token fetch is the only request without an Authorization header.
         if request.headers["Authorization"] == nil && request.url.path == "/open-apis/auth/v3/tenant_access_token/internal" {
+            lock.withLock { requests.append(request) }
             return LarkHTTPResponse(statusCode: 200, headers: [:], body: Data(#"{"code":0,"tenant_access_token":"t-test","expire":7200}"#.utf8))
         }
-        return response
+        return lock.withLock {
+            requests.append(request)
+            defer { served += 1 }
+            return responses[min(served, responses.count - 1)]
+        }
     }
 
-    /// The last API request (excludes the SDK's internal token fetch).
-    var apiRequest: LarkHTTPRequest? {
-        lock.withLock { requests.last { $0.headers["Authorization"] != nil } }
+    /// API requests in order (excludes the SDK's internal token fetch).
+    var apiRequests: [LarkHTTPRequest] {
+        lock.withLock { requests.filter { $0.headers["Authorization"] != nil } }
     }
+
+    /// The last API request.
+    var apiRequest: LarkHTTPRequest? { apiRequests.last }
 }
 
 enum ParityHarness {
     static func client(json: String) throws -> (LarkClient, ParityHTTP) {
         let http = ParityHTTP(response: LarkHTTPResponse(statusCode: 200, headers: ["Content-Type": "application/json"], body: Data(json.utf8)))
+        return (try make(http), http)
+    }
+
+    static func client(jsonPages: [String]) throws -> (LarkClient, ParityHTTP) {
+        let http = ParityHTTP(responses: jsonPages.map {
+            LarkHTTPResponse(statusCode: 200, headers: ["Content-Type": "application/json"], body: Data($0.utf8))
+        })
         return (try make(http), http)
     }
 
@@ -864,6 +925,10 @@ enum ParityHarness {
     /// The raw path, keeping a trailing slash (\`URL.path\` drops it).
     static func path(_ r: LarkHTTPRequest) -> String {
         URLComponents(url: r.url, resolvingAgainstBaseURL: false)?.percentEncodedPath ?? r.url.path
+    }
+
+    static func queryValues(_ r: LarkHTTPRequest, _ name: String) -> [String] {
+        (URLComponents(url: r.url, resolvingAgainstBaseURL: false)?.queryItems ?? []).filter { $0.name == name }.compactMap(\\.value)
     }
 
     static func queryKeys(_ r: LarkHTTPRequest) -> Set<String> {

@@ -74,7 +74,7 @@ extension TaskService.V1 {
         public func listWithIterator(params: LarkTask.TaskAPI.TaskListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.TaskListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -217,7 +217,7 @@ extension TaskService.V1 {
         public func listWithIterator(taskId: String, params: LarkTask.TaskAPI.TaskCommentListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.TaskCommentListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(taskId: taskId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -258,7 +258,7 @@ extension TaskService.V1 {
         public func listWithIterator(taskId: String, params: LarkTask.TaskAPI.TaskCollaboratorListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.TaskCollaboratorListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(taskId: taskId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -311,7 +311,7 @@ extension TaskService.V1 {
         public func listWithIterator(taskId: String, params: LarkTask.TaskAPI.TaskFollowerListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.TaskFollowerListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(taskId: taskId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -363,7 +363,7 @@ extension TaskService.V1 {
         public func listWithIterator(taskId: String, params: LarkTask.TaskAPI.TaskReminderListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.TaskReminderListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(taskId: taskId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -494,7 +494,7 @@ extension TaskService.V2 {
         public func searchWithIterator(params: LarkTask.TaskAPI.TaskSearchQuery = .init(), body: LarkTask.TaskAPI.TaskSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.TaskSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -546,7 +546,7 @@ extension TaskService.V2 {
         public func listWithIterator(params: LarkTask.TaskAPI.TaskListQueryV2 = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.TaskListResponseV2> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -730,7 +730,7 @@ extension TaskService.V2 {
         public func listWithIterator(params: LarkTask.TaskAPI.CommentListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.CommentListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -822,7 +822,7 @@ extension TaskService.V2 {
         public func tasksWithIterator(sectionGuid: String, params: LarkTask.TaskAPI.SectionTasksQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.SectionTasksResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.tasks(sectionGuid: sectionGuid, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -883,7 +883,7 @@ extension TaskService.V2 {
         public func listWithIterator(params: LarkTask.TaskAPI.SectionListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.SectionListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -975,7 +975,7 @@ extension TaskService.V2 {
         public func listWithIterator(params: LarkTask.TaskAPI.TasklistListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.TasklistListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1082,7 +1082,7 @@ extension TaskService.V2 {
         public func searchWithIterator(params: LarkTask.TaskAPI.TasklistSearchQuery = .init(), body: LarkTask.TaskAPI.TasklistSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.TasklistSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1227,7 +1227,7 @@ extension TaskService.V2 {
         public func listWithIterator(params: LarkTask.TaskAPI.CustomFieldListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.CustomFieldListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1388,7 +1388,7 @@ extension TaskService.V2 {
         public func listWithIterator(params: LarkTask.TaskAPI.AttachmentListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.AttachmentListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1471,7 +1471,7 @@ extension TaskService.V2 {
         public func listRelatedTaskWithIterator(params: LarkTask.TaskAPI.TaskV2ListRelatedTaskQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.TaskV2ListRelatedTaskResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.listRelatedTask(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1505,7 +1505,7 @@ extension TaskService.V2 {
         public func listWithIterator(taskGuid: String, params: LarkTask.TaskAPI.TaskSubtaskListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkTask.TaskAPI.TaskSubtaskListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(taskGuid: taskGuid, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

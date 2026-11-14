@@ -73,7 +73,7 @@ extension ApplicationService.V5 {
         public func favouriteWithIterator(params: LarkApplication.Application.ApplicationFavouriteQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkApplication.Application.ApplicationFavouriteResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.favourite(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -94,7 +94,7 @@ extension ApplicationService.V5 {
         public func recommendWithIterator(params: LarkApplication.Application.ApplicationRecommendQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkApplication.Application.ApplicationRecommendResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.recommend(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -223,7 +223,7 @@ extension ApplicationService.V6 {
         public func listWithIterator(params: LarkApplication.Application.AppRecommendRuleListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkApplication.Application.AppRecommendRuleListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -264,7 +264,7 @@ extension ApplicationService.V6 {
         public func listWithIterator(params: LarkApplication.Application.ApplicationListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkApplication.Application.ApplicationListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -309,7 +309,7 @@ extension ApplicationService.V6 {
         public func underauditlistWithIterator(params: LarkApplication.Application.ApplicationUnderauditlistQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkApplication.Application.ApplicationUnderauditlistResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.underauditlist(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -374,7 +374,7 @@ extension ApplicationService.V6 {
         public func listWithIterator(appId: String, params: LarkApplication.Application.ApplicationAppVersionListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkApplication.Application.ApplicationAppVersionListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appId: appId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

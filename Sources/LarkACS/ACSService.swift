@@ -69,7 +69,7 @@ extension ACSService.V1 {
         public func listWithIterator(params: LarkACS.ACS.AccessRecordListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkACS.ACS.AccessRecordListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -168,7 +168,7 @@ extension ACSService.V1 {
         public func listWithIterator(params: LarkACS.ACS.UserListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkACS.ACS.UserListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

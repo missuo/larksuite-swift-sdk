@@ -40,6 +40,17 @@ import LarkApproval
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/approval/v4/instances") func v4_instance_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"instance_code_list":["s"],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"instance_code_list":["s"],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.approval.v4.instance.listWithIterator(params: Approval.InstanceListQuery(approvalCode: "s", startTime: "s", endTime: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/approval/v4/instances/add_sign") func v4_instance_addSign() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.approval.v4.instance.addSign(body: Approval.InstanceAddSignBody(userId: "s", approvalCode: "s", instanceCode: "s", taskId: "s", addSignUserIds: ["s"], addSignType: 1))
@@ -59,6 +70,17 @@ import LarkApproval
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/approval/v4/instances/query")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator POST /open-apis/approval/v4/instances/query") func v4_instance_query_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"count":1,"instance_list":[{"approval":{"code":"s","name":"s","is_external":true,"external":{"batch_cc_read":true},"approval_id":"s","icon":"s"},"group":{"external_id":"s","name":"s"},"instance":{"code":"s","external_id":"s","user_id":"s","start_time":"s","end_time":"s","status":"rejected","title":"s","extra":"s","serial_id":"s","link":{"pc_link":"s","mobile_link":"s"}}}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"count":1,"instance_list":[{"approval":{"code":"s","name":"s","is_external":true,"external":{"batch_cc_read":true},"approval_id":"s","icon":"s"},"group":{"external_id":"s","name":"s"},"instance":{"code":"s","external_id":"s","user_id":"s","start_time":"s","end_time":"s","status":"rejected","title":"s","extra":"s","serial_id":"s","link":{"pc_link":"s","mobile_link":"s"}}}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.approval.v4.instance.queryWithIterator(params: Approval.InstanceQueryQuery(), body: Approval.InstanceQueryBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/approval/v4/instances/search_cc") func v4_instance_searchCc() async throws {
@@ -168,6 +190,17 @@ import LarkApproval
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/approval/v4/instances/initiated") func v4_instance_initiated_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"instances":[{"instance_status":"0","definition_code":"s","initiator":"s","initiator_name":"s","instance_code":"s","definition_group_id":"s","definition_group_name":"s","definition_name":"s","summaries":[{"key":"s","value":"s"}],"instance_external_id":"s","link":"s"}],"page_token":"tok2","has_more":true,"count":1}}"##, ##"{"code":0,"msg":"success","data":{"instances":[{"instance_status":"0","definition_code":"s","initiator":"s","initiator_name":"s","instance_code":"s","definition_group_id":"s","definition_group_name":"s","definition_name":"s","summaries":[{"key":"s","value":"s"}],"instance_external_id":"s","link":"s"}],"page_token":"","has_more":false,"count":1}}"##])
+        var pages = 0
+        for try await _ in client.approval.v4.instance.initiatedWithIterator(params: Approval.InstanceInitiatedQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/approval/v4/instances/subscription") func v4_instance_subscription() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.approval.v4.instance.subscription(body: Approval.InstanceSubscriptionBody(subscriptionType: "INVOLVED_APPROVAL"))
@@ -251,6 +284,17 @@ import LarkApproval
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/approval/v4/tasks/query") func v4_task_query_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"tasks":[{"topic":"1","user_id":"s","title":"s","urls":{"helpdesk":"s","mobile":"s","pc":"s"},"process_external_id":"s","task_external_id":"s","status":"1","process_status":"0","definition_code":"s","initiators":["s"],"initiator_names":["s"],"task_id":"s","process_id":"s","process_code":"s","definition_group_id":"s","definition_group_name":"s","definition_id":"s","definition_name":"s"}],"page_token":"tok2","has_more":true,"count":{"total":1,"has_more":true}}}"##, ##"{"code":0,"msg":"success","data":{"tasks":[{"topic":"1","user_id":"s","title":"s","urls":{"helpdesk":"s","mobile":"s","pc":"s"},"process_external_id":"s","task_external_id":"s","status":"1","process_status":"0","definition_code":"s","initiators":["s"],"initiator_names":["s"],"task_id":"s","process_id":"s","process_code":"s","definition_group_id":"s","definition_group_name":"s","definition_id":"s","definition_name":"s"}],"page_token":"","has_more":false,"count":{"total":1,"has_more":true}}}"##])
+        var pages = 0
+        for try await _ in client.approval.v4.task.queryWithIterator(params: Approval.TaskQueryQuery(userId: "s", topic: "1")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/approval/v4/tasks/refuse") func v4_task_refuse() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.approval.v4.task.refuse(body: Approval.TaskRefuseBody(instanceCode: "s", taskId: "s"))
@@ -311,6 +355,17 @@ import LarkApproval
         #expect(ParityHarness.path(req) == "/open-apis/approval/v4/tasks")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["topic"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/approval/v4/tasks") func v4_task_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"tasks":[{"topic":"1","user_id":"s","title":"s","status":"1","instance_status":"0","definition_code":"s","initiator":"s","initiator_name":"s","task_id":"s","instance_code":"s","definition_group_id":"s","definition_group_name":"s","definition_name":"s","summaries":[{"key":"s","value":"s"}],"instance_external_id":"s","task_external_id":"s","support_api_operate":true,"link":"s"}],"page_token":"tok2","has_more":true,"count":1}}"##, ##"{"code":0,"msg":"success","data":{"tasks":[{"topic":"1","user_id":"s","title":"s","status":"1","instance_status":"0","definition_code":"s","initiator":"s","initiator_name":"s","task_id":"s","instance_code":"s","definition_group_id":"s","definition_group_name":"s","definition_name":"s","summaries":[{"key":"s","value":"s"}],"instance_external_id":"s","task_external_id":"s","support_api_operate":true,"link":"s"}],"page_token":"","has_more":false,"count":1}}"##])
+        var pages = 0
+        for try await _ in client.approval.v4.task.listWithIterator(params: Approval.TaskListQuery(topic: "1")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("DELETE /open-apis/approval/v4/tasks/subscription") func v4_task_unsubscription() async throws {
@@ -422,6 +477,16 @@ import LarkApproval
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/approval/v4/instances/:instance_id/comments") func v4_instanceComment_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"comments":[{"id":"s","content":"s","create_time":"s","update_time":"s","is_delete":1,"replies":[{"id":"s","content":"s","create_time":"s","update_time":"s","is_delete":1,"at_info_list":[{"user_id":"s","name":"s","offset":"s"}],"commentator":"s","extra":"s"}],"at_info_list":[{"user_id":"s","name":"s","offset":"s"}],"commentator":"s","extra":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"comments":[{"id":"s","content":"s","create_time":"s","update_time":"s","is_delete":1,"replies":[{"id":"s","content":"s","create_time":"s","update_time":"s","is_delete":1,"at_info_list":[{"user_id":"s","name":"s","offset":"s"}],"commentator":"s","extra":"s"}],"at_info_list":[{"user_id":"s","name":"s","offset":"s"}],"commentator":"s","extra":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.approval.v4.instanceComment.listWithIterator(instanceId: "s", params: Approval.InstanceCommentListQuery(userId: "s")) { pages += 1 }
+        #expect(pages == 1)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 1)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+    }
+
     @Test("GET /open-apis/approval/v4/external_tasks") func v4_externalTask_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"data":[{"instance_id":"s","approval_id":"s","approval_code":"s","status":"PENDING","update_time":"s","tasks":[{"id":"s","status":"PENDING","update_time":"s"}]}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.approval.v4.externalTask.list(params: Approval.ExternalTaskListQuery(), body: Approval.ExternalTaskListBody())
@@ -431,6 +496,17 @@ import LarkApproval
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/approval/v4/external_tasks")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator GET /open-apis/approval/v4/external_tasks") func v4_externalTask_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"data":[{"instance_id":"s","approval_id":"s","approval_code":"s","status":"PENDING","update_time":"s","tasks":[{"id":"s","status":"PENDING","update_time":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"data":[{"instance_id":"s","approval_id":"s","approval_code":"s","status":"PENDING","update_time":"s","tasks":[{"id":"s","status":"PENDING","update_time":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.approval.v4.externalTask.listWithIterator(params: Approval.ExternalTaskListQuery(), body: Approval.ExternalTaskListBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/approval/v4/external_instances/check") func v4_externalInstance_check() async throws {
@@ -488,6 +564,17 @@ import LarkApproval
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
+    @Test("iterator POST /open-apis/approval/v4/districts/search") func v4_district_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"version":"s","items":[{"id":"s","name":"s","level":"s","has_sub_district":true,"parent_districts":[{"id":"s","name":"s","level":"s"}]}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"version":"s","items":[{"id":"s","name":"s","level":"s","has_sub_district":true,"parent_districts":[{"id":"s","name":"s","level":"s"}]}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.approval.v4.district.searchWithIterator(params: Approval.DistrictSearchQuery(), body: Approval.DistrictSearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/approval/v4/districts") func v4_district_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"version":"s","has_more":true,"page_token":"s","items":[{"id":"s","name":"s","level":"s","has_sub_district":true,"parent_districts":[{"id":"s","name":"s","level":"s"}]}]}}"##)
         let resp = try await client.approval.v4.district.list(params: Approval.DistrictListQuery())
@@ -497,6 +584,17 @@ import LarkApproval
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/approval/v4/districts")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/approval/v4/districts") func v4_district_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"version":"s","has_more":true,"page_token":"tok2","items":[{"id":"s","name":"s","level":"s","has_sub_district":true,"parent_districts":[{"id":"s","name":"s","level":"s"}]}]}}"##, ##"{"code":0,"msg":"success","data":{"version":"s","has_more":false,"page_token":"","items":[{"id":"s","name":"s","level":"s","has_sub_district":true,"parent_districts":[{"id":"s","name":"s","level":"s"}]}]}}"##])
+        var pages = 0
+        for try await _ in client.approval.v4.district.listWithIterator(params: Approval.DistrictListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("event approval.approval.updated_v4") func event_approvalApprovalUpdatedV4() async throws {

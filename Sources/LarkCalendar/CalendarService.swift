@@ -210,9 +210,9 @@ extension CalendarService.V4 {
         public func searchWithIterator(params: LarkCalendar.CalendarAPI.CalendarSearchQuery = .init(), body: LarkCalendar.CalendarAPI.CalendarSearchBody, options: RequestOptions = .none) -> LarkPageSequence<LarkCalendar.CalendarAPI.CalendarSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
-                return LarkPage(data: r.data, hasMore: true, nextPageToken: r.data?.pageToken)
+                return LarkPage(data: r.data, hasMore: false, nextPageToken: r.data?.pageToken)
             }
         }
 
@@ -378,7 +378,7 @@ extension CalendarService.V4 {
         public func listWithIterator(calendarId: String, params: LarkCalendar.CalendarAPI.CalendarAclListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCalendar.CalendarAPI.CalendarAclListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(calendarId: calendarId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -521,9 +521,9 @@ extension CalendarService.V4 {
         public func searchWithIterator(calendarId: String, params: LarkCalendar.CalendarAPI.CalendarEventSearchQuery = .init(), body: LarkCalendar.CalendarAPI.CalendarEventSearchBody, options: RequestOptions = .none) -> LarkPageSequence<LarkCalendar.CalendarAPI.CalendarEventSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(calendarId: calendarId, params: p, body: body, options: options)
-                return LarkPage(data: r.data, hasMore: true, nextPageToken: r.data?.pageToken)
+                return LarkPage(data: r.data, hasMore: false, nextPageToken: r.data?.pageToken)
             }
         }
 
@@ -630,7 +630,7 @@ extension CalendarService.V4 {
         public func listWithIterator(calendarId: String, eventId: String, params: LarkCalendar.CalendarAPI.CalendarEventAttendeeListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCalendar.CalendarAPI.CalendarEventAttendeeListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(calendarId: calendarId, eventId: eventId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -812,7 +812,7 @@ extension CalendarService.V4 {
         public func listWithIterator(calendarId: String, eventId: String, attendeeId: String, params: LarkCalendar.CalendarAPI.CalendarEventAttendeeChatMemberListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCalendar.CalendarAPI.CalendarEventAttendeeChatMemberListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(calendarId: calendarId, eventId: eventId, attendeeId: attendeeId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

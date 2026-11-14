@@ -165,7 +165,7 @@ extension BitableService.V1 {
         public func listWithIterator(appToken: String, params: LarkBitable.Bitable.AppTableListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBitable.Bitable.AppTableListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appToken: appToken, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -214,7 +214,7 @@ extension BitableService.V1 {
         public func listWithIterator(appToken: String, params: LarkBitable.Bitable.AppDashboardListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBitable.Bitable.AppDashboardListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appToken: appToken, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -402,7 +402,7 @@ extension BitableService.V1 {
         public func searchWithIterator(appToken: String, tableId: String, params: LarkBitable.Bitable.AppTableRecordSearchQuery = .init(), body: LarkBitable.Bitable.AppTableRecordSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBitable.Bitable.AppTableRecordSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(appToken: appToken, tableId: tableId, params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -469,7 +469,7 @@ extension BitableService.V1 {
         public func listWithIterator(appToken: String, tableId: String, params: LarkBitable.Bitable.AppTableRecordListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBitable.Bitable.AppTableRecordListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appToken: appToken, tableId: tableId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -546,7 +546,7 @@ extension BitableService.V1 {
         public func listWithIterator(appToken: String, roleId: String, params: LarkBitable.Bitable.AppRoleMemberListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBitable.Bitable.AppRoleMemberListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appToken: appToken, roleId: roleId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -646,7 +646,7 @@ extension BitableService.V1 {
         public func listWithIterator(appToken: String, params: LarkBitable.Bitable.AppRoleListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBitable.Bitable.AppRoleListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appToken: appToken, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -724,7 +724,7 @@ extension BitableService.V1 {
         public func listWithIterator(appToken: String, tableId: String, params: LarkBitable.Bitable.AppTableViewListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBitable.Bitable.AppTableViewListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appToken: appToken, tableId: tableId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -833,7 +833,7 @@ extension BitableService.V1 {
         public func listWithIterator(appToken: String, tableId: String, formId: String, params: LarkBitable.Bitable.AppTableFormFieldListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBitable.Bitable.AppTableFormFieldListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appToken: appToken, tableId: tableId, formId: formId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -868,6 +868,15 @@ extension BitableService.V1 {
         /// `GET /open-apis/bitable/v1/apps/:app_token/workflows`
         public func list(appToken: String, options: RequestOptions = .none) async throws -> LarkResponse<LarkBitable.Bitable.AppWorkflowListResponse> {
             try await client.request(.get, "/open-apis/bitable/v1/apps/\(LarkURL.escapePathSegment(appToken))/workflows", query: nil, body: .none, options: options)
+        }
+
+        /// Iterates over every page of `list` (equivalent of `listWithIterator`).
+        public func listWithIterator(appToken: String, options: RequestOptions = .none) -> LarkPageSequence<LarkBitable.Bitable.AppWorkflowListResponse> {
+            LarkPageSequence { token in
+                let r: LarkResponse<LarkBitable.Bitable.AppWorkflowListResponse> = try await client.request(
+                    .get, "/open-apis/bitable/v1/apps/\(LarkURL.escapePathSegment(appToken))/workflows", query: LarkPageTokenQuery(nil, pageToken: token), body: .none, options: options)
+                return LarkPage(data: r.data, hasMore: false, nextPageToken: nil)
+            }
         }
 
     }
@@ -905,7 +914,7 @@ extension BitableService.V1 {
         public func listWithIterator(appToken: String, tableId: String, params: LarkBitable.Bitable.AppTableFieldListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBitable.Bitable.AppTableFieldListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appToken: appToken, tableId: tableId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

@@ -529,7 +529,7 @@ extension VCService.V1 {
         public func listByNoWithIterator(params: LarkVC.VC.MeetingListByNoQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.MeetingListByNoResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.listByNo(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -560,7 +560,7 @@ extension VCService.V1 {
         public func listWithIterator(params: LarkVC.VC.MeetingListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.MeetingListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -603,7 +603,7 @@ extension VCService.V1 {
         public func searchWithIterator(params: LarkVC.VC.MeetingSearchQuery = .init(), body: LarkVC.VC.MeetingSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.MeetingSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -808,7 +808,7 @@ extension VCService.V1 {
         public func listWithIterator(params: LarkVC.VC.AlertListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.AlertListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -966,7 +966,7 @@ extension VCService.V1 {
         public func listWithIterator(params: LarkVC.VC.RoomListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.RoomListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1029,7 +1029,7 @@ extension VCService.V1 {
         public func getWithIterator(params: LarkVC.VC.ResourceReservationListGetQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.ResourceReservationListGetResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.get(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1059,7 +1059,7 @@ extension VCService.V1 {
         public func getWithIterator(params: LarkVC.VC.ParticipantQualityListGetQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.ParticipantQualityListGetResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.get(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1155,7 +1155,7 @@ extension VCService.V1 {
         public func listWithIterator(params: LarkVC.VC.RoomLevelListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.RoomLevelListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1430,7 +1430,7 @@ extension VCService.V1 {
         public func getWithIterator(params: LarkVC.VC.MeetingListGetQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.MeetingListGetResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.get(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1460,7 +1460,7 @@ extension VCService.V1 {
         public func getWithIterator(params: LarkVC.VC.ParticipantListGetQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.ParticipantListGetResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.get(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1490,7 +1490,7 @@ extension VCService.V1 {
         public func getWithIterator(meetingId: String, params: LarkVC.VC.MeetingPullSubtitleGetQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.MeetingPullSubtitleGetResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.get(meetingId: meetingId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1534,6 +1534,15 @@ extension VCService.V1 {
         /// `GET /open-apis/vc/v1/notes/:note_id/unified_note_transcript`
         public func unifiedNoteTranscript(noteId: String, params: LarkVC.VC.NoteUnifiedNoteTranscriptQuery = .init(), options: RequestOptions = .none) async throws -> LarkResponse<LarkVC.VC.NoteUnifiedNoteTranscriptResponse> {
             try await client.request(.get, "/open-apis/vc/v1/notes/\(LarkURL.escapePathSegment(noteId))/unified_note_transcript", query: params, body: .none, options: options)
+        }
+
+        /// Iterates over every page of `unifiedNoteTranscript` (equivalent of `unifiedNoteTranscriptWithIterator`).
+        public func unifiedNoteTranscriptWithIterator(noteId: String, params: LarkVC.VC.NoteUnifiedNoteTranscriptQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.NoteUnifiedNoteTranscriptResponse> {
+            LarkPageSequence { token in
+                let r: LarkResponse<LarkVC.VC.NoteUnifiedNoteTranscriptResponse> = try await client.request(
+                    .get, "/open-apis/vc/v1/notes/\(LarkURL.escapePathSegment(noteId))/unified_note_transcript", query: LarkPageTokenQuery(params, pageToken: token), body: .none, options: options)
+                return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: nil)
+            }
         }
 
         /// 获取纪要详情
@@ -1659,7 +1668,7 @@ extension VCService.V1 {
         public func eventsWithIterator(params: LarkVC.VC.BotEventsQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkVC.VC.BotEventsResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.events(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

@@ -76,7 +76,7 @@ extension PersonalSettingsService.V1 {
         public func listWithIterator(params: LarkPersonalSettings.PersonalSettings.SystemStatusListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkPersonalSettings.PersonalSettings.SystemStatusListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

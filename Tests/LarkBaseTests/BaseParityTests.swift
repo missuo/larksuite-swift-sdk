@@ -19,6 +19,17 @@ import LarkBase
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/base/v2/apps/:app_token/roles") func v2_appRole_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"role_name":"s","table_roles":[{"table_perm":1,"table_name":"s","table_id":"s","rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","perm":1,"other_perm":1,"condition_groups":[{"condition_type":1,"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and"}],"display_rec_rule_version":1},"other_rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","perm":1},"field_perm":{"k":1},"allow_add_record":true,"allow_delete_record":true,"view_perm":1,"view_rules":{"k":1},"field_action_rules":{"k":{"k":1}}}],"role_id":"s","block_roles":[{"block_id":"s","block_perm":1,"block_type":"dashboard"}],"base_rule":{"k":1}}],"page_token":"tok2","has_more":true,"total":1}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"role_name":"s","table_roles":[{"table_perm":1,"table_name":"s","table_id":"s","rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","perm":1,"other_perm":1,"condition_groups":[{"condition_type":1,"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and"}],"display_rec_rule_version":1},"other_rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","perm":1},"field_perm":{"k":1},"allow_add_record":true,"allow_delete_record":true,"view_perm":1,"view_rules":{"k":1},"field_action_rules":{"k":{"k":1}}}],"role_id":"s","block_roles":[{"block_id":"s","block_perm":1,"block_type":"dashboard"}],"base_rule":{"k":1}}],"page_token":"","has_more":false,"total":1}}"##])
+        var pages = 0
+        for try await _ in client.base.v2.appRole.listWithIterator(appToken: "s", params: Base.AppRoleListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/base/v2/apps/:app_token/roles") func v2_appRole_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"role":{"role_name":"s","table_roles":[{"table_perm":1,"table_name":"s","table_id":"s","rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","perm":1,"other_perm":1,"condition_groups":[{"condition_type":1,"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and"}],"display_rec_rule_version":1},"other_rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","perm":1},"field_perm":{"k":1},"allow_add_record":true,"allow_delete_record":true,"view_perm":1,"view_rules":{"k":1},"field_action_rules":{"k":{"k":1}}}],"role_id":"s","block_roles":[{"block_id":"s","block_perm":1,"block_type":"dashboard"}],"base_rule":{"k":1}}}}"##)
         let resp = try await client.base.v2.appRole.create(appToken: "s", body: Base.AppRoleCreateBody(roleName: "s", tableRoles: [Base.AppRoleCreateBodyTableRole()]))

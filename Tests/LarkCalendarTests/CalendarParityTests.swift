@@ -113,6 +113,16 @@ import LarkCalendar
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["query"]))
     }
 
+    @Test("iterator POST /open-apis/calendar/v4/calendars/search") func v4_calendar_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"calendar_id":"s","summary":"s","description":"s","permissions":"private","color":1,"type":"unknown","summary_alias":"s","is_deleted":true,"is_third_party":true,"role":"unknown"}],"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"calendar_id":"s","summary":"s","description":"s","permissions":"private","color":1,"type":"unknown","summary_alias":"s","is_deleted":true,"is_third_party":true,"role":"unknown"}],"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.calendar.v4.calendar.searchWithIterator(params: CalendarAPI.CalendarSearchQuery(), body: CalendarAPI.CalendarSearchBody(query: "s")) { pages += 1 }
+        #expect(pages == 1)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 1)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+    }
+
     @Test("POST /open-apis/calendar/v4/calendars/:calendar_id/subscribe") func v4_calendar_subscribe() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"calendar":{"calendar_id":"s","summary":"s","description":"s","permissions":"private","color":1,"type":"unknown","summary_alias":"s","is_deleted":true,"is_third_party":true,"role":"unknown"}}}"##)
         let resp = try await client.calendar.v4.calendar.subscribe(calendarId: "s")
@@ -220,6 +230,17 @@ import LarkCalendar
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/calendar/v4/calendars/:calendar_id/acls") func v4_calendarAcl_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"acls":[{"acl_id":"s","role":"unknown","scope":{"type":"user","user_id":"s"}}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"acls":[{"acl_id":"s","role":"unknown","scope":{"type":"user","user_id":"s"}}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.calendar.v4.calendarAcl.listWithIterator(calendarId: "s", params: CalendarAPI.CalendarAclListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/calendar/v4/calendars/:calendar_id/acls") func v4_calendarAcl_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"acl_id":"s","role":"unknown","scope":{"type":"user","user_id":"s"}}}"##)
         let resp = try await client.calendar.v4.calendarAcl.create(calendarId: "s", params: CalendarAPI.ExchangeBindingGetQuery(), body: CalendarAPI.CalendarAclCreateBody(role: "unknown", scope: CalendarAPI.Scope()))
@@ -317,6 +338,16 @@ import LarkCalendar
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["query"]))
     }
 
+    @Test("iterator POST /open-apis/calendar/v4/calendars/:calendar_id/events/search") func v4_calendarEvent_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"event_id":"s","organizer_calendar_id":"s","summary":"s","description":"s","start_time":{"date":"s","timestamp":"s","timezone":"s"},"end_time":{"date":"s","timestamp":"s","timezone":"s"},"visibility":"default","attendee_ability":"none","free_busy_status":"busy","location":{"name":"s","address":"s","latitude":1.5,"longitude":1.5},"color":1,"reminders":[{"minutes":1}],"recurrence":"s","status":"tentative","is_exception":true,"recurring_event_id":"s","event_organizer":{"user_id":"s","display_name":"s"},"app_link":"s","attachments":[{"file_token":"s","file_size":"s","is_deleted":true,"name":"s"}],"source":"s","self_rsvp_status":"needs_action","description_rich":"s"}],"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"event_id":"s","organizer_calendar_id":"s","summary":"s","description":"s","start_time":{"date":"s","timestamp":"s","timezone":"s"},"end_time":{"date":"s","timestamp":"s","timezone":"s"},"visibility":"default","attendee_ability":"none","free_busy_status":"busy","location":{"name":"s","address":"s","latitude":1.5,"longitude":1.5},"color":1,"reminders":[{"minutes":1}],"recurrence":"s","status":"tentative","is_exception":true,"recurring_event_id":"s","event_organizer":{"user_id":"s","display_name":"s"},"app_link":"s","attachments":[{"file_token":"s","file_size":"s","is_deleted":true,"name":"s"}],"source":"s","self_rsvp_status":"needs_action","description_rich":"s"}],"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.calendar.v4.calendarEvent.searchWithIterator(calendarId: "s", params: CalendarAPI.CalendarAclListQuery(), body: CalendarAPI.CalendarEventSearchBody(query: "s")) { pages += 1 }
+        #expect(pages == 1)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 1)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+    }
+
     @Test("GET /open-apis/calendar/v4/calendars/:calendar_id/events") func v4_calendarEvent_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"s","sync_token":"s","items":[{"event_id":"s","organizer_calendar_id":"s","summary":"s","description":"s","start_time":{"date":"s","timestamp":"s","timezone":"s"},"end_time":{"date":"s","timestamp":"s","timezone":"s"},"vchat":{"vc_type":"vc","icon_type":"vc","description":"s","meeting_url":"s","live_link":"s","vc_info":{"unique_id":"s","meeting_no":"s"}},"visibility":"default","attendee_ability":"none","free_busy_status":"busy","location":{"name":"s","address":"s","latitude":1.5,"longitude":1.5},"color":1,"reminders":[{"minutes":1}],"recurrence":"s","status":"tentative","is_exception":true,"recurring_event_id":"s","create_time":"s","schemas":[{"ui_name":"s","ui_status":"hide","app_link":"s"}],"event_organizer":{"user_id":"s","display_name":"s"},"app_link":"s","attachments":[{"file_token":"s","file_size":"s","name":"s"}],"source":"s","self_rsvp_status":"needs_action","description_rich":"s"}]}}"##)
         let resp = try await client.calendar.v4.calendarEvent.list(calendarId: "s", params: CalendarAPI.CalendarEventListQuery())
@@ -380,6 +411,17 @@ import LarkCalendar
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/calendar/v4/calendars/s/events/s/attendees")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/calendar/v4/calendars/:calendar_id/events/:event_id/attendees") func v4_calendarEventAttendee_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"type":"user","attendee_id":"s","rsvp_status":"needs_action","is_optional":true,"is_organizer":true,"is_external":true,"display_name":"s","chat_members":[{"rsvp_status":"needs_action","is_optional":true,"display_name":"s","is_organizer":true,"is_external":true}],"user_id":"s","chat_id":"s","room_id":"s","third_party_email":"s","operate_id":"s","resource_customization":[{"index_key":"s","input_content":"s","options":[{"option_key":"s","others_content":"s"}]}]}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"type":"user","attendee_id":"s","rsvp_status":"needs_action","is_optional":true,"is_organizer":true,"is_external":true,"display_name":"s","chat_members":[{"rsvp_status":"needs_action","is_optional":true,"display_name":"s","is_organizer":true,"is_external":true}],"user_id":"s","chat_id":"s","room_id":"s","third_party_email":"s","operate_id":"s","resource_customization":[{"index_key":"s","input_content":"s","options":[{"option_key":"s","others_content":"s"}]}]}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.calendar.v4.calendarEventAttendee.listWithIterator(calendarId: "s", eventId: "s", params: CalendarAPI.CalendarEventAttendeeListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/calendar/v4/settings/generate_caldav_conf") func v4_setting_generateCaldavConf() async throws {
@@ -478,6 +520,17 @@ import LarkCalendar
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/calendar/v4/calendars/s/events/s/attendees/s/chat_members")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/calendar/v4/calendars/:calendar_id/events/:event_id/attendees/:attendee_id/chat_members") func v4_calendarEventAttendeeChatMember_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"rsvp_status":"needs_action","is_optional":true,"display_name":"s","open_id":"s","is_organizer":true,"is_external":true}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"rsvp_status":"needs_action","is_optional":true,"display_name":"s","open_id":"s","is_organizer":true,"is_external":true}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.calendar.v4.calendarEventAttendeeChatMember.listWithIterator(calendarId: "s", eventId: "s", attendeeId: "s", params: CalendarAPI.CalendarEventAttendeeChatMemberListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("event calendar.calendar.event.changed_v4") func event_calendarCalendarEventChangedV4() async throws {

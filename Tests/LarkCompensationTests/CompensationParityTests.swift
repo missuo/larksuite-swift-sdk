@@ -20,6 +20,17 @@ import LarkCompensation
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/compensation/v1/indicators") func v1_indicator_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","value_type":"money","active_status":1,"i18n_names":[{"locale":"s","value":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","value_type":"money","active_status":1,"i18n_names":[{"locale":"s","value":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.compensation.v1.indicator.listWithIterator(params: Compensation.IndicatorListQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/compensation/v1/social_plans/query") func v1_socialPlan_query() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"plans":[{"plan_id":"s","plan_tid":"s","name":{"zh_cn":"s","en_us":"s"},"effective_date":"s","active":true,"insurance_type":"social_insurance","scope":{"is_all":true,"rules":[[{"left_type":1,"operator":1,"right_values":["s"]}]]},"item_detail":[{"item_id":"s","item_name":{"zh_cn":"s","en_us":"s"},"item_setting_of_person":{"lower_limit":"s","upper_limit":"s","payment_ratio":"s","payment_rounding_rule":"rounding","payment_decimals":1,"fixed_payment":"s"},"item_setting_of_company":{"lower_limit":"s","upper_limit":"s","payment_ratio":"s","payment_rounding_rule":"rounding","payment_decimals":1,"fixed_payment":"s"},"payment_frequency":"annually","payment_months":[1]}],"remark":{"zh_cn":"s","en_us":"s"}}]}}"##)
         let resp = try await client.compensation.v1.socialPlan.query(body: Compensation.SocialPlanQueryBody(planIds: ["s"], effectiveDate: "s"))
@@ -43,6 +54,17 @@ import LarkCompensation
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/compensation/v1/social_plans") func v1_socialPlan_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"plans":[{"plan_id":"s","plan_tid":"s","name":{"zh_cn":"s","en_us":"s"},"effective_date":"s","active":true,"insurance_type":"social_insurance","scope":{"is_all":true,"rules":[[{"left_type":1,"operator":1,"right_values":["s"]}]]},"item_detail":[{"item_id":"s","item_name":{"zh_cn":"s","en_us":"s"},"item_setting_of_person":{"lower_limit":"s","upper_limit":"s","payment_ratio":"s","payment_rounding_rule":"rounding","payment_decimals":1,"fixed_payment":"s"},"item_setting_of_company":{"lower_limit":"s","upper_limit":"s","payment_ratio":"s","payment_rounding_rule":"rounding","payment_decimals":1,"fixed_payment":"s"},"payment_frequency":"annually","payment_months":[1]}],"remark":{"zh_cn":"s","en_us":"s"}}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"plans":[{"plan_id":"s","plan_tid":"s","name":{"zh_cn":"s","en_us":"s"},"effective_date":"s","active":true,"insurance_type":"social_insurance","scope":{"is_all":true,"rules":[[{"left_type":1,"operator":1,"right_values":["s"]}]]},"item_detail":[{"item_id":"s","item_name":{"zh_cn":"s","en_us":"s"},"item_setting_of_person":{"lower_limit":"s","upper_limit":"s","payment_ratio":"s","payment_rounding_rule":"rounding","payment_decimals":1,"fixed_payment":"s"},"item_setting_of_company":{"lower_limit":"s","upper_limit":"s","payment_ratio":"s","payment_rounding_rule":"rounding","payment_decimals":1,"fixed_payment":"s"},"payment_frequency":"annually","payment_months":[1]}],"remark":{"zh_cn":"s","en_us":"s"}}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.compensation.v1.socialPlan.listWithIterator(params: Compensation.SocialPlanListQuery(effectiveDate: "s", pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/compensation/v1/items") func v1_item_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","description":"s","category_id":"s","value_type":"money","pay_off_frequency_type":"year","decimal_places":1,"active_status":1,"i18n_names":[{"locale":"s","value":"s"}],"i18n_descriptions":[{"locale":"s","value":"s"}],"item_type":"salary"}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.compensation.v1.item.list(params: Compensation.ItemListQuery(pageSize: 1))
@@ -55,6 +77,17 @@ import LarkCompensation
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/compensation/v1/items") func v1_item_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","description":"s","category_id":"s","value_type":"money","pay_off_frequency_type":"year","decimal_places":1,"active_status":1,"i18n_names":[{"locale":"s","value":"s"}],"i18n_descriptions":[{"locale":"s","value":"s"}],"item_type":"salary"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","description":"s","category_id":"s","value_type":"money","pay_off_frequency_type":"year","decimal_places":1,"active_status":1,"i18n_names":[{"locale":"s","value":"s"}],"i18n_descriptions":[{"locale":"s","value":"s"}],"item_type":"salary"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.compensation.v1.item.listWithIterator(params: Compensation.ItemListQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/compensation/v1/plans") func v1_plan_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","tid":"s","name":"s","description":"s","effective_date":"s","plan_scope":{"is_all":true,"plan_conditions":[{"left_type":1,"operator":1,"right_value":["s"]}]},"currency_id":"s","probation_salary_status":true,"plan_items":[{"adjustment_type":"manual","item_id":"s","plan_item_logic":{"fixed":"s","formula":{"expr":"s","formula_params":[{"ref_type":1,"id":"s"}]}},"probation_discount_type":"percentum","probation_discount_percentum":"s"}],"plan_indicators":[{"indicator_id":"s","plan_indicator_logic":{"fixed":"s","formula":{"expr":"s","formula_params":[{"ref_type":1,"id":"s"}]}}}],"i18n_names":[{"locale":"s","value":"s"}],"i18n_descriptions":[{"locale":"s","value":"s"}]}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.compensation.v1.plan.list(params: Compensation.IndicatorListQuery(pageSize: 1))
@@ -65,6 +98,17 @@ import LarkCompensation
         #expect(ParityHarness.path(req) == "/open-apis/compensation/v1/plans")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["page_size"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/compensation/v1/plans") func v1_plan_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","tid":"s","name":"s","description":"s","effective_date":"s","plan_scope":{"is_all":true,"plan_conditions":[{"left_type":1,"operator":1,"right_value":["s"]}]},"currency_id":"s","probation_salary_status":true,"plan_items":[{"adjustment_type":"manual","item_id":"s","plan_item_logic":{"fixed":"s","formula":{"expr":"s","formula_params":[{"ref_type":1,"id":"s"}]}},"probation_discount_type":"percentum","probation_discount_percentum":"s"}],"plan_indicators":[{"indicator_id":"s","plan_indicator_logic":{"fixed":"s","formula":{"expr":"s","formula_params":[{"ref_type":1,"id":"s"}]}}}],"i18n_names":[{"locale":"s","value":"s"}],"i18n_descriptions":[{"locale":"s","value":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","tid":"s","name":"s","description":"s","effective_date":"s","plan_scope":{"is_all":true,"plan_conditions":[{"left_type":1,"operator":1,"right_value":["s"]}]},"currency_id":"s","probation_salary_status":true,"plan_items":[{"adjustment_type":"manual","item_id":"s","plan_item_logic":{"fixed":"s","formula":{"expr":"s","formula_params":[{"ref_type":1,"id":"s"}]}},"probation_discount_type":"percentum","probation_discount_percentum":"s"}],"plan_indicators":[{"indicator_id":"s","plan_indicator_logic":{"fixed":"s","formula":{"expr":"s","formula_params":[{"ref_type":1,"id":"s"}]}}}],"i18n_names":[{"locale":"s","value":"s"}],"i18n_descriptions":[{"locale":"s","value":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.compensation.v1.plan.listWithIterator(params: Compensation.IndicatorListQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/compensation/v1/social_insurances") func v1_socialInsurance_list() async throws {
@@ -89,6 +133,17 @@ import LarkCompensation
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/compensation/v1/item_categories") func v1_itemCategory_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","i18n_names":[{"locale":"s","value":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","i18n_names":[{"locale":"s","value":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.compensation.v1.itemCategory.listWithIterator(params: Compensation.ItemCategoryListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/compensation/v1/change_reasons") func v1_changeReason_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","note":"s","active_status":1,"i18n_names":[{"locale":"s","value":"s"}],"i18n_notes":[{"locale":"s","value":"s"}]}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.compensation.v1.changeReason.list(params: Compensation.IndicatorListQuery(pageSize: 1))
@@ -99,6 +154,17 @@ import LarkCompensation
         #expect(ParityHarness.path(req) == "/open-apis/compensation/v1/change_reasons")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["page_size"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/compensation/v1/change_reasons") func v1_changeReason_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","note":"s","active_status":1,"i18n_names":[{"locale":"s","value":"s"}],"i18n_notes":[{"locale":"s","value":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","note":"s","active_status":1,"i18n_names":[{"locale":"s","value":"s"}],"i18n_notes":[{"locale":"s","value":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.compensation.v1.changeReason.listWithIterator(params: Compensation.IndicatorListQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/compensation/v1/archives") func v1_archive_create() async throws {
@@ -135,6 +201,17 @@ import LarkCompensation
         #expect(ParityHarness.path(req) == "/open-apis/compensation/v1/recurring_payment/query")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["page_size","user_id_type"]))
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator POST /open-apis/compensation/v1/recurring_payment/query") func v1_recurringPayment_query_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"page_token":"tok2","has_more":true,"records":[{"id":"s","unique_id":"s","user_id":"s","item_id":"s","issuance_type":"with_salary","each_amount":"s","start_date":"s","end_date":"s","issuance_period":"year","currency_id":"s","remark":"s","issuance_country_region_id":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"page_token":"","has_more":false,"records":[{"id":"s","unique_id":"s","user_id":"s","item_id":"s","issuance_type":"with_salary","each_amount":"s","start_date":"s","end_date":"s","issuance_period":"year","currency_id":"s","remark":"s","issuance_country_region_id":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.compensation.v1.recurringPayment.queryWithIterator(params: Compensation.ArchiveQueryQuery(pageSize: 1, userIdType: "user_id"), body: Compensation.RecurringPaymentQueryBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/compensation/v1/recurring_payment/batch_create") func v1_recurringPayment_batchCreate() async throws {
@@ -229,6 +306,17 @@ import LarkCompensation
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
+    @Test("iterator POST /open-apis/compensation/v1/lump_sum_payment/query") func v1_lumpSumPayment_query_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"page_token":"tok2","has_more":true,"records":[{"id":"s","unique_id":"s","user_id":"s","total_amount":"s","binding_period":1,"currency_id":"s","issuance_frequency":1,"item_id":"s","remark":"s","issuance_detail_text":{"zh_cn":"s","en_us":"s"},"apply_source":1,"return_amount_before_tax":"s","return_amount_after_tax":"s","binding_period_offboarding_type":"yes","create_time":"s","modify_time":"s","reference_period_start_date":"s","reference_period_end_date":"s","details":[{"id":"s","record_id":"s","user_id":"s","issuance_amount":"s","issuance_status":"to_be_issued","issuance_way":"with_salary","issuance_time":"s","currency_id":"s","belong_time":"s","create_time":"s","modify_time":"s","issuance_country_region_id":"s","issuance_pay_group_id":"s","detail_reference_period_start_date":"s","detail_reference_period_end_date":"s","is_not_issued_due_to_offboardings":1}],"binding_period_decimal":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"page_token":"","has_more":false,"records":[{"id":"s","unique_id":"s","user_id":"s","total_amount":"s","binding_period":1,"currency_id":"s","issuance_frequency":1,"item_id":"s","remark":"s","issuance_detail_text":{"zh_cn":"s","en_us":"s"},"apply_source":1,"return_amount_before_tax":"s","return_amount_after_tax":"s","binding_period_offboarding_type":"yes","create_time":"s","modify_time":"s","reference_period_start_date":"s","reference_period_end_date":"s","details":[{"id":"s","record_id":"s","user_id":"s","issuance_amount":"s","issuance_status":"to_be_issued","issuance_way":"with_salary","issuance_time":"s","currency_id":"s","belong_time":"s","create_time":"s","modify_time":"s","issuance_country_region_id":"s","issuance_pay_group_id":"s","detail_reference_period_start_date":"s","detail_reference_period_end_date":"s","is_not_issued_due_to_offboardings":1}],"binding_period_decimal":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.compensation.v1.lumpSumPayment.queryWithIterator(params: Compensation.ArchiveQueryQuery(pageSize: 1, userIdType: "user_id"), body: Compensation.LumpSumPaymentQueryBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/compensation/v1/lump_sum_payment/batch_create") func v1_lumpSumPayment_batchCreate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"operate_results":[{"id":"s","unique_id":"s","code":1,"message":"s"}]}}"##)
         let resp = try await client.compensation.v1.lumpSumPayment.batchCreate(params: Compensation.ArchiveCreateQuery(userIdType: "user_id"), body: Compensation.LumpSumPaymentBatchCreateBody())
@@ -251,6 +339,17 @@ import LarkCompensation
         #expect(ParityHarness.path(req) == "/open-apis/compensation/v1/lump_sum_payment/query_detail")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["page_size","user_id_type"]))
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator POST /open-apis/compensation/v1/lump_sum_payment/query_detail") func v1_lumpSumPayment_queryDetail_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"page_token":"tok2","has_more":true,"records":[{"id":"s","record_id":"s","user_id":"s","issuance_amount":"s","issuance_status":"to_be_issued","issuance_way":"with_salary","issuance_time":"s","currency_id":"s","belong_time":"s","create_time":"s","modify_time":"s","issuance_country_region_id":"s","issuance_pay_group_id":"s","detail_reference_period_start_date":"s","detail_reference_period_end_date":"s","is_not_issued_due_to_offboardings":1}]}}"##, ##"{"code":0,"msg":"success","data":{"page_token":"","has_more":false,"records":[{"id":"s","record_id":"s","user_id":"s","issuance_amount":"s","issuance_status":"to_be_issued","issuance_way":"with_salary","issuance_time":"s","currency_id":"s","belong_time":"s","create_time":"s","modify_time":"s","issuance_country_region_id":"s","issuance_pay_group_id":"s","detail_reference_period_start_date":"s","detail_reference_period_end_date":"s","is_not_issued_due_to_offboardings":1}]}}"##])
+        var pages = 0
+        for try await _ in client.compensation.v1.lumpSumPayment.queryDetailWithIterator(params: Compensation.ArchiveQueryQuery(pageSize: 1, userIdType: "user_id"), body: Compensation.LumpSumPaymentQueryDetailBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("event compensation.archive.changed_v1") func event_compensationArchiveChangedV1() async throws {

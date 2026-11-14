@@ -212,6 +212,9 @@ All 55 node-sdk API categories (1,680 APIs) are available, one module each:
 - Models live in a namespace per category: `IM.MessageListQuery`, `Contact.UserGetQuery`, ...
   (`TaskAPI` and `CalendarAPI` avoid clashing with Swift's `Task` / Foundation's `Calendar`;
   the `event` category's module is `LarkEventAPI`).
+- Iterators behave like node's: they always start at the first page (a `pageToken` in `params` is
+  ignored; use the plain method to resume from a token) and end when `has_more` is false/absent or
+  no next token comes back. A failed page throws.
 - Everything decoded from the server is optional (node-sdk never validates responses), so read
   fields with `?.` / `??`, e.g. `e.message?.messageId`. Only top-level request `Query`/`Body`
   fields keep node's required markers. Open enums take literals or members (`"PENDING"` / `.pending`).

@@ -175,6 +175,14 @@ Driven by the first consumer, a long-connection Feishu bot (`feishu-agent`).
   never validates server data; previously an object missing a node-"required" field such as a
   contact user's `mobile` was dropped or decoded as `nil`). Top-level request fields keep their
   required markers. Nested request/response shapes now share one type (fewer duplicates).
+- ✅ Pagination parity audit: all 244 versioned `xxxWithIterator` helpers exist (3 for methods without
+  a `page_token` query field were missing; like node they now send it as an extra query parameter),
+  each with a generated iterator test. Iterators now match node's loop exactly: a caller-supplied
+  `page_token` is ignored, and a response without `has_more` ends iteration.
+- ✅ Completeness audit against node-sdk's source: its 3,216 `fillApiPath` call sites are
+  1,680 versioned methods + 1,150 unversioned shortcuts (`client.im.message.*` = `client.im.v1.message.*`,
+  all 368 shortcut resources present) + 386 iterators. Unique (HTTP method, path) pairs: 1,677 in node,
+  1,677 in Swift, no difference. 59 of node's 114 project files are empty placeholders (no APIs).
 - ✅ Generated identifier names: SCREAMING_CASE values and leading acronyms are lower-cased
   (`.pending`, `.publicMailbox`, `.asc`, `ip`) instead of `.pENDING` / `.aSC` / `iP`; later
   acronyms keep their case (`.zhCN`).

@@ -19,6 +19,17 @@ import LarkApplication
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/application/v5/applications/favourite") func v5_application_favourite_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"page_token":"tok2","total_count":1,"has_more":true,"app_list":[{"app_id":"s","app_name":"s","description":"s","app_type":"app","avatar_url":"s","open_methods":[{"type":"mobile_gadget","applink":"s"}]}]}}"##, ##"{"code":0,"msg":"success","data":{"page_token":"","total_count":1,"has_more":false,"app_list":[{"app_id":"s","app_name":"s","description":"s","app_type":"app","avatar_url":"s","open_methods":[{"type":"mobile_gadget","applink":"s"}]}]}}"##])
+        var pages = 0
+        for try await _ in client.application.v5.application.favouriteWithIterator(params: Application.ApplicationFavouriteQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/application/v5/applications/recommend") func v5_application_recommend() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"page_token":"s","page_size":1,"total_count":1,"has_more":true,"app_list":[{"app_id":"s","app_name":"s","description":"s","app_type":"app","avatar_url":"s","open_methods":[{"type":"mobile_gadget","applink":"s"}]}]}}"##)
         let resp = try await client.application.v5.application.recommend(params: Application.ApplicationRecommendQuery())
@@ -28,6 +39,17 @@ import LarkApplication
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/application/v5/applications/recommend")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/application/v5/applications/recommend") func v5_application_recommend_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"page_token":"tok2","page_size":1,"total_count":1,"has_more":true,"app_list":[{"app_id":"s","app_name":"s","description":"s","app_type":"app","avatar_url":"s","open_methods":[{"type":"mobile_gadget","applink":"s"}]}]}}"##, ##"{"code":0,"msg":"success","data":{"page_token":"","page_size":1,"total_count":1,"has_more":false,"app_list":[{"app_id":"s","app_name":"s","description":"s","app_type":"app","avatar_url":"s","open_methods":[{"type":"mobile_gadget","applink":"s"}]}]}}"##])
+        var pages = 0
+        for try await _ in client.application.v5.application.recommendWithIterator(params: Application.ApplicationRecommendQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/application/v6/applications/:app_id/app_usage/overview") func v6_applicationAppUsage_overview() async throws {
@@ -97,6 +119,17 @@ import LarkApplication
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/application/v6/app_recommend_rules") func v6_appRecommendRule_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"rules":[{"id":"s","name":"s","status":"open","visibility_info":{"is_all":true,"department_ids":["s"],"user_ids":["s"],"group_ids":["s"]},"recommend_item_infos":[{"item_id":"s","item_type":"application","name":"s","description":"s","link_url":"s","client_id":"s","icon_url":"s","default_locale":"zh_cn","i18n_name":{"zh_cn":"s","zh_hk":"s","zh_tw":"s","en_us":"s","ja_jp":"s"}}],"distributed_recommend_item_infos":[{"item_id":"s","item_type":"application","name":"s","description":"s","link_url":"s","client_id":"s","icon_url":"s","default_locale":"zh_cn","i18n_name":{"zh_cn":"s","zh_hk":"s","zh_tw":"s","en_us":"s","ja_jp":"s"}}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"rules":[{"id":"s","name":"s","status":"open","visibility_info":{"is_all":true,"department_ids":["s"],"user_ids":["s"],"group_ids":["s"]},"recommend_item_infos":[{"item_id":"s","item_type":"application","name":"s","description":"s","link_url":"s","client_id":"s","icon_url":"s","default_locale":"zh_cn","i18n_name":{"zh_cn":"s","zh_hk":"s","zh_tw":"s","en_us":"s","ja_jp":"s"}}],"distributed_recommend_item_infos":[{"item_id":"s","item_type":"application","name":"s","description":"s","link_url":"s","client_id":"s","icon_url":"s","default_locale":"zh_cn","i18n_name":{"zh_cn":"s","zh_hk":"s","zh_tw":"s","en_us":"s","ja_jp":"s"}}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.application.v6.appRecommendRule.listWithIterator(params: Application.AppRecommendRuleListQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/application/v6/applications/:app_id/contacts_range_configuration") func v6_application_contactsRangeConfiguration() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"contacts_range":{"contacts_scope_type":"equal_to_availability","visible_list":{"open_ids":["s"],"department_ids":["s"],"group_ids":["s"]}},"has_more":true,"page_token":"s"}}"##)
         let resp = try await client.application.v6.application.contactsRangeConfiguration(appId: "s", params: Application.ApplicationContactsRangeConfigurationQuery())
@@ -118,6 +151,17 @@ import LarkApplication
         #expect(ParityHarness.path(req) == "/open-apis/application/v6/applications")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["lang"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/application/v6/applications") func v6_application_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"app_list":[{"app_id":"s","creator_id":"s","status":1,"scene_type":1,"payment_type":1,"create_source":"developer_console","redirect_urls":["s"],"online_version_id":"s","unaudit_version_id":"s","app_name":"s","avatar_url":"s","description":"s","scopes":[{"scope":"s","description":"s","level":1,"token_types":["tenant"]}],"back_home_url":"s","i18n":[{"i18n_key":"zh_cn","name":"s","description":"s","help_use":"s"}],"primary_language":"zh_cn","common_categories":["s"],"owner":{"type":1,"owner_id":"s","name":"s","help_desk":"s","email":"s","phone":"s","customer_service_account":"s"},"mobile_default_ability":"gadget","pc_default_ability":"gadget","secret":"s","event":{"subscription_type":"s","request_url":"s","subscribed_events":["s"]},"callback":{"callback_type":"s","request_url":"s","subscribed_callbacks":["s"]},"encryption":{"encryption_key":"s","verification_token":"s"},"security":{"redirect_urls":["s"],"allowed_ips":["s"],"h5_trusted_domains":["s"],"web_view_trusted_domains":["s"],"allowed_schemas":["s"],"allowed_server_domains":["s"]},"allow_refresh_token":true,"callback_info":{"callback_type":"webhook","request_url":"s","subscribed_callbacks":["s"]}}],"page_token":"tok2","has_more":true,"total_count":1}}"##, ##"{"code":0,"msg":"success","data":{"app_list":[{"app_id":"s","creator_id":"s","status":1,"scene_type":1,"payment_type":1,"create_source":"developer_console","redirect_urls":["s"],"online_version_id":"s","unaudit_version_id":"s","app_name":"s","avatar_url":"s","description":"s","scopes":[{"scope":"s","description":"s","level":1,"token_types":["tenant"]}],"back_home_url":"s","i18n":[{"i18n_key":"zh_cn","name":"s","description":"s","help_use":"s"}],"primary_language":"zh_cn","common_categories":["s"],"owner":{"type":1,"owner_id":"s","name":"s","help_desk":"s","email":"s","phone":"s","customer_service_account":"s"},"mobile_default_ability":"gadget","pc_default_ability":"gadget","secret":"s","event":{"subscription_type":"s","request_url":"s","subscribed_events":["s"]},"callback":{"callback_type":"s","request_url":"s","subscribed_callbacks":["s"]},"encryption":{"encryption_key":"s","verification_token":"s"},"security":{"redirect_urls":["s"],"allowed_ips":["s"],"h5_trusted_domains":["s"],"web_view_trusted_domains":["s"],"allowed_schemas":["s"],"allowed_server_domains":["s"]},"allow_refresh_token":true,"callback_info":{"callback_type":"webhook","request_url":"s","subscribed_callbacks":["s"]}}],"page_token":"","has_more":false,"total_count":1}}"##])
+        var pages = 0
+        for try await _ in client.application.v6.application.listWithIterator(params: Application.ApplicationListQuery(lang: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/application/v6/applications/:app_id") func v6_application_get() async throws {
@@ -153,6 +197,17 @@ import LarkApplication
         #expect(ParityHarness.path(req) == "/open-apis/application/v6/applications/underauditlist")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["lang"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/application/v6/applications/underauditlist") func v6_application_underauditlist_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"app_id":"s","creator_id":"s","status":1,"scene_type":1,"payment_type":1,"create_source":"developer_console","redirect_urls":["s"],"online_version_id":"s","unaudit_version_id":"s","app_name":"s","avatar_url":"s","description":"s","scopes":[{"scope":"s","description":"s","level":1,"token_types":["tenant"]}],"back_home_url":"s","i18n":[{"i18n_key":"zh_cn","name":"s","description":"s","help_use":"s"}],"primary_language":"zh_cn","common_categories":["s"],"owner":{"type":1,"owner_id":"s","name":"s","help_desk":"s","email":"s","phone":"s","customer_service_account":"s"},"mobile_default_ability":"gadget","pc_default_ability":"gadget","secret":"s","event":{"subscription_type":"s","request_url":"s","subscribed_events":["s"]},"callback":{"callback_type":"s","request_url":"s","subscribed_callbacks":["s"]},"encryption":{"encryption_key":"s","verification_token":"s"},"security":{"redirect_urls":["s"],"allowed_ips":["s"],"h5_trusted_domains":["s"],"web_view_trusted_domains":["s"],"allowed_schemas":["s"],"allowed_server_domains":["s"]},"allow_refresh_token":true,"callback_info":{"callback_type":"webhook","request_url":"s","subscribed_callbacks":["s"]}}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"app_id":"s","creator_id":"s","status":1,"scene_type":1,"payment_type":1,"create_source":"developer_console","redirect_urls":["s"],"online_version_id":"s","unaudit_version_id":"s","app_name":"s","avatar_url":"s","description":"s","scopes":[{"scope":"s","description":"s","level":1,"token_types":["tenant"]}],"back_home_url":"s","i18n":[{"i18n_key":"zh_cn","name":"s","description":"s","help_use":"s"}],"primary_language":"zh_cn","common_categories":["s"],"owner":{"type":1,"owner_id":"s","name":"s","help_desk":"s","email":"s","phone":"s","customer_service_account":"s"},"mobile_default_ability":"gadget","pc_default_ability":"gadget","secret":"s","event":{"subscription_type":"s","request_url":"s","subscribed_events":["s"]},"callback":{"callback_type":"s","request_url":"s","subscribed_callbacks":["s"]},"encryption":{"encryption_key":"s","verification_token":"s"},"security":{"redirect_urls":["s"],"allowed_ips":["s"],"h5_trusted_domains":["s"],"web_view_trusted_domains":["s"],"allowed_schemas":["s"],"allowed_server_domains":["s"]},"allow_refresh_token":true,"callback_info":{"callback_type":"webhook","request_url":"s","subscribed_callbacks":["s"]}}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.application.v6.application.underauditlistWithIterator(params: Application.ApplicationUnderauditlistQuery(lang: "zh_cn")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/application/v6/applications/:app_id/app_versions/:version_id/contacts_range_suggest") func v6_applicationAppVersion_contactsRangeSuggest() async throws {
@@ -199,6 +254,17 @@ import LarkApplication
         #expect(ParityHarness.path(req) == "/open-apis/application/v6/applications/s/app_versions")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["lang"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/application/v6/applications/:app_id/app_versions") func v6_applicationAppVersion_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"app_id":"s","version":"s","version_id":"s","app_name":"s","avatar_url":"s","description":"s","scopes":[{"scope":"s","description":"s","level":1,"token_types":["tenant"]}],"back_home_url":"s","i18n":[{"i18n_key":"zh_cn","name":"s","description":"s","help_use":"s"}],"common_categories":["s"],"events":["s"],"status":1,"create_time":"s","publish_time":"s","ability":{"gadget":{"enable_pc_mode":1,"schema_urls":["s"],"pc_use_mobile_pkg":true,"pc_version":"s","mobile_version":"s","mobile_min_lark_version":"s","pc_min_lark_version":"s"},"web_app":{"pc_url":"s","mobile_url":"s"},"bot":{"card_request_url":"s","bot_menu_enable":true,"bot_menus":[{"menu_id":"s","parent_menu_id":"s","sort":1,"default_name":"s","i18n_name":{"k":"s"},"redirect_link":{"pc_url":"s","mobile_url":"s"},"event_key":"s","icon_file_key":"s","ud_icon":{"token":"s","color":"s"},"menu_content_type":1}],"bot_menu_display_strategy":1},"workplace_widgets":[{"min_lark_version":"s"}],"navigate":{"pc":{"version":"s","image_url":"s","hover_image_url":"s"},"mobile":{"version":"s","image_url":"s","hover_image_url":"s"}},"cloud_doc":{"space_url":"s","i18n":[{"i18n_key":"zh_cn","name":"s","read_description":"s","write_description":"s"}],"icon_url":"s","mode":1},"docs_blocks":[{"block_type_id":"s","i18n":[{"i18n_key":"zh_cn","name":"s"}],"mobile_icon_url":"s","pc_icon_url":"s"}],"message_action":{"pc_app_link":"s","mobile_app_link":"s","i18n":[{"i18n_key":"zh_cn","name":"s"}]},"plus_menu":{"pc_app_link":"s","mobile_app_link":"s"}},"remark":{"remark":"s","update_remark":"s","visibility":{"is_all":true,"visible_list":{"open_ids":["s"],"department_ids":["s"],"group_ids":["s"]},"invisible_list":{"open_ids":["s"],"department_ids":["s"],"group_ids":["s"]}}},"event_infos":[{"event_type":"s","event_name":"s","event_description":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"app_id":"s","version":"s","version_id":"s","app_name":"s","avatar_url":"s","description":"s","scopes":[{"scope":"s","description":"s","level":1,"token_types":["tenant"]}],"back_home_url":"s","i18n":[{"i18n_key":"zh_cn","name":"s","description":"s","help_use":"s"}],"common_categories":["s"],"events":["s"],"status":1,"create_time":"s","publish_time":"s","ability":{"gadget":{"enable_pc_mode":1,"schema_urls":["s"],"pc_use_mobile_pkg":true,"pc_version":"s","mobile_version":"s","mobile_min_lark_version":"s","pc_min_lark_version":"s"},"web_app":{"pc_url":"s","mobile_url":"s"},"bot":{"card_request_url":"s","bot_menu_enable":true,"bot_menus":[{"menu_id":"s","parent_menu_id":"s","sort":1,"default_name":"s","i18n_name":{"k":"s"},"redirect_link":{"pc_url":"s","mobile_url":"s"},"event_key":"s","icon_file_key":"s","ud_icon":{"token":"s","color":"s"},"menu_content_type":1}],"bot_menu_display_strategy":1},"workplace_widgets":[{"min_lark_version":"s"}],"navigate":{"pc":{"version":"s","image_url":"s","hover_image_url":"s"},"mobile":{"version":"s","image_url":"s","hover_image_url":"s"}},"cloud_doc":{"space_url":"s","i18n":[{"i18n_key":"zh_cn","name":"s","read_description":"s","write_description":"s"}],"icon_url":"s","mode":1},"docs_blocks":[{"block_type_id":"s","i18n":[{"i18n_key":"zh_cn","name":"s"}],"mobile_icon_url":"s","pc_icon_url":"s"}],"message_action":{"pc_app_link":"s","mobile_app_link":"s","i18n":[{"i18n_key":"zh_cn","name":"s"}]},"plus_menu":{"pc_app_link":"s","mobile_app_link":"s"}},"remark":{"remark":"s","update_remark":"s","visibility":{"is_all":true,"visible_list":{"open_ids":["s"],"department_ids":["s"],"group_ids":["s"]},"invisible_list":{"open_ids":["s"],"department_ids":["s"],"group_ids":["s"]}}},"event_infos":[{"event_type":"s","event_name":"s","event_description":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.application.v6.applicationAppVersion.listWithIterator(appId: "s", params: Application.ApplicationAppVersionListQuery(lang: "zh_cn")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/application/v6/applications/:app_id/visibility/check_white_black_list") func v6_applicationVisibility_checkWhiteBlackList() async throws {

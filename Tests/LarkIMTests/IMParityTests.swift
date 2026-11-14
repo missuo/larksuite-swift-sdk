@@ -85,6 +85,17 @@ import LarkIM
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
+    @Test("iterator POST /open-apis/im/v1/messages/search") func v1_message_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","display_info":"s","meta_data":{"message_id":"s","type":"unknown","create_time":"s","update_time":"s","position":1,"chat_id":"s","from_id":"s","thread_id":"s","thread_position":1,"is_p2p_chat":true}}],"total":1,"has_more":true,"page_token":"tok2","notice":"s"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","display_info":"s","meta_data":{"message_id":"s","type":"unknown","create_time":"s","update_time":"s","position":1,"chat_id":"s","from_id":"s","thread_id":"s","thread_position":1,"is_p2p_chat":true}}],"total":1,"has_more":false,"page_token":"","notice":"s"}}"##])
+        var pages = 0
+        for try await _ in client.im.v1.message.searchWithIterator(params: IM.MessageSearchQuery(), body: IM.MessageSearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/im/v1/messages/:message_id/reply") func v1_message_reply() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"message_id":"s","root_id":"s","parent_id":"s","thread_id":"s","msg_type":"s","create_time":"s","update_time":"s","deleted":true,"updated":true,"chat_id":"s","sender":{"id":"s","id_type":"s","sender_type":"s","tenant_key":"s","sender_name":"s","open_bot_id":"s","sender_i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"}},"body":{"content":"s"},"mentions":[{"key":"s","id":"s","id_type":"s","name":"s","tenant_key":"s"}],"upper_message_id":"s","message_app_link":"s","message_position":"s","thread_message_position":"s"}}"##)
         let resp = try await client.im.v1.message.reply(messageId: "s", body: IM.MessageReplyBody(content: "s", msgType: "s"))
@@ -106,6 +117,17 @@ import LarkIM
         #expect(ParityHarness.path(req) == "/open-apis/im/v1/messages")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["container_id_type","container_id"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/im/v1/messages") func v1_message_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"message_id":"s","root_id":"s","parent_id":"s","thread_id":"s","msg_type":"s","create_time":"s","update_time":"s","deleted":true,"updated":true,"chat_id":"s","sender":{"id":"s","id_type":"s","sender_type":"s","tenant_key":"s","sender_name":"s","open_bot_id":"s","sender_i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"}},"body":{"content":"s"},"mentions":[{"key":"s","id":"s","id_type":"s","name":"s","tenant_key":"s"}],"upper_message_id":"s","message_app_link":"s","message_position":"s","thread_message_position":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"message_id":"s","root_id":"s","parent_id":"s","thread_id":"s","msg_type":"s","create_time":"s","update_time":"s","deleted":true,"updated":true,"chat_id":"s","sender":{"id":"s","id_type":"s","sender_type":"s","tenant_key":"s","sender_name":"s","open_bot_id":"s","sender_i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"}},"body":{"content":"s"},"mentions":[{"key":"s","id":"s","id_type":"s","name":"s","tenant_key":"s"}],"upper_message_id":"s","message_app_link":"s","message_position":"s","thread_message_position":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.im.v1.message.listWithIterator(params: IM.MessageListQuery(containerIdType: "s", containerId: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/im/v1/messages/merge_forward") func v1_message_mergeForward() async throws {
@@ -298,6 +320,17 @@ import LarkIM
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/im/v1/chats/:chat_id/members") func v1_chatMembers_get_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"member_id_type":"s","member_id":"s","name":"s","tenant_key":"s"}],"page_token":"tok2","has_more":true,"member_total":1,"trigger_security_conf_limit":true,"security_conf_limit":1}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"member_id_type":"s","member_id":"s","name":"s","tenant_key":"s"}],"page_token":"","has_more":false,"member_total":1,"trigger_security_conf_limit":true,"security_conf_limit":1}}"##])
+        var pages = 0
+        for try await _ in client.im.v1.chatMembers.getWithIterator(chatId: "s", params: IM.ChatMembersGetQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("DELETE /open-apis/im/v1/pins/:message_id") func v1_pin_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.im.v1.pin.delete(messageId: "s")
@@ -318,6 +351,17 @@ import LarkIM
         #expect(ParityHarness.path(req) == "/open-apis/im/v1/pins")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["chat_id"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/im/v1/pins") func v1_pin_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"message_id":"s","chat_id":"s","operator_id":"s","operator_id_type":"s","create_time":"s"}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"message_id":"s","chat_id":"s","operator_id":"s","operator_id_type":"s","create_time":"s"}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.im.v1.pin.listWithIterator(params: IM.PinListQuery(chatId: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/im/v1/pins") func v1_pin_create() async throws {
@@ -395,6 +439,17 @@ import LarkIM
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/im/v1/chats/search") func v1_chat_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"chat_id":"s","avatar":"s","name":"s","description":"s","owner_id":"s","owner_id_type":"s","external":true,"tenant_key":"s","labels":["s"],"chat_status":"normal","chat_mode":"group","p2p_target_type":"user","p2p_target_id":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"chat_id":"s","avatar":"s","name":"s","description":"s","owner_id":"s","owner_id_type":"s","external":true,"tenant_key":"s","labels":["s"],"chat_status":"normal","chat_mode":"group","p2p_target_type":"user","p2p_target_id":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.im.v1.chat.searchWithIterator(params: IM.ChatSearchQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/im/v1/chats") func v1_chat_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"chat_id":"s","avatar":"s","name":"s","description":"s","owner_id":"s","owner_id_type":"s","external":true,"tenant_key":"s","labels":["s"],"chat_status":"normal","chat_mode":"group","p2p_target_type":"user","p2p_target_id":"s"}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.im.v1.chat.list(params: IM.ChatListQuery())
@@ -406,6 +461,17 @@ import LarkIM
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/im/v1/chats") func v1_chat_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"chat_id":"s","avatar":"s","name":"s","description":"s","owner_id":"s","owner_id_type":"s","external":true,"tenant_key":"s","labels":["s"],"chat_status":"normal","chat_mode":"group","p2p_target_type":"user","p2p_target_id":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"chat_id":"s","avatar":"s","name":"s","description":"s","owner_id":"s","owner_id_type":"s","external":true,"tenant_key":"s","labels":["s"],"chat_status":"normal","chat_mode":"group","p2p_target_type":"user","p2p_target_id":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.im.v1.chat.listWithIterator(params: IM.ChatListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/im/v1/chats/:chat_id/moderation") func v1_chatModeration_get() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"moderation_setting":"s","page_token":"s","has_more":true,"items":[{"user_id_type":"s","user_id":"s","tenant_key":"s"}]}}"##)
         let resp = try await client.im.v1.chatModeration.get(chatId: "s", params: IM.ChatModerationGetQuery())
@@ -415,6 +481,17 @@ import LarkIM
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/im/v1/chats/s/moderation")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/im/v1/chats/:chat_id/moderation") func v1_chatModeration_get_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"moderation_setting":"s","page_token":"tok2","has_more":true,"items":[{"user_id_type":"s","user_id":"s","tenant_key":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"moderation_setting":"s","page_token":"","has_more":false,"items":[{"user_id_type":"s","user_id":"s","tenant_key":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.im.v1.chatModeration.getWithIterator(chatId: "s", params: IM.ChatModerationGetQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("PUT /open-apis/im/v1/chats/:chat_id/moderation") func v1_chatModeration_update() async throws {
@@ -645,6 +722,17 @@ import LarkIM
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/im/v1/messages/:message_id/reactions") func v1_messageReaction_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"reaction_id":"s","operator":{"operator_id":"s","operator_type":"app"},"action_time":"s","reaction_type":{"emoji_type":"s"}}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"reaction_id":"s","operator":{"operator_id":"s","operator_type":"app"},"action_time":"s","reaction_type":{"emoji_type":"s"}}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.im.v1.messageReaction.listWithIterator(messageId: "s", params: IM.MessageReactionListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/im/v1/messages/reactions/batch_query") func v1_messageReaction_batchQuery() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"success_msg_reaction_details":[{"message_id":"s","has_more":true,"page_token":"s","message_reaction_items":[{"reaction_id":"s","operator":{"operator_id":"s","operator_type":"app"},"action_time":"s","emoji_type":"s"}]}],"success_msg_reaction_counts":[{"message_id":"s","reaction_count":[{"reaction_type":"s","count":"s"}]}],"fail_msg_reaction_details":[{"message_id":"s","fail_reason":"invalid"}]}}"##)
         let resp = try await client.im.v1.messageReaction.batchQuery(params: IM.ChatUpdateQuery(), body: IM.MessageReactionBatchQueryBody(queries: [IM.Query()]))
@@ -855,6 +943,17 @@ import LarkIM
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/im/v2/chats/search")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator POST /open-apis/im/v2/chats/search") func v2_chat_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","display_info":"s","meta_data":{"chat_id":"s","create_time":"s","update_time":"s","external":true,"chat_mode":"s","description":"s","avatar":"s","name":"s","owner_id":"s","owner_id_type":"s","tenant_key":"s","chat_status":"normal"}}],"total":1,"has_more":true,"page_token":"tok2","notice":"s"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","display_info":"s","meta_data":{"chat_id":"s","create_time":"s","update_time":"s","external":true,"chat_mode":"s","description":"s","avatar":"s","name":"s","owner_id":"s","owner_id_type":"s","tenant_key":"s","chat_status":"normal"}}],"total":1,"has_more":false,"page_token":"","notice":"s"}}"##])
+        var pages = 0
+        for try await _ in client.im.v2.chat.searchWithIterator(params: IM.MessageSearchQuery(), body: IM.ChatSearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("event im.message.message_read_v1") func event_imMessageMessageReadV1() async throws {

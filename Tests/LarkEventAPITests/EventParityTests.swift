@@ -19,6 +19,17 @@ import LarkEventAPI
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/event/v1/outbound_ip") func v1_outboundIp_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"ip_list":["s"],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"ip_list":["s"],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.event.v1.outboundIp.listWithIterator(params: Event.OutboundIpListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/event/v1/connection") func v1_connection_get() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"online_instance_cnt":1}}"##)
         let resp = try await client.event.v1.connection.get()

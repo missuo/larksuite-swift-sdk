@@ -72,6 +72,17 @@ import LarkBitable
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/bitable/v1/apps/:app_token/tables") func v1_appTable_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","total":1,"items":[{"table_id":"s","revision":1,"name":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","total":1,"items":[{"table_id":"s","revision":1,"name":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.bitable.v1.appTable.listWithIterator(appToken: "s", params: Bitable.AppTableListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/bitable/v1/apps/:app_token/dashboards/:block_id/copy") func v1_appDashboard_copy() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"block_id":"s","name":"s"}}"##)
         let resp = try await client.bitable.v1.appDashboard.copy(appToken: "s", blockId: "s", body: Bitable.AppDashboardCopyBody(name: "s"))
@@ -92,6 +103,17 @@ import LarkBitable
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/bitable/v1/apps/s/dashboards")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/bitable/v1/apps/:app_token/dashboards") func v1_appDashboard_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"dashboards":[{"block_id":"s","name":"s","share_config":{"share_flag":true,"share_scope_type":"1","share_token":"s","share_link":"s","show_source":true,"source_link":"s"}}],"page_token":"tok2","has_more":true,"total":1}}"##, ##"{"code":0,"msg":"success","data":{"dashboards":[{"block_id":"s","name":"s","share_config":{"share_flag":true,"share_scope_type":"1","share_token":"s","share_link":"s","show_source":true,"source_link":"s"}}],"page_token":"","has_more":false,"total":1}}"##])
+        var pages = 0
+        for try await _ in client.bitable.v1.appDashboard.listWithIterator(appToken: "s", params: Bitable.AppDashboardListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("PUT /open-apis/bitable/v1/apps/:app_token") func v1_app_update() async throws {
@@ -204,6 +226,17 @@ import LarkBitable
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
+    @Test("iterator POST /open-apis/bitable/v1/apps/:app_token/tables/:table_id/records/search") func v1_appTableRecord_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"fields":{"k":{"k":"v"}},"record_id":"s","created_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"created_time":1,"last_modified_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"last_modified_time":1,"shared_url":"s","record_url":"s"}],"has_more":true,"page_token":"tok2","total":1}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"fields":{"k":{"k":"v"}},"record_id":"s","created_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"created_time":1,"last_modified_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"last_modified_time":1,"shared_url":"s","record_url":"s"}],"has_more":false,"page_token":"","total":1}}"##])
+        var pages = 0
+        for try await _ in client.bitable.v1.appTableRecord.searchWithIterator(appToken: "s", tableId: "s", params: Bitable.AppTableRecordSearchQuery(), body: Bitable.AppTableRecordSearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/bitable/v1/apps/:app_token/tables/:table_id/records/batch_get") func v1_appTableRecord_batchGet() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"records":[{"fields":{"k":{"k":"v"}},"record_id":"s","created_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"created_time":1,"last_modified_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"last_modified_time":1,"shared_url":"s","record_url":"s"}],"forbidden_record_ids":["s"],"absent_record_ids":["s"]}}"##)
         let resp = try await client.bitable.v1.appTableRecord.batchGet(appToken: "s", tableId: "s", body: Bitable.AppTableRecordBatchGetBody(recordIds: ["s"]))
@@ -248,6 +281,17 @@ import LarkBitable
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/bitable/v1/apps/:app_token/tables/:table_id/records") func v1_appTableRecord_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","total":1,"items":[{"fields":{"k":{"k":"v"}},"record_id":"s","created_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"created_time":1,"last_modified_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"last_modified_time":1,"shared_url":"s","record_url":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","total":1,"items":[{"fields":{"k":{"k":"v"}},"record_id":"s","created_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"created_time":1,"last_modified_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"last_modified_time":1,"shared_url":"s","record_url":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.bitable.v1.appTableRecord.listWithIterator(appToken: "s", tableId: "s", params: Bitable.AppTableRecordListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/bitable/v1/apps/:app_token/roles/:role_id/members/batch_delete") func v1_appRoleMember_batchDelete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.bitable.v1.appRoleMember.batchDelete(appToken: "s", roleId: "s", body: Bitable.AppRoleMemberBatchDeleteBody(memberList: [Bitable.MemberList()]))
@@ -287,6 +331,17 @@ import LarkBitable
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/bitable/v1/apps/s/roles/s/members")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/bitable/v1/apps/:app_token/roles/:role_id/members") func v1_appRoleMember_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"open_id":"s","union_id":"s","user_id":"s","chat_id":"s","department_id":"s","open_department_id":"s","member_name":"s","member_en_name":"s","member_type":"user"}],"has_more":true,"page_token":"tok2","total":1}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"open_id":"s","union_id":"s","user_id":"s","chat_id":"s","department_id":"s","open_department_id":"s","member_name":"s","member_en_name":"s","member_type":"user"}],"has_more":false,"page_token":"","total":1}}"##])
+        var pages = 0
+        for try await _ in client.bitable.v1.appRoleMember.listWithIterator(appToken: "s", roleId: "s", params: Bitable.AppTableListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("DELETE /open-apis/bitable/v1/apps/:app_token/roles/:role_id/members/:member_id") func v1_appRoleMember_delete() async throws {
@@ -342,6 +397,17 @@ import LarkBitable
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/bitable/v1/apps/:app_token/roles") func v1_appRole_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"role_name":"s","role_id":"s","table_roles":[{"table_perm":1,"table_name":"s","table_id":"s","rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","other_perm":1},"field_perm":{"k":1},"allow_add_record":true,"allow_delete_record":true}],"block_roles":[{"block_id":"s","block_type":"dashboard","block_perm":1}]}],"page_token":"tok2","has_more":true,"total":1}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"role_name":"s","role_id":"s","table_roles":[{"table_perm":1,"table_name":"s","table_id":"s","rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","other_perm":1},"field_perm":{"k":1},"allow_add_record":true,"allow_delete_record":true}],"block_roles":[{"block_id":"s","block_type":"dashboard","block_perm":1}]}],"page_token":"","has_more":false,"total":1}}"##])
+        var pages = 0
+        for try await _ in client.bitable.v1.appRole.listWithIterator(appToken: "s", params: Bitable.AppTableListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/bitable/v1/apps/:app_token/tables/:table_id/views") func v1_appTableView_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"view":{"view_id":"s","view_name":"s","view_type":"s","property":{"filter_info":{"conjunction":"and","conditions":[{"field_id":"s","operator":"is","value":"s","condition_id":"s","field_type":1}],"condition_omitted":true},"hidden_fields":["s"],"hierarchy_config":{"field_id":"s"}}}}}"##)
         let resp = try await client.bitable.v1.appTableView.create(appToken: "s", tableId: "s", body: Bitable.AppTableViewCreateBody(viewName: "s"))
@@ -394,6 +460,17 @@ import LarkBitable
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/bitable/v1/apps/s/tables/s/views")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/bitable/v1/apps/:app_token/tables/:table_id/views") func v1_appTableView_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"view_id":"s","view_name":"s","view_type":"s","property":{"filter_info":{"conjunction":"and","conditions":[{"field_id":"s","operator":"is","value":"s","condition_id":"s","field_type":1}],"condition_omitted":true},"hidden_fields":["s"],"hierarchy_config":{"field_id":"s"}}}],"page_token":"tok2","has_more":true,"total":1}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"view_id":"s","view_name":"s","view_type":"s","property":{"filter_info":{"conjunction":"and","conditions":[{"field_id":"s","operator":"is","value":"s","condition_id":"s","field_type":1}],"condition_omitted":true},"hidden_fields":["s"],"hierarchy_config":{"field_id":"s"}}}],"page_token":"","has_more":false,"total":1}}"##])
+        var pages = 0
+        for try await _ in client.bitable.v1.appTableView.listWithIterator(appToken: "s", tableId: "s", params: Bitable.AppTableViewListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/bitable/v1/apps/:app_token/tables/:table_id/forms/:form_id/upgrade") func v1_appTableForm_upgrade() async throws {
@@ -462,6 +539,17 @@ import LarkBitable
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/bitable/v1/apps/:app_token/tables/:table_id/forms/:form_id/fields") func v1_appTableFormField_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"field_id":"s","title":"s","description":"s","required":true,"visible":true,"rich_description":[{"segment_type":"text","text":"s","link":"s"}]}],"page_token":"tok2","has_more":true,"total":1}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"field_id":"s","title":"s","description":"s","required":true,"visible":true,"rich_description":[{"segment_type":"text","text":"s","link":"s"}]}],"page_token":"","has_more":false,"total":1}}"##])
+        var pages = 0
+        for try await _ in client.bitable.v1.appTableFormField.listWithIterator(appToken: "s", tableId: "s", formId: "s", params: Bitable.AppTableListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("PUT /open-apis/bitable/v1/apps/:app_token/workflows/:workflow_id") func v1_appWorkflow_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.bitable.v1.appWorkflow.update(appToken: "s", workflowId: "s", body: Bitable.AppWorkflowUpdateBody(status: "s"))
@@ -481,6 +569,16 @@ import LarkBitable
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/bitable/v1/apps/s/workflows")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/bitable/v1/apps/:app_token/workflows") func v1_appWorkflow_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"workflows":[{"workflow_id":"s","status":"s","title":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"workflows":[{"workflow_id":"s","status":"s","title":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.bitable.v1.appWorkflow.listWithIterator(appToken: "s") { pages += 1 }
+        #expect(pages == 1)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 1)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
     }
 
     @Test("DELETE /open-apis/bitable/v1/apps/:app_token/tables/:table_id/fields/:field_id") func v1_appTableField_delete() async throws {
@@ -503,6 +601,17 @@ import LarkBitable
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/bitable/v1/apps/s/tables/s/fields")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/bitable/v1/apps/:app_token/tables/:table_id/fields") func v1_appTableField_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","total":1,"items":[{"field_name":"s","type":1,"property":{"options":[{"name":"s","id":"s","color":1}],"formatter":"s","date_formatter":"s","auto_fill":true,"multiple":true,"table_id":"s","table_name":"s","back_field_name":"s","auto_serial":{"type":"custom","options":[{"type":"system_number","value":"s"}]},"location":{"input_type":"only_mobile"},"formula_expression":"s","allowed_edit_modes":{"manual":true,"scan":true},"min":1.5,"max":1.5,"range_customize":true,"currency_code":"s","rating":{"symbol":"s"},"type":{"data_type":1,"ui_property":{"currency_code":"s","formatter":"s","range_customize":true,"min":1.5,"max":1.5,"date_formatter":"s","rating":{"symbol":"s"}},"ui_type":"Number"},"filter_info":{"target_table":"s","filter_info":{"conjunction":"and","conditions":[{"field_id":"s","operator":"is","value":"s","condition_id":"s","field_type":1}]}}},"description":"s","is_primary":true,"field_id":"s","ui_type":"Text","is_hidden":true}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","total":1,"items":[{"field_name":"s","type":1,"property":{"options":[{"name":"s","id":"s","color":1}],"formatter":"s","date_formatter":"s","auto_fill":true,"multiple":true,"table_id":"s","table_name":"s","back_field_name":"s","auto_serial":{"type":"custom","options":[{"type":"system_number","value":"s"}]},"location":{"input_type":"only_mobile"},"formula_expression":"s","allowed_edit_modes":{"manual":true,"scan":true},"min":1.5,"max":1.5,"range_customize":true,"currency_code":"s","rating":{"symbol":"s"},"type":{"data_type":1,"ui_property":{"currency_code":"s","formatter":"s","range_customize":true,"min":1.5,"max":1.5,"date_formatter":"s","rating":{"symbol":"s"}},"ui_type":"Number"},"filter_info":{"target_table":"s","filter_info":{"conjunction":"and","conditions":[{"field_id":"s","operator":"is","value":"s","condition_id":"s","field_type":1}]}}},"description":"s","is_primary":true,"field_id":"s","ui_type":"Text","is_hidden":true}]}}"##])
+        var pages = 0
+        for try await _ in client.bitable.v1.appTableField.listWithIterator(appToken: "s", tableId: "s", params: Bitable.AppTableFieldListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("PUT /open-apis/bitable/v1/apps/:app_token/tables/:table_id/fields/:field_id") func v1_appTableField_update() async throws {

@@ -203,7 +203,7 @@ extension DirectoryService.V1 {
         public func listWithIterator(params: LarkDirectory.Directory.CollaborationTenantListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkDirectory.Directory.CollaborationTenantListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -244,7 +244,7 @@ extension DirectoryService.V1 {
         public func listWithIterator(params: LarkDirectory.Directory.CollaborationRuleListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkDirectory.Directory.CollaborationRuleListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -296,7 +296,7 @@ extension DirectoryService.V1 {
         public func listWithIterator(params: LarkDirectory.Directory.CollborationShareEntityListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkDirectory.Directory.CollborationShareEntityListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

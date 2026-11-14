@@ -349,7 +349,7 @@ extension HelpdeskService.V1 {
         public func listWithIterator(params: LarkHelpdesk.Helpdesk.FaqListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHelpdesk.Helpdesk.FaqListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -370,7 +370,7 @@ extension HelpdeskService.V1 {
         public func searchWithIterator(params: LarkHelpdesk.Helpdesk.FaqSearchQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkHelpdesk.Helpdesk.FaqSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -604,7 +604,7 @@ extension HelpdeskService.V1 {
         public func listWithIterator(params: LarkHelpdesk.Helpdesk.TicketCustomizedFieldListQuery = .init(), body: LarkHelpdesk.Helpdesk.TicketCustomizedFieldListBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHelpdesk.Helpdesk.TicketCustomizedFieldListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.nextPageToken)
             }

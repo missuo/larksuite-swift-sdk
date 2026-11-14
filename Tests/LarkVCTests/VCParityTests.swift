@@ -376,6 +376,17 @@ import LarkVC
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/vc/v1/meetings/list_by_no") func v1_meeting_listByNo_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","meeting_briefs":[{"id":"s","topic":"s","url":"s","meeting_no":"s","password":"s","meeting_connect":true,"note_id":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","meeting_briefs":[{"id":"s","topic":"s","url":"s","meeting_no":"s","password":"s","meeting_connect":true,"note_id":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.meeting.listByNoWithIterator(params: VC.MeetingListByNoQuery(meetingNo: "s", startTime: "s", endTime: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/vc/v1/meetings/:meeting_id") func v1_meeting_get() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"meeting":{"id":"s","topic":"s","url":"s","meeting_no":"s","password":"s","create_time":"s","start_time":"s","end_time":"s","host_user":{"id":"s","user_type":1},"meeting_connect":true,"status":1,"participant_count":"s","participant_count_accumulated":"s","participants":[{"id":"s","first_join_time":"s","final_leave_time":"s","in_meeting_duration":"s","user_type":1,"is_host":true,"is_cohost":true,"is_external":true,"status":1}],"ability":{"use_video":true,"use_audio":true,"use_share_screen":true,"use_follow_screen":true,"use_recording":true,"use_pstn":true},"note_id":"s"},"related_artifacts":{"note_doc_token":"s","verbatim_doc_token":"s"}}}"##)
         let resp = try await client.vc.v1.meeting.get(meetingId: "s", params: VC.MeetingGetQuery())
@@ -397,6 +408,17 @@ import LarkVC
         #expect(ParityHarness.path(req) == "/open-apis/vc/v1/meetings")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["start_time","end_time","status"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/vc/v1/meetings") func v1_meeting_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","meetings":[{"id":"s","topic":"s","meeting_no":"s","password":"s","start_time":"s","end_time":"s","meeting_connect":true,"status":1,"participant_count_accumulated":"s","note_id":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","meetings":[{"id":"s","topic":"s","meeting_no":"s","password":"s","start_time":"s","end_time":"s","meeting_connect":true,"status":1,"participant_count_accumulated":"s","note_id":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.meeting.listWithIterator(params: VC.MeetingListQuery(startTime: "s", endTime: "s", status: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/vc/v1/meetings/subscription") func v1_meeting_subscription() async throws {
@@ -428,6 +450,17 @@ import LarkVC
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/vc/v1/meetings/search")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator POST /open-apis/vc/v1/meetings/search") func v1_meeting_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"total":1,"has_more":true,"items":[{"id":"s","display_info":"s","meta_data":{"app_link":"s","avatar":"s","description":"s"}}],"page_token":"tok2","notice":"s"}}"##, ##"{"code":0,"msg":"success","data":{"total":1,"has_more":false,"items":[{"id":"s","display_info":"s","meta_data":{"app_link":"s","avatar":"s","description":"s"}}],"page_token":"","notice":"s"}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.meeting.searchWithIterator(params: VC.MeetingSearchQuery(), body: VC.MeetingSearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/vc/v1/my_ai_room/join_offline_meeting") func v1_myAiRoom_joinOfflineMeeting() async throws {
@@ -629,6 +662,17 @@ import LarkVC
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/vc/v1/alerts") func v1_alert_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"alert_id":"s","resource_scope":"s","monitor_target":1,"alert_strategy":"s","alert_time":"s","alert_level":1,"contacts":[{"contact_type":1,"contact_name":"s"}],"notifyMethods":[1],"alertRule":"s","process_time":"s","recover_time":"s","process_status":1,"alert_rule_id":"s","monitor_target_room_id":"s","monitor_target_room_mac":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"alert_id":"s","resource_scope":"s","monitor_target":1,"alert_strategy":"s","alert_time":"s","alert_level":1,"contacts":[{"contact_type":1,"contact_name":"s"}],"notifyMethods":[1],"alertRule":"s","process_time":"s","recover_time":"s","process_status":1,"alert_rule_id":"s","monitor_target_room_id":"s","monitor_target_room_mac":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.alert.listWithIterator(params: VC.AlertListQuery(startTime: "s", endTime: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/vc/v1/my_ai_vc/card_callback") func v1_myAiVc_cardCallback() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.vc.v1.myAiVc.cardCallback(body: VC.MyAiVcCardCallbackBody())
@@ -761,6 +805,17 @@ import LarkVC
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/vc/v1/rooms") func v1_room_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"rooms":[{"room_id":"s","name":"s","capacity":1,"description":"s","display_id":"s","custom_room_id":"s","room_level_id":"s","path":["s"],"room_status":{"status":true,"schedule_status":true,"disable_start_time":"s","disable_end_time":"s","disable_reason":"s","contact_ids":["s"],"disable_notice":true,"resume_notice":true},"device":[{"name":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"rooms":[{"room_id":"s","name":"s","capacity":1,"description":"s","display_id":"s","custom_room_id":"s","room_level_id":"s","path":["s"],"room_status":{"status":true,"schedule_status":true,"disable_start_time":"s","disable_end_time":"s","disable_reason":"s","contact_ids":["s"],"disable_notice":true,"resume_notice":true},"device":[{"name":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.room.listWithIterator(params: VC.RoomListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("DELETE /open-apis/vc/v1/rooms/:room_id") func v1_room_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.vc.v1.room.delete(roomId: "s")
@@ -804,6 +859,17 @@ import LarkVC
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/vc/v1/resource_reservation_list") func v1_resourceReservationList_get_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"room_reservation_list":[{"room_id":"s","room_name":"s","event_title":"s","reserver":"s","reserver_user_id":"s","department_of_reserver":"s","guests_number":"s","accepted_number":"s","event_start_time":"s","event_end_time":"s","event_duration":"s","reservation_status":"s","check_in_device":"s","room_check_in_status":"s","check_in_time":"s","is_release_early":"s","releasing_person":"s","releasing_time":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"room_reservation_list":[{"room_id":"s","room_name":"s","event_title":"s","reserver":"s","reserver_user_id":"s","department_of_reserver":"s","guests_number":"s","accepted_number":"s","event_start_time":"s","event_end_time":"s","event_duration":"s","reservation_status":"s","check_in_device":"s","room_check_in_status":"s","check_in_time":"s","is_release_early":"s","releasing_person":"s","releasing_time":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.resourceReservationList.getWithIterator(params: VC.ResourceReservationListGetQuery(roomLevelId: "s", startTime: "s", endTime: "s", roomIds: ["s"])) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/vc/v1/participant_quality_list") func v1_participantQualityList_get() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"participant_quality_list":[{"network":{"time":"s","network_delay":"s","bitrate_received":"s","packet_loss_avg_received":"s","packet_loss_max_received":"s","bitrate_sent":"s","packet_loss_avg_sent":"s","packet_loss_max_sent":"s"},"audio":{"time":"s","mic_input_volume":"s","speaker_volume":"s","bitrate_received":"s","latency_received":"s","jitter_received":"s","bitrate_sent":"s","latency_sent":"s","jitter_sent":"s"},"video":{"time":"s","bitrate_received":"s","latency_received":"s","jitter_received":"s","maximum_resolution_received":"s","framerate_received":"s","bitrate_sent":"s","latency_sent":"s","jitter_sent":"s","maximum_resolution_sent":"s","framerate_sent":"s"},"screen_sharing":{"time":"s","bitrate_received":"s","latency_received":"s","jitter_received":"s","maximum_resolution_received":"s","framerate_received":"s","bitrate_sent":"s","latency_sent":"s","jitter_sent":"s","maximum_resolution_sent":"s","framerate_sent":"s"},"cpu_usage":{"time":"s","client_avg_cpu_usage":"s","client_max_cpu_usage":"s","system_avg_cpu_usage":"s","system_max_cpu_usage":"s"}}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.vc.v1.participantQualityList.get(params: VC.ParticipantQualityListGetQuery(meetingStartTime: "s", meetingEndTime: "s", meetingNo: "s", joinTime: "s"))
@@ -814,6 +880,17 @@ import LarkVC
         #expect(ParityHarness.path(req) == "/open-apis/vc/v1/participant_quality_list")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["meeting_start_time","meeting_end_time","meeting_no","join_time"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/vc/v1/participant_quality_list") func v1_participantQualityList_get_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"participant_quality_list":[{"network":{"time":"s","network_delay":"s","bitrate_received":"s","packet_loss_avg_received":"s","packet_loss_max_received":"s","bitrate_sent":"s","packet_loss_avg_sent":"s","packet_loss_max_sent":"s"},"audio":{"time":"s","mic_input_volume":"s","speaker_volume":"s","bitrate_received":"s","latency_received":"s","jitter_received":"s","bitrate_sent":"s","latency_sent":"s","jitter_sent":"s"},"video":{"time":"s","bitrate_received":"s","latency_received":"s","jitter_received":"s","maximum_resolution_received":"s","framerate_received":"s","bitrate_sent":"s","latency_sent":"s","jitter_sent":"s","maximum_resolution_sent":"s","framerate_sent":"s"},"screen_sharing":{"time":"s","bitrate_received":"s","latency_received":"s","jitter_received":"s","maximum_resolution_received":"s","framerate_received":"s","bitrate_sent":"s","latency_sent":"s","jitter_sent":"s","maximum_resolution_sent":"s","framerate_sent":"s"},"cpu_usage":{"time":"s","client_avg_cpu_usage":"s","client_max_cpu_usage":"s","system_avg_cpu_usage":"s","system_max_cpu_usage":"s"}}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"participant_quality_list":[{"network":{"time":"s","network_delay":"s","bitrate_received":"s","packet_loss_avg_received":"s","packet_loss_max_received":"s","bitrate_sent":"s","packet_loss_avg_sent":"s","packet_loss_max_sent":"s"},"audio":{"time":"s","mic_input_volume":"s","speaker_volume":"s","bitrate_received":"s","latency_received":"s","jitter_received":"s","bitrate_sent":"s","latency_sent":"s","jitter_sent":"s"},"video":{"time":"s","bitrate_received":"s","latency_received":"s","jitter_received":"s","maximum_resolution_received":"s","framerate_received":"s","bitrate_sent":"s","latency_sent":"s","jitter_sent":"s","maximum_resolution_sent":"s","framerate_sent":"s"},"screen_sharing":{"time":"s","bitrate_received":"s","latency_received":"s","jitter_received":"s","maximum_resolution_received":"s","framerate_received":"s","bitrate_sent":"s","latency_sent":"s","jitter_sent":"s","maximum_resolution_sent":"s","framerate_sent":"s"},"cpu_usage":{"time":"s","client_avg_cpu_usage":"s","client_max_cpu_usage":"s","system_avg_cpu_usage":"s","system_max_cpu_usage":"s"}}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.participantQualityList.getWithIterator(params: VC.ParticipantQualityListGetQuery(meetingStartTime: "s", meetingEndTime: "s", meetingNo: "s", joinTime: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/vc/v1/room_levels/mget") func v1_roomLevel_mget() async throws {
@@ -890,6 +967,17 @@ import LarkVC
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/vc/v1/room_levels")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/vc/v1/room_levels") func v1_roomLevel_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"room_level_id":"s","name":"s","parent_id":"s","path":["s"],"has_child":true,"custom_group_id":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"room_level_id":"s","name":"s","parent_id":"s","path":["s"],"has_child":true,"custom_group_id":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.roomLevel.listWithIterator(params: VC.RoomLevelListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/vc/v1/scope_config") func v1_scopeConfig_get() async throws {
@@ -1091,6 +1179,17 @@ import LarkVC
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/vc/v1/meeting_list") func v1_meetingList_get_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"meeting_list":[{"meeting_id":"s","meeting_topic":"s","meeting_type":1,"organizer":"s","department":"s","user_id":"s","employee_id":"s","email":"s","mobile":"s","meeting_start_time":"s","meeting_end_time":"s","meeting_duration":"s","number_of_participants":"s","number_of_devices":"s","audio":true,"video":true,"sharing":true,"recording":true,"telephone":true,"reserved_rooms":[{"room_id":"s","room_name":"s"}],"has_related_document":true,"ai_note":true,"is_external":true,"meeting_subtype":1,"meeting_instance_id":"s","number_of_webinar_viewers":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"meeting_list":[{"meeting_id":"s","meeting_topic":"s","meeting_type":1,"organizer":"s","department":"s","user_id":"s","employee_id":"s","email":"s","mobile":"s","meeting_start_time":"s","meeting_end_time":"s","meeting_duration":"s","number_of_participants":"s","number_of_devices":"s","audio":true,"video":true,"sharing":true,"recording":true,"telephone":true,"reserved_rooms":[{"room_id":"s","room_name":"s"}],"has_related_document":true,"ai_note":true,"is_external":true,"meeting_subtype":1,"meeting_instance_id":"s","number_of_webinar_viewers":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.meetingList.getWithIterator(params: VC.MeetingListGetQuery(startTime: "s", endTime: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/vc/v1/participant_list") func v1_participantList_get() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"participants":[{"participant_name":"s","department":"s","user_id":"s","meeting_room_id":"s","employee_id":"s","phone":"s","email":"s","device":"s","app_version":"s","public_ip":"s","internal_ip":"s","use_rtc_proxy":true,"location":"s","network_type":"s","protocol":"s","microphone":"s","speaker":"s","camera":"s","audio":true,"video":true,"sharing":true,"join_time":"s","leave_time":"s","time_in_meeting":"s","leave_reason":"s","accept_status":1,"is_external":true,"webinar_user_role":"s"}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.vc.v1.participantList.get(params: VC.ParticipantListGetQuery(meetingStartTime: "s", meetingEndTime: "s", meetingNo: "s"))
@@ -1103,6 +1202,17 @@ import LarkVC
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/vc/v1/participant_list") func v1_participantList_get_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"participants":[{"participant_name":"s","department":"s","user_id":"s","meeting_room_id":"s","employee_id":"s","phone":"s","email":"s","device":"s","app_version":"s","public_ip":"s","internal_ip":"s","use_rtc_proxy":true,"location":"s","network_type":"s","protocol":"s","microphone":"s","speaker":"s","camera":"s","audio":true,"video":true,"sharing":true,"join_time":"s","leave_time":"s","time_in_meeting":"s","leave_reason":"s","accept_status":1,"is_external":true,"webinar_user_role":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"participants":[{"participant_name":"s","department":"s","user_id":"s","meeting_room_id":"s","employee_id":"s","phone":"s","email":"s","device":"s","app_version":"s","public_ip":"s","internal_ip":"s","use_rtc_proxy":true,"location":"s","network_type":"s","protocol":"s","microphone":"s","speaker":"s","camera":"s","audio":true,"video":true,"sharing":true,"join_time":"s","leave_time":"s","time_in_meeting":"s","leave_reason":"s","accept_status":1,"is_external":true,"webinar_user_role":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.participantList.getWithIterator(params: VC.ParticipantListGetQuery(meetingStartTime: "s", meetingEndTime: "s", meetingNo: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/vc/v1/meetings/:meeting_id/pull_subtitle") func v1_meetingPullSubtitle_get() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"s","meeting_subtitles":[{"seg_id":1,"subtitle":{"content":"s","language":"s","speaker_user_id":1,"speaker_device_id":1,"ssd_speaker":{"user_id":"s","speaker_id":1,"speaker_id_type":1}}}]}}"##)
         let resp = try await client.vc.v1.meetingPullSubtitle.get(meetingId: "s", params: VC.MeetingPullSubtitleGetQuery(uid: "s", did: "s"))
@@ -1113,6 +1223,17 @@ import LarkVC
         #expect(ParityHarness.path(req) == "/open-apis/vc/v1/meetings/s/pull_subtitle")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["uid","did"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/vc/v1/meetings/:meeting_id/pull_subtitle") func v1_meetingPullSubtitle_get_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","meeting_subtitles":[{"seg_id":1,"subtitle":{"content":"s","language":"s","speaker_user_id":1,"speaker_device_id":1,"ssd_speaker":{"user_id":"s","speaker_id":1,"speaker_id_type":1}}}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","meeting_subtitles":[{"seg_id":1,"subtitle":{"content":"s","language":"s","speaker_user_id":1,"speaker_device_id":1,"ssd_speaker":{"user_id":"s","speaker_id":1,"speaker_id_type":1}}}]}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.meetingPullSubtitle.getWithIterator(meetingId: "s", params: VC.MeetingPullSubtitleGetQuery(uid: "s", did: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/vc/v1/notes/subscription") func v1_note_subscription() async throws {
@@ -1144,6 +1265,16 @@ import LarkVC
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/vc/v1/notes/s/unified_note_transcript")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/vc/v1/notes/:note_id/unified_note_transcript") func v1_note_unifiedNoteTranscript_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"transcript":{"format":1,"plain_text":"s","markdown":"s","structured_transcript_content":{"paragraphs":[{"speaker":{"speaker_id":"s","speaker_type":1,"speaker_name":"s","extra":{"room_name":"s","other_device_user_id":"s","other_device_user_name":"s"}},"speak_ms":1,"sentences":[{"sentence_id":"s","content":"s","start_ms":1,"stop_ms":1}]}]}},"next_cursor_id":"s","page_size":1,"has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"transcript":{"format":1,"plain_text":"s","markdown":"s","structured_transcript_content":{"paragraphs":[{"speaker":{"speaker_id":"s","speaker_type":1,"speaker_name":"s","extra":{"room_name":"s","other_device_user_id":"s","other_device_user_name":"s"}},"speak_ms":1,"sentences":[{"sentence_id":"s","content":"s","start_ms":1,"stop_ms":1}]}]}},"next_cursor_id":"s","page_size":1,"has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.note.unifiedNoteTranscriptWithIterator(noteId: "s", params: VC.NoteUnifiedNoteTranscriptQuery()) { pages += 1 }
+        #expect(pages == 1)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 1)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
     }
 
     @Test("GET /open-apis/vc/v1/notes/:note_id") func v1_note_get() async throws {
@@ -1243,6 +1374,17 @@ import LarkVC
         #expect(ParityHarness.path(req) == "/open-apis/vc/v1/bots/events")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["meeting_id"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/vc/v1/bots/events") func v1_bot_events_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","events":[{"event_id":"s","event_type":"s","event_time":"s","payload":{"meeting":{"id":"s","topic":"s","meeting_no":"s","start_time":"s","end_time":"s","host_user":{"id":"s","user_type":1,"user_role":1,"user_name":"s"}},"activity_event_type":"s","participant_joined_items":[{"participant":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"join_time":"s"}],"participant_left_items":[{"participant":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"leave_reason":1,"leave_time":"s"}],"transcript_received_items":[{"speaker":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"text":"s","language":"s","start_time_ms":"s","end_time_ms":"s","sentence_id":"s"}],"chat_received_items":[{"operator":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"message_id":"s","message_type":1,"content":"s","send_time":"s"}],"magic_share_started_items":[{"operator":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"share_id":"s","share_doc":{"url":"s","title":"s"},"time":"s"}],"magic_share_ended_items":[{"operator":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"share_id":"s","time":"s"}],"document_context_changed_items":[{"operator":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"share_id":"s","share_doc":{"url":"s","title":"s"},"time":"s","comment_focus":{"comment_id":"s","focused":true},"section_location":{"title":"s","level":1,"parent_titles":["s"]},"element_preview":{"action":"s","element_type":"s","element_token":"s","block_id":"s"}}]}}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","events":[{"event_id":"s","event_type":"s","event_time":"s","payload":{"meeting":{"id":"s","topic":"s","meeting_no":"s","start_time":"s","end_time":"s","host_user":{"id":"s","user_type":1,"user_role":1,"user_name":"s"}},"activity_event_type":"s","participant_joined_items":[{"participant":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"join_time":"s"}],"participant_left_items":[{"participant":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"leave_reason":1,"leave_time":"s"}],"transcript_received_items":[{"speaker":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"text":"s","language":"s","start_time_ms":"s","end_time_ms":"s","sentence_id":"s"}],"chat_received_items":[{"operator":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"message_id":"s","message_type":1,"content":"s","send_time":"s"}],"magic_share_started_items":[{"operator":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"share_id":"s","share_doc":{"url":"s","title":"s"},"time":"s"}],"magic_share_ended_items":[{"operator":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"share_id":"s","time":"s"}],"document_context_changed_items":[{"operator":{"id":"s","user_type":1,"user_role":1,"user_name":"s"},"share_id":"s","share_doc":{"url":"s","title":"s"},"time":"s","comment_focus":{"comment_id":"s","focused":true},"section_location":{"title":"s","level":1,"parent_titles":["s"]},"element_preview":{"action":"s","element_type":"s","element_token":"s","block_id":"s"}}]}}]}}"##])
+        var pages = 0
+        for try await _ in client.vc.v1.bot.eventsWithIterator(params: VC.BotEventsQuery(meetingId: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("event vc.meeting.all_meeting_started_v1") func event_vcMeetingAllMeetingStartedV1() async throws {

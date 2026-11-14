@@ -437,7 +437,7 @@ extension OKRService.V2 {
         public func listWithIterator(objectiveId: String, params: LarkOKR.OKR.OkrObjectiveAlignmentListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkOKR.OKR.OkrObjectiveAlignmentListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(objectiveId: objectiveId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -467,7 +467,7 @@ extension OKRService.V2 {
         public func listWithIterator(params: LarkOKR.OKR.OkrCategoryListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkOKR.OKR.OkrCategoryListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -497,7 +497,7 @@ extension OKRService.V2 {
         public func listWithIterator(params: LarkOKR.OKR.OkrCycleListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkOKR.OKR.OkrCycleListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -549,7 +549,7 @@ extension OKRService.V2 {
         public func listWithIterator(objectiveId: String, params: LarkOKR.OKR.OkrObjectiveKeyResultListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkOKR.OKR.OkrObjectiveKeyResultListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(objectiveId: objectiveId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -641,7 +641,7 @@ extension OKRService.V2 {
         public func listWithIterator(cycleId: String, params: LarkOKR.OKR.OkrCycleObjectiveListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkOKR.OKR.OkrCycleObjectiveListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(cycleId: cycleId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -691,7 +691,7 @@ extension OKRService.V2 {
         public func listWithIterator(objectiveId: String, params: LarkOKR.OKR.OkrObjectiveProgressListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkOKR.OKR.OkrObjectiveProgressListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(objectiveId: objectiveId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -721,7 +721,7 @@ extension OKRService.V2 {
         public func listWithIterator(keyResultId: String, params: LarkOKR.OKR.OkrKeyResultProgressListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkOKR.OKR.OkrKeyResultProgressListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(keyResultId: keyResultId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

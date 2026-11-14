@@ -55,7 +55,7 @@ extension WikiService.V1 {
         public func searchWithIterator(params: LarkWiki.Wiki.NodeSearchQuery = .init(), body: LarkWiki.Wiki.NodeSearchBody, options: RequestOptions = .none) -> LarkPageSequence<LarkWiki.Wiki.NodeSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -156,7 +156,7 @@ extension WikiService.V2 {
         public func listWithIterator(spaceId: String, params: LarkWiki.Wiki.SpaceNodeListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkWiki.Wiki.SpaceNodeListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(spaceId: spaceId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -317,7 +317,7 @@ extension WikiService.V2 {
         public func listWithIterator(params: LarkWiki.Wiki.SpaceListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkWiki.Wiki.SpaceListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

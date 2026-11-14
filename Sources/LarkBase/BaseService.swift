@@ -51,7 +51,7 @@ extension BaseService.V2 {
         public func listWithIterator(appToken: String, params: LarkBase.Base.AppRoleListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBase.Base.AppRoleListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appToken: appToken, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

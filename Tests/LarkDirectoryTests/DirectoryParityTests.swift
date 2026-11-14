@@ -114,6 +114,17 @@ import LarkDirectory
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/directory/v1/collaboration_tenants") func v1_collaborationTenant_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"tenant_key":"s","connect_time":1,"avatar":{"avatar_72":"s","avatar_240":"s","avatar_640":"s","avatar_origin":"s"},"brand":"s","name":{"default_value":"s","i18n_value":{"k":"s"},"default_locale":"s"},"short_name":{"default_value":"s","i18n_value":{"k":"s"},"default_locale":"s"}}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"tenant_key":"s","connect_time":1,"avatar":{"avatar_72":"s","avatar_240":"s","avatar_640":"s","avatar_origin":"s"},"brand":"s","name":{"default_value":"s","i18n_value":{"k":"s"},"default_locale":"s"},"short_name":{"default_value":"s","i18n_value":{"k":"s"},"default_locale":"s"}}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.directory.v1.collaborationTenant.listWithIterator(params: Directory.CollaborationTenantListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("DELETE /open-apis/directory/v1/collaboration_rules/:collaboration_rule_id") func v1_collaborationRule_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.directory.v1.collaborationRule.delete(collaborationRuleId: "s", params: Directory.CollaborationRuleDeleteQuery(targetTenantKey: "s"))
@@ -135,6 +146,17 @@ import LarkDirectory
         #expect(ParityHarness.path(req) == "/open-apis/directory/v1/collaboration_rules")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["target_tenant_key"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/directory/v1/collaboration_rules") func v1_collaborationRule_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"rule_id":"s","subjects":{"open_user_ids":["s"],"open_department_ids":["s"],"open_group_ids":["s"]},"subject_is_valid":true,"objects":{"open_user_ids":["s"],"open_department_ids":["s"],"open_group_ids":["s"]},"object_is_valid":true}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"rule_id":"s","subjects":{"open_user_ids":["s"],"open_department_ids":["s"],"open_group_ids":["s"]},"subject_is_valid":true,"objects":{"open_user_ids":["s"],"open_department_ids":["s"],"open_group_ids":["s"]},"object_is_valid":true}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.directory.v1.collaborationRule.listWithIterator(params: Directory.CollaborationRuleListQuery(targetTenantKey: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/directory/v1/collaboration_rules") func v1_collaborationRule_create() async throws {
@@ -170,6 +192,17 @@ import LarkDirectory
         #expect(ParityHarness.path(req) == "/open-apis/directory/v1/share_entities")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["target_tenant_key"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/directory/v1/share_entities") func v1_collborationShareEntity_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"page_token":"tok2","has_more":true,"share_departments":[{"open_department_id":"s","name":{"default_value":"s","i18n_value":{"k":"s"},"default_locale":"s"}}],"share_groups":[{"open_group_id":"s","name":{"default_value":"s","i18n_value":{"k":"s"},"default_locale":"s"}}],"share_users":[{"open_user_id":"s","name":{"default_value":"s","i18n_value":{"k":"s"},"default_locale":"s"},"avatar":{"avatar_72":"s","avatar_240":"s","avatar_640":"s","avatar_origin":"s"}}]}}"##, ##"{"code":0,"msg":"success","data":{"page_token":"","has_more":false,"share_departments":[{"open_department_id":"s","name":{"default_value":"s","i18n_value":{"k":"s"},"default_locale":"s"}}],"share_groups":[{"open_group_id":"s","name":{"default_value":"s","i18n_value":{"k":"s"},"default_locale":"s"}}],"share_users":[{"open_user_id":"s","name":{"default_value":"s","i18n_value":{"k":"s"},"default_locale":"s"},"avatar":{"avatar_72":"s","avatar_240":"s","avatar_640":"s","avatar_origin":"s"}}]}}"##])
+        var pages = 0
+        for try await _ in client.directory.v1.collborationShareEntity.listWithIterator(params: Directory.CollborationShareEntityListQuery(targetTenantKey: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/directory/v1/departments") func v1_department_create() async throws {

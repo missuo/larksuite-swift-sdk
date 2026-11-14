@@ -214,7 +214,7 @@ extension PerformanceService.V2 {
         public func queryWithIterator(params: LarkPerformance.Performance.QuestionQueryQuery = .init(), body: LarkPerformance.Performance.QuestionQueryBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkPerformance.Performance.QuestionQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.query(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -244,7 +244,7 @@ extension PerformanceService.V2 {
         public func queryWithIterator(params: LarkPerformance.Performance.IndicatorQueryQuery = .init(), body: LarkPerformance.Performance.IndicatorQueryBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkPerformance.Performance.IndicatorQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.query(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -294,7 +294,7 @@ extension PerformanceService.V2 {
         public func listWithIterator(params: LarkPerformance.Performance.MetricTagListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkPerformance.Performance.MetricTagListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -424,7 +424,7 @@ extension PerformanceService.V2 {
         public func queryWithIterator(params: LarkPerformance.Performance.ReviewTemplateQueryQuery = .init(), body: LarkPerformance.Performance.ReviewTemplateQueryBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkPerformance.Performance.ReviewTemplateQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.query(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -495,7 +495,7 @@ extension PerformanceService.V2 {
         public func queryWithIterator(params: LarkPerformance.Performance.AdditionalInformationQueryQuery = .init(), body: LarkPerformance.Performance.AdditionalInformationQueryBody, options: RequestOptions = .none) -> LarkPageSequence<LarkPerformance.Performance.AdditionalInformationQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.query(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

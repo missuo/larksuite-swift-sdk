@@ -261,7 +261,7 @@ extension DocxService.V1 {
         public func getWithIterator(documentId: String, blockId: String, params: LarkDocx.Docx.DocumentBlockChildrenGetQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkDocx.Docx.DocumentBlockChildrenGetResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.get(documentId: documentId, blockId: blockId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -319,7 +319,7 @@ extension DocxService.V1 {
         public func listWithIterator(chatId: String, params: LarkDocx.Docx.ChatAnnouncementBlockListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkDocx.Docx.ChatAnnouncementBlockListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(chatId: chatId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -404,7 +404,7 @@ extension DocxService.V1 {
         public func listWithIterator(documentId: String, params: LarkDocx.Docx.DocumentBlockListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkDocx.Docx.DocumentBlockListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(documentId: documentId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

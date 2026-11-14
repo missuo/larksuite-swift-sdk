@@ -125,7 +125,7 @@ extension AttendanceService.V1 {
         public func listWithIterator(params: LarkAttendance.Attendance.GroupListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkAttendance.Attendance.GroupListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -309,7 +309,7 @@ extension AttendanceService.V1 {
         public func listWithIterator(params: LarkAttendance.Attendance.ShiftListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkAttendance.Attendance.ShiftListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -512,7 +512,7 @@ extension AttendanceService.V1 {
         public func listWithIterator(params: LarkAttendance.Attendance.ArchiveRuleListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkAttendance.Attendance.ArchiveRuleListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

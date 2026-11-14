@@ -30,6 +30,17 @@ import LarkSearch
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/search/v2/data_sources") func v2_dataSource_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","name":"s","state":1,"description":"s","create_time":"s","update_time":"s","is_exceed_quota":true,"icon_url":"s","template":"s","searchable_fields":["s"],"i18n_name":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"i18n_description":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"schema_id":"s","app_id":"s","connect_type":1,"connector_param":{"callback_user_id_type":1,"callback_endpoint":"s"},"enable_answer":true}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","name":"s","state":1,"description":"s","create_time":"s","update_time":"s","is_exceed_quota":true,"icon_url":"s","template":"s","searchable_fields":["s"],"i18n_name":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"i18n_description":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"schema_id":"s","app_id":"s","connect_type":1,"connector_param":{"callback_user_id_type":1,"callback_endpoint":"s"},"enable_answer":true}]}}"##])
+        var pages = 0
+        for try await _ in client.search.v2.dataSource.listWithIterator(params: Search.DataSourceListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("DELETE /open-apis/search/v2/data_sources/:data_source_id") func v2_dataSource_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.search.v2.dataSource.delete(dataSourceId: "s")
@@ -167,6 +178,17 @@ import LarkSearch
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/search/v2/doc_wiki/search")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["query"]))
+    }
+
+    @Test("iterator POST /open-apis/search/v2/doc_wiki/search") func v2_docWiki_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"total":1,"has_more":true,"res_units":[{"title_highlighted":"s","summary_highlighted":"s","entity_type":"DOC","result_meta":{"doc_types":"DOC","update_time":1,"url":"s","owner_name":"s","owner_id":"s","is_cross_tenant":true,"create_time":1,"last_open_time":1,"edit_user_id":"s","edit_user_name":"s","token":"s","file_type":"s","icon_info":"s"}}],"page_token":"tok2","notice":"s"}}"##, ##"{"code":0,"msg":"success","data":{"total":1,"has_more":false,"res_units":[{"title_highlighted":"s","summary_highlighted":"s","entity_type":"DOC","result_meta":{"doc_types":"DOC","update_time":1,"url":"s","owner_name":"s","owner_id":"s","is_cross_tenant":true,"create_time":1,"last_open_time":1,"edit_user_id":"s","edit_user_name":"s","token":"s","file_type":"s","icon_info":"s"}}],"page_token":"","notice":"s"}}"##])
+        var pages = 0
+        for try await _ in client.search.v2.docWiki.searchWithIterator(body: Search.DocWikiSearchBody(query: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
 }

@@ -111,7 +111,7 @@ extension AdminService.V1 {
         public func listWithIterator(badgeId: String, params: LarkAdmin.Admin.BadgeGrantListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkAdmin.Admin.BadgeGrantListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(badgeId: badgeId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -163,7 +163,7 @@ extension AdminService.V1 {
         public func listWithIterator(params: LarkAdmin.Admin.BadgeListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkAdmin.Admin.BadgeListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -244,7 +244,7 @@ extension AdminService.V1 {
         public func listWithIterator(params: LarkAdmin.Admin.AuditInfoListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkAdmin.Admin.AuditInfoListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

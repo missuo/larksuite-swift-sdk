@@ -75,7 +75,7 @@ extension SearchService.V2 {
         public func listWithIterator(params: LarkSearch.Search.DataSourceListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkSearch.Search.DataSourceListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -267,6 +267,15 @@ extension SearchService.V2 {
         /// `POST /open-apis/search/v2/doc_wiki/search`
         public func search(body: LarkSearch.Search.DocWikiSearchBody, options: RequestOptions = .none) async throws -> LarkResponse<LarkSearch.Search.DocWikiSearchResponse> {
             try await client.request(.post, "/open-apis/search/v2/doc_wiki/search", query: nil, body: .json(body), options: options)
+        }
+
+        /// Iterates over every page of `search` (equivalent of `searchWithIterator`).
+        public func searchWithIterator(body: LarkSearch.Search.DocWikiSearchBody, options: RequestOptions = .none) -> LarkPageSequence<LarkSearch.Search.DocWikiSearchResponse> {
+            LarkPageSequence { token in
+                let r: LarkResponse<LarkSearch.Search.DocWikiSearchResponse> = try await client.request(
+                    .post, "/open-apis/search/v2/doc_wiki/search", query: LarkPageTokenQuery(nil, pageToken: token), body: .json(body), options: options)
+                return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
+            }
         }
 
     }

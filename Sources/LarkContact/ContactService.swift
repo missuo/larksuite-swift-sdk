@@ -141,7 +141,7 @@ extension ContactService.V3 {
         public func simplelistWithIterator(params: LarkContact.Contact.GroupSimplelistQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.GroupSimplelistResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.simplelist(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -448,7 +448,7 @@ extension ContactService.V3 {
         public func parentWithIterator(params: LarkContact.Contact.DepartmentParentQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.DepartmentParentResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.parent(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -481,7 +481,7 @@ extension ContactService.V3 {
         public func listWithIterator(params: LarkContact.Contact.DepartmentListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.DepartmentListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -502,7 +502,7 @@ extension ContactService.V3 {
         public func childrenWithIterator(departmentId: String, params: LarkContact.Contact.DepartmentChildrenQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.DepartmentChildrenResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.children(departmentId: departmentId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -523,7 +523,7 @@ extension ContactService.V3 {
         public func searchWithIterator(params: LarkContact.Contact.DepartmentSearchQuery = .init(), body: LarkContact.Contact.DepartmentSearchBody, options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.DepartmentSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -623,7 +623,7 @@ extension ContactService.V3 {
         public func listWithIterator(params: LarkContact.Contact.JobLevelListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.JobLevelListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -727,7 +727,7 @@ extension ContactService.V3 {
         public func listWithIterator(params: LarkContact.Contact.JobFamilyListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.JobFamilyListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -796,7 +796,7 @@ extension ContactService.V3 {
         public func listWithIterator(params: LarkContact.Contact.UserListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.UserListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -859,7 +859,7 @@ extension ContactService.V3 {
         public func findByDepartmentWithIterator(params: LarkContact.Contact.UserFindByDepartmentQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.UserFindByDepartmentResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.findByDepartment(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -965,7 +965,7 @@ extension ContactService.V3 {
         public func listWithIterator(params: LarkContact.Contact.EmployeeTypeEnumListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.EmployeeTypeEnumListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1058,7 +1058,7 @@ extension ContactService.V3 {
         public func listWithIterator(roleId: String, params: LarkContact.Contact.FunctionalRoleMemberListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.FunctionalRoleMemberListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(roleId: roleId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1168,7 +1168,7 @@ extension ContactService.V3 {
         public func listWithIterator(params: LarkContact.Contact.JobTitleListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.JobTitleListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1209,7 +1209,7 @@ extension ContactService.V3 {
         public func listWithIterator(params: LarkContact.Contact.WorkCityListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.WorkCityListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1239,7 +1239,7 @@ extension ContactService.V3 {
         public func listWithIterator(params: LarkContact.Contact.ScopeListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.ScopeListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1269,7 +1269,7 @@ extension ContactService.V3 {
         public func listWithIterator(params: LarkContact.Contact.CustomAttrListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkContact.Contact.CustomAttrListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

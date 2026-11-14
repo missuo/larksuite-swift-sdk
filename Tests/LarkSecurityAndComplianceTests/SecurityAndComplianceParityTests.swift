@@ -153,6 +153,17 @@ import LarkSecurityAndCompliance
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/security_and_compliance/v2/device_records") func v2_deviceRecord_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"device_record_id":"s","version":"s","current_user_id":"s","device_name":"s","model":"s","device_system":1,"serial_number":"s","disk_serial_number":"s","uuid":"s","mac_address":"s","android_id":"s","idfv":"s","aaid":"s","device_ownership":1,"device_status":1,"certification_level":1,"device_terminal_type":1,"latest_user_id":"s","dids":["s"],"is_managed":true,"mdm_device_id":"s","mdm_provider_name":"s","lsa_info":"s","device_env_info":"s","created_at":1,"updated_at":1,"is_public":true,"source":1,"cert_verified_at_unix":"s","cert_serial_number":"s","cert_issuer":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"device_record_id":"s","version":"s","current_user_id":"s","device_name":"s","model":"s","device_system":1,"serial_number":"s","disk_serial_number":"s","uuid":"s","mac_address":"s","android_id":"s","idfv":"s","aaid":"s","device_ownership":1,"device_status":1,"certification_level":1,"device_terminal_type":1,"latest_user_id":"s","dids":["s"],"is_managed":true,"mdm_device_id":"s","mdm_provider_name":"s","lsa_info":"s","device_env_info":"s","created_at":1,"updated_at":1,"is_public":true,"source":1,"cert_verified_at_unix":"s","cert_serial_number":"s","cert_issuer":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.securityAndCompliance.v2.deviceRecord.listWithIterator(params: SecurityAndCompliance.DeviceRecordListQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("event security_and_compliance.device_apply_record.device_apply_event_v2") func event_securityAndComplianceDeviceApplyRecordDeviceApplyEventV2() async throws {
         let body = try JSONValue(jsonString: ##"{"schema":"2.0","header":{"event_id":"e","event_type":"security_and_compliance.device_apply_record.device_apply_event_v2","create_time":"1","token":"t","app_id":"cli_x","tenant_key":"tk"},"event":{"event_id":"s","token":"s","create_time":"s","event_type":"s","tenant_key":"s","ts":"s","uuid":"s","type":"s","app_id":"s","device_apply_record_id":"s","device_record":{"device_record_id":"s","version":"s","current_user_id":{"union_id":"s","user_id":"s","open_id":"s"},"device_name":"s","model":"s","device_system":1,"serial_number":"s","disk_serial_number":"s","uuid":"s","mac_address":"s","android_id":"s","idfv":"s","aaid":"s","device_ownership":1,"device_status":1,"certification_level":1,"device_terminal_type":1,"is_managed":true,"mdm_device_id":"s","mdm_provider_name":"s","device_env_detect_status":1,"is_public":true,"source":1},"apply_time":"s","apply_status":1,"operator":{"union_id":"s","user_id":"s","open_id":"s"},"apply_device_ownership":1,"apply_reason":"s"}}"##)
         let dispatcher = EventDispatcher(logLevel: .fatal).register(.securityAndComplianceDeviceApplyRecordDeviceApplyEventV2) { _, event in

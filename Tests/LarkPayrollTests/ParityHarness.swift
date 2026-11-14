@@ -6,28 +6,45 @@ import Foundation
 final class ParityHTTP: LarkHTTPClient, @unchecked Sendable {
     private let lock = NSLock()
     private var requests: [LarkHTTPRequest] = []
-    let response: LarkHTTPResponse
+    private var served = 0
+    /// Responses for successive API requests; the last one repeats.
+    let responses: [LarkHTTPResponse]
 
-    init(response: LarkHTTPResponse) { self.response = response }
+    init(response: LarkHTTPResponse) { self.responses = [response] }
+    init(responses: [LarkHTTPResponse]) { self.responses = responses }
 
     func send(_ request: LarkHTTPRequest) async throws -> LarkHTTPResponse {
-        lock.withLock { requests.append(request) }
         // The SDK's own token fetch is the only request without an Authorization header.
         if request.headers["Authorization"] == nil && request.url.path == "/open-apis/auth/v3/tenant_access_token/internal" {
+            lock.withLock { requests.append(request) }
             return LarkHTTPResponse(statusCode: 200, headers: [:], body: Data(#"{"code":0,"tenant_access_token":"t-test","expire":7200}"#.utf8))
         }
-        return response
+        return lock.withLock {
+            requests.append(request)
+            defer { served += 1 }
+            return responses[min(served, responses.count - 1)]
+        }
     }
 
-    /// The last API request (excludes the SDK's internal token fetch).
-    var apiRequest: LarkHTTPRequest? {
-        lock.withLock { requests.last { $0.headers["Authorization"] != nil } }
+    /// API requests in order (excludes the SDK's internal token fetch).
+    var apiRequests: [LarkHTTPRequest] {
+        lock.withLock { requests.filter { $0.headers["Authorization"] != nil } }
     }
+
+    /// The last API request.
+    var apiRequest: LarkHTTPRequest? { apiRequests.last }
 }
 
 enum ParityHarness {
     static func client(json: String) throws -> (LarkClient, ParityHTTP) {
         let http = ParityHTTP(response: LarkHTTPResponse(statusCode: 200, headers: ["Content-Type": "application/json"], body: Data(json.utf8)))
+        return (try make(http), http)
+    }
+
+    static func client(jsonPages: [String]) throws -> (LarkClient, ParityHTTP) {
+        let http = ParityHTTP(responses: jsonPages.map {
+            LarkHTTPResponse(statusCode: 200, headers: ["Content-Type": "application/json"], body: Data($0.utf8))
+        })
         return (try make(http), http)
     }
 
@@ -43,6 +60,10 @@ enum ParityHarness {
     /// The raw path, keeping a trailing slash (`URL.path` drops it).
     static func path(_ r: LarkHTTPRequest) -> String {
         URLComponents(url: r.url, resolvingAgainstBaseURL: false)?.percentEncodedPath ?? r.url.path
+    }
+
+    static func queryValues(_ r: LarkHTTPRequest, _ name: String) -> [String] {
+        (URLComponents(url: r.url, resolvingAgainstBaseURL: false)?.queryItems ?? []).filter { $0.name == name }.compactMap(\.value)
     }
 
     static func queryKeys(_ r: LarkHTTPRequest) -> Set<String> {

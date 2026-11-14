@@ -52,6 +52,16 @@ import LarkBaike
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/baike/v1/entities") func v1_entity_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"entities":[{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","name":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1}],"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"entities":[{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","name":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1}],"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.baike.v1.entity.listWithIterator(params: Baike.EntityListQuery()) { pages += 1 }
+        #expect(pages == 1)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 1)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+    }
+
     @Test("POST /open-apis/baike/v1/entities/extract") func v1_entity_extract() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"entity_word":[{"name":"s","aliases":["s"]}]}}"##)
         let resp = try await client.baike.v1.entity.extract(body: Baike.EntityExtractBody())
@@ -72,6 +82,16 @@ import LarkBaike
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/baike/v1/entities/search")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator POST /open-apis/baike/v1/entities/search") func v1_entity_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"entities":[{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","name":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1}],"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"entities":[{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","name":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1}],"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.baike.v1.entity.searchWithIterator(params: Baike.EntitySearchQuery(), body: Baike.EntitySearchBody()) { pages += 1 }
+        #expect(pages == 1)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 1)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
     }
 
     @Test("POST /open-apis/baike/v1/entities") func v1_entity_create() async throws {
@@ -105,6 +125,16 @@ import LarkBaike
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/baike/v1/classifications")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/baike/v1/classifications") func v1_classification_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","father_id":"s"}],"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","father_id":"s"}],"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.baike.v1.classification.listWithIterator(params: Baike.ClassificationListQuery()) { pages += 1 }
+        #expect(pages == 1)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 1)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
     }
 
     @Test("POST /open-apis/baike/v1/files/upload") func v1_file_upload() async throws {

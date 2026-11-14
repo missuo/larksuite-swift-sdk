@@ -115,7 +115,7 @@ extension LingoService.V1 {
         public func listWithIterator(params: LarkLingo.Lingo.EntityListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkLingo.Lingo.EntityListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -136,7 +136,7 @@ extension LingoService.V1 {
         public func searchWithIterator(params: LarkLingo.Lingo.EntitySearchQuery = .init(), body: LarkLingo.Lingo.EntitySearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkLingo.Lingo.EntitySearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -224,7 +224,7 @@ extension LingoService.V1 {
         public func listWithIterator(params: LarkLingo.Lingo.ClassificationListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkLingo.Lingo.ClassificationListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

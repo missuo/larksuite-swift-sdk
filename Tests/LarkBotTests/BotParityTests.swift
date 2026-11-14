@@ -19,4 +19,15 @@ import LarkBot
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
+    @Test("iterator POST /open-apis/bot/v4/bot/search") func v4_bot_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","display_info":"s","meta_data":{"tenant_id":"s","enable_join_group":true,"chat_id":"s","is_agent":true}}],"has_more":true,"page_token":"tok2","notice":"s"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","display_info":"s","meta_data":{"tenant_id":"s","enable_join_group":true,"chat_id":"s","is_agent":true}}],"has_more":false,"page_token":"","notice":"s"}}"##])
+        var pages = 0
+        for try await _ in client.bot.v4.bot.searchWithIterator(params: Bot.BotSearchQuery(), body: Bot.BotSearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
 }

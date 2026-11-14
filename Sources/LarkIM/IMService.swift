@@ -222,7 +222,7 @@ extension IMService.V1 {
         public func searchWithIterator(params: LarkIM.IM.MessageSearchQuery = .init(), body: LarkIM.IM.MessageSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.MessageSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -259,7 +259,7 @@ extension IMService.V1 {
         public func listWithIterator(params: LarkIM.IM.MessageListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.MessageListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -562,7 +562,7 @@ extension IMService.V1 {
         public func getWithIterator(chatId: String, params: LarkIM.IM.ChatMembersGetQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.ChatMembersGetResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.get(chatId: chatId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -603,7 +603,7 @@ extension IMService.V1 {
         public func listWithIterator(params: LarkIM.IM.PinListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.PinListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -753,7 +753,7 @@ extension IMService.V1 {
         public func searchWithIterator(params: LarkIM.IM.ChatSearchQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.ChatSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -785,7 +785,7 @@ extension IMService.V1 {
         public func listWithIterator(params: LarkIM.IM.ChatListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.ChatListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -823,7 +823,7 @@ extension IMService.V1 {
         public func getWithIterator(chatId: String, params: LarkIM.IM.ChatModerationGetQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.ChatModerationGetResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.get(chatId: chatId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1281,7 +1281,7 @@ extension IMService.V1 {
         public func listWithIterator(messageId: String, params: LarkIM.IM.MessageReactionListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.MessageReactionListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(messageId: messageId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1667,7 +1667,7 @@ extension IMService.V2 {
         public func searchWithIterator(params: LarkIM.IM.MessageSearchQuery = .init(), body: LarkIM.IM.ChatSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkIM.IM.ChatSearchResponseV2> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

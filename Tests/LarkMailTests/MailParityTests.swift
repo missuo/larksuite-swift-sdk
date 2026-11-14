@@ -19,6 +19,17 @@ import LarkMail
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/mail/v1/mailgroups/:mailgroup_id/members") func v1_mailgroupMember_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"member_id":"s","email":"s","user_id":"s","department_id":"s","type":"USER"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"member_id":"s","email":"s","user_id":"s","department_id":"s","type":"USER"}]}}"##])
+        var pages = 0
+        for try await _ in client.mail.v1.mailgroupMember.listWithIterator(mailgroupId: "s", params: Mail.MailgroupMemberListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("DELETE /open-apis/mail/v1/mailgroups/:mailgroup_id/members/:member_id") func v1_mailgroupMember_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.mail.v1.mailgroupMember.delete(mailgroupId: "s", memberId: "s")
@@ -81,6 +92,17 @@ import LarkMail
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/mail/v1/mailgroups/s/permission_members")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/mail/v1/mailgroups/:mailgroup_id/permission_members") func v1_mailgroupPermissionMember_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"permission_member_id":"s","user_id":"s","department_id":"s","email":"s","type":"USER"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"permission_member_id":"s","user_id":"s","department_id":"s","email":"s","type":"USER"}]}}"##])
+        var pages = 0
+        for try await _ in client.mail.v1.mailgroupPermissionMember.listWithIterator(mailgroupId: "s", params: Mail.MailgroupMemberListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/mail/v1/mailgroups/:mailgroup_id/permission_members/:permission_member_id") func v1_mailgroupPermissionMember_get() async throws {
@@ -168,6 +190,17 @@ import LarkMail
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/mail/v1/mailgroups") func v1_mailgroup_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"mailgroup_id":"s","email":"s","name":"s","description":"s","direct_members_count":"s","include_external_member":true,"include_all_company_member":true,"who_can_send_mail":"ANYONE"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"mailgroup_id":"s","email":"s","name":"s","description":"s","direct_members_count":"s","include_external_member":true,"include_all_company_member":true,"who_can_send_mail":"ANYONE"}]}}"##])
+        var pages = 0
+        for try await _ in client.mail.v1.mailgroup.listWithIterator(params: Mail.MailgroupListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/mail/v1/mailgroups") func v1_mailgroup_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"mailgroup_id":"s","email":"s","name":"s","description":"s","direct_members_count":"s","include_external_member":true,"include_all_company_member":true,"who_can_send_mail":"ANYONE"}}"##)
         let resp = try await client.mail.v1.mailgroup.create(body: Mail.MailgroupCreateBody())
@@ -231,6 +264,17 @@ import LarkMail
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/mail/v1/public_mailboxes/s/members")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/mail/v1/public_mailboxes/:public_mailbox_id/members") func v1_publicMailboxMember_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"member_id":"s","user_id":"s","type":"USER"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"member_id":"s","user_id":"s","type":"USER"}]}}"##])
+        var pages = 0
+        for try await _ in client.mail.v1.publicMailboxMember.listWithIterator(publicMailboxId: "s", params: Mail.PublicMailboxMemberListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("DELETE /open-apis/mail/v1/public_mailboxes/:public_mailbox_id/members/:member_id") func v1_publicMailboxMember_delete() async throws {
@@ -382,6 +426,17 @@ import LarkMail
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
+    @Test("iterator POST /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/search") func v1_userMailbox_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","display_info":"s","meta_data":{"title":"s","thread_id":"s","create_time":"s","message_biz_id":"s","from":{"mail_address":"s","name":"s"}}}],"total":1,"has_more":true,"page_token":"tok2","notice":"s"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","display_info":"s","meta_data":{"title":"s","thread_id":"s","create_time":"s","message_biz_id":"s","from":{"mail_address":"s","name":"s"}}}],"total":1,"has_more":false,"page_token":"","notice":"s"}}"##])
+        var pages = 0
+        for try await _ in client.mail.v1.userMailbox.searchWithIterator(userMailboxId: "s", params: Mail.UserMailboxSearchQuery(), body: Mail.UserMailboxSearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("DELETE /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/aliases/:alias_id") func v1_userMailboxAlias_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.mail.v1.userMailboxAlias.delete(userMailboxId: "s", aliasId: "s")
@@ -414,6 +469,16 @@ import LarkMail
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/aliases") func v1_userMailboxAlias_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"primary_email":"s","email_alias":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"primary_email":"s","email_alias":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.mail.v1.userMailboxAlias.listWithIterator(userMailboxId: "s", params: Mail.UserMailboxAliasListQuery()) { pages += 1 }
+        #expect(pages == 1)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 1)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+    }
+
     @Test("POST /open-apis/mail/v1/mailgroups/:mailgroup_id/managers/batch_delete") func v1_mailgroupManager_batchDelete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.mail.v1.mailgroupManager.batchDelete(mailgroupId: "s", params: Mail.PublicMailboxMemberGetQuery(), body: Mail.MailgroupManagerBatchDeleteBody())
@@ -443,6 +508,17 @@ import LarkMail
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/mail/v1/mailgroups/s/managers")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/mail/v1/mailgroups/:mailgroup_id/managers") func v1_mailgroupManager_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"user_id":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"user_id":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.mail.v1.mailgroupManager.listWithIterator(mailgroupId: "s", params: Mail.MailgroupManagerListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("DELETE /open-apis/mail/v1/public_mailboxes/:public_mailbox_id") func v1_publicMailbox_delete() async throws {
@@ -518,6 +594,17 @@ import LarkMail
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/mail/v1/public_mailboxes")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/mail/v1/public_mailboxes") func v1_publicMailbox_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"public_mailbox_id":"s","email":"s","name":"s","geo":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"public_mailbox_id":"s","email":"s","name":"s","geo":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.mail.v1.publicMailbox.listWithIterator(params: Mail.PublicMailboxListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/mail/v1/users/query") func v1_user_query() async throws {
@@ -650,6 +737,17 @@ import LarkMail
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/messages") func v1_userMailboxMessage_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":["s"],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":["s"],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.mail.v1.userMailboxMessage.listWithIterator(userMailboxId: "s", params: Mail.UserMailboxMessageListQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/threads/batch_modify") func v1_userMailboxThread_batchModify() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.mail.v1.userMailboxThread.batchModify(userMailboxId: "s", body: Mail.UserMailboxThreadBatchModifyBody())
@@ -700,6 +798,17 @@ import LarkMail
         #expect(ParityHarness.path(req) == "/open-apis/mail/v1/user_mailboxes/s/threads")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["page_size"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/threads") func v1_userMailboxThread_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","body_preview":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","body_preview":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.mail.v1.userMailboxThread.listWithIterator(userMailboxId: "s", params: Mail.UserMailboxMessageListQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/threads/:thread_id") func v1_userMailboxThread_get() async throws {
@@ -787,6 +896,17 @@ import LarkMail
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/mail_contacts") func v1_userMailboxMailContact_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","company":"s","phone":"s","mail_address":"s","tag":"s","remark":"s","avatar":"s","position":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","company":"s","phone":"s","mail_address":"s","tag":"s","remark":"s","avatar":"s","position":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.mail.v1.userMailboxMailContact.listWithIterator(userMailboxId: "s", params: Mail.UserMailboxMailContactListQuery(pageSize: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("DELETE /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/labels/:label_id") func v1_userMailboxLabel_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.mail.v1.userMailboxLabel.delete(userMailboxId: "s", labelId: "s")
@@ -850,6 +970,17 @@ import LarkMail
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/mail/v1/user_mailboxes/s/drafts")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/drafts") func v1_userMailboxDraft_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.mail.v1.userMailboxDraft.listWithIterator(userMailboxId: "s", params: Mail.UserMailboxSearchQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/messages/:message_id/cancel_scheduled_send") func v1_userMailboxDraft_cancelScheduledSend() async throws {

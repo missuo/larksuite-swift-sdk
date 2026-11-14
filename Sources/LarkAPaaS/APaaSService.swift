@@ -542,7 +542,7 @@ extension APaaSService.V1 {
         public func listWithIterator(params: LarkAPaaS.APaaS.SeatAssignmentListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkAPaaS.APaaS.SeatAssignmentListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -572,7 +572,7 @@ extension APaaSService.V1 {
         public func listWithIterator(params: LarkAPaaS.APaaS.SeatActivityListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkAPaaS.APaaS.SeatActivityListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -603,7 +603,7 @@ extension APaaSService.V1 {
         public func listWithIterator(params: LarkAPaaS.APaaS.AppListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkAPaaS.APaaS.AppListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

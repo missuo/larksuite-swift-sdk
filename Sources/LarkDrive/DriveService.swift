@@ -159,7 +159,7 @@ extension DriveService.V1 {
         public func listWithIterator(params: LarkDrive.Drive.FileListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkDrive.Drive.FileListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.nextPageToken)
             }
@@ -425,7 +425,7 @@ extension DriveService.V1 {
         public func listWithIterator(fileToken: String, params: LarkDrive.Drive.FileVersionListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkDrive.Drive.FileVersionListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(fileToken: fileToken, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -466,7 +466,7 @@ extension DriveService.V1 {
         public func listWithIterator(fileToken: String, params: LarkDrive.Drive.FileViewRecordListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkDrive.Drive.FileViewRecordListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(fileToken: fileToken, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -595,7 +595,7 @@ extension DriveService.V1 {
         public func listWithIterator(fileToken: String, params: LarkDrive.Drive.FileCommentListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkDrive.Drive.FileCommentListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(fileToken: fileToken, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -829,7 +829,7 @@ extension DriveService.V1 {
         public func listWithIterator(fileToken: String, commentId: String, params: LarkDrive.Drive.FileCommentReplyListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkDrive.Drive.FileCommentReplyListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(fileToken: fileToken, commentId: commentId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1005,7 +1005,7 @@ extension DriveService.V2 {
         public func listWithIterator(fileToken: String, params: LarkDrive.Drive.FileLikeListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkDrive.Drive.FileLikeListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(fileToken: fileToken, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

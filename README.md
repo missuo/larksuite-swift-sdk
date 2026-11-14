@@ -303,7 +303,7 @@ compile-checked by the test suite.
 ## Development
 
 ```bash
-swift build && swift test           # ~2.4k tests
+swift build && swift test           # ~2.7k tests
 
 # Regenerate the APIs from a node-sdk checkout
 cd Tools/codegen && npm install

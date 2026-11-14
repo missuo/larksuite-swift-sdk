@@ -25,7 +25,8 @@ and fails if the checked-in generated code drifts. Progress and scope live in [P
    done. Specifically:
    - Generated APIs: each method gets a generated parity test (`Tests/Lark<Module>Tests/
      <Module>ParityTests.swift`) asserting method, path, required query/body/multipart field
-     names and decoding of a fully populated node-sdk response. Never hand-edit or delete
+     names and decoding of a fully populated node-sdk response, plus an iterator test for every
+     `xxxWithIterator` (pages, `page_token` placement, stop rule). Never hand-edit or delete
      these; fix the generator instead.
    - Runtime features (WS client, dispatchers, crypto, token manager, ...): tests must use
      **vectors produced by node-sdk itself** (run its code / its dependencies such as
@@ -56,6 +57,7 @@ and fails if the checked-in generated code drifts. Progress and scope live in [P
 | Business errors | returns the body when `code != 0` | throws `LarkError.api(LarkAPIError)` (with `code`, `msg`, `logId`, raw body) | Swift error handling; nothing is lost |
 | Typed models | TypeScript types only (never validated at runtime) | `Codable` structs with lenient decoding; open string enums. Response/event types and every nested object type are all-optional; only top-level request `Query`/`Body` fields and path arguments keep node's required markers | Matches node at runtime: a missing or mismatched field becomes `nil` instead of failing or dropping the object, and one nested type serves both requests and responses |
 | Event handlers | one flattened object | `LarkEvent` (whose `payload` is exactly node's flattened object) or a typed struct decoded from it | Type safety; same data |
+| Iterators (`xxxWithIterator`) | a failed page is logged and yields `null`, then iteration ends; `has_more: true` without a token re-requests the first page forever | a failed page throws; iteration also ends when no next token comes back | Swift errors; avoid an endless loop |
 | WS ack `biz_rt` | `startTime - endTime` (negative, a bug) | elapsed milliseconds (positive) | Field is a duration |
 | Explicit tenant token | `withTenantToken` header is overwritten by the managed token unless `disableTokenCache` | an explicit token in `RequestOptions` always wins | Avoids silently ignoring caller input |
 | Downloads | `writeFile(path)` / `getReadableStream()` | `LarkBinaryResponse` with `data`, `write(to:)`, `writeFile(_:)` | No Node streams in Swift |

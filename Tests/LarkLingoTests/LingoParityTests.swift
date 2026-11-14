@@ -75,6 +75,17 @@ import LarkLingo
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/lingo/v1/entities") func v1_entity_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"entities":[{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1,"i18n_descs":[{"language":1,"description":"s","rich_text":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"entities":[{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1,"i18n_descs":[{"language":1,"description":"s","rich_text":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.lingo.v1.entity.listWithIterator(params: Lingo.EntityListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/lingo/v1/entities/search") func v1_entity_search() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"entities":[{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1,"i18n_descs":[{"language":1,"description":"s","rich_text":"s"}]}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.lingo.v1.entity.search(params: Lingo.EntitySearchQuery(), body: Lingo.EntitySearchBody())
@@ -84,6 +95,17 @@ import LarkLingo
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/lingo/v1/entities/search")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
+    }
+
+    @Test("iterator POST /open-apis/lingo/v1/entities/search") func v1_entity_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"entities":[{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1,"i18n_descs":[{"language":1,"description":"s","rich_text":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"entities":[{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1,"i18n_descs":[{"language":1,"description":"s","rich_text":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.lingo.v1.entity.searchWithIterator(params: Lingo.EntitySearchQuery(), body: Lingo.EntitySearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("DELETE /open-apis/lingo/v1/entities/:entity_id") func v1_entity_delete() async throws {
@@ -138,6 +160,17 @@ import LarkLingo
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/lingo/v1/classifications")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/lingo/v1/classifications") func v1_classification_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","father_id":"s","i18n_names":[{"language":1,"name":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","name":"s","father_id":"s","i18n_names":[{"language":1,"name":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.lingo.v1.classification.listWithIterator(params: Lingo.ClassificationListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/lingo/v1/drafts") func v1_draft_create() async throws {

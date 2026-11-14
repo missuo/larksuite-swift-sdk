@@ -52,6 +52,17 @@ import LarkContact
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/contact/v3/group/simplelist") func v3_group_simplelist_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"grouplist":[{"id":"s","name":"s","description":"s","member_user_count":1,"member_department_count":1,"type":1,"department_scope_list":["s"],"group_id":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"grouplist":[{"id":"s","name":"s","description":"s","member_user_count":1,"member_department_count":1,"type":1,"department_scope_list":["s"],"group_id":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.group.simplelistWithIterator(params: Contact.GroupSimplelistQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/contact/v3/group") func v3_group_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"group_id":"s"}}"##)
         let resp = try await client.contact.v3.group.create(params: Contact.GroupGetQuery(), body: Contact.GroupCreateBody(name: "s"))
@@ -252,6 +263,17 @@ import LarkContact
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/contact/v3/departments/parent") func v3_department_parent_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"},"parent_department_id":"s","department_id":"s","open_department_id":"s","leader_user_id":"s","chat_id":"s","order":"s","unit_ids":["s"],"member_count":1,"status":{"is_deleted":true},"leaders":[{"leaderType":1,"leaderID":"s"}],"group_chat_employee_types":[1],"department_hrbps":["s"],"primary_member_count":1}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"},"parent_department_id":"s","department_id":"s","open_department_id":"s","leader_user_id":"s","chat_id":"s","order":"s","unit_ids":["s"],"member_count":1,"status":{"is_deleted":true},"leaders":[{"leaderType":1,"leaderID":"s"}],"group_chat_employee_types":[1],"department_hrbps":["s"],"primary_member_count":1}]}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.department.parentWithIterator(params: Contact.DepartmentParentQuery(departmentId: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/contact/v3/departments") func v3_department_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"s","items":[{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"},"parent_department_id":"s","department_id":"s","open_department_id":"s","leader_user_id":"s","chat_id":"s","order":"s","unit_ids":["s"],"member_count":1,"status":{"is_deleted":true},"leaders":[{"leaderType":1,"leaderID":"s"}],"group_chat_employee_types":[1],"department_hrbps":["s"],"primary_member_count":1}]}}"##)
         let resp = try await client.contact.v3.department.list(params: Contact.DepartmentListQuery())
@@ -261,6 +283,17 @@ import LarkContact
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/contact/v3/departments")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/contact/v3/departments") func v3_department_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"},"parent_department_id":"s","department_id":"s","open_department_id":"s","leader_user_id":"s","chat_id":"s","order":"s","unit_ids":["s"],"member_count":1,"status":{"is_deleted":true},"leaders":[{"leaderType":1,"leaderID":"s"}],"group_chat_employee_types":[1],"department_hrbps":["s"],"primary_member_count":1}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"},"parent_department_id":"s","department_id":"s","open_department_id":"s","leader_user_id":"s","chat_id":"s","order":"s","unit_ids":["s"],"member_count":1,"status":{"is_deleted":true},"leaders":[{"leaderType":1,"leaderID":"s"}],"group_chat_employee_types":[1],"department_hrbps":["s"],"primary_member_count":1}]}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.department.listWithIterator(params: Contact.DepartmentListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/contact/v3/departments/:department_id/children") func v3_department_children() async throws {
@@ -274,6 +307,17 @@ import LarkContact
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/contact/v3/departments/:department_id/children") func v3_department_children_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"},"parent_department_id":"s","department_id":"s","open_department_id":"s","leader_user_id":"s","chat_id":"s","order":"s","unit_ids":["s"],"member_count":1,"status":{"is_deleted":true},"leaders":[{"leaderType":1,"leaderID":"s"}],"group_chat_employee_types":[1],"department_hrbps":["s"],"primary_member_count":1}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"},"parent_department_id":"s","department_id":"s","open_department_id":"s","leader_user_id":"s","chat_id":"s","order":"s","unit_ids":["s"],"member_count":1,"status":{"is_deleted":true},"leaders":[{"leaderType":1,"leaderID":"s"}],"group_chat_employee_types":[1],"department_hrbps":["s"],"primary_member_count":1}]}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.department.childrenWithIterator(departmentId: "s", params: Contact.DepartmentChildrenQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("POST /open-apis/contact/v3/departments/search") func v3_department_search() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"},"parent_department_id":"s","department_id":"s","open_department_id":"s","leader_user_id":"s","chat_id":"s","order":"s","unit_ids":["s"],"member_count":1,"status":{"is_deleted":true},"leaders":[{"leaderType":1,"leaderID":"s"}],"group_chat_employee_types":[1],"department_hrbps":["s"],"primary_member_count":1}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.contact.v3.department.search(params: Contact.DepartmentSearchQuery(), body: Contact.DepartmentSearchBody(query: "s"))
@@ -283,6 +327,17 @@ import LarkContact
         #expect(req.method.rawValue == "POST")
         #expect(ParityHarness.path(req) == "/open-apis/contact/v3/departments/search")
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["query"]))
+    }
+
+    @Test("iterator POST /open-apis/contact/v3/departments/search") func v3_department_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"},"parent_department_id":"s","department_id":"s","open_department_id":"s","leader_user_id":"s","chat_id":"s","order":"s","unit_ids":["s"],"member_count":1,"status":{"is_deleted":true},"leaders":[{"leaderType":1,"leaderID":"s"}],"group_chat_employee_types":[1],"department_hrbps":["s"],"primary_member_count":1}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"},"parent_department_id":"s","department_id":"s","open_department_id":"s","leader_user_id":"s","chat_id":"s","order":"s","unit_ids":["s"],"member_count":1,"status":{"is_deleted":true},"leaders":[{"leaderType":1,"leaderID":"s"}],"group_chat_employee_types":[1],"department_hrbps":["s"],"primary_member_count":1}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.department.searchWithIterator(params: Contact.DepartmentSearchQuery(), body: Contact.DepartmentSearchBody(query: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("PATCH /open-apis/contact/v3/departments/:department_id") func v3_department_patch() async throws {
@@ -363,6 +418,17 @@ import LarkContact
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/contact/v3/job_levels") func v3_jobLevel_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"name":"s","description":"s","order":1,"status":true,"job_level_id":"s","i18n_name":[{"locale":"s","value":"s"}],"i18n_description":[{"locale":"s","value":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"name":"s","description":"s","order":1,"status":true,"job_level_id":"s","i18n_name":[{"locale":"s","value":"s"}],"i18n_description":[{"locale":"s","value":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.jobLevel.listWithIterator(params: Contact.JobLevelListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("PUT /open-apis/contact/v3/job_levels/:job_level_id") func v3_jobLevel_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"job_level":{"name":"s","description":"s","order":1,"status":true,"job_level_id":"s","i18n_name":[{"locale":"s","value":"s"}],"i18n_description":[{"locale":"s","value":"s"}]}}}"##)
         let resp = try await client.contact.v3.jobLevel.update(jobLevelId: "s", body: Contact.JobLevelUpdateBody())
@@ -438,6 +504,17 @@ import LarkContact
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/contact/v3/job_families") func v3_jobFamily_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"name":"s","description":"s","parent_job_family_id":"s","status":true,"i18n_name":[{"locale":"s","value":"s"}],"i18n_description":[{"locale":"s","value":"s"}],"job_family_id":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"name":"s","description":"s","parent_job_family_id":"s","status":true,"i18n_name":[{"locale":"s","value":"s"}],"i18n_description":[{"locale":"s","value":"s"}],"job_family_id":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.jobFamily.listWithIterator(params: Contact.JobLevelListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/contact/v3/job_families/:job_family_id") func v3_jobFamily_get() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"job_family":{"name":"s","description":"s","parent_job_family_id":"s","status":true,"i18n_name":[{"locale":"s","value":"s"}],"i18n_description":[{"locale":"s","value":"s"}],"job_family_id":"s"}}}"##)
         let resp = try await client.contact.v3.jobFamily.get(jobFamilyId: "s")
@@ -478,6 +555,17 @@ import LarkContact
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/contact/v3/users")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/contact/v3/users") func v3_user_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"union_id":"s","user_id":"s","open_id":"s","name":"s","en_name":"s","nickname":"s","email":"s","mobile":"s","mobile_visible":true,"gender":1,"avatar":{"avatar_72":"s","avatar_240":"s","avatar_640":"s","avatar_origin":"s"},"status":{"is_frozen":true,"is_resigned":true,"is_activated":true,"is_exited":true,"is_unjoin":true},"department_ids":["s"],"leader_user_id":"s","city":"s","country":"s","work_station":"s","join_time":1,"is_tenant_manager":true,"employee_no":"s","employee_type":1,"positions":[{"position_code":"s","position_name":"s","department_id":"s","leader_user_id":"s","leader_position_code":"s","is_major":true}],"orders":[{"department_id":"s","user_order":1,"department_order":1,"is_primary_dept":true}],"custom_attrs":[{"type":"s","id":"s","value":{"text":"s","url":"s","pc_url":"s","option_value":"s","name":"s","picture_url":"s","generic_user":{"id":"s","type":1}}}],"enterprise_email":"s","time_zone":"s","description":"s","job_title":"s","geo":"s","job_level_id":"s","job_family_id":"s","assign_info":[{"subscription_id":"s","license_plan_key":"s","product_name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"},"start_time":"s","end_time":"s"}],"department_path":[{"department_id":"s","department_name":{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"}},"department_path":{"department_ids":["s"],"department_path_name":{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"}}}}],"dotted_line_leader_user_ids":["s"]}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"union_id":"s","user_id":"s","open_id":"s","name":"s","en_name":"s","nickname":"s","email":"s","mobile":"s","mobile_visible":true,"gender":1,"avatar":{"avatar_72":"s","avatar_240":"s","avatar_640":"s","avatar_origin":"s"},"status":{"is_frozen":true,"is_resigned":true,"is_activated":true,"is_exited":true,"is_unjoin":true},"department_ids":["s"],"leader_user_id":"s","city":"s","country":"s","work_station":"s","join_time":1,"is_tenant_manager":true,"employee_no":"s","employee_type":1,"positions":[{"position_code":"s","position_name":"s","department_id":"s","leader_user_id":"s","leader_position_code":"s","is_major":true}],"orders":[{"department_id":"s","user_order":1,"department_order":1,"is_primary_dept":true}],"custom_attrs":[{"type":"s","id":"s","value":{"text":"s","url":"s","pc_url":"s","option_value":"s","name":"s","picture_url":"s","generic_user":{"id":"s","type":1}}}],"enterprise_email":"s","time_zone":"s","description":"s","job_title":"s","geo":"s","job_level_id":"s","job_family_id":"s","assign_info":[{"subscription_id":"s","license_plan_key":"s","product_name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"},"start_time":"s","end_time":"s"}],"department_path":[{"department_id":"s","department_name":{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"}},"department_path":{"department_ids":["s"],"department_path_name":{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"}}}}],"dotted_line_leader_user_ids":["s"]}]}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.user.listWithIterator(params: Contact.UserListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/contact/v3/users/:user_id") func v3_user_get() async throws {
@@ -522,6 +610,17 @@ import LarkContact
         #expect(ParityHarness.path(req) == "/open-apis/contact/v3/users/find_by_department")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["department_id"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/contact/v3/users/find_by_department") func v3_user_findByDepartment_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"union_id":"s","user_id":"s","open_id":"s","name":"s","en_name":"s","nickname":"s","email":"s","mobile":"s","mobile_visible":true,"gender":1,"avatar":{"avatar_72":"s","avatar_240":"s","avatar_640":"s","avatar_origin":"s"},"status":{"is_frozen":true,"is_resigned":true,"is_activated":true,"is_exited":true,"is_unjoin":true},"department_ids":["s"],"leader_user_id":"s","city":"s","country":"s","work_station":"s","join_time":1,"is_tenant_manager":true,"employee_no":"s","employee_type":1,"positions":[{"position_code":"s","position_name":"s","department_id":"s","leader_user_id":"s","leader_position_code":"s","is_major":true}],"orders":[{"department_id":"s","user_order":1,"department_order":1,"is_primary_dept":true}],"custom_attrs":[{"type":"s","id":"s","value":{"text":"s","url":"s","pc_url":"s","option_id":"s","option_value":"s","name":"s","picture_url":"s","generic_user":{"id":"s","type":1}}}],"enterprise_email":"s","idp_type":"s","time_zone":"s","description":"s","job_title":"s","need_send_notification":true,"notification_option":{"channels":["s"],"language":"zh-CN"},"is_frozen":true,"geo":"s","job_level_id":"s","job_family_id":"s","department_path":[{"department_id":"s","department_name":{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"}},"department_path":{"department_ids":["s"],"department_path_name":{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"}}}}],"dotted_line_leader_user_ids":["s"]}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"union_id":"s","user_id":"s","open_id":"s","name":"s","en_name":"s","nickname":"s","email":"s","mobile":"s","mobile_visible":true,"gender":1,"avatar":{"avatar_72":"s","avatar_240":"s","avatar_640":"s","avatar_origin":"s"},"status":{"is_frozen":true,"is_resigned":true,"is_activated":true,"is_exited":true,"is_unjoin":true},"department_ids":["s"],"leader_user_id":"s","city":"s","country":"s","work_station":"s","join_time":1,"is_tenant_manager":true,"employee_no":"s","employee_type":1,"positions":[{"position_code":"s","position_name":"s","department_id":"s","leader_user_id":"s","leader_position_code":"s","is_major":true}],"orders":[{"department_id":"s","user_order":1,"department_order":1,"is_primary_dept":true}],"custom_attrs":[{"type":"s","id":"s","value":{"text":"s","url":"s","pc_url":"s","option_id":"s","option_value":"s","name":"s","picture_url":"s","generic_user":{"id":"s","type":1}}}],"enterprise_email":"s","idp_type":"s","time_zone":"s","description":"s","job_title":"s","need_send_notification":true,"notification_option":{"channels":["s"],"language":"zh-CN"},"is_frozen":true,"geo":"s","job_level_id":"s","job_family_id":"s","department_path":[{"department_id":"s","department_name":{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"}},"department_path":{"department_ids":["s"],"department_path_name":{"name":"s","i18n_name":{"zh_cn":"s","ja_jp":"s","en_us":"s"}}}}],"dotted_line_leader_user_ids":["s"]}]}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.user.findByDepartmentWithIterator(params: Contact.UserFindByDepartmentQuery(departmentId: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("PUT /open-apis/contact/v3/users/:user_id") func v3_user_update() async throws {
@@ -602,6 +701,17 @@ import LarkContact
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/contact/v3/employee_type_enums") func v3_employeeTypeEnum_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"enum_id":"s","enum_value":"s","content":"s","enum_type":1,"enum_status":1,"i18n_content":[{"locale":"s","value":"s"}]}],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"enum_id":"s","enum_value":"s","content":"s","enum_type":1,"enum_status":1,"i18n_content":[{"locale":"s","value":"s"}]}],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.employeeTypeEnum.listWithIterator(params: Contact.EmployeeTypeEnumListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("DELETE /open-apis/contact/v3/employee_type_enums/:enum_id") func v3_employeeTypeEnum_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
         let resp = try await client.contact.v3.employeeTypeEnum.delete(enumId: "s")
@@ -665,6 +775,17 @@ import LarkContact
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/contact/v3/functional_roles/s/members")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/contact/v3/functional_roles/:role_id/members") func v3_functionalRoleMember_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"members":[{"user_id":"s","scope_type":"All","department_ids":["s"]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"members":[{"user_id":"s","scope_type":"All","department_ids":["s"]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.functionalRoleMember.listWithIterator(roleId: "s", params: Contact.FunctionalRoleMemberListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/contact/v3/functional_roles/:role_id/members/batch_create") func v3_functionalRoleMember_batchCreate() async throws {
@@ -731,6 +852,17 @@ import LarkContact
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/contact/v3/job_titles") func v3_jobTitle_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"job_title_id":"s","name":"s","i18n_name":[{"locale":"s","value":"s"}],"status":true}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"job_title_id":"s","name":"s","i18n_name":[{"locale":"s","value":"s"}],"status":true}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.jobTitle.listWithIterator(params: Contact.UnitListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/contact/v3/work_cities/:work_city_id") func v3_workCity_get() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"work_city":{"work_city_id":"s","name":"s","i18n_name":[{"locale":"s","value":"s"}],"status":true}}}"##)
         let resp = try await client.contact.v3.workCity.get(workCityId: "s")
@@ -753,6 +885,17 @@ import LarkContact
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/contact/v3/work_cities") func v3_workCity_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"work_city_id":"s","name":"s","i18n_name":[{"locale":"s","value":"s"}],"status":true}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"work_city_id":"s","name":"s","i18n_name":[{"locale":"s","value":"s"}],"status":true}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.workCity.listWithIterator(params: Contact.UnitListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/contact/v3/scopes") func v3_scope_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"department_ids":["s"],"user_ids":["s"],"group_ids":["s"],"has_more":true,"page_token":"s"}}"##)
         let resp = try await client.contact.v3.scope.list(params: Contact.ScopeListQuery())
@@ -764,6 +907,17 @@ import LarkContact
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/contact/v3/scopes") func v3_scope_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"department_ids":["s"],"user_ids":["s"],"group_ids":["s"],"has_more":true,"page_token":"tok2"}}"##, ##"{"code":0,"msg":"success","data":{"department_ids":["s"],"user_ids":["s"],"group_ids":["s"],"has_more":false,"page_token":""}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.scope.listWithIterator(params: Contact.ScopeListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/contact/v3/custom_attrs") func v3_customAttr_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","type":"s","options":{"default_option_id":"s","option_type":"TEXT","options":[{"id":"s","value":"s","name":"s"}]},"i18n_name":[{"locale":"s","value":"s"}]}],"page_token":"s","has_more":true}}"##)
         let resp = try await client.contact.v3.customAttr.list(params: Contact.UnitListQuery())
@@ -773,6 +927,17 @@ import LarkContact
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/contact/v3/custom_attrs")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/contact/v3/custom_attrs") func v3_customAttr_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"id":"s","type":"s","options":{"default_option_id":"s","option_type":"TEXT","options":[{"id":"s","value":"s","name":"s"}]},"i18n_name":[{"locale":"s","value":"s"}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","type":"s","options":{"default_option_id":"s","option_type":"TEXT","options":[{"id":"s","value":"s","name":"s"}]},"i18n_name":[{"locale":"s","value":"s"}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.contact.v3.customAttr.listWithIterator(params: Contact.UnitListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("event contact.department.updated_v3") func event_contactDepartmentUpdatedV3() async throws {

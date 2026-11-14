@@ -92,7 +92,7 @@ extension ApprovalService.V4 {
         public func listWithIterator(params: LarkApproval.Approval.InstanceListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkApproval.Approval.InstanceListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -121,7 +121,7 @@ extension ApprovalService.V4 {
         public func queryWithIterator(params: LarkApproval.Approval.InstanceQueryQuery = .init(), body: LarkApproval.Approval.InstanceQueryBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkApproval.Approval.InstanceQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.query(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -246,7 +246,7 @@ extension ApprovalService.V4 {
         public func initiatedWithIterator(params: LarkApproval.Approval.InstanceInitiatedQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkApproval.Approval.InstanceInitiatedResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.initiated(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -353,7 +353,7 @@ extension ApprovalService.V4 {
         public func queryWithIterator(params: LarkApproval.Approval.TaskQueryQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkApproval.Approval.TaskQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.query(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -430,7 +430,7 @@ extension ApprovalService.V4 {
         public func listWithIterator(params: LarkApproval.Approval.TaskListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkApproval.Approval.TaskListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -576,9 +576,9 @@ extension ApprovalService.V4 {
         public func listWithIterator(instanceId: String, params: LarkApproval.Approval.InstanceCommentListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkApproval.Approval.InstanceCommentListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(instanceId: instanceId, params: p, options: options)
-                return LarkPage(data: r.data, hasMore: true, nextPageToken: nil)
+                return LarkPage(data: r.data, hasMore: false, nextPageToken: nil)
             }
         }
 
@@ -624,7 +624,7 @@ extension ApprovalService.V4 {
         public func listWithIterator(params: LarkApproval.Approval.ExternalTaskListQuery = .init(), body: LarkApproval.Approval.ExternalTaskListBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkApproval.Approval.ExternalTaskListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -730,7 +730,7 @@ extension ApprovalService.V4 {
         public func searchWithIterator(params: LarkApproval.Approval.DistrictSearchQuery = .init(), body: LarkApproval.Approval.DistrictSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkApproval.Approval.DistrictSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -751,7 +751,7 @@ extension ApprovalService.V4 {
         public func listWithIterator(params: LarkApproval.Approval.DistrictListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkApproval.Approval.DistrictListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

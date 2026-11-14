@@ -76,7 +76,7 @@ extension PayrollService.V1 {
         public func queryWithIterator(params: LarkPayroll.Payroll.DatasourceRecordQueryQuery, body: LarkPayroll.Payroll.DatasourceRecordQueryBody, options: RequestOptions = .none) -> LarkPageSequence<LarkPayroll.Payroll.DatasourceRecordQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.query(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -146,7 +146,7 @@ extension PayrollService.V1 {
         public func listWithIterator(params: LarkPayroll.Payroll.PaymentActivityListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkPayroll.Payroll.PaymentActivityListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -176,7 +176,7 @@ extension PayrollService.V1 {
         public func listWithIterator(params: LarkPayroll.Payroll.CostAllocationPlanListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkPayroll.Payroll.CostAllocationPlanListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -232,7 +232,7 @@ extension PayrollService.V1 {
         public func listWithIterator(params: LarkPayroll.Payroll.DatasourceListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkPayroll.Payroll.DatasourceListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -262,7 +262,7 @@ extension PayrollService.V1 {
         public func listWithIterator(params: LarkPayroll.Payroll.CostAllocationDetailListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkPayroll.Payroll.CostAllocationDetailListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -292,7 +292,7 @@ extension PayrollService.V1 {
         public func listWithIterator(params: LarkPayroll.Payroll.CostAllocationReportListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkPayroll.Payroll.CostAllocationReportListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -322,7 +322,7 @@ extension PayrollService.V1 {
         public func listWithIterator(params: LarkPayroll.Payroll.PaygroupListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkPayroll.Payroll.PaygroupListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -352,7 +352,7 @@ extension PayrollService.V1 {
         public func listWithIterator(params: LarkPayroll.Payroll.AcctItemListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkPayroll.Payroll.AcctItemListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

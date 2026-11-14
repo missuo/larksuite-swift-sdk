@@ -101,9 +101,9 @@ extension BaikeService.V1 {
         public func listWithIterator(params: LarkBaike.Baike.EntityListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBaike.Baike.EntityListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
-                return LarkPage(data: r.data, hasMore: true, nextPageToken: r.data?.pageToken)
+                return LarkPage(data: r.data, hasMore: false, nextPageToken: r.data?.pageToken)
             }
         }
 
@@ -137,9 +137,9 @@ extension BaikeService.V1 {
         public func searchWithIterator(params: LarkBaike.Baike.EntitySearchQuery = .init(), body: LarkBaike.Baike.EntitySearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBaike.Baike.EntitySearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
-                return LarkPage(data: r.data, hasMore: true, nextPageToken: r.data?.pageToken)
+                return LarkPage(data: r.data, hasMore: false, nextPageToken: r.data?.pageToken)
             }
         }
 
@@ -197,9 +197,9 @@ extension BaikeService.V1 {
         public func listWithIterator(params: LarkBaike.Baike.ClassificationListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkBaike.Baike.ClassificationListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
-                return LarkPage(data: r.data, hasMore: true, nextPageToken: r.data?.pageToken)
+                return LarkPage(data: r.data, hasMore: false, nextPageToken: r.data?.pageToken)
             }
         }
 

@@ -126,7 +126,7 @@ extension AilyService.V1 {
         public func listWithIterator(appId: String, params: LarkAily.Aily.AppDataAssetTagListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkAily.Aily.AppDataAssetTagListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appId: appId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -160,7 +160,7 @@ extension AilyService.V1 {
         public func listWithIterator(appId: String, params: LarkAily.Aily.AppSkillListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkAily.Aily.AppSkillListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appId: appId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -279,7 +279,7 @@ extension AilyService.V1 {
         public func listWithIterator(appId: String, params: LarkAily.Aily.AppDataAssetListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkAily.Aily.AppDataAssetListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(appId: appId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -333,7 +333,7 @@ extension AilyService.V1 {
         public func listWithIterator(ailySessionId: String, params: LarkAily.Aily.AilySessionRunListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkAily.Aily.AilySessionRunListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(ailySessionId: ailySessionId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -391,7 +391,7 @@ extension AilyService.V1 {
         public func listWithIterator(ailySessionId: String, params: LarkAily.Aily.AilySessionAilyMessageListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkAily.Aily.AilySessionAilyMessageListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(ailySessionId: ailySessionId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -493,7 +493,7 @@ extension AilyService.V1 {
         public func listWithIterator(params: LarkAily.Aily.TenantAppStatListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkAily.Aily.TenantAppStatListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

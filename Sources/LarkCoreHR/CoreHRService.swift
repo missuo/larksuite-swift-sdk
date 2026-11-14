@@ -1352,7 +1352,7 @@ extension CoreHRService.V1 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.OffboardingSearchQuery, body: LarkCoreHR.CoreHR.OffboardingSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.OffboardingSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1836,7 +1836,7 @@ extension CoreHRService.V2 {
         public func queryRecentChangeWithIterator(params: LarkCoreHR.CoreHR.CostCenterQueryRecentChangeQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.CostCenterQueryRecentChangeResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.queryRecentChange(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1931,7 +1931,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.BasicInfoCountryRegionSubdivisionSearchQuery, body: LarkCoreHR.CoreHR.BasicInfoCountryRegionSubdivisionSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.BasicInfoCountryRegionSubdivisionSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2005,7 +2005,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.ProbationSearchQuery, body: LarkCoreHR.CoreHR.ProbationSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.ProbationSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2110,7 +2110,7 @@ extension CoreHRService.V2 {
         public func queryRecentChangeWithIterator(params: LarkCoreHR.CoreHR.CustomOrgQueryRecentChangeQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.CustomOrgQueryRecentChangeResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.queryRecentChange(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2297,7 +2297,7 @@ extension CoreHRService.V2 {
         public func queryWithIterator(params: LarkCoreHR.CoreHR.PreHireQueryQuery, body: LarkCoreHR.CoreHR.PreHireQueryBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.PreHireQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.query(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2322,7 +2322,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.PreHireSearchQuery, body: LarkCoreHR.CoreHR.PreHireSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.PreHireSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2405,7 +2405,7 @@ extension CoreHRService.V2 {
         public func queryRecentChangeWithIterator(params: LarkCoreHR.CoreHR.JobGradeQueryRecentChangeQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.JobGradeQueryRecentChangeResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.queryRecentChange(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2463,7 +2463,7 @@ extension CoreHRService.V2 {
         public func queryRecentChangeWithIterator(params: LarkCoreHR.CoreHR.PositionQueryRecentChangeQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.PositionQueryRecentChangeResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.queryRecentChange(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2559,7 +2559,7 @@ extension CoreHRService.V2 {
         public func listWithIterator(params: LarkCoreHR.CoreHR.BpListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.BpListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2638,7 +2638,7 @@ extension CoreHRService.V2 {
         public func batchWithIterator(params: LarkCoreHR.CoreHR.EmployeesAdditionalJobBatchQuery = .init(), body: LarkCoreHR.CoreHR.EmployeesAdditionalJobBatchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.EmployeesAdditionalJobBatchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.batch(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2668,7 +2668,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.BasicInfoNationalitySearchQuery, body: LarkCoreHR.CoreHR.BasicInfoNationalitySearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.BasicInfoNationalitySearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2698,7 +2698,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.BasicInfoCountryRegionSearchQuery, body: LarkCoreHR.CoreHR.BasicInfoCountryRegionSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.BasicInfoCountryRegionSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2728,7 +2728,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.BasicInfoCitySearchQuery, body: LarkCoreHR.CoreHR.BasicInfoCitySearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.BasicInfoCitySearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2758,7 +2758,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.BasicInfoDistrictSearchQuery, body: LarkCoreHR.CoreHR.BasicInfoDistrictSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.BasicInfoDistrictSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2788,7 +2788,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.BasicInfoBankSearchQuery, body: LarkCoreHR.CoreHR.BasicInfoBankSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.BasicInfoBankSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2818,7 +2818,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.BasicInfoCurrencySearchQuery, body: LarkCoreHR.CoreHR.BasicInfoCurrencySearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.BasicInfoCurrencySearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2945,7 +2945,7 @@ extension CoreHRService.V2 {
         public func queryWithIterator(params: LarkCoreHR.CoreHR.SignatureFileQueryQuery = .init(), body: LarkCoreHR.CoreHR.SignatureFileQueryBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.SignatureFileQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.query(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2966,7 +2966,7 @@ extension CoreHRService.V2 {
         public func listWithIterator(params: LarkCoreHR.CoreHR.SignatureFileListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.SignatureFileListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3033,7 +3033,7 @@ extension CoreHRService.V2 {
         public func queryRecentChangeWithIterator(params: LarkCoreHR.CoreHR.CompanyQueryRecentChangeQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.CompanyQueryRecentChangeResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.queryRecentChange(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3093,7 +3093,7 @@ extension CoreHRService.V2 {
         public func queryRecentChangeWithIterator(params: LarkCoreHR.CoreHR.DepartmentQueryRecentChangeQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.DepartmentQueryRecentChangeResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.queryRecentChange(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3118,7 +3118,7 @@ extension CoreHRService.V2 {
         public func queryOperationLogsWithIterator(params: LarkCoreHR.CoreHR.DepartmentQueryOperationLogsQuery, body: LarkCoreHR.CoreHR.DepartmentQueryOperationLogsBody, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.DepartmentQueryOperationLogsResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.queryOperationLogs(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.nextPageToken)
             }
@@ -3222,7 +3222,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.DepartmentSearchQuery, body: LarkCoreHR.CoreHR.DepartmentSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.DepartmentSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3372,7 +3372,7 @@ extension CoreHRService.V2 {
         public func queryRecentChangeWithIterator(params: LarkCoreHR.CoreHR.LocationQueryRecentChangeQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.LocationQueryRecentChangeResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.queryRecentChange(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3483,7 +3483,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.BasicInfoLanguageSearchQuery, body: LarkCoreHR.CoreHR.BasicInfoLanguageSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.BasicInfoLanguageSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3513,7 +3513,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.BasicInfoTimeZoneSearchQuery, body: LarkCoreHR.CoreHR.BasicInfoTimeZoneSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.BasicInfoTimeZoneSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3669,7 +3669,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.BasicInfoBankBranchSearchQuery, body: LarkCoreHR.CoreHR.BasicInfoBankBranchSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.BasicInfoBankBranchSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3723,7 +3723,7 @@ extension CoreHRService.V2 {
         public func listWithIterator(params: LarkCoreHR.CoreHR.ProcessListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.ProcessListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3817,7 +3817,7 @@ extension CoreHRService.V2 {
         public func listWithIterator(params: LarkCoreHR.CoreHR.ApproverListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.ApproverListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3891,7 +3891,7 @@ extension CoreHRService.V2 {
         public func queryRecentChangeWithIterator(params: LarkCoreHR.CoreHR.JobLevelQueryRecentChangeQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.JobLevelQueryRecentChangeResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.queryRecentChange(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3937,7 +3937,7 @@ extension CoreHRService.V2 {
         public func queryRecentChangeWithIterator(params: LarkCoreHR.CoreHR.JobFamilyQueryRecentChangeQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.JobFamilyQueryRecentChangeResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.queryRecentChange(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3995,7 +3995,7 @@ extension CoreHRService.V2 {
         public func queryRecentChangeWithIterator(params: LarkCoreHR.CoreHR.JobQueryRecentChangeQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.JobQueryRecentChangeResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.queryRecentChange(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -4092,7 +4092,7 @@ extension CoreHRService.V2 {
         public func listWithIterator(params: LarkCoreHR.CoreHR.EmployeesInternationalAssignmentListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.EmployeesInternationalAssignmentListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -4466,9 +4466,9 @@ extension CoreHRService.V2 {
         public func listWithIterator(params: LarkCoreHR.CoreHR.SignatureTemplateInfoWithThumbnailListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.SignatureTemplateInfoWithThumbnailListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
-                return LarkPage(data: r.data, hasMore: true, nextPageToken: r.data?.pageToken.map { String($0) })
+                return LarkPage(data: r.data, hasMore: false, nextPageToken: r.data?.pageToken.map { String($0) })
             }
         }
 
@@ -4522,7 +4522,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.JobChangeSearchQuery, body: LarkCoreHR.CoreHR.JobChangeSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.JobChangeSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -4556,7 +4556,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.ContractSearchQuery, body: LarkCoreHR.CoreHR.ContractSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.ContractSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -4666,7 +4666,7 @@ extension CoreHRService.V2 {
         public func searchWithIterator(params: LarkCoreHR.CoreHR.EmployeeSearchQuery, body: LarkCoreHR.CoreHR.EmployeeSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.EmployeeSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -4788,7 +4788,7 @@ extension CoreHRService.V2 {
         public func listWithIterator(params: LarkCoreHR.CoreHR.WorkforcePlanListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCoreHR.CoreHR.WorkforcePlanListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

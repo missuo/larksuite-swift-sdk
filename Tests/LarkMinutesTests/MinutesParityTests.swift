@@ -82,6 +82,17 @@ import LarkMinutes
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: []))
     }
 
+    @Test("iterator POST /open-apis/minutes/v1/minutes/search") func v1_minute_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"token":"s","display_info":"s","meta_data":{"app_link":"s","avatar":"s","description":"s"}}],"total":1,"has_more":true,"page_token":"tok2","notice":"s"}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"token":"s","display_info":"s","meta_data":{"app_link":"s","avatar":"s","description":"s"}}],"total":1,"has_more":false,"page_token":"","notice":"s"}}"##])
+        var pages = 0
+        for try await _ in client.minutes.v1.minute.searchWithIterator(params: Minutes.MinuteSearchQuery(), body: Minutes.MinuteSearchBody()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/minutes/v1/minutes/:minute_token/artifacts") func v1_minute_artifacts() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"summary":"s","minute_chapters":[{"title":"s","start_ms":"s","stop_ms":"s","summary_content":"s"}],"minute_todos":[{"content":"s","assignees":["s"],"is_done":true,"todo_id":"s","operation":"s"}],"keywords":["s"],"transcript":"s"}}"##)
         let resp = try await client.minutes.v1.minute.artifacts(minuteToken: "s")

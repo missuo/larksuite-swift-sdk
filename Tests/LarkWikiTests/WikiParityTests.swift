@@ -19,6 +19,17 @@ import LarkWiki
         #expect(ParityHarness.bodyKeys(req).isSuperset(of: ["query"]))
     }
 
+    @Test("iterator POST /open-apis/wiki/v1/nodes/search") func v1_node_search_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"node_id":"s","space_id":"s","obj_type":1,"title":"s","url":"s","icon":"s","obj_token":"s","create_time":"s","update_time":"s","delete_time":"s","child_num":1,"version":1}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"node_id":"s","space_id":"s","obj_type":1,"title":"s","url":"s","icon":"s","obj_token":"s","create_time":"s","update_time":"s","delete_time":"s","child_num":1,"version":1}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.wiki.v1.node.searchWithIterator(params: Wiki.NodeSearchQuery(), body: Wiki.NodeSearchBody(query: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("PUT /open-apis/wiki/v2/spaces/:space_id/setting") func v2_spaceSetting_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"setting":{"create_setting":"s","security_setting":"s","comment_setting":"s"}}}"##)
         let resp = try await client.wiki.v2.spaceSetting.update(spaceId: "s", body: Wiki.SpaceSettingUpdateBody())
@@ -60,6 +71,17 @@ import LarkWiki
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/wiki/v2/spaces/s/nodes")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/wiki/v2/spaces/:space_id/nodes") func v2_spaceNode_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"space_id":"s","node_token":"s","obj_token":"s","obj_type":"doc","parent_node_token":"s","node_type":"origin","origin_node_token":"s","origin_space_id":"s","has_child":true,"title":"s","obj_create_time":"s","obj_edit_time":"s","node_create_time":"s","creator":"s","owner":"s","node_creator":"s","url":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"space_id":"s","node_token":"s","obj_token":"s","obj_type":"doc","parent_node_token":"s","node_type":"origin","origin_node_token":"s","origin_space_id":"s","has_child":true,"title":"s","obj_create_time":"s","obj_edit_time":"s","node_create_time":"s","creator":"s","owner":"s","node_creator":"s","url":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.wiki.v2.spaceNode.listWithIterator(spaceId: "s", params: Wiki.SpaceNodeListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/wiki/v2/spaces/:space_id/nodes/:node_token/copy") func v2_spaceNode_copy() async throws {
@@ -171,6 +193,17 @@ import LarkWiki
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/wiki/v2/spaces")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/wiki/v2/spaces") func v2_space_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"name":"s","description":"s","space_id":"s","space_type":"team","visibility":"public","open_sharing":"open"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"name":"s","description":"s","space_id":"s","space_type":"team","visibility":"public","open_sharing":"open"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.wiki.v2.space.listWithIterator(params: Wiki.SpaceListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/wiki/v2/tasks/:task_id") func v2_task_get() async throws {

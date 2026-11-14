@@ -277,6 +277,17 @@ import LarkOKR
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/okr/v2/objectives/:objective_id/alignments") func v2_okrObjectiveAlignment_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","create_time":"s","update_time":"s","from_owner":{"owner_type":"user","user_id":"s"},"to_owner":{"owner_type":"user","user_id":"s"},"from_entity_type":1,"from_entity_id":"s","to_entity_type":1,"to_entity_id":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","create_time":"s","update_time":"s","from_owner":{"owner_type":"user","user_id":"s"},"to_owner":{"owner_type":"user","user_id":"s"},"from_entity_type":1,"from_entity_id":"s","to_entity_type":1,"to_entity_id":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.okr.v2.okrObjectiveAlignment.listWithIterator(objectiveId: "s", params: OKR.OkrObjectiveAlignmentListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/okr/v2/categories") func v2_okrCategory_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"s","items":[{"id":"s","create_time":"s","update_time":"s","category_type":"person","enabled":true,"color":"blue","name":{"zh":"s","en":"s","ja":"s"}}]}}"##)
         let resp = try await client.okr.v2.okrCategory.list(params: OKR.OkrCategoryListQuery())
@@ -286,6 +297,17 @@ import LarkOKR
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/okr/v2/categories")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/okr/v2/categories") func v2_okrCategory_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","create_time":"s","update_time":"s","category_type":"person","enabled":true,"color":"blue","name":{"zh":"s","en":"s","ja":"s"}}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","create_time":"s","update_time":"s","category_type":"person","enabled":true,"color":"blue","name":{"zh":"s","en":"s","ja":"s"}}]}}"##])
+        var pages = 0
+        for try await _ in client.okr.v2.okrCategory.listWithIterator(params: OKR.OkrCategoryListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/okr/v2/cycles") func v2_okrCycle_list() async throws {
@@ -298,6 +320,17 @@ import LarkOKR
         #expect(ParityHarness.path(req) == "/open-apis/okr/v2/cycles")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["user_id"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/okr/v2/cycles") func v2_okrCycle_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","create_time":"s","update_time":"s","tenant_cycle_id":"s","owner":{"owner_type":"user","user_id":"s"},"start_time":"s","end_time":"s","cycle_status":1,"score":1.5}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","create_time":"s","update_time":"s","tenant_cycle_id":"s","owner":{"owner_type":"user","user_id":"s"},"start_time":"s","end_time":"s","cycle_status":1,"score":1.5}]}}"##])
+        var pages = 0
+        for try await _ in client.okr.v2.okrCycle.listWithIterator(params: OKR.OkrCycleListQuery(userId: "s")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("PUT /open-apis/okr/v2/cycles/:cycle_id/objectives_weight") func v2_okrCycle_objectivesWeight() async throws {
@@ -331,6 +364,17 @@ import LarkOKR
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/okr/v2/objectives/s/key_results")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/okr/v2/objectives/:objective_id/key_results") func v2_okrObjectiveKeyResult_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","create_time":"s","update_time":"s","owner":{"owner_type":"user","user_id":"s"},"objective_id":"s","position":1,"content":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"score":1.5,"weight":1.5,"deadline":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","create_time":"s","update_time":"s","owner":{"owner_type":"user","user_id":"s"},"objective_id":"s","position":1,"content":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"score":1.5,"weight":1.5,"deadline":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.okr.v2.okrObjectiveKeyResult.listWithIterator(objectiveId: "s", params: OKR.OkrObjectiveKeyResultListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/okr/v2/objectives/:objective_id/key_results") func v2_okrObjectiveKeyResult_create() async throws {
@@ -388,6 +432,17 @@ import LarkOKR
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/okr/v2/cycles/:cycle_id/objectives") func v2_okrCycleObjective_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","create_time":"s","update_time":"s","owner":{"owner_type":"user","user_id":"s"},"cycle_id":"s","position":1,"content":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"score":1.5,"notes":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"weight":1.5,"deadline":"s","category_id":"s"}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","create_time":"s","update_time":"s","owner":{"owner_type":"user","user_id":"s"},"cycle_id":"s","position":1,"content":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"score":1.5,"notes":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"weight":1.5,"deadline":"s","category_id":"s"}]}}"##])
+        var pages = 0
+        for try await _ in client.okr.v2.okrCycleObjective.listWithIterator(cycleId: "s", params: OKR.OkrObjectiveKeyResultListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("PATCH /open-apis/okr/v2/indicators/:indicator_id") func v2_okrIndicator_patch() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"indicator":{"id":"s","create_time":"s","update_time":"s","owner":{"owner_type":"user","user_id":"s"},"entity_type":1,"entity_id":"s","indicator_status":1,"status_calculate_type":1,"start_value":1.5,"target_value":1.5,"current_value":1.5,"current_value_calculate_type":1,"unit":{"unit_type":1,"unit_value":"s"}}}}"##)
         let resp = try await client.okr.v2.okrIndicator.patch(indicatorId: "s", params: OKR.OkrAlignmentGetQuery(), body: OKR.OkrIndicatorPatchBody())
@@ -410,6 +465,17 @@ import LarkOKR
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/okr/v2/objectives/:objective_id/progresses") func v2_okrObjectiveProgress_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","create_time":"s","update_time":"s","owner":{"owner_type":"user","user_id":"s"},"entity_type":1,"entity_id":"s","content":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"progress_rate":{"progress_percent":1.5,"progress_status":1}}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","create_time":"s","update_time":"s","owner":{"owner_type":"user","user_id":"s"},"entity_type":1,"entity_id":"s","content":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"progress_rate":{"progress_percent":1.5,"progress_status":1}}]}}"##])
+        var pages = 0
+        for try await _ in client.okr.v2.okrObjectiveProgress.listWithIterator(objectiveId: "s", params: OKR.OkrObjectiveKeyResultListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/okr/v2/key_results/:key_result_id/progresses") func v2_okrKeyResultProgress_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"s","items":[{"id":"s","create_time":"s","update_time":"s","owner":{"owner_type":"user","user_id":"s"},"entity_type":1,"entity_id":"s","content":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"progress_rate":{"progress_percent":1.5,"progress_status":1}}]}}"##)
         let resp = try await client.okr.v2.okrKeyResultProgress.list(keyResultId: "s", params: OKR.OkrObjectiveKeyResultListQuery())
@@ -419,6 +485,17 @@ import LarkOKR
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/okr/v2/key_results/s/progresses")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/okr/v2/key_results/:key_result_id/progresses") func v2_okrKeyResultProgress_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"id":"s","create_time":"s","update_time":"s","owner":{"owner_type":"user","user_id":"s"},"entity_type":1,"entity_id":"s","content":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"progress_rate":{"progress_percent":1.5,"progress_status":1}}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"id":"s","create_time":"s","update_time":"s","owner":{"owner_type":"user","user_id":"s"},"entity_type":1,"entity_id":"s","content":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"progress_rate":{"progress_percent":1.5,"progress_status":1}}]}}"##])
+        var pages = 0
+        for try await _ in client.okr.v2.okrKeyResultProgress.listWithIterator(keyResultId: "s", params: OKR.OkrObjectiveKeyResultListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
 }

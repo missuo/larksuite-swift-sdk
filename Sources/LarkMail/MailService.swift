@@ -121,7 +121,7 @@ extension MailService.V1 {
         public func listWithIterator(mailgroupId: String, params: LarkMail.Mail.MailgroupMemberListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkMail.Mail.MailgroupMemberListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(mailgroupId: mailgroupId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -206,7 +206,7 @@ extension MailService.V1 {
         public func listWithIterator(mailgroupId: String, params: LarkMail.Mail.MailgroupPermissionMemberListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkMail.Mail.MailgroupPermissionMemberListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(mailgroupId: mailgroupId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -313,7 +313,7 @@ extension MailService.V1 {
         public func listWithIterator(params: LarkMail.Mail.MailgroupListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkMail.Mail.MailgroupListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -398,7 +398,7 @@ extension MailService.V1 {
         public func listWithIterator(publicMailboxId: String, params: LarkMail.Mail.PublicMailboxMemberListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkMail.Mail.PublicMailboxMemberListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(publicMailboxId: publicMailboxId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -593,7 +593,7 @@ extension MailService.V1 {
         public func searchWithIterator(userMailboxId: String, params: LarkMail.Mail.UserMailboxSearchQuery = .init(), body: LarkMail.Mail.UserMailboxSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkMail.Mail.UserMailboxSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(userMailboxId: userMailboxId, params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -647,9 +647,9 @@ extension MailService.V1 {
         public func listWithIterator(userMailboxId: String, params: LarkMail.Mail.UserMailboxAliasListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkMail.Mail.UserMailboxAliasListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(userMailboxId: userMailboxId, params: p, options: options)
-                return LarkPage(data: r.data, hasMore: true, nextPageToken: nil)
+                return LarkPage(data: r.data, hasMore: false, nextPageToken: nil)
             }
         }
 
@@ -699,7 +699,7 @@ extension MailService.V1 {
         public func listWithIterator(mailgroupId: String, params: LarkMail.Mail.MailgroupManagerListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkMail.Mail.MailgroupManagerListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(mailgroupId: mailgroupId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -795,7 +795,7 @@ extension MailService.V1 {
         public func listWithIterator(params: LarkMail.Mail.PublicMailboxListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkMail.Mail.PublicMailboxListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -970,7 +970,7 @@ extension MailService.V1 {
         public func listWithIterator(userMailboxId: String, params: LarkMail.Mail.UserMailboxMessageListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkMail.Mail.UserMailboxMessageListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(userMailboxId: userMailboxId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1048,7 +1048,7 @@ extension MailService.V1 {
         public func listWithIterator(userMailboxId: String, params: LarkMail.Mail.UserMailboxThreadListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkMail.Mail.UserMailboxThreadListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(userMailboxId: userMailboxId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1172,7 +1172,7 @@ extension MailService.V1 {
         public func listWithIterator(userMailboxId: String, params: LarkMail.Mail.UserMailboxMailContactListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkMail.Mail.UserMailboxMailContactListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(userMailboxId: userMailboxId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1268,7 +1268,7 @@ extension MailService.V1 {
         public func listWithIterator(userMailboxId: String, params: LarkMail.Mail.UserMailboxDraftListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkMail.Mail.UserMailboxDraftListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(userMailboxId: userMailboxId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

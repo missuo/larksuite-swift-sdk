@@ -101,6 +101,21 @@ import LarkIM
         #expect(Self.query(http.requests[1])["type"] == ["image"])
     }
 
+    /// node-sdk's iterators send `{...params, page_token: pageToken}` with `pageToken` undefined on
+    /// the first request, so a caller-supplied page_token is ignored and iteration starts at page 1.
+    @Test func iteratorIgnoresCallerPageToken() async throws {
+        let (client, http) = try Self.makeClient { _ in
+            MockHTTPClient.json(["code": 0, "data": ["has_more": false, "items": []]])
+        }
+        var params = IM.MessageListQuery(containerIdType: "chat", containerId: "oc_1")
+        params.pageToken = "from-caller"
+        for try await _ in client.im.v1.message.listWithIterator(params: params) {}
+        #expect(Self.query(http.requests[1])["page_token"] == nil)
+        // The plain method still sends it.
+        _ = try await client.im.v1.message.list(params: params)
+        #expect(Self.query(http.requests[2])["page_token"] == ["from-caller"])
+    }
+
     @Test func chatMembersAndRawRequest() async throws {
         let (client, _) = try Self.makeClient { req in
             if req.url.path == "/open-apis/bot/v3/info" {

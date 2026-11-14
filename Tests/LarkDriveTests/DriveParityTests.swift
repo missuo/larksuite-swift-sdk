@@ -77,6 +77,17 @@ import LarkDrive
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/drive/v1/files") func v1_file_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"files":[{"token":"s","name":"s","type":"s","parent_token":"s","url":"s","shortcut_info":{"target_type":"s","target_token":"s"},"created_time":"s","modified_time":"s","owner_id":"s"}],"next_page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"files":[{"token":"s","name":"s","type":"s","parent_token":"s","url":"s","shortcut_info":{"target_type":"s","target_token":"s"},"created_time":"s","modified_time":"s","owner_id":"s"}],"next_page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.drive.v1.file.listWithIterator(params: Drive.FileListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/drive/v1/files/task_check") func v1_file_taskCheck() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"status":"s"}}"##)
         let resp = try await client.drive.v1.file.taskCheck(params: Drive.FileTaskCheckQuery(taskId: "s"))
@@ -295,6 +306,17 @@ import LarkDrive
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/drive/v1/files/:file_token/versions") func v1_fileVersion_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"name":"s","version":"s","parent_token":"s","owner_id":"s","creator_id":"s","create_time":"s","update_time":"s","status":"0","obj_type":"docx","parent_type":"docx"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"name":"s","version":"s","parent_token":"s","owner_id":"s","creator_id":"s","create_time":"s","update_time":"s","status":"0","obj_type":"docx","parent_type":"docx"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.drive.v1.fileVersion.listWithIterator(fileToken: "s", params: Drive.FileVersionListQuery(pageSize: 1, objType: "docx")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/drive/v1/files/:file_token/versions/:version_id") func v1_fileVersion_get() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"name":"s","version":"s","parent_token":"s","owner_id":"s","creator_id":"s","create_time":"s","update_time":"s","status":"0","obj_type":"docx","parent_type":"docx"}}"##)
         let resp = try await client.drive.v1.fileVersion.get(fileToken: "s", versionId: "s", params: Drive.FileVersionGetQuery(objType: "docx"))
@@ -317,6 +339,17 @@ import LarkDrive
         #expect(ParityHarness.path(req) == "/open-apis/drive/v1/files/s/view_records")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["page_size","file_type"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/drive/v1/files/:file_token/view_records") func v1_fileViewRecord_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"viewer_id":"s","name":"s","avatar_url":"s","last_view_time":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"viewer_id":"s","name":"s","avatar_url":"s","last_view_time":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.drive.v1.fileViewRecord.listWithIterator(fileToken: "s", params: Drive.FileViewRecordListQuery(pageSize: 1, fileType: "doc")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/drive/v1/files/:file_token/statistics") func v1_fileStatistics_get() async throws {
@@ -412,6 +445,17 @@ import LarkDrive
         #expect(ParityHarness.path(req) == "/open-apis/drive/v1/files/s/comments")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["file_type"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/drive/v1/files/:file_token/comments") func v1_fileComment_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"has_more":true,"page_token":"tok2","items":[{"comment_id":"s","user_id":"s","create_time":1,"update_time":1,"is_solved":true,"solved_time":1,"solver_user_id":"s","has_more":true,"page_token":"s","is_whole":true,"quote":"s","reply_list":{"replies":[{"content":{"elements":[{"type":"text_run","text_run":{"text":"s"},"docs_link":{"url":"s"},"person":{"user_id":"s"}}]},"reply_id":"s","user_id":"s","create_time":1,"update_time":1,"extra":{"image_list":["s"]},"reactions":[{"reaction_key":"s","count":1,"ahead_users":["s"]}]}]}}]}}"##, ##"{"code":0,"msg":"success","data":{"has_more":false,"page_token":"","items":[{"comment_id":"s","user_id":"s","create_time":1,"update_time":1,"is_solved":true,"solved_time":1,"solver_user_id":"s","has_more":true,"page_token":"s","is_whole":true,"quote":"s","reply_list":{"replies":[{"content":{"elements":[{"type":"text_run","text_run":{"text":"s"},"docs_link":{"url":"s"},"person":{"user_id":"s"}}]},"reply_id":"s","user_id":"s","create_time":1,"update_time":1,"extra":{"image_list":["s"]},"reactions":[{"reaction_key":"s","count":1,"ahead_users":["s"]}]}]}}]}}"##])
+        var pages = 0
+        for try await _ in client.drive.v1.fileComment.listWithIterator(fileToken: "s", params: Drive.FileCommentListQuery(fileType: "doc")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/drive/v1/files/:file_token/comments/batch_query") func v1_fileComment_batchQuery() async throws {
@@ -603,6 +647,17 @@ import LarkDrive
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/drive/v1/files/:file_token/comments/:comment_id/replies") func v1_fileCommentReply_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"content":{"elements":[{"type":"text_run","text_run":{"text":"s"},"docs_link":{"url":"s"},"person":{"user_id":"s"}}]},"reply_id":"s","user_id":"s","create_time":1,"update_time":1,"extra":{"image_list":["s"]},"reactions":[{"reaction_key":"s","count":1,"ahead_users":["s"]}]}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"content":{"elements":[{"type":"text_run","text_run":{"text":"s"},"docs_link":{"url":"s"},"person":{"user_id":"s"}}]},"reply_id":"s","user_id":"s","create_time":1,"update_time":1,"extra":{"image_list":["s"]},"reactions":[{"reaction_key":"s","count":1,"ahead_users":["s"]}]}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.drive.v1.fileCommentReply.listWithIterator(fileToken: "s", commentId: "s", params: Drive.FileCommentReplyListQuery(fileType: "doc")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("PATCH /open-apis/drive/v1/permissions/:token/public") func v1_permissionPublic_patch() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"permission_public":{"external_access":true,"security_entity":"anyone_can_view","comment_entity":"anyone_can_view","share_entity":"anyone","link_share_entity":"tenant_readable","invite_external":true,"lock_switch":true}}}"##)
         let resp = try await client.drive.v1.permissionPublic.patch(token: "s", params: Drive.PermissionPublicPasswordCreateQuery(type: "doc"), body: Drive.PermissionPublicPatchBody())
@@ -719,6 +774,17 @@ import LarkDrive
         #expect(ParityHarness.path(req) == "/open-apis/drive/v2/files/s/likes")
         #expect(ParityHarness.queryKeys(req).isSuperset(of: ["file_type"]))
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/drive/v2/files/:file_token/likes") func v2_fileLike_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"user_id":"s","last_liked_time":"s","user_name":"s","user_en_name":"s","user_avatar_url":"s","user_is_desensitized":true}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"user_id":"s","last_liked_time":"s","user_name":"s","user_en_name":"s","user_avatar_url":"s","user_is_desensitized":true}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.drive.v2.fileLike.listWithIterator(fileToken: "s", params: Drive.FileLikeListQuery(fileType: "doc")) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("POST /open-apis/drive/v2/files/:file_token/comments/reaction") func v2_commentReaction_updateReaction() async throws {

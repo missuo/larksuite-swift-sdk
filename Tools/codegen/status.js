@@ -62,7 +62,7 @@ for (const p of ir.projects) {
             }
         }
     }
-    const tests = count(testFile, /@Test\("(?!event )/g);
+    const tests = count(testFile, /@Test\("(?!event |iterator )/g);
     const eventTests = count(testFile, /@Test\("event /g);
     const events = ir.events.filter((e) => e.name.split('.')[0] === p.name).length;
     const eventsDone = count(path.join(srcDir, `${ns}Events.swift`), /public static let /g);

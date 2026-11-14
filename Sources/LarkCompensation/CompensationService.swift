@@ -58,7 +58,7 @@ extension CompensationService.V1 {
         public func listWithIterator(params: LarkCompensation.Compensation.IndicatorListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCompensation.Compensation.IndicatorListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -99,7 +99,7 @@ extension CompensationService.V1 {
         public func listWithIterator(params: LarkCompensation.Compensation.SocialPlanListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCompensation.Compensation.SocialPlanListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -129,7 +129,7 @@ extension CompensationService.V1 {
         public func listWithIterator(params: LarkCompensation.Compensation.ItemListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCompensation.Compensation.ItemListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -159,7 +159,7 @@ extension CompensationService.V1 {
         public func listWithIterator(params: LarkCompensation.Compensation.PlanListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCompensation.Compensation.PlanListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -209,7 +209,7 @@ extension CompensationService.V1 {
         public func listWithIterator(params: LarkCompensation.Compensation.ItemCategoryListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCompensation.Compensation.ItemCategoryListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -239,7 +239,7 @@ extension CompensationService.V1 {
         public func listWithIterator(params: LarkCompensation.Compensation.ChangeReasonListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkCompensation.Compensation.ChangeReasonListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -303,7 +303,7 @@ extension CompensationService.V1 {
         public func queryWithIterator(params: LarkCompensation.Compensation.RecurringPaymentQueryQuery, body: LarkCompensation.Compensation.RecurringPaymentQueryBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCompensation.Compensation.RecurringPaymentQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.query(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -435,7 +435,7 @@ extension CompensationService.V1 {
         public func queryWithIterator(params: LarkCompensation.Compensation.LumpSumPaymentQueryQuery, body: LarkCompensation.Compensation.LumpSumPaymentQueryBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCompensation.Compensation.LumpSumPaymentQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.query(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -469,7 +469,7 @@ extension CompensationService.V1 {
         public func queryDetailWithIterator(params: LarkCompensation.Compensation.LumpSumPaymentQueryDetailQuery, body: LarkCompensation.Compensation.LumpSumPaymentQueryDetailBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkCompensation.Compensation.LumpSumPaymentQueryDetailResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.queryDetail(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

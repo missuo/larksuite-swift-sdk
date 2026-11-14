@@ -586,7 +586,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.ReferralWebsiteJobPostListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.ReferralWebsiteJobPostListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -773,7 +773,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.LocationListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.LocationListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -932,7 +932,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.WebsiteListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.WebsiteListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -962,7 +962,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.ExamMarkingTaskListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.ExamMarkingTaskListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1433,7 +1433,7 @@ extension HireService.V1 {
         public func searchWithIterator(params: LarkHire.Hire.TalentPoolSearchQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.TalentPoolSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1544,7 +1544,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.TerminationReasonListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.TerminationReasonListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1631,7 +1631,7 @@ extension HireService.V1 {
         public func listWithIterator(websiteId: String, params: LarkHire.Hire.WebsiteJobPostListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.WebsiteJobPostListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(websiteId: websiteId, params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1652,7 +1652,7 @@ extension HireService.V1 {
         public func searchWithIterator(websiteId: String, params: LarkHire.Hire.WebsiteJobPostSearchQuery = .init(), body: LarkHire.Hire.WebsiteJobPostSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.WebsiteJobPostSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(websiteId: websiteId, params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1697,7 +1697,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.JobTypeListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.JobTypeListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1727,7 +1727,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.ExternalApplicationListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.ExternalApplicationListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1966,7 +1966,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.RegistrationSchemaListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.RegistrationSchemaListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -1996,7 +1996,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.RoleListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.RoleListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2048,7 +2048,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.InterviewRecordListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.InterviewRecordListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2089,7 +2089,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.InterviewerListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.InterviewerListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2119,7 +2119,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.TalentFolderListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.TalentFolderListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2339,7 +2339,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.JobFunctionListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.JobFunctionListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2489,7 +2489,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.TripartiteAgreementListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.TripartiteAgreementListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2604,7 +2604,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.ResumeSourceListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.ResumeSourceListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2665,7 +2665,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.TalentTagListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.TalentTagListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2715,7 +2715,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.UserRoleListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.UserRoleListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2757,7 +2757,7 @@ extension HireService.V1 {
         public func batchQueryWithIterator(params: LarkHire.Hire.ExternalInterviewBatchQueryQuery = .init(), body: LarkHire.Hire.ExternalInterviewBatchQueryBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.ExternalInterviewBatchQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.batchQuery(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2848,7 +2848,7 @@ extension HireService.V1 {
         public func batchQueryWithIterator(params: LarkHire.Hire.ExternalBackgroundCheckBatchQueryQuery = .init(), body: LarkHire.Hire.ExternalBackgroundCheckBatchQueryBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.ExternalBackgroundCheckBatchQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.batchQuery(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2878,7 +2878,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.TodoListQuery, options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.TodoListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2921,7 +2921,7 @@ extension HireService.V1 {
         public func batchQueryWithIterator(params: LarkHire.Hire.ExternalOfferBatchQueryQuery = .init(), body: LarkHire.Hire.ExternalOfferBatchQueryBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.ExternalOfferBatchQueryResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.batchQuery(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -2996,7 +2996,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.PortalApplySchemaListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.PortalApplySchemaListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3028,7 +3028,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.InterviewRegistrationSchemaListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.InterviewRegistrationSchemaListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3229,7 +3229,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.InterviewFeedbackFormListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.InterviewFeedbackFormListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3259,7 +3259,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.EvaluationTaskListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.EvaluationTaskListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3289,7 +3289,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.EvaluationListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.EvaluationListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3319,7 +3319,7 @@ extension HireService.V1 {
         public func listWithIterator(params: LarkHire.Hire.InterviewTaskListQuery = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.InterviewTaskListResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3386,7 +3386,7 @@ extension HireService.V1 {
         public func searchWithIterator(params: LarkHire.Hire.TestSearchQuery = .init(), body: LarkHire.Hire.TestSearchBody = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.TestSearchResponse> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.search(params: p, body: body, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }
@@ -3447,7 +3447,7 @@ extension HireService.V2 {
         public func listWithIterator(params: LarkHire.Hire.InterviewRecordListQueryV2 = .init(), options: RequestOptions = .none) -> LarkPageSequence<LarkHire.Hire.InterviewRecordListResponseV2> {
             LarkPageSequence { token in
                 var p = params
-                if let token { p.pageToken = token }
+                p.pageToken = token
                 let r = try await self.list(params: p, options: options)
                 return LarkPage(data: r.data, hasMore: r.data?.hasMore ?? false, nextPageToken: r.data?.pageToken)
             }

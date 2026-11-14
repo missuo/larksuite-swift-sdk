@@ -20,6 +20,17 @@ import LarkACS
         #expect(req.body == nil)
     }
 
+    @Test("iterator GET /open-apis/acs/v1/access_records") func v1_accessRecord_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"access_record_id":"s","user_id":"s","device_id":"s","is_clock_in":true,"access_time":"s","access_type":"FA","access_data":"s","is_door_open":true}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"access_record_id":"s","user_id":"s","device_id":"s","is_clock_in":true,"access_time":"s","access_type":"FA","access_data":"s","is_door_open":true}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.acs.v1.accessRecord.listWithIterator(params: ACS.AccessRecordListQuery(from: 1, to: 1)) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
+    }
+
     @Test("GET /open-apis/acs/v1/devices") func v1_device_list() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"device_id":"s","device_name":"s","device_sn":"s","property":{"version":"s","current_device_face_count":1,"max_face_capacity":1,"online_status":1,"device_name":"s","is_clock_in":true}}]}}"##)
         let resp = try await client.acs.v1.device.list()
@@ -71,6 +82,17 @@ import LarkACS
         #expect(req.method.rawValue == "GET")
         #expect(ParityHarness.path(req) == "/open-apis/acs/v1/users")
         #expect(req.body == nil)
+    }
+
+    @Test("iterator GET /open-apis/acs/v1/users") func v1_user_list_iterator() async throws {
+        let (client, http) = try ParityHarness.client(jsonPages: [##"{"code":0,"msg":"success","data":{"items":[{"feature":{"card":1,"face_uploaded":true},"user_id":"s"}],"page_token":"tok2","has_more":true}}"##, ##"{"code":0,"msg":"success","data":{"items":[{"feature":{"card":1,"face_uploaded":true},"user_id":"s"}],"page_token":"","has_more":false}}"##])
+        var pages = 0
+        for try await _ in client.acs.v1.user.listWithIterator(params: ACS.UserListQuery()) { pages += 1 }
+        #expect(pages == 2)
+        let reqs = http.apiRequests
+        #expect(reqs.count == 2)
+        #expect(ParityHarness.queryValues(reqs[0], "page_token").isEmpty)
+        #expect(ParityHarness.queryValues(reqs[1], "page_token") == ["tok2"])
     }
 
     @Test("GET /open-apis/acs/v1/users/:user_id/face") func v1_userFace_get() async throws {
