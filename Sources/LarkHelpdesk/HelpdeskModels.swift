@@ -577,13 +577,13 @@ extension Helpdesk {
     }
 
     public struct Category: Codable, Sendable {
-        public var categoryId: String
-        public var id: String
-        public var name: String
-        public var parentId: String
-        public var helpdeskId: String
+        public var categoryId: String?
+        public var id: String?
+        public var name: String?
+        public var parentId: String?
+        public var helpdeskId: String?
         public var language: String?
-        public init(categoryId: String, id: String, name: String, parentId: String, helpdeskId: String, language: String? = nil) {
+        public init(categoryId: String? = nil, id: String? = nil, name: String? = nil, parentId: String? = nil, helpdeskId: String? = nil, language: String? = nil) {
             self.categoryId = categoryId
             self.id = id
             self.name = name
@@ -601,11 +601,11 @@ extension Helpdesk {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.categoryId = try c.lenientRequired(.categoryId)
-            self.id = try c.lenientRequired(.id)
-            self.name = try c.lenientRequired(.name)
-            self.parentId = try c.lenientRequired(.parentId)
-            self.helpdeskId = try c.lenientRequired(.helpdeskId)
+            self.categoryId = c.lenient(.categoryId)
+            self.id = c.lenient(.id)
+            self.name = c.lenient(.name)
+            self.parentId = c.lenient(.parentId)
+            self.helpdeskId = c.lenient(.helpdeskId)
             self.language = c.lenient(.language)
         }
     }
@@ -665,12 +665,12 @@ extension Helpdesk {
     }
 
     public struct CategoryGetResponse: Codable, Sendable {
-        public var categoryId: String
-        public var id: String
-        public var name: String
-        public var helpdeskId: String
+        public var categoryId: String?
+        public var id: String?
+        public var name: String?
+        public var helpdeskId: String?
         public var language: String?
-        public init(categoryId: String, id: String, name: String, helpdeskId: String, language: String? = nil) {
+        public init(categoryId: String? = nil, id: String? = nil, name: String? = nil, helpdeskId: String? = nil, language: String? = nil) {
             self.categoryId = categoryId
             self.id = id
             self.name = name
@@ -686,10 +686,10 @@ extension Helpdesk {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.categoryId = try c.lenientRequired(.categoryId)
-            self.id = try c.lenientRequired(.id)
-            self.name = try c.lenientRequired(.name)
-            self.helpdeskId = try c.lenientRequired(.helpdeskId)
+            self.categoryId = c.lenient(.categoryId)
+            self.id = c.lenient(.id)
+            self.name = c.lenient(.name)
+            self.helpdeskId = c.lenient(.helpdeskId)
             self.language = c.lenient(.language)
         }
     }
@@ -709,9 +709,9 @@ extension Helpdesk {
     }
 
     public struct Event: Codable, Sendable {
-        public var type: String
-        public var subtype: String
-        public init(type: String, subtype: String) {
+        public var type: String?
+        public var subtype: String?
+        public init(type: String? = nil, subtype: String? = nil) {
             self.type = type
             self.subtype = subtype
         }
@@ -721,8 +721,8 @@ extension Helpdesk {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.subtype = try c.lenientRequired(.subtype)
+            self.type = c.lenient(.type)
+            self.subtype = c.lenient(.subtype)
         }
     }
 
@@ -964,11 +964,11 @@ extension Helpdesk {
 
     public struct FaqCreateBodyFaq: Codable, Sendable {
         public var categoryId: String?
-        public var question: String
+        public var question: String?
         public var answer: String?
         public var answerRichtext: String?
         public var tags: [String]?
-        public init(categoryId: String? = nil, question: String, answer: String? = nil, answerRichtext: String? = nil, tags: [String]? = nil) {
+        public init(categoryId: String? = nil, question: String? = nil, answer: String? = nil, answerRichtext: String? = nil, tags: [String]? = nil) {
             self.categoryId = categoryId
             self.question = question
             self.answer = answer
@@ -985,7 +985,7 @@ extension Helpdesk {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.categoryId = c.lenient(.categoryId)
-            self.question = try c.lenientRequired(.question)
+            self.question = c.lenient(.question)
             self.answer = c.lenient(.answer)
             self.answerRichtext = c.lenient(.answerRichtext)
             self.tags = c.lenient(.tags)
@@ -1022,11 +1022,11 @@ extension Helpdesk {
 
     public struct FaqPatchBodyFaq: Codable, Sendable {
         public var categoryId: String?
-        public var question: String
+        public var question: String?
         public var answer: String?
         public var answerRichtext: [AnswerRichtext]?
         public var tags: [String]?
-        public init(categoryId: String? = nil, question: String, answer: String? = nil, answerRichtext: [AnswerRichtext]? = nil, tags: [String]? = nil) {
+        public init(categoryId: String? = nil, question: String? = nil, answer: String? = nil, answerRichtext: [AnswerRichtext]? = nil, tags: [String]? = nil) {
             self.categoryId = categoryId
             self.question = question
             self.answer = answer
@@ -1043,7 +1043,7 @@ extension Helpdesk {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.categoryId = c.lenient(.categoryId)
-            self.question = try c.lenientRequired(.question)
+            self.question = c.lenient(.question)
             self.answer = c.lenient(.answer)
             self.answerRichtext = c.lenient(.answerRichtext)
             self.tags = c.lenient(.tags)
@@ -1191,22 +1191,22 @@ extension Helpdesk {
     }
 
     public struct TicketCustomizedField: Codable, Sendable {
-        public var ticketCustomizedFieldId: String
+        public var ticketCustomizedFieldId: String?
         public var helpdeskId: String?
-        public var keyName: String
-        public var displayName: String
-        public var position: String
-        public var fieldType: String
-        public var description: String
-        public var visible: Bool
+        public var keyName: String?
+        public var displayName: String?
+        public var position: String?
+        public var fieldType: String?
+        public var description: String?
+        public var visible: Bool?
         public var editable: Bool?
-        public var required: Bool
+        public var required: Bool?
         public var createdAt: String?
         public var updatedAt: String?
         public var createdBy: CreatedBy?
         public var updatedBy: CreatedBy?
         public var dropdownAllowMultiple: Bool?
-        public init(ticketCustomizedFieldId: String, helpdeskId: String? = nil, keyName: String, displayName: String, position: String, fieldType: String, description: String, visible: Bool, editable: Bool? = nil, required: Bool, createdAt: String? = nil, updatedAt: String? = nil, createdBy: CreatedBy? = nil, updatedBy: CreatedBy? = nil, dropdownAllowMultiple: Bool? = nil) {
+        public init(ticketCustomizedFieldId: String? = nil, helpdeskId: String? = nil, keyName: String? = nil, displayName: String? = nil, position: String? = nil, fieldType: String? = nil, description: String? = nil, visible: Bool? = nil, editable: Bool? = nil, required: Bool? = nil, createdAt: String? = nil, updatedAt: String? = nil, createdBy: CreatedBy? = nil, updatedBy: CreatedBy? = nil, dropdownAllowMultiple: Bool? = nil) {
             self.ticketCustomizedFieldId = ticketCustomizedFieldId
             self.helpdeskId = helpdeskId
             self.keyName = keyName
@@ -1242,16 +1242,16 @@ extension Helpdesk {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.ticketCustomizedFieldId = try c.lenientRequired(.ticketCustomizedFieldId)
+            self.ticketCustomizedFieldId = c.lenient(.ticketCustomizedFieldId)
             self.helpdeskId = c.lenient(.helpdeskId)
-            self.keyName = try c.lenientRequired(.keyName)
-            self.displayName = try c.lenientRequired(.displayName)
-            self.position = try c.lenientRequired(.position)
-            self.fieldType = try c.lenientRequired(.fieldType)
-            self.description = try c.lenientRequired(.description)
-            self.visible = try c.lenientRequired(.visible)
+            self.keyName = c.lenient(.keyName)
+            self.displayName = c.lenient(.displayName)
+            self.position = c.lenient(.position)
+            self.fieldType = c.lenient(.fieldType)
+            self.description = c.lenient(.description)
+            self.visible = c.lenient(.visible)
             self.editable = c.lenient(.editable)
-            self.required = try c.lenientRequired(.required)
+            self.required = c.lenient(.required)
             self.createdAt = c.lenient(.createdAt)
             self.updatedAt = c.lenient(.updatedAt)
             self.createdBy = c.lenient(.createdBy)
@@ -1335,7 +1335,7 @@ extension Helpdesk {
     }
 
     public struct Ticket: Codable, Sendable {
-        public var ticketId: String
+        public var ticketId: String?
         public var helpdeskId: String?
         public var guest: CreatedBy?
         public var comments: Comments?
@@ -1362,7 +1362,7 @@ extension Helpdesk {
         public var agentLastResponseTime: Int?
         public var agentOwner: CreatedBy?
         public var tags: [Tag]?
-        public init(ticketId: String, helpdeskId: String? = nil, guest: CreatedBy? = nil, comments: Comments? = nil, ticketType: Int? = nil, status: Int? = nil, score: Double? = nil, createdAt: Int? = nil, updatedAt: Int? = nil, closedAt: Int? = nil, dissatisfactionReason: DissatisfactionReason? = nil, agents: [CreatedBy]? = nil, channel: Int? = nil, solve: Int? = nil, closedBy: CreatedBy? = nil, collaborators: [CreatedBy]? = nil, customizedFields: [CustomizedField]? = nil, agentServiceDuration: Double? = nil, agentFirstResponseDuration: Int? = nil, botServiceDuration: Int? = nil, agentResolutionTime: Int? = nil, actualProcessingTime: Int? = nil, agentEntryTime: Int? = nil, agentFirstResponseTime: Int? = nil, agentLastResponseTime: Int? = nil, agentOwner: CreatedBy? = nil, tags: [Tag]? = nil) {
+        public init(ticketId: String? = nil, helpdeskId: String? = nil, guest: CreatedBy? = nil, comments: Comments? = nil, ticketType: Int? = nil, status: Int? = nil, score: Double? = nil, createdAt: Int? = nil, updatedAt: Int? = nil, closedAt: Int? = nil, dissatisfactionReason: DissatisfactionReason? = nil, agents: [CreatedBy]? = nil, channel: Int? = nil, solve: Int? = nil, closedBy: CreatedBy? = nil, collaborators: [CreatedBy]? = nil, customizedFields: [CustomizedField]? = nil, agentServiceDuration: Double? = nil, agentFirstResponseDuration: Int? = nil, botServiceDuration: Int? = nil, agentResolutionTime: Int? = nil, actualProcessingTime: Int? = nil, agentEntryTime: Int? = nil, agentFirstResponseTime: Int? = nil, agentLastResponseTime: Int? = nil, agentOwner: CreatedBy? = nil, tags: [Tag]? = nil) {
             self.ticketId = ticketId
             self.helpdeskId = helpdeskId
             self.guest = guest
@@ -1422,7 +1422,7 @@ extension Helpdesk {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.ticketId = try c.lenientRequired(.ticketId)
+            self.ticketId = c.lenient(.ticketId)
             self.helpdeskId = c.lenient(.helpdeskId)
             self.guest = c.lenient(.guest)
             self.comments = c.lenient(.comments)
@@ -1687,9 +1687,9 @@ extension Helpdesk {
     }
 
     public struct TicketStartServiceResponse: Codable, Sendable {
-        public var chatId: String
+        public var chatId: String?
         public var ticketId: String?
-        public init(chatId: String, ticketId: String? = nil) {
+        public init(chatId: String? = nil, ticketId: String? = nil) {
             self.chatId = chatId
             self.ticketId = ticketId
         }
@@ -1699,7 +1699,7 @@ extension Helpdesk {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.chatId = try c.lenientRequired(.chatId)
+            self.chatId = c.lenient(.chatId)
             self.ticketId = c.lenient(.ticketId)
         }
     }
@@ -2334,13 +2334,13 @@ extension Helpdesk {
     public struct Message: Codable, Sendable {
         public var id: String?
         public var messageId: String?
-        public var messageType: String
+        public var messageType: String?
         public var createdAt: Int?
-        public var content: String
+        public var content: String?
         public var userName: String?
         public var avatarUrl: String?
         public var userId: String?
-        public init(id: String? = nil, messageId: String? = nil, messageType: String, createdAt: Int? = nil, content: String, userName: String? = nil, avatarUrl: String? = nil, userId: String? = nil) {
+        public init(id: String? = nil, messageId: String? = nil, messageType: String? = nil, createdAt: Int? = nil, content: String? = nil, userName: String? = nil, avatarUrl: String? = nil, userId: String? = nil) {
             self.id = id
             self.messageId = messageId
             self.messageType = messageType
@@ -2364,9 +2364,9 @@ extension Helpdesk {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
             self.messageId = c.lenient(.messageId)
-            self.messageType = try c.lenientRequired(.messageType)
+            self.messageType = c.lenient(.messageType)
             self.createdAt = c.lenient(.createdAt)
-            self.content = try c.lenientRequired(.content)
+            self.content = c.lenient(.content)
             self.userName = c.lenient(.userName)
             self.avatarUrl = c.lenient(.avatarUrl)
             self.userId = c.lenient(.userId)
@@ -2517,7 +2517,7 @@ extension Helpdesk {
         public var uuid: String?
         public var type: String?
         public var appId: String?
-        public var ticketId: String
+        public var ticketId: String?
         public var helpdeskId: String?
         public var guest: Guest?
         public var stage: Int?
@@ -2530,7 +2530,7 @@ extension Helpdesk {
         public var solve: Int?
         public var customizedFields: [CustomizedField]?
         public var chatId: String?
-        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, ticketId: String, helpdeskId: String? = nil, guest: Guest? = nil, stage: Int? = nil, status: Int? = nil, score: Double? = nil, createdAt: Int? = nil, updatedAt: Int? = nil, closedAt: Int? = nil, channel: Int? = nil, solve: Int? = nil, customizedFields: [CustomizedField]? = nil, chatId: String? = nil) {
+        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, ticketId: String? = nil, helpdeskId: String? = nil, guest: Guest? = nil, stage: Int? = nil, status: Int? = nil, score: Double? = nil, createdAt: Int? = nil, updatedAt: Int? = nil, closedAt: Int? = nil, channel: Int? = nil, solve: Int? = nil, customizedFields: [CustomizedField]? = nil, chatId: String? = nil) {
             self.eventId = eventId
             self.token = token
             self.createTime = createTime
@@ -2589,7 +2589,7 @@ extension Helpdesk {
             self.uuid = c.lenient(.uuid)
             self.type = c.lenient(.type)
             self.appId = c.lenient(.appId)
-            self.ticketId = try c.lenientRequired(.ticketId)
+            self.ticketId = c.lenient(.ticketId)
             self.helpdeskId = c.lenient(.helpdeskId)
             self.guest = c.lenient(.guest)
             self.stage = c.lenient(.stage)
@@ -2654,18 +2654,18 @@ extension Helpdesk {
         public var uuid: String?
         public var type: String?
         public var appId: String?
-        public var ticketMessageId: String
-        public var messageId: String
-        public var msgType: String
-        public var position: String
+        public var ticketMessageId: String?
+        public var messageId: String?
+        public var msgType: String?
+        public var position: String?
         public var senderId: GuestId?
-        public var senderType: Int
-        public var text: String
+        public var senderType: Int?
+        public var text: String?
         public var ticket: TicketMessageCreatedV1EventTicket?
-        public var eventId: String
+        public var eventId: String?
         public var chatId: String?
         public var content: TicketMessageCreatedV1EventContent?
-        public init(token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, ticketMessageId: String, messageId: String, msgType: String, position: String, senderId: GuestId? = nil, senderType: Int, text: String, ticket: TicketMessageCreatedV1EventTicket? = nil, eventId: String, chatId: String? = nil, content: TicketMessageCreatedV1EventContent? = nil) {
+        public init(token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, ticketMessageId: String? = nil, messageId: String? = nil, msgType: String? = nil, position: String? = nil, senderId: GuestId? = nil, senderType: Int? = nil, text: String? = nil, ticket: TicketMessageCreatedV1EventTicket? = nil, eventId: String? = nil, chatId: String? = nil, content: TicketMessageCreatedV1EventContent? = nil) {
             self.token = token
             self.createTime = createTime
             self.eventType = eventType
@@ -2717,22 +2717,22 @@ extension Helpdesk {
             self.uuid = c.lenient(.uuid)
             self.type = c.lenient(.type)
             self.appId = c.lenient(.appId)
-            self.ticketMessageId = try c.lenientRequired(.ticketMessageId)
-            self.messageId = try c.lenientRequired(.messageId)
-            self.msgType = try c.lenientRequired(.msgType)
-            self.position = try c.lenientRequired(.position)
+            self.ticketMessageId = c.lenient(.ticketMessageId)
+            self.messageId = c.lenient(.messageId)
+            self.msgType = c.lenient(.msgType)
+            self.position = c.lenient(.position)
             self.senderId = c.lenient(.senderId)
-            self.senderType = try c.lenientRequired(.senderType)
-            self.text = try c.lenientRequired(.text)
+            self.senderType = c.lenient(.senderType)
+            self.text = c.lenient(.text)
             self.ticket = c.lenient(.ticket)
-            self.eventId = try c.lenientRequired(.eventId)
+            self.eventId = c.lenient(.eventId)
             self.chatId = c.lenient(.chatId)
             self.content = c.lenient(.content)
         }
     }
 
     public struct TicketMessageCreatedV1EventTicket: Codable, Sendable {
-        public var ticketId: String
+        public var ticketId: String?
         public var comments: [Comments]?
         public var ticketType: Int?
         public var status: Int?
@@ -2747,7 +2747,7 @@ extension Helpdesk {
         public var agentFirstResponseTime: Int?
         public var agentLastResponseTime: Int?
         public var agentOwner: CreatedBy?
-        public init(ticketId: String, comments: [Comments]? = nil, ticketType: Int? = nil, status: Int? = nil, dissatisfactionReason: DissatisfactionReason? = nil, customizedFields: [CustomizedField]? = nil, agentServiceDuration: Double? = nil, agentFirstResponseDuration: Int? = nil, botServiceDuration: Int? = nil, agentResolutionTime: Int? = nil, actualProcessingTime: Int? = nil, agentEntryTime: Int? = nil, agentFirstResponseTime: Int? = nil, agentLastResponseTime: Int? = nil, agentOwner: CreatedBy? = nil) {
+        public init(ticketId: String? = nil, comments: [Comments]? = nil, ticketType: Int? = nil, status: Int? = nil, dissatisfactionReason: DissatisfactionReason? = nil, customizedFields: [CustomizedField]? = nil, agentServiceDuration: Double? = nil, agentFirstResponseDuration: Int? = nil, botServiceDuration: Int? = nil, agentResolutionTime: Int? = nil, actualProcessingTime: Int? = nil, agentEntryTime: Int? = nil, agentFirstResponseTime: Int? = nil, agentLastResponseTime: Int? = nil, agentOwner: CreatedBy? = nil) {
             self.ticketId = ticketId
             self.comments = comments
             self.ticketType = ticketType
@@ -2783,7 +2783,7 @@ extension Helpdesk {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.ticketId = try c.lenientRequired(.ticketId)
+            self.ticketId = c.lenient(.ticketId)
             self.comments = c.lenient(.comments)
             self.ticketType = c.lenient(.ticketType)
             self.status = c.lenient(.status)
@@ -2882,7 +2882,7 @@ extension Helpdesk {
     }
 
     public struct TicketUpdatedV1EventObject: Codable, Sendable {
-        public var ticketId: String
+        public var ticketId: String?
         public var helpdeskId: String?
         public var guest: Guest?
         public var stage: Int?
@@ -2895,7 +2895,7 @@ extension Helpdesk {
         public var solve: Int?
         public var customizedFields: [CustomizedField]?
         public var chatId: String?
-        public init(ticketId: String, helpdeskId: String? = nil, guest: Guest? = nil, stage: Int? = nil, status: Int? = nil, score: Double? = nil, createdAt: Int? = nil, updatedAt: Int? = nil, closedAt: Int? = nil, channel: Int? = nil, solve: Int? = nil, customizedFields: [CustomizedField]? = nil, chatId: String? = nil) {
+        public init(ticketId: String? = nil, helpdeskId: String? = nil, guest: Guest? = nil, stage: Int? = nil, status: Int? = nil, score: Double? = nil, createdAt: Int? = nil, updatedAt: Int? = nil, closedAt: Int? = nil, channel: Int? = nil, solve: Int? = nil, customizedFields: [CustomizedField]? = nil, chatId: String? = nil) {
             self.ticketId = ticketId
             self.helpdeskId = helpdeskId
             self.guest = guest
@@ -2927,7 +2927,7 @@ extension Helpdesk {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.ticketId = try c.lenientRequired(.ticketId)
+            self.ticketId = c.lenient(.ticketId)
             self.helpdeskId = c.lenient(.helpdeskId)
             self.guest = c.lenient(.guest)
             self.stage = c.lenient(.stage)

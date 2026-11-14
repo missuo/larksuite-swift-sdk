@@ -4,82 +4,6 @@ import Foundation
 import LarkCore
 
 extension IM {
-    public struct MessageMessageReadV1Event: Codable, Sendable {
-        public var eventId: String?
-        public var token: String?
-        public var createTime: String?
-        public var eventType: String?
-        public var tenantKey: String?
-        public var ts: String?
-        public var uuid: String?
-        public var type: String?
-        public var appId: String?
-        public var reader: Reader?
-        public var messageIdList: [String]?
-        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, reader: Reader? = nil, messageIdList: [String]? = nil) {
-            self.eventId = eventId
-            self.token = token
-            self.createTime = createTime
-            self.eventType = eventType
-            self.tenantKey = tenantKey
-            self.ts = ts
-            self.uuid = uuid
-            self.type = type
-            self.appId = appId
-            self.reader = reader
-            self.messageIdList = messageIdList
-        }
-        enum CodingKeys: String, CodingKey {
-            case eventId = "event_id"
-            case token
-            case createTime = "create_time"
-            case eventType = "event_type"
-            case tenantKey = "tenant_key"
-            case ts
-            case uuid
-            case type
-            case appId = "app_id"
-            case reader
-            case messageIdList = "message_id_list"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.eventId = c.lenient(.eventId)
-            self.token = c.lenient(.token)
-            self.createTime = c.lenient(.createTime)
-            self.eventType = c.lenient(.eventType)
-            self.tenantKey = c.lenient(.tenantKey)
-            self.ts = c.lenient(.ts)
-            self.uuid = c.lenient(.uuid)
-            self.type = c.lenient(.type)
-            self.appId = c.lenient(.appId)
-            self.reader = c.lenient(.reader)
-            self.messageIdList = c.lenient(.messageIdList)
-        }
-    }
-
-    public struct Reader: Codable, Sendable {
-        public var readerId: ReaderId?
-        public var readTime: String
-        public var tenantKey: String?
-        public init(readerId: ReaderId? = nil, readTime: String, tenantKey: String? = nil) {
-            self.readerId = readerId
-            self.readTime = readTime
-            self.tenantKey = tenantKey
-        }
-        enum CodingKeys: String, CodingKey {
-            case readerId = "reader_id"
-            case readTime = "read_time"
-            case tenantKey = "tenant_key"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.readerId = c.lenient(.readerId)
-            self.readTime = try c.lenientRequired(.readTime)
-            self.tenantKey = c.lenient(.tenantKey)
-        }
-    }
-
     public struct ReaderId: Codable, Sendable {
         public var unionId: String?
         public var userId: String?
@@ -662,9 +586,9 @@ extension IM {
         public var uuid: String?
         public var type: String?
         public var appId: String?
-        public var sender: MessageReceiveV1EventSender
-        public var message: MessageReceiveV1EventMessage
-        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, sender: MessageReceiveV1EventSender, message: MessageReceiveV1EventMessage) {
+        public var sender: MessageReceiveV1EventSender?
+        public var message: MessageReceiveV1EventMessage?
+        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, sender: MessageReceiveV1EventSender? = nil, message: MessageReceiveV1EventMessage? = nil) {
             self.eventId = eventId
             self.token = token
             self.createTime = createTime
@@ -701,16 +625,16 @@ extension IM {
             self.uuid = c.lenient(.uuid)
             self.type = c.lenient(.type)
             self.appId = c.lenient(.appId)
-            self.sender = try c.lenientRequired(.sender)
-            self.message = try c.lenientRequired(.message)
+            self.sender = c.lenient(.sender)
+            self.message = c.lenient(.message)
         }
     }
 
     public struct MessageReceiveV1EventSender: Codable, Sendable {
         public var senderId: ReaderId?
-        public var senderType: String
+        public var senderType: String?
         public var tenantKey: String?
-        public init(senderId: ReaderId? = nil, senderType: String, tenantKey: String? = nil) {
+        public init(senderId: ReaderId? = nil, senderType: String? = nil, tenantKey: String? = nil) {
             self.senderId = senderId
             self.senderType = senderType
             self.tenantKey = tenantKey
@@ -723,26 +647,26 @@ extension IM {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.senderId = c.lenient(.senderId)
-            self.senderType = try c.lenientRequired(.senderType)
+            self.senderType = c.lenient(.senderType)
             self.tenantKey = c.lenient(.tenantKey)
         }
     }
 
     public struct MessageReceiveV1EventMessage: Codable, Sendable {
-        public var messageId: String
+        public var messageId: String?
         public var rootId: String?
         public var parentId: String?
-        public var createTime: String
+        public var createTime: String?
         public var updateTime: String?
-        public var chatId: String
+        public var chatId: String?
         public var threadId: String?
-        public var chatType: String
-        public var messageType: String
-        public var content: String
+        public var chatType: String?
+        public var messageType: String?
+        public var content: String?
         public var mentions: [MessageReceiveV1EventMessageMention]?
         public var userAgent: String?
         public var larkAgentContext: LarkAgentContext?
-        public init(messageId: String, rootId: String? = nil, parentId: String? = nil, createTime: String, updateTime: String? = nil, chatId: String, threadId: String? = nil, chatType: String, messageType: String, content: String, mentions: [MessageReceiveV1EventMessageMention]? = nil, userAgent: String? = nil, larkAgentContext: LarkAgentContext? = nil) {
+        public init(messageId: String? = nil, rootId: String? = nil, parentId: String? = nil, createTime: String? = nil, updateTime: String? = nil, chatId: String? = nil, threadId: String? = nil, chatType: String? = nil, messageType: String? = nil, content: String? = nil, mentions: [MessageReceiveV1EventMessageMention]? = nil, userAgent: String? = nil, larkAgentContext: LarkAgentContext? = nil) {
             self.messageId = messageId
             self.rootId = rootId
             self.parentId = parentId
@@ -774,16 +698,16 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.messageId = try c.lenientRequired(.messageId)
+            self.messageId = c.lenient(.messageId)
             self.rootId = c.lenient(.rootId)
             self.parentId = c.lenient(.parentId)
-            self.createTime = try c.lenientRequired(.createTime)
+            self.createTime = c.lenient(.createTime)
             self.updateTime = c.lenient(.updateTime)
-            self.chatId = try c.lenientRequired(.chatId)
+            self.chatId = c.lenient(.chatId)
             self.threadId = c.lenient(.threadId)
-            self.chatType = try c.lenientRequired(.chatType)
-            self.messageType = try c.lenientRequired(.messageType)
-            self.content = try c.lenientRequired(.content)
+            self.chatType = c.lenient(.chatType)
+            self.messageType = c.lenient(.messageType)
+            self.content = c.lenient(.content)
             self.mentions = c.lenient(.mentions)
             self.userAgent = c.lenient(.userAgent)
             self.larkAgentContext = c.lenient(.larkAgentContext)
@@ -791,12 +715,12 @@ extension IM {
     }
 
     public struct MessageReceiveV1EventMessageMention: Codable, Sendable {
-        public var key: String
-        public var id: ReaderId
+        public var key: String?
+        public var id: ReaderId?
         public var mentionedType: String?
-        public var name: String
+        public var name: String?
         public var tenantKey: String?
-        public init(key: String, id: ReaderId, mentionedType: String? = nil, name: String, tenantKey: String? = nil) {
+        public init(key: String? = nil, id: ReaderId? = nil, mentionedType: String? = nil, name: String? = nil, tenantKey: String? = nil) {
             self.key = key
             self.id = id
             self.mentionedType = mentionedType
@@ -812,10 +736,10 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.key = try c.lenientRequired(.key)
-            self.id = try c.lenientRequired(.id)
+            self.key = c.lenient(.key)
+            self.id = c.lenient(.id)
             self.mentionedType = c.lenient(.mentionedType)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.tenantKey = c.lenient(.tenantKey)
         }
     }

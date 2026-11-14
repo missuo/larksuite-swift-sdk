@@ -72,9 +72,18 @@ function pascal(s) {
         .join('');
 }
 function camel(s) {
-    const p = pascal(s);
+    // SCREAMING_CASE values and leading acronyms are lower-cased ("PENDING" -> `pending`,
+    // "PUBLIC_MAILBOX" -> `publicMailbox`, "IDType" -> `idType`, not `pENDING` / `iDType`);
+    // later acronyms keep their case per the Swift API guidelines ("zh-CN" -> `zhCN`).
+    const caps = (w) => /^[A-Z][A-Z0-9]*$/.test(w);
+    const chunks = String(s).split(/[^A-Za-z0-9]+/).filter(Boolean);
+    const ws = chunks.length && chunks.every(caps)
+        ? chunks.map((w) => w.toLowerCase())
+        : chunks
+              .flatMap((w) => words(w.replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2')))
+              .map((w, i) => (i === 0 && caps(w) && w.length > 1 ? w.toLowerCase() : w));
+    const p = ws.map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join('');
     if (!p) return '_';
-    // Keep leading acronyms lower-cased sensibly: "URL" -> "url", "IDType" stays "idType"
     let out = p.charAt(0).toLowerCase() + p.slice(1);
     if (/^[0-9]/.test(out)) out = '_' + out;
     return out;
@@ -193,7 +202,10 @@ class Registry {
                 if (['Item', 'List', 'Data'].includes(w) && this.resourceHint && /Response$/.test(parentName)) {
                     cands = [this.resourceHint, ...cands];
                 }
-                return this.objectType(t, cands);
+                // Nested objects are all-optional (requests included) so one Swift type serves both
+                // directions and a field the server omits never fails decoding; required fields are
+                // only enforced on top-level query/body structs.
+                return this.objectType(allOptionalDeep(t), cands);
             }
             default:
                 return 'JSONValue';
@@ -493,7 +505,9 @@ function genMethod(reg, m, versionSuffix) {
     } else {
         const dataField = (m.response && m.response.fields || []).find((f) => f.name === 'data');
         if (!dataField || dataField.type.kind !== 'object') respType = 'JSONValue';
-        else respType = reg.topLevel(dataField.type, `${base}Response`, versionSuffix) || 'JSONValue';
+        // node never validates responses: every field decoded from the server is optional, so a
+        // field node-sdk marks as required but the server omits cannot drop the whole object.
+        else respType = reg.topLevel(allOptionalDeep(dataField.type), `${base}Response`, versionSuffix) || 'JSONValue';
         lines.push(`            public func ${fname}(${args.join(', ')}) async throws -> LarkResponse<${reg.qns}.${respType}> {`);
         lines.push(`                try await client.request(${httpMethod}, ${pathLiteral}, query: ${q}, body: ${bodyExpr}, options: options)`);
         lines.push(`            }`);
@@ -555,7 +569,7 @@ function genEvents(reg, evs) {
     for (const e of evs) {
         if (!e.type || e.type.kind !== 'object' || !e.type.fields.length) continue;
         const rest = e.name.split('.').slice(1).join('_');
-        const typeName = reg.topLevel(e.type, pascal(rest) + 'Event', '');
+        const typeName = reg.topLevel(allOptionalDeep(e.type), pascal(rest) + 'Event', ''); // see responses
         const keyName = camel(e.name);
         const doc = [e.doc && e.doc.summary, e.doc && e.doc.description].filter(Boolean).join('\n\n');
         keys.push({ keyName, typeName, name: e.name, doc });

@@ -4,6 +4,8 @@ import Foundation
 import LarkCore
 
 extension Board {
+    public typealias WhiteboardNodeBatchDeleteResponse = WhiteboardNodeBatchDeleteQuery
+
     public struct WhiteboardNodeBatchDeleteQuery: Codable, Sendable {
         public var clientToken: String?
         public init(clientToken: String? = nil) {
@@ -29,20 +31,6 @@ extension Board {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.ids = c.lenient(.ids)
-        }
-    }
-
-    public struct WhiteboardNodeBatchDeleteResponse: Codable, Sendable {
-        public var clientToken: String
-        public init(clientToken: String) {
-            self.clientToken = clientToken
-        }
-        enum CodingKeys: String, CodingKey {
-            case clientToken = "client_token"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.clientToken = try c.lenientRequired(.clientToken)
         }
     }
 
@@ -141,7 +129,7 @@ extension Board {
 
     public struct WhiteboardNodeListResponseNode: Codable, Sendable {
         public var id: String?
-        public var type: WhiteboardNodeListResponseNodeType
+        public var type: WhiteboardNodeListResponseNodeType?
         public var parentId: String?
         public var children: [String]?
         public var x: Double?
@@ -166,7 +154,7 @@ extension Board {
         public var mindMapRoot: MindMapRoot?
         public var mindMap: MindMap?
         public var syntax: Syntax?
-        public init(id: String? = nil, type: WhiteboardNodeListResponseNodeType, parentId: String? = nil, children: [String]? = nil, x: Double? = nil, y: Double? = nil, angle: Double? = nil, height: Double? = nil, text: Text? = nil, style: Style? = nil, image: Image? = nil, compositeShape: CompositeShape? = nil, connector: Connector? = nil, width: Double? = nil, section: Section? = nil, table: Table? = nil, locked: Bool? = nil, zIndex: Int? = nil, lifeline: Lifeline? = nil, paint: Paint? = nil, svg: Svg? = nil, stickyNote: StickyNote? = nil, mindMapNode: MindMapNode? = nil, mindMapRoot: MindMapRoot? = nil, mindMap: MindMap? = nil, syntax: Syntax? = nil) {
+        public init(id: String? = nil, type: WhiteboardNodeListResponseNodeType? = nil, parentId: String? = nil, children: [String]? = nil, x: Double? = nil, y: Double? = nil, angle: Double? = nil, height: Double? = nil, text: Text? = nil, style: Style? = nil, image: Image? = nil, compositeShape: CompositeShape? = nil, connector: Connector? = nil, width: Double? = nil, section: Section? = nil, table: Table? = nil, locked: Bool? = nil, zIndex: Int? = nil, lifeline: Lifeline? = nil, paint: Paint? = nil, svg: Svg? = nil, stickyNote: StickyNote? = nil, mindMapNode: MindMapNode? = nil, mindMapRoot: MindMapRoot? = nil, mindMap: MindMap? = nil, syntax: Syntax? = nil) {
             self.id = id
             self.type = type
             self.parentId = parentId
@@ -225,7 +213,7 @@ extension Board {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.parentId = c.lenient(.parentId)
             self.children = c.lenient(.children)
             self.x = c.lenient(.x)
@@ -390,12 +378,12 @@ extension Board {
     }
 
     public struct Paragraph: Codable, Sendable {
-        public var paragraphType: Int
+        public var paragraphType: Int?
         public var elements: [ParagraphElement]?
         public var indent: Int?
         public var listBeginIndex: Int?
         public var quote: Bool?
-        public init(paragraphType: Int, elements: [ParagraphElement]? = nil, indent: Int? = nil, listBeginIndex: Int? = nil, quote: Bool? = nil) {
+        public init(paragraphType: Int? = nil, elements: [ParagraphElement]? = nil, indent: Int? = nil, listBeginIndex: Int? = nil, quote: Bool? = nil) {
             self.paragraphType = paragraphType
             self.elements = elements
             self.indent = indent
@@ -411,7 +399,7 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.paragraphType = try c.lenientRequired(.paragraphType)
+            self.paragraphType = c.lenient(.paragraphType)
             self.elements = c.lenient(.elements)
             self.indent = c.lenient(.indent)
             self.listBeginIndex = c.lenient(.listBeginIndex)
@@ -420,12 +408,12 @@ extension Board {
     }
 
     public struct ParagraphElement: Codable, Sendable {
-        public var elementType: Int
+        public var elementType: Int?
         public var textElement: TextElement?
         public var linkElement: LinkElement?
         public var mentionUserElement: MentionUserElement?
         public var mentionDocElement: MentionDocElement?
-        public init(elementType: Int, textElement: TextElement? = nil, linkElement: LinkElement? = nil, mentionUserElement: MentionUserElement? = nil, mentionDocElement: MentionDocElement? = nil) {
+        public init(elementType: Int? = nil, textElement: TextElement? = nil, linkElement: LinkElement? = nil, mentionUserElement: MentionUserElement? = nil, mentionDocElement: MentionDocElement? = nil) {
             self.elementType = elementType
             self.textElement = textElement
             self.linkElement = linkElement
@@ -441,7 +429,7 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.elementType = try c.lenientRequired(.elementType)
+            self.elementType = c.lenient(.elementType)
             self.textElement = c.lenient(.textElement)
             self.linkElement = c.lenient(.linkElement)
             self.mentionUserElement = c.lenient(.mentionUserElement)
@@ -450,9 +438,9 @@ extension Board {
     }
 
     public struct TextElement: Codable, Sendable {
-        public var text: String
+        public var text: String?
         public var textStyle: TextStyle?
-        public init(text: String, textStyle: TextStyle? = nil) {
+        public init(text: String? = nil, textStyle: TextStyle? = nil) {
             self.text = text
             self.textStyle = textStyle
         }
@@ -462,7 +450,7 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.text = try c.lenientRequired(.text)
+            self.text = c.lenient(.text)
             self.textStyle = c.lenient(.textStyle)
         }
     }
@@ -506,10 +494,10 @@ extension Board {
     }
 
     public struct LinkElement: Codable, Sendable {
-        public var herf: String
+        public var herf: String?
         public var text: String?
         public var textStyle: TextStyle?
-        public init(herf: String, text: String? = nil, textStyle: TextStyle? = nil) {
+        public init(herf: String? = nil, text: String? = nil, textStyle: TextStyle? = nil) {
             self.herf = herf
             self.text = text
             self.textStyle = textStyle
@@ -521,16 +509,16 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.herf = try c.lenientRequired(.herf)
+            self.herf = c.lenient(.herf)
             self.text = c.lenient(.text)
             self.textStyle = c.lenient(.textStyle)
         }
     }
 
     public struct MentionUserElement: Codable, Sendable {
-        public var userId: String
+        public var userId: String?
         public var textStyle: TextStyle?
-        public init(userId: String, textStyle: TextStyle? = nil) {
+        public init(userId: String? = nil, textStyle: TextStyle? = nil) {
             self.userId = userId
             self.textStyle = textStyle
         }
@@ -540,15 +528,15 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
+            self.userId = c.lenient(.userId)
             self.textStyle = c.lenient(.textStyle)
         }
     }
 
     public struct MentionDocElement: Codable, Sendable {
-        public var docUrl: String
+        public var docUrl: String?
         public var textStyle: TextStyle?
-        public init(docUrl: String, textStyle: TextStyle? = nil) {
+        public init(docUrl: String? = nil, textStyle: TextStyle? = nil) {
             self.docUrl = docUrl
             self.textStyle = textStyle
         }
@@ -558,7 +546,7 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.docUrl = try c.lenientRequired(.docUrl)
+            self.docUrl = c.lenient(.docUrl)
             self.textStyle = c.lenient(.textStyle)
         }
     }
@@ -784,8 +772,8 @@ extension Board {
     }
 
     public struct Image: Codable, Sendable {
-        public var token: String
-        public init(token: String) {
+        public var token: String?
+        public init(token: String? = nil) {
             self.token = token
         }
         enum CodingKeys: String, CodingKey {
@@ -793,17 +781,17 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
+            self.token = c.lenient(.token)
         }
     }
 
     public struct CompositeShape: Codable, Sendable {
-        public var type: CompositeShapeType
+        public var type: CompositeShapeType?
         public var pie: Pie?
         public var circularRing: Pie?
         public var trapezoid: Trapezoid?
         public var cube: Cube?
-        public init(type: CompositeShapeType, pie: Pie? = nil, circularRing: Pie? = nil, trapezoid: Trapezoid? = nil, cube: Cube? = nil) {
+        public init(type: CompositeShapeType? = nil, pie: Pie? = nil, circularRing: Pie? = nil, trapezoid: Trapezoid? = nil, cube: Cube? = nil) {
             self.type = type
             self.pie = pie
             self.circularRing = circularRing
@@ -819,7 +807,7 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.pie = c.lenient(.pie)
             self.circularRing = c.lenient(.circularRing)
             self.trapezoid = c.lenient(.trapezoid)
@@ -911,11 +899,11 @@ extension Board {
     }
 
     public struct Pie: Codable, Sendable {
-        public var startRadialLineAngle: Double
-        public var centralAngle: Double
-        public var radius: Double
+        public var startRadialLineAngle: Double?
+        public var centralAngle: Double?
+        public var radius: Double?
         public var sectorRatio: Double?
-        public init(startRadialLineAngle: Double, centralAngle: Double, radius: Double, sectorRatio: Double? = nil) {
+        public init(startRadialLineAngle: Double? = nil, centralAngle: Double? = nil, radius: Double? = nil, sectorRatio: Double? = nil) {
             self.startRadialLineAngle = startRadialLineAngle
             self.centralAngle = centralAngle
             self.radius = radius
@@ -929,9 +917,9 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.startRadialLineAngle = try c.lenientRequired(.startRadialLineAngle)
-            self.centralAngle = try c.lenientRequired(.centralAngle)
-            self.radius = try c.lenientRequired(.radius)
+            self.startRadialLineAngle = c.lenient(.startRadialLineAngle)
+            self.centralAngle = c.lenient(.centralAngle)
+            self.radius = c.lenient(.radius)
             self.sectorRatio = c.lenient(.sectorRatio)
         }
     }
@@ -1133,10 +1121,10 @@ extension Board {
     }
 
     public struct Table: Codable, Sendable {
-        public var meta: TableMeta
+        public var meta: TableMeta?
         public var title: String?
         public var cells: [Cell]?
-        public init(meta: TableMeta, title: String? = nil, cells: [Cell]? = nil) {
+        public init(meta: TableMeta? = nil, title: String? = nil, cells: [Cell]? = nil) {
             self.meta = meta
             self.title = title
             self.cells = cells
@@ -1148,7 +1136,7 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.meta = try c.lenientRequired(.meta)
+            self.meta = c.lenient(.meta)
             self.title = c.lenient(.title)
             self.cells = c.lenient(.cells)
         }
@@ -1189,13 +1177,13 @@ extension Board {
     }
 
     public struct Cell: Codable, Sendable {
-        public var rowIndex: Int
-        public var colIndex: Int
+        public var rowIndex: Int?
+        public var colIndex: Int?
         public var mergeInfo: MergeInfo?
         public var children: [String]?
         public var text: Text?
         public var style: Style?
-        public init(rowIndex: Int, colIndex: Int, mergeInfo: MergeInfo? = nil, children: [String]? = nil, text: Text? = nil, style: Style? = nil) {
+        public init(rowIndex: Int? = nil, colIndex: Int? = nil, mergeInfo: MergeInfo? = nil, children: [String]? = nil, text: Text? = nil, style: Style? = nil) {
             self.rowIndex = rowIndex
             self.colIndex = colIndex
             self.mergeInfo = mergeInfo
@@ -1213,8 +1201,8 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.rowIndex = try c.lenientRequired(.rowIndex)
-            self.colIndex = try c.lenientRequired(.colIndex)
+            self.rowIndex = c.lenient(.rowIndex)
+            self.colIndex = c.lenient(.colIndex)
             self.mergeInfo = c.lenient(.mergeInfo)
             self.children = c.lenient(.children)
             self.text = c.lenient(.text)
@@ -1223,9 +1211,9 @@ extension Board {
     }
 
     public struct MergeInfo: Codable, Sendable {
-        public var rowSpan: Int
-        public var colSpan: Int
-        public init(rowSpan: Int, colSpan: Int) {
+        public var rowSpan: Int?
+        public var colSpan: Int?
+        public init(rowSpan: Int? = nil, colSpan: Int? = nil) {
             self.rowSpan = rowSpan
             self.colSpan = colSpan
         }
@@ -1235,8 +1223,8 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.rowSpan = try c.lenientRequired(.rowSpan)
-            self.colSpan = try c.lenientRequired(.colSpan)
+            self.rowSpan = c.lenient(.rowSpan)
+            self.colSpan = c.lenient(.colSpan)
         }
     }
 
@@ -1333,13 +1321,13 @@ extension Board {
     }
 
     public struct MindMapNode: Codable, Sendable {
-        public var parentId: String
+        public var parentId: String?
         public var type: MindMapNodeType?
         public var zIndex: Int?
         public var layoutPosition: LayoutPosition?
         public var children: [String]?
         public var collapsed: Bool?
-        public init(parentId: String, type: MindMapNodeType? = nil, zIndex: Int? = nil, layoutPosition: LayoutPosition? = nil, children: [String]? = nil, collapsed: Bool? = nil) {
+        public init(parentId: String? = nil, type: MindMapNodeType? = nil, zIndex: Int? = nil, layoutPosition: LayoutPosition? = nil, children: [String]? = nil, collapsed: Bool? = nil) {
             self.parentId = parentId
             self.type = type
             self.zIndex = zIndex
@@ -1357,7 +1345,7 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.parentId = try c.lenientRequired(.parentId)
+            self.parentId = c.lenient(.parentId)
             self.type = c.lenient(.type)
             self.zIndex = c.lenient(.zIndex)
             self.layoutPosition = c.lenient(.layoutPosition)
@@ -1519,7 +1507,7 @@ extension Board {
 
     public struct WhiteboardNodeCreateBodyNode: Codable, Sendable {
         public var id: String?
-        public var type: WhiteboardNodeListResponseNodeType
+        public var type: WhiteboardNodeListResponseNodeType?
         public var parentId: String?
         public var x: Double?
         public var y: Double?
@@ -1541,7 +1529,7 @@ extension Board {
         public var stickyNote: StickyNote?
         public var mindMapNode: WhiteboardNodeCreateBodyNodeMindMapNode?
         public var mindMapRoot: WhiteboardNodeCreateBodyNodeMindMapRoot?
-        public init(id: String? = nil, type: WhiteboardNodeListResponseNodeType, parentId: String? = nil, x: Double? = nil, y: Double? = nil, angle: Double? = nil, height: Double? = nil, text: Text? = nil, style: Style? = nil, image: Image? = nil, compositeShape: CompositeShape? = nil, connector: WhiteboardNodeCreateBodyNodeConnector? = nil, width: Double? = nil, section: Section? = nil, table: WhiteboardNodeCreateBodyNodeTable? = nil, locked: Bool? = nil, zIndex: Int? = nil, lifeline: Lifeline? = nil, paint: Paint? = nil, svg: Svg? = nil, stickyNote: StickyNote? = nil, mindMapNode: WhiteboardNodeCreateBodyNodeMindMapNode? = nil, mindMapRoot: WhiteboardNodeCreateBodyNodeMindMapRoot? = nil) {
+        public init(id: String? = nil, type: WhiteboardNodeListResponseNodeType? = nil, parentId: String? = nil, x: Double? = nil, y: Double? = nil, angle: Double? = nil, height: Double? = nil, text: Text? = nil, style: Style? = nil, image: Image? = nil, compositeShape: CompositeShape? = nil, connector: WhiteboardNodeCreateBodyNodeConnector? = nil, width: Double? = nil, section: Section? = nil, table: WhiteboardNodeCreateBodyNodeTable? = nil, locked: Bool? = nil, zIndex: Int? = nil, lifeline: Lifeline? = nil, paint: Paint? = nil, svg: Svg? = nil, stickyNote: StickyNote? = nil, mindMapNode: WhiteboardNodeCreateBodyNodeMindMapNode? = nil, mindMapRoot: WhiteboardNodeCreateBodyNodeMindMapRoot? = nil) {
             self.id = id
             self.type = type
             self.parentId = parentId
@@ -1594,7 +1582,7 @@ extension Board {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.parentId = c.lenient(.parentId)
             self.x = c.lenient(.x)
             self.y = c.lenient(.y)
@@ -1666,10 +1654,10 @@ extension Board {
     }
 
     public struct WhiteboardNodeCreateBodyNodeTable: Codable, Sendable {
-        public var meta: WhiteboardNodeCreateBodyNodeTableMeta
+        public var meta: WhiteboardNodeCreateBodyNodeTableMeta?
         public var title: String?
         public var cells: [Cell]?
-        public init(meta: WhiteboardNodeCreateBodyNodeTableMeta, title: String? = nil, cells: [Cell]? = nil) {
+        public init(meta: WhiteboardNodeCreateBodyNodeTableMeta? = nil, title: String? = nil, cells: [Cell]? = nil) {
             self.meta = meta
             self.title = title
             self.cells = cells
@@ -1681,7 +1669,7 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.meta = try c.lenientRequired(.meta)
+            self.meta = c.lenient(.meta)
             self.title = c.lenient(.title)
             self.cells = c.lenient(.cells)
         }
@@ -1714,12 +1702,12 @@ extension Board {
     }
 
     public struct WhiteboardNodeCreateBodyNodeMindMapNode: Codable, Sendable {
-        public var parentId: String
+        public var parentId: String?
         public var type: MindMapNodeType?
         public var zIndex: Int?
         public var layoutPosition: LayoutPosition?
         public var collapsed: Bool?
-        public init(parentId: String, type: MindMapNodeType? = nil, zIndex: Int? = nil, layoutPosition: LayoutPosition? = nil, collapsed: Bool? = nil) {
+        public init(parentId: String? = nil, type: MindMapNodeType? = nil, zIndex: Int? = nil, layoutPosition: LayoutPosition? = nil, collapsed: Bool? = nil) {
             self.parentId = parentId
             self.type = type
             self.zIndex = zIndex
@@ -1735,7 +1723,7 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.parentId = try c.lenientRequired(.parentId)
+            self.parentId = c.lenient(.parentId)
             self.type = c.lenient(.type)
             self.zIndex = c.lenient(.zIndex)
             self.layoutPosition = c.lenient(.layoutPosition)
@@ -1766,9 +1754,9 @@ extension Board {
     }
 
     public struct WhiteboardNodeCreateResponse: Codable, Sendable {
-        public var ids: [String]
+        public var ids: [String]?
         public var clientToken: String?
-        public init(ids: [String], clientToken: String? = nil) {
+        public init(ids: [String]? = nil, clientToken: String? = nil) {
             self.ids = ids
             self.clientToken = clientToken
         }
@@ -1778,14 +1766,14 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.ids = try c.lenientRequired(.ids)
+            self.ids = c.lenient(.ids)
             self.clientToken = c.lenient(.clientToken)
         }
     }
 
     public struct WhiteboardThemeResponse: Codable, Sendable {
-        public var theme: Theme
-        public init(theme: Theme) {
+        public var theme: Theme?
+        public init(theme: Theme? = nil) {
             self.theme = theme
         }
         enum CodingKeys: String, CodingKey {
@@ -1793,7 +1781,7 @@ extension Board {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.theme = try c.lenientRequired(.theme)
+            self.theme = c.lenient(.theme)
         }
     }
 

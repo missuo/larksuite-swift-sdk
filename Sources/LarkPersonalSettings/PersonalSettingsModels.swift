@@ -79,7 +79,7 @@ extension PersonalSettings {
         public static let statusInFlight: Self = "StatusInFlight"
         public static let typing: Self = "Typing"
         public static let eatingFood: Self = "EatingFood"
-        public static let sICK: Self = "SICK"
+        public static let sick: Self = "SICK"
         public static let generalSun: Self = "GeneralSun"
         public static let generalMoonRest: Self = "GeneralMoonRest"
         public static let statusReading: Self = "StatusReading"
@@ -92,19 +92,19 @@ extension PersonalSettings {
     public struct Color: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let bLUE: Self = "BLUE"
-        public static let gRAY: Self = "GRAY"
-        public static let iNDIGO: Self = "INDIGO"
-        public static let wATHET: Self = "WATHET"
-        public static let gREEN: Self = "GREEN"
-        public static let tURQUOISE: Self = "TURQUOISE"
-        public static let yELLOW: Self = "YELLOW"
-        public static let lIME: Self = "LIME"
-        public static let rED: Self = "RED"
-        public static let oRANGE: Self = "ORANGE"
-        public static let pURPLE: Self = "PURPLE"
-        public static let vIOLET: Self = "VIOLET"
-        public static let cARMINE: Self = "CARMINE"
+        public static let blue: Self = "BLUE"
+        public static let gray: Self = "GRAY"
+        public static let indigo: Self = "INDIGO"
+        public static let wathet: Self = "WATHET"
+        public static let green: Self = "GREEN"
+        public static let turquoise: Self = "TURQUOISE"
+        public static let yellow: Self = "YELLOW"
+        public static let lime: Self = "LIME"
+        public static let red: Self = "RED"
+        public static let orange: Self = "ORANGE"
+        public static let purple: Self = "PURPLE"
+        public static let violet: Self = "VIOLET"
+        public static let carmine: Self = "CARMINE"
     }
 
     public struct SyncSetting: Codable, Sendable {
@@ -153,13 +153,13 @@ extension PersonalSettings {
 
     public struct SystemStatus: Codable, Sendable {
         public var systemStatusId: String?
-        public var title: String
+        public var title: String?
         public var i18nTitle: I18nTitle?
-        public var iconKey: IconKey
+        public var iconKey: IconKey?
         public var color: Color?
         public var priority: Int?
         public var syncSetting: SyncSetting?
-        public init(systemStatusId: String? = nil, title: String, i18nTitle: I18nTitle? = nil, iconKey: IconKey, color: Color? = nil, priority: Int? = nil, syncSetting: SyncSetting? = nil) {
+        public init(systemStatusId: String? = nil, title: String? = nil, i18nTitle: I18nTitle? = nil, iconKey: IconKey? = nil, color: Color? = nil, priority: Int? = nil, syncSetting: SyncSetting? = nil) {
             self.systemStatusId = systemStatusId
             self.title = title
             self.i18nTitle = i18nTitle
@@ -180,9 +180,9 @@ extension PersonalSettings {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.systemStatusId = c.lenient(.systemStatusId)
-            self.title = try c.lenientRequired(.title)
+            self.title = c.lenient(.title)
             self.i18nTitle = c.lenient(.i18nTitle)
-            self.iconKey = try c.lenientRequired(.iconKey)
+            self.iconKey = c.lenient(.iconKey)
             self.color = c.lenient(.color)
             self.priority = c.lenient(.priority)
             self.syncSetting = c.lenient(.syncSetting)
@@ -267,8 +267,8 @@ extension PersonalSettings {
     }
 
     public struct SystemStatusBatchCloseResponse: Codable, Sendable {
-        public var resultList: [ResultList]
-        public init(resultList: [ResultList]) {
+        public var resultList: [ResultList]?
+        public init(resultList: [ResultList]? = nil) {
             self.resultList = resultList
         }
         enum CodingKeys: String, CodingKey {
@@ -276,7 +276,7 @@ extension PersonalSettings {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.resultList = try c.lenientRequired(.resultList)
+            self.resultList = c.lenient(.resultList)
         }
     }
 
@@ -328,13 +328,13 @@ extension PersonalSettings {
     }
 
     public struct SystemStatusPatchBodySystemStatus: Codable, Sendable {
-        public var title: String
+        public var title: String?
         public var i18nTitle: I18nTitle?
-        public var iconKey: IconKey
+        public var iconKey: IconKey?
         public var color: Color?
         public var priority: Int?
         public var syncSetting: SyncSetting?
-        public init(title: String, i18nTitle: I18nTitle? = nil, iconKey: IconKey, color: Color? = nil, priority: Int? = nil, syncSetting: SyncSetting? = nil) {
+        public init(title: String? = nil, i18nTitle: I18nTitle? = nil, iconKey: IconKey? = nil, color: Color? = nil, priority: Int? = nil, syncSetting: SyncSetting? = nil) {
             self.title = title
             self.i18nTitle = i18nTitle
             self.iconKey = iconKey
@@ -352,9 +352,9 @@ extension PersonalSettings {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.title = try c.lenientRequired(.title)
+            self.title = c.lenient(.title)
             self.i18nTitle = c.lenient(.i18nTitle)
-            self.iconKey = try c.lenientRequired(.iconKey)
+            self.iconKey = c.lenient(.iconKey)
             self.color = c.lenient(.color)
             self.priority = c.lenient(.priority)
             self.syncSetting = c.lenient(.syncSetting)
@@ -365,12 +365,12 @@ extension PersonalSettings {
     public struct UpdateFields: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let tITLE: Self = "TITLE"
-        public static let i18NTITLE: Self = "I18N_TITLE"
-        public static let iCON: Self = "ICON"
-        public static let cOLOR: Self = "COLOR"
-        public static let pRIORITY: Self = "PRIORITY"
-        public static let sYNCSETTING: Self = "SYNC_SETTING"
+        public static let title: Self = "TITLE"
+        public static let i18nTitle: Self = "I18N_TITLE"
+        public static let icon: Self = "ICON"
+        public static let color: Self = "COLOR"
+        public static let priority: Self = "PRIORITY"
+        public static let syncSetting: Self = "SYNC_SETTING"
     }
 
     public struct SystemStatusBatchOpenBody: Codable, Sendable {
@@ -388,9 +388,9 @@ extension PersonalSettings {
     }
 
     public struct UserList: Codable, Sendable {
-        public var userId: String
-        public var endTime: Int
-        public init(userId: String, endTime: Int) {
+        public var userId: String?
+        public var endTime: Int?
+        public init(userId: String? = nil, endTime: Int? = nil) {
             self.userId = userId
             self.endTime = endTime
         }
@@ -400,14 +400,14 @@ extension PersonalSettings {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.userId = c.lenient(.userId)
+            self.endTime = c.lenient(.endTime)
         }
     }
 
     public struct SystemStatusBatchOpenResponse: Codable, Sendable {
-        public var resultList: [SystemStatusBatchOpenResponseResultList]
-        public init(resultList: [SystemStatusBatchOpenResponseResultList]) {
+        public var resultList: [SystemStatusBatchOpenResponseResultList]?
+        public init(resultList: [SystemStatusBatchOpenResponseResultList]? = nil) {
             self.resultList = resultList
         }
         enum CodingKeys: String, CodingKey {
@@ -415,15 +415,15 @@ extension PersonalSettings {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.resultList = try c.lenientRequired(.resultList)
+            self.resultList = c.lenient(.resultList)
         }
     }
 
     public struct SystemStatusBatchOpenResponseResultList: Codable, Sendable {
-        public var userId: String
-        public var endTime: Int
+        public var userId: String?
+        public var endTime: Int?
         public var result: SystemStatusBatchOpenResponseResultListResult?
-        public init(userId: String, endTime: Int, result: SystemStatusBatchOpenResponseResultListResult? = nil) {
+        public init(userId: String? = nil, endTime: Int? = nil, result: SystemStatusBatchOpenResponseResultListResult? = nil) {
             self.userId = userId
             self.endTime = endTime
             self.result = result
@@ -435,8 +435,8 @@ extension PersonalSettings {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.userId = c.lenient(.userId)
+            self.endTime = c.lenient(.endTime)
             self.result = c.lenient(.result)
         }
     }

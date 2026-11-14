@@ -44,7 +44,7 @@ if let u = r.data?.user {
 
 // Up to 50 users per call
 let batch = try await client.contact.v3.user.batch(params: .init(userIds: [openId, otherOpenId], userIdType: .openId))
-for u in batch.data?.items ?? [] { print(u.openId ?? "", u.name) }
+for u in batch.data?.items ?? [] { print(u.openId ?? "", u.name ?? "") }
 ```
 
 `userId:` must be in the id type named by `userIdType` (default `open_id`).
@@ -70,7 +70,7 @@ without `userId`.
 for try await page in client.contact.v3.user.findByDepartmentWithIterator(params: .init(
     userIdType: .openId, departmentIdType: .openDepartmentId, departmentId: "0", pageSize: 50))
 {
-    for u in page.items ?? [] { print(u.openId ?? "", u.name, u.email ?? "") }
+    for u in page.items ?? [] { print(u.openId ?? "", u.name ?? "", u.email ?? "") }
 }
 ```
 
@@ -85,7 +85,7 @@ for try await page in client.contact.v3.department.childrenWithIterator(
     params: .init(userIdType: .openId, departmentIdType: .openDepartmentId, fetchChild: true, pageSize: 50))
 {
     for d in page.items ?? [] {
-        print(d.openDepartmentId ?? "", d.name, d.parentDepartmentId, d.memberCount ?? 0, d.leaderUserId ?? "")
+        print(d.openDepartmentId ?? "", d.name ?? "", d.parentDepartmentId ?? "", d.memberCount ?? 0, d.leaderUserId ?? "")
     }
 }
 
@@ -97,7 +97,7 @@ print(dept.data?.department?.name ?? "", dept.data?.department?.chatId ?? "")
 for try await page in client.contact.v3.department.parentWithIterator(params: .init(
     userIdType: .openId, departmentIdType: .openDepartmentId, departmentId: openDepartmentId))
 {
-    for d in page.items ?? [] { print(d.name) }
+    for d in page.items ?? [] { print(d.name ?? "") }
 }
 ```
 
@@ -122,23 +122,20 @@ connection or webhook). Typed keys: `.contactUserCreatedV3`, `.contactUserUpdate
 ```swift
 let dispatcher = EventDispatcher()
     .register(.contactUserCreatedV3) { e, raw in            // Contact.UserCreatedV3Event
-        // node-sdk marks `name` and `mobile` required: without the mobile permission `e.object` is nil,
-        // so fall back to the flattened payload.
-        let openId = e.object?.openId ?? raw.payload["object"]?["open_id"]?.stringValue ?? ""
+        // Fields the app has no permission for (e.g. `mobile`) are simply nil.
+        let openId = e.object?.openId ?? ""
         print("joined:", openId)
         return nil
     }
-    .register(.contactUserUpdatedV3) { e, raw in
-        // `old_object` only carries the fields that changed, so read it untyped.
-        let old = raw.payload["old_object"]
-        if let oldDepartments = old?["department_ids"] {
-            let newDepartments = raw.payload["object"]?["department_ids"] ?? .null
-            print(e.object?.openId ?? "", "moved from", oldDepartments, "to", newDepartments)
+    .register(.contactUserUpdatedV3) { e, _ in
+        // `old_object` only carries the fields that changed; everything else is nil.
+        if let oldDepartments = e.oldObject?.departmentIds {
+            print(e.object?.openId ?? "", "moved from", oldDepartments, "to", e.object?.departmentIds ?? [])
         }
         return nil
     }
-    .register(.contactUserDeletedV3) { e, raw in
-        print("left:", raw.payload["object"]?["open_id"]?.stringValue ?? "")
+    .register(.contactUserDeletedV3) { e, _ in
+        print("left:", e.object?.openId ?? "")
         return nil
     }
     .register(.contactDepartmentCreatedV3) { e, _ in
@@ -156,11 +153,9 @@ let dispatcher = EventDispatcher()
   (`scope.list`); anything outside returns empty results or a permission `LarkError.api`.
 - **Field permissions**: `email`, `mobile`, `departmentIds`, ... are only returned when the
   app has the matching field permission; otherwise they are absent (nil).
-- **Strict required fields**: node-sdk marks `name` and `mobile` required on
-  `user.findByDepartment` / `user.batch` items and on user event objects. A list item missing a
-  required field is dropped from `items`; an event object missing one decodes as `nil`. If users
-  "disappear", grant the mobile permission or read the raw body (`response.json` /
-  `raw.payload`). `user.get` has no required fields.
+- **Every response/event field is optional**: like node-sdk (which never validates server data),
+  a field the server omits is `nil` — even ones node-sdk's types mark required, such as `name`
+  and `mobile`. The full body is always available as `response.json` / `raw.payload`.
 - **Pagination**: use the `xxxWithIterator` methods (`findByDepartment`, `department.children`,
   `department.parent`, `department.list`, `user.list`, `scope.list`, ...); each element is one
   page's `data`. `user.list` and `department.list` are legacy; prefer `findByDepartment` and

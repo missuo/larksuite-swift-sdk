@@ -34,6 +34,8 @@ extension Approval {
 
     public typealias InstanceCommentDeleteQuery = InstanceCommentCreateQuery
 
+    public typealias InstanceCommentDeleteResponse = InstanceCommentCreateResponse
+
     public typealias ExternalApprovalGetQuery = InstanceSpecifiedRollbackQuery
 
     public typealias ExternalApprovalCreateQuery = ApprovalCreateQuery
@@ -152,10 +154,10 @@ extension Approval {
     }
 
     public struct InstanceListResponse: Codable, Sendable {
-        public var instanceCodeList: [String]
-        public var pageToken: String
-        public var hasMore: Bool
-        public init(instanceCodeList: [String], pageToken: String, hasMore: Bool) {
+        public var instanceCodeList: [String]?
+        public var pageToken: String?
+        public var hasMore: Bool?
+        public init(instanceCodeList: [String]? = nil, pageToken: String? = nil, hasMore: Bool? = nil) {
             self.instanceCodeList = instanceCodeList
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -167,9 +169,9 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.instanceCodeList = try c.lenientRequired(.instanceCodeList)
-            self.pageToken = try c.lenientRequired(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.instanceCodeList = c.lenient(.instanceCodeList)
+            self.pageToken = c.lenient(.pageToken)
+            self.hasMore = c.lenient(.hasMore)
         }
     }
 
@@ -295,12 +297,12 @@ extension Approval {
     public struct InstanceStatus: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let pENDING: Self = "PENDING"
-        public static let rECALL: Self = "RECALL"
-        public static let rEJECT: Self = "REJECT"
-        public static let dELETED: Self = "DELETED"
-        public static let aPPROVED: Self = "APPROVED"
-        public static let aLL: Self = "ALL"
+        public static let pending: Self = "PENDING"
+        public static let recall: Self = "RECALL"
+        public static let reject: Self = "REJECT"
+        public static let deleted: Self = "DELETED"
+        public static let approved: Self = "APPROVED"
+        public static let all: Self = "ALL"
     }
 
     /// Open enumeration: unknown server values are preserved in `rawValue`.
@@ -576,9 +578,9 @@ extension Approval {
     public struct ReadStatus: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let rEAD: Self = "READ"
-        public static let uNREAD: Self = "UNREAD"
-        public static let aLL: Self = "ALL"
+        public static let read: Self = "READ"
+        public static let unread: Self = "UNREAD"
+        public static let all: Self = "ALL"
     }
 
     public struct InstanceSearchCcResponse: Codable, Sendable {
@@ -922,10 +924,10 @@ extension Approval {
     }
 
     public struct I18nResource: Codable, Sendable {
-        public var locale: InstanceQueryBodyLocale
-        public var texts: [Text]
-        public var isDefault: Bool
-        public init(locale: InstanceQueryBodyLocale, texts: [Text], isDefault: Bool) {
+        public var locale: InstanceQueryBodyLocale?
+        public var texts: [Text]?
+        public var isDefault: Bool?
+        public init(locale: InstanceQueryBodyLocale? = nil, texts: [Text]? = nil, isDefault: Bool? = nil) {
             self.locale = locale
             self.texts = texts
             self.isDefault = isDefault
@@ -937,16 +939,16 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.locale = try c.lenientRequired(.locale)
-            self.texts = try c.lenientRequired(.texts)
-            self.isDefault = try c.lenientRequired(.isDefault)
+            self.locale = c.lenient(.locale)
+            self.texts = c.lenient(.texts)
+            self.isDefault = c.lenient(.isDefault)
         }
     }
 
     public struct Text: Codable, Sendable {
-        public var key: String
-        public var value: String
-        public init(key: String, value: String) {
+        public var key: String?
+        public var value: String?
+        public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
         }
@@ -956,8 +958,8 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.key = try c.lenientRequired(.key)
-            self.value = try c.lenientRequired(.value)
+            self.key = c.lenient(.key)
+            self.value = c.lenient(.value)
         }
     }
 
@@ -983,14 +985,14 @@ extension Approval {
     public struct NodeIdType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let cUSTOM: Self = "CUSTOM"
-        public static let nONCUSTOM: Self = "NON_CUSTOM"
+        public static let custom: Self = "CUSTOM"
+        public static let nonCustom: Self = "NON_CUSTOM"
     }
 
     public struct InstanceCreateResponse: Codable, Sendable {
-        public var instanceCode: String
-        public var instanceLink: String
-        public init(instanceCode: String, instanceLink: String) {
+        public var instanceCode: String?
+        public var instanceLink: String?
+        public init(instanceCode: String? = nil, instanceLink: String? = nil) {
             self.instanceCode = instanceCode
             self.instanceLink = instanceLink
         }
@@ -1000,8 +1002,8 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.instanceCode = try c.lenientRequired(.instanceCode)
-            self.instanceLink = try c.lenientRequired(.instanceLink)
+            self.instanceCode = c.lenient(.instanceCode)
+            self.instanceLink = c.lenient(.instanceLink)
         }
     }
 
@@ -1090,25 +1092,25 @@ extension Approval {
     }
 
     public struct InstanceGetResponse: Codable, Sendable {
-        public var approvalName: String
+        public var approvalName: String?
         public var startTime: String?
-        public var endTime: String
-        public var userId: String
-        public var openId: String
-        public var serialNumber: String
-        public var departmentId: String
-        public var status: InstanceGetResponseStatus
-        public var uuid: String
-        public var form: String
-        public var taskList: [TaskList]
-        public var commentList: [CommentList]
-        public var timeline: [Timeline]
+        public var endTime: String?
+        public var userId: String?
+        public var openId: String?
+        public var serialNumber: String?
+        public var departmentId: String?
+        public var status: InstanceGetResponseStatus?
+        public var uuid: String?
+        public var form: String?
+        public var taskList: [TaskList]?
+        public var commentList: [CommentList]?
+        public var timeline: [Timeline]?
         public var modifiedInstanceCode: String?
         public var revertedInstanceCode: String?
-        public var approvalCode: String
+        public var approvalCode: String?
         public var reverted: Bool?
-        public var instanceCode: String
-        public init(approvalName: String, startTime: String? = nil, endTime: String, userId: String, openId: String, serialNumber: String, departmentId: String, status: InstanceGetResponseStatus, uuid: String, form: String, taskList: [TaskList], commentList: [CommentList], timeline: [Timeline], modifiedInstanceCode: String? = nil, revertedInstanceCode: String? = nil, approvalCode: String, reverted: Bool? = nil, instanceCode: String) {
+        public var instanceCode: String?
+        public init(approvalName: String? = nil, startTime: String? = nil, endTime: String? = nil, userId: String? = nil, openId: String? = nil, serialNumber: String? = nil, departmentId: String? = nil, status: InstanceGetResponseStatus? = nil, uuid: String? = nil, form: String? = nil, taskList: [TaskList]? = nil, commentList: [CommentList]? = nil, timeline: [Timeline]? = nil, modifiedInstanceCode: String? = nil, revertedInstanceCode: String? = nil, approvalCode: String? = nil, reverted: Bool? = nil, instanceCode: String? = nil) {
             self.approvalName = approvalName
             self.startTime = startTime
             self.endTime = endTime
@@ -1150,24 +1152,24 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.approvalName = try c.lenientRequired(.approvalName)
+            self.approvalName = c.lenient(.approvalName)
             self.startTime = c.lenient(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
-            self.userId = try c.lenientRequired(.userId)
-            self.openId = try c.lenientRequired(.openId)
-            self.serialNumber = try c.lenientRequired(.serialNumber)
-            self.departmentId = try c.lenientRequired(.departmentId)
-            self.status = try c.lenientRequired(.status)
-            self.uuid = try c.lenientRequired(.uuid)
-            self.form = try c.lenientRequired(.form)
-            self.taskList = try c.lenientRequired(.taskList)
-            self.commentList = try c.lenientRequired(.commentList)
-            self.timeline = try c.lenientRequired(.timeline)
+            self.endTime = c.lenient(.endTime)
+            self.userId = c.lenient(.userId)
+            self.openId = c.lenient(.openId)
+            self.serialNumber = c.lenient(.serialNumber)
+            self.departmentId = c.lenient(.departmentId)
+            self.status = c.lenient(.status)
+            self.uuid = c.lenient(.uuid)
+            self.form = c.lenient(.form)
+            self.taskList = c.lenient(.taskList)
+            self.commentList = c.lenient(.commentList)
+            self.timeline = c.lenient(.timeline)
             self.modifiedInstanceCode = c.lenient(.modifiedInstanceCode)
             self.revertedInstanceCode = c.lenient(.revertedInstanceCode)
-            self.approvalCode = try c.lenientRequired(.approvalCode)
+            self.approvalCode = c.lenient(.approvalCode)
             self.reverted = c.lenient(.reverted)
-            self.instanceCode = try c.lenientRequired(.instanceCode)
+            self.instanceCode = c.lenient(.instanceCode)
         }
     }
 
@@ -1175,25 +1177,25 @@ extension Approval {
     public struct InstanceGetResponseStatus: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let pENDING: Self = "PENDING"
-        public static let aPPROVED: Self = "APPROVED"
-        public static let rEJECTED: Self = "REJECTED"
-        public static let cANCELED: Self = "CANCELED"
-        public static let dELETED: Self = "DELETED"
+        public static let pending: Self = "PENDING"
+        public static let approved: Self = "APPROVED"
+        public static let rejected: Self = "REJECTED"
+        public static let canceled: Self = "CANCELED"
+        public static let deleted: Self = "DELETED"
     }
 
     public struct TaskList: Codable, Sendable {
-        public var id: String
-        public var userId: String
+        public var id: String?
+        public var userId: String?
         public var openId: String?
-        public var status: TaskListStatus
+        public var status: TaskListStatus?
         public var nodeId: String?
         public var nodeName: String?
         public var customNodeId: String?
         public var type: TaskListType?
-        public var startTime: String
+        public var startTime: String?
         public var endTime: String?
-        public init(id: String, userId: String, openId: String? = nil, status: TaskListStatus, nodeId: String? = nil, nodeName: String? = nil, customNodeId: String? = nil, type: TaskListType? = nil, startTime: String, endTime: String? = nil) {
+        public init(id: String? = nil, userId: String? = nil, openId: String? = nil, status: TaskListStatus? = nil, nodeId: String? = nil, nodeName: String? = nil, customNodeId: String? = nil, type: TaskListType? = nil, startTime: String? = nil, endTime: String? = nil) {
             self.id = id
             self.userId = userId
             self.openId = openId
@@ -1219,15 +1221,15 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.userId = try c.lenientRequired(.userId)
+            self.id = c.lenient(.id)
+            self.userId = c.lenient(.userId)
             self.openId = c.lenient(.openId)
-            self.status = try c.lenientRequired(.status)
+            self.status = c.lenient(.status)
             self.nodeId = c.lenient(.nodeId)
             self.nodeName = c.lenient(.nodeName)
             self.customNodeId = c.lenient(.customNodeId)
             self.type = c.lenient(.type)
-            self.startTime = try c.lenientRequired(.startTime)
+            self.startTime = c.lenient(.startTime)
             self.endTime = c.lenient(.endTime)
         }
     }
@@ -1236,32 +1238,32 @@ extension Approval {
     public struct TaskListStatus: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let pENDING: Self = "PENDING"
-        public static let aPPROVED: Self = "APPROVED"
-        public static let rEJECTED: Self = "REJECTED"
-        public static let tRANSFERRED: Self = "TRANSFERRED"
-        public static let dONE: Self = "DONE"
+        public static let pending: Self = "PENDING"
+        public static let approved: Self = "APPROVED"
+        public static let rejected: Self = "REJECTED"
+        public static let transferred: Self = "TRANSFERRED"
+        public static let done: Self = "DONE"
     }
 
     /// Open enumeration: unknown server values are preserved in `rawValue`.
     public struct TaskListType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let aND: Self = "AND"
-        public static let oR: Self = "OR"
-        public static let aUTOPASS: Self = "AUTO_PASS"
-        public static let aUTOREJECT: Self = "AUTO_REJECT"
-        public static let sEQUENTIAL: Self = "SEQUENTIAL"
+        public static let and: Self = "AND"
+        public static let or: Self = "OR"
+        public static let autoPass: Self = "AUTO_PASS"
+        public static let autoReject: Self = "AUTO_REJECT"
+        public static let sequential: Self = "SEQUENTIAL"
     }
 
     public struct CommentList: Codable, Sendable {
-        public var id: String
-        public var userId: String
-        public var openId: String
-        public var comment: String
-        public var createTime: String
+        public var id: String?
+        public var userId: String?
+        public var openId: String?
+        public var comment: String?
+        public var createTime: String?
         public var files: [File]?
-        public init(id: String, userId: String, openId: String, comment: String, createTime: String, files: [File]? = nil) {
+        public init(id: String? = nil, userId: String? = nil, openId: String? = nil, comment: String? = nil, createTime: String? = nil, files: [File]? = nil) {
             self.id = id
             self.userId = userId
             self.openId = openId
@@ -1279,11 +1281,11 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.userId = try c.lenientRequired(.userId)
-            self.openId = try c.lenientRequired(.openId)
-            self.comment = try c.lenientRequired(.comment)
-            self.createTime = try c.lenientRequired(.createTime)
+            self.id = c.lenient(.id)
+            self.userId = c.lenient(.userId)
+            self.openId = c.lenient(.openId)
+            self.comment = c.lenient(.comment)
+            self.createTime = c.lenient(.createTime)
             self.files = c.lenient(.files)
         }
     }
@@ -1315,8 +1317,8 @@ extension Approval {
     }
 
     public struct Timeline: Codable, Sendable {
-        public var type: TimelineType
-        public var createTime: String
+        public var type: TimelineType?
+        public var createTime: String?
         public var userId: String?
         public var openId: String?
         public var userIdList: [String]?
@@ -1324,10 +1326,10 @@ extension Approval {
         public var taskId: String?
         public var comment: String?
         public var ccUserList: [CcUserList]?
-        public var ext: String
+        public var ext: String?
         public var nodeKey: String?
         public var files: [File]?
-        public init(type: TimelineType, createTime: String, userId: String? = nil, openId: String? = nil, userIdList: [String]? = nil, openIdList: [String]? = nil, taskId: String? = nil, comment: String? = nil, ccUserList: [CcUserList]? = nil, ext: String, nodeKey: String? = nil, files: [File]? = nil) {
+        public init(type: TimelineType? = nil, createTime: String? = nil, userId: String? = nil, openId: String? = nil, userIdList: [String]? = nil, openIdList: [String]? = nil, taskId: String? = nil, comment: String? = nil, ccUserList: [CcUserList]? = nil, ext: String? = nil, nodeKey: String? = nil, files: [File]? = nil) {
             self.type = type
             self.createTime = createTime
             self.userId = userId
@@ -1357,8 +1359,8 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.createTime = try c.lenientRequired(.createTime)
+            self.type = c.lenient(.type)
+            self.createTime = c.lenient(.createTime)
             self.userId = c.lenient(.userId)
             self.openId = c.lenient(.openId)
             self.userIdList = c.lenient(.userIdList)
@@ -1366,7 +1368,7 @@ extension Approval {
             self.taskId = c.lenient(.taskId)
             self.comment = c.lenient(.comment)
             self.ccUserList = c.lenient(.ccUserList)
-            self.ext = try c.lenientRequired(.ext)
+            self.ext = c.lenient(.ext)
             self.nodeKey = c.lenient(.nodeKey)
             self.files = c.lenient(.files)
         }
@@ -1376,22 +1378,22 @@ extension Approval {
     public struct TimelineType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let sTART: Self = "START"
-        public static let pASS: Self = "PASS"
-        public static let rEJECT: Self = "REJECT"
-        public static let aUTOPASS: Self = "AUTO_PASS"
-        public static let aUTOREJECT: Self = "AUTO_REJECT"
-        public static let rEMOVEREPEAT: Self = "REMOVE_REPEAT"
-        public static let tRANSFER: Self = "TRANSFER"
-        public static let aDDAPPROVERBEFORE: Self = "ADD_APPROVER_BEFORE"
-        public static let aDDAPPROVER: Self = "ADD_APPROVER"
-        public static let aDDAPPROVERAFTER: Self = "ADD_APPROVER_AFTER"
-        public static let dELETEAPPROVER: Self = "DELETE_APPROVER"
-        public static let rOLLBACKSELECTED: Self = "ROLLBACK_SELECTED"
-        public static let rOLLBACK: Self = "ROLLBACK"
-        public static let cANCEL: Self = "CANCEL"
-        public static let dELETE: Self = "DELETE"
-        public static let cC: Self = "CC"
+        public static let start: Self = "START"
+        public static let pass: Self = "PASS"
+        public static let reject: Self = "REJECT"
+        public static let autoPass: Self = "AUTO_PASS"
+        public static let autoReject: Self = "AUTO_REJECT"
+        public static let removeRepeat: Self = "REMOVE_REPEAT"
+        public static let transfer: Self = "TRANSFER"
+        public static let addApproverBefore: Self = "ADD_APPROVER_BEFORE"
+        public static let addApprover: Self = "ADD_APPROVER"
+        public static let addApproverAfter: Self = "ADD_APPROVER_AFTER"
+        public static let deleteApprover: Self = "DELETE_APPROVER"
+        public static let rollbackSelected: Self = "ROLLBACK_SELECTED"
+        public static let rollback: Self = "ROLLBACK"
+        public static let cancel: Self = "CANCEL"
+        public static let delete: Self = "DELETE"
+        public static let cc: Self = "CC"
     }
 
     public struct CcUserList: Codable, Sendable {
@@ -1439,22 +1441,22 @@ extension Approval {
     }
 
     public struct InstanceDetailResponse: Codable, Sendable {
-        public var definitionName: String
+        public var definitionName: String?
         public var startTime: String?
-        public var endTime: String
-        public var userId: String
-        public var serialNumber: String
-        public var departmentId: String
-        public var status: InstanceGetResponseStatus
-        public var form: String
-        public var tasks: [InstanceDetailResponseTask]
-        public var comments: [Comment]
-        public var operationRecords: [OperationRecord]
-        public var definitionCode: String
+        public var endTime: String?
+        public var userId: String?
+        public var serialNumber: String?
+        public var departmentId: String?
+        public var status: InstanceGetResponseStatus?
+        public var form: String?
+        public var tasks: [InstanceDetailResponseTask]?
+        public var comments: [Comment]?
+        public var operationRecords: [OperationRecord]?
+        public var definitionCode: String?
         public var reverted: Bool?
-        public var instanceCode: String
+        public var instanceCode: String?
         public var currentNodes: [CurrentNode]?
-        public init(definitionName: String, startTime: String? = nil, endTime: String, userId: String, serialNumber: String, departmentId: String, status: InstanceGetResponseStatus, form: String, tasks: [InstanceDetailResponseTask], comments: [Comment], operationRecords: [OperationRecord], definitionCode: String, reverted: Bool? = nil, instanceCode: String, currentNodes: [CurrentNode]? = nil) {
+        public init(definitionName: String? = nil, startTime: String? = nil, endTime: String? = nil, userId: String? = nil, serialNumber: String? = nil, departmentId: String? = nil, status: InstanceGetResponseStatus? = nil, form: String? = nil, tasks: [InstanceDetailResponseTask]? = nil, comments: [Comment]? = nil, operationRecords: [OperationRecord]? = nil, definitionCode: String? = nil, reverted: Bool? = nil, instanceCode: String? = nil, currentNodes: [CurrentNode]? = nil) {
             self.definitionName = definitionName
             self.startTime = startTime
             self.endTime = endTime
@@ -1490,34 +1492,34 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.definitionName = try c.lenientRequired(.definitionName)
+            self.definitionName = c.lenient(.definitionName)
             self.startTime = c.lenient(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
-            self.userId = try c.lenientRequired(.userId)
-            self.serialNumber = try c.lenientRequired(.serialNumber)
-            self.departmentId = try c.lenientRequired(.departmentId)
-            self.status = try c.lenientRequired(.status)
-            self.form = try c.lenientRequired(.form)
-            self.tasks = try c.lenientRequired(.tasks)
-            self.comments = try c.lenientRequired(.comments)
-            self.operationRecords = try c.lenientRequired(.operationRecords)
-            self.definitionCode = try c.lenientRequired(.definitionCode)
+            self.endTime = c.lenient(.endTime)
+            self.userId = c.lenient(.userId)
+            self.serialNumber = c.lenient(.serialNumber)
+            self.departmentId = c.lenient(.departmentId)
+            self.status = c.lenient(.status)
+            self.form = c.lenient(.form)
+            self.tasks = c.lenient(.tasks)
+            self.comments = c.lenient(.comments)
+            self.operationRecords = c.lenient(.operationRecords)
+            self.definitionCode = c.lenient(.definitionCode)
             self.reverted = c.lenient(.reverted)
-            self.instanceCode = try c.lenientRequired(.instanceCode)
+            self.instanceCode = c.lenient(.instanceCode)
             self.currentNodes = c.lenient(.currentNodes)
         }
     }
 
     public struct InstanceDetailResponseTask: Codable, Sendable {
-        public var id: String
-        public var userId: String
-        public var status: TaskListStatus
+        public var id: String?
+        public var userId: String?
+        public var status: TaskListStatus?
         public var nodeId: String?
         public var nodeName: String?
         public var type: TaskListType?
-        public var startTime: String
+        public var startTime: String?
         public var endTime: String?
-        public init(id: String, userId: String, status: TaskListStatus, nodeId: String? = nil, nodeName: String? = nil, type: TaskListType? = nil, startTime: String, endTime: String? = nil) {
+        public init(id: String? = nil, userId: String? = nil, status: TaskListStatus? = nil, nodeId: String? = nil, nodeName: String? = nil, type: TaskListType? = nil, startTime: String? = nil, endTime: String? = nil) {
             self.id = id
             self.userId = userId
             self.status = status
@@ -1539,24 +1541,24 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.userId = try c.lenientRequired(.userId)
-            self.status = try c.lenientRequired(.status)
+            self.id = c.lenient(.id)
+            self.userId = c.lenient(.userId)
+            self.status = c.lenient(.status)
             self.nodeId = c.lenient(.nodeId)
             self.nodeName = c.lenient(.nodeName)
             self.type = c.lenient(.type)
-            self.startTime = try c.lenientRequired(.startTime)
+            self.startTime = c.lenient(.startTime)
             self.endTime = c.lenient(.endTime)
         }
     }
 
     public struct Comment: Codable, Sendable {
-        public var id: String
-        public var userId: String
-        public var comment: String
-        public var createTime: String
+        public var id: String?
+        public var userId: String?
+        public var comment: String?
+        public var createTime: String?
         public var files: [File]?
-        public init(id: String, userId: String, comment: String, createTime: String, files: [File]? = nil) {
+        public init(id: String? = nil, userId: String? = nil, comment: String? = nil, createTime: String? = nil, files: [File]? = nil) {
             self.id = id
             self.userId = userId
             self.comment = comment
@@ -1572,24 +1574,24 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.userId = try c.lenientRequired(.userId)
-            self.comment = try c.lenientRequired(.comment)
-            self.createTime = try c.lenientRequired(.createTime)
+            self.id = c.lenient(.id)
+            self.userId = c.lenient(.userId)
+            self.comment = c.lenient(.comment)
+            self.createTime = c.lenient(.createTime)
             self.files = c.lenient(.files)
         }
     }
 
     public struct OperationRecord: Codable, Sendable {
-        public var type: TimelineType
-        public var createTime: String
+        public var type: TimelineType?
+        public var createTime: String?
         public var userId: String?
         public var ccUserIds: [String]?
         public var taskId: String?
         public var comment: String?
         public var nodeId: String?
         public var files: [File]?
-        public init(type: TimelineType, createTime: String, userId: String? = nil, ccUserIds: [String]? = nil, taskId: String? = nil, comment: String? = nil, nodeId: String? = nil, files: [File]? = nil) {
+        public init(type: TimelineType? = nil, createTime: String? = nil, userId: String? = nil, ccUserIds: [String]? = nil, taskId: String? = nil, comment: String? = nil, nodeId: String? = nil, files: [File]? = nil) {
             self.type = type
             self.createTime = createTime
             self.userId = userId
@@ -1611,8 +1613,8 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.createTime = try c.lenientRequired(.createTime)
+            self.type = c.lenient(.type)
+            self.createTime = c.lenient(.createTime)
             self.userId = c.lenient(.userId)
             self.ccUserIds = c.lenient(.ccUserIds)
             self.taskId = c.lenient(.taskId)
@@ -1714,11 +1716,11 @@ extension Approval {
     }
 
     public struct InstanceInitiatedResponse: Codable, Sendable {
-        public var instances: [InstanceInitiatedResponseInstance]
+        public var instances: [InstanceInitiatedResponseInstance]?
         public var pageToken: String?
         public var hasMore: Bool?
         public var count: Int?
-        public init(instances: [InstanceInitiatedResponseInstance], pageToken: String? = nil, hasMore: Bool? = nil, count: Int? = nil) {
+        public init(instances: [InstanceInitiatedResponseInstance]? = nil, pageToken: String? = nil, hasMore: Bool? = nil, count: Int? = nil) {
             self.instances = instances
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -1732,7 +1734,7 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.instances = try c.lenientRequired(.instances)
+            self.instances = c.lenient(.instances)
             self.pageToken = c.lenient(.pageToken)
             self.hasMore = c.lenient(.hasMore)
             self.count = c.lenient(.count)
@@ -1740,18 +1742,18 @@ extension Approval {
     }
 
     public struct InstanceInitiatedResponseInstance: Codable, Sendable {
-        public var instanceStatus: InstanceInitiatedResponseInstanceInstanceStatus
-        public var definitionCode: String
+        public var instanceStatus: InstanceInitiatedResponseInstanceInstanceStatus?
+        public var definitionCode: String?
         public var initiator: String?
         public var initiatorName: String?
-        public var instanceCode: String
+        public var instanceCode: String?
         public var definitionGroupId: String?
         public var definitionGroupName: String?
         public var definitionName: String?
-        public var summaries: [Summary]?
+        public var summaries: [Text]?
         public var instanceExternalId: String?
         public var link: String?
-        public init(instanceStatus: InstanceInitiatedResponseInstanceInstanceStatus, definitionCode: String, initiator: String? = nil, initiatorName: String? = nil, instanceCode: String, definitionGroupId: String? = nil, definitionGroupName: String? = nil, definitionName: String? = nil, summaries: [Summary]? = nil, instanceExternalId: String? = nil, link: String? = nil) {
+        public init(instanceStatus: InstanceInitiatedResponseInstanceInstanceStatus? = nil, definitionCode: String? = nil, initiator: String? = nil, initiatorName: String? = nil, instanceCode: String? = nil, definitionGroupId: String? = nil, definitionGroupName: String? = nil, definitionName: String? = nil, summaries: [Text]? = nil, instanceExternalId: String? = nil, link: String? = nil) {
             self.instanceStatus = instanceStatus
             self.definitionCode = definitionCode
             self.initiator = initiator
@@ -1779,11 +1781,11 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.instanceStatus = try c.lenientRequired(.instanceStatus)
-            self.definitionCode = try c.lenientRequired(.definitionCode)
+            self.instanceStatus = c.lenient(.instanceStatus)
+            self.definitionCode = c.lenient(.definitionCode)
             self.initiator = c.lenient(.initiator)
             self.initiatorName = c.lenient(.initiatorName)
-            self.instanceCode = try c.lenientRequired(.instanceCode)
+            self.instanceCode = c.lenient(.instanceCode)
             self.definitionGroupId = c.lenient(.definitionGroupId)
             self.definitionGroupName = c.lenient(.definitionGroupName)
             self.definitionName = c.lenient(.definitionName)
@@ -1805,24 +1807,6 @@ extension Approval {
         public static let _5: Self = "5"
     }
 
-    public struct Summary: Codable, Sendable {
-        public var key: String?
-        public var value: String?
-        public init(key: String? = nil, value: String? = nil) {
-            self.key = key
-            self.value = value
-        }
-        enum CodingKeys: String, CodingKey {
-            case key
-            case value
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.key = c.lenient(.key)
-            self.value = c.lenient(.value)
-        }
-    }
-
     public struct InstanceSubscriptionBody: Codable, Sendable {
         public var subscriptionType: SubscriptionType
         public init(subscriptionType: SubscriptionType) {
@@ -1841,8 +1825,8 @@ extension Approval {
     public struct SubscriptionType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let iNVOLVEDAPPROVAL: Self = "INVOLVED_APPROVAL"
-        public static let mANAGEDAPPROVAL: Self = "MANAGED_APPROVAL"
+        public static let involvedApproval: Self = "INVOLVED_APPROVAL"
+        public static let managedApproval: Self = "MANAGED_APPROVAL"
     }
 
     public struct InstanceUnsubscriptionQuery: Codable, Sendable {
@@ -2027,14 +2011,14 @@ extension Approval {
     public struct TaskStatus: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let pENDING: Self = "PENDING"
-        public static let rEJECTED: Self = "REJECTED"
-        public static let aPPROVED: Self = "APPROVED"
-        public static let tRANSFERRED: Self = "TRANSFERRED"
-        public static let dONE: Self = "DONE"
-        public static let rMREPEAT: Self = "RM_REPEAT"
-        public static let pROCESSED: Self = "PROCESSED"
-        public static let aLL: Self = "ALL"
+        public static let pending: Self = "PENDING"
+        public static let rejected: Self = "REJECTED"
+        public static let approved: Self = "APPROVED"
+        public static let transferred: Self = "TRANSFERRED"
+        public static let done: Self = "DONE"
+        public static let rmRepeat: Self = "RM_REPEAT"
+        public static let processed: Self = "PROCESSED"
+        public static let all: Self = "ALL"
     }
 
     public struct TaskSearchResponse: Codable, Sendable {
@@ -2195,11 +2179,11 @@ extension Approval {
     }
 
     public struct TaskQueryResponse: Codable, Sendable {
-        public var tasks: [TaskQueryResponseTask]
+        public var tasks: [TaskQueryResponseTask]?
         public var pageToken: String?
         public var hasMore: Bool?
         public var count: Count?
-        public init(tasks: [TaskQueryResponseTask], pageToken: String? = nil, hasMore: Bool? = nil, count: Count? = nil) {
+        public init(tasks: [TaskQueryResponseTask]? = nil, pageToken: String? = nil, hasMore: Bool? = nil, count: Count? = nil) {
             self.tasks = tasks
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -2213,7 +2197,7 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.tasks = try c.lenientRequired(.tasks)
+            self.tasks = c.lenient(.tasks)
             self.pageToken = c.lenient(.pageToken)
             self.hasMore = c.lenient(.hasMore)
             self.count = c.lenient(.count)
@@ -2221,25 +2205,25 @@ extension Approval {
     }
 
     public struct TaskQueryResponseTask: Codable, Sendable {
-        public var topic: Topic
-        public var userId: String
-        public var title: String
-        public var urls: Urls
+        public var topic: Topic?
+        public var userId: String?
+        public var title: String?
+        public var urls: Urls?
         public var processExternalId: String?
         public var taskExternalId: String?
-        public var status: TaskQueryResponseTaskStatus
-        public var processStatus: InstanceInitiatedResponseInstanceInstanceStatus
-        public var definitionCode: String
+        public var status: TaskQueryResponseTaskStatus?
+        public var processStatus: InstanceInitiatedResponseInstanceInstanceStatus?
+        public var definitionCode: String?
         public var initiators: [String]?
         public var initiatorNames: [String]?
-        public var taskId: String
-        public var processId: String
-        public var processCode: String
+        public var taskId: String?
+        public var processId: String?
+        public var processCode: String?
         public var definitionGroupId: String?
         public var definitionGroupName: String?
         public var definitionId: String?
         public var definitionName: String?
-        public init(topic: Topic, userId: String, title: String, urls: Urls, processExternalId: String? = nil, taskExternalId: String? = nil, status: TaskQueryResponseTaskStatus, processStatus: InstanceInitiatedResponseInstanceInstanceStatus, definitionCode: String, initiators: [String]? = nil, initiatorNames: [String]? = nil, taskId: String, processId: String, processCode: String, definitionGroupId: String? = nil, definitionGroupName: String? = nil, definitionId: String? = nil, definitionName: String? = nil) {
+        public init(topic: Topic? = nil, userId: String? = nil, title: String? = nil, urls: Urls? = nil, processExternalId: String? = nil, taskExternalId: String? = nil, status: TaskQueryResponseTaskStatus? = nil, processStatus: InstanceInitiatedResponseInstanceInstanceStatus? = nil, definitionCode: String? = nil, initiators: [String]? = nil, initiatorNames: [String]? = nil, taskId: String? = nil, processId: String? = nil, processCode: String? = nil, definitionGroupId: String? = nil, definitionGroupName: String? = nil, definitionId: String? = nil, definitionName: String? = nil) {
             self.topic = topic
             self.userId = userId
             self.title = title
@@ -2281,20 +2265,20 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.topic = try c.lenientRequired(.topic)
-            self.userId = try c.lenientRequired(.userId)
-            self.title = try c.lenientRequired(.title)
-            self.urls = try c.lenientRequired(.urls)
+            self.topic = c.lenient(.topic)
+            self.userId = c.lenient(.userId)
+            self.title = c.lenient(.title)
+            self.urls = c.lenient(.urls)
             self.processExternalId = c.lenient(.processExternalId)
             self.taskExternalId = c.lenient(.taskExternalId)
-            self.status = try c.lenientRequired(.status)
-            self.processStatus = try c.lenientRequired(.processStatus)
-            self.definitionCode = try c.lenientRequired(.definitionCode)
+            self.status = c.lenient(.status)
+            self.processStatus = c.lenient(.processStatus)
+            self.definitionCode = c.lenient(.definitionCode)
             self.initiators = c.lenient(.initiators)
             self.initiatorNames = c.lenient(.initiatorNames)
-            self.taskId = try c.lenientRequired(.taskId)
-            self.processId = try c.lenientRequired(.processId)
-            self.processCode = try c.lenientRequired(.processCode)
+            self.taskId = c.lenient(.taskId)
+            self.processId = c.lenient(.processId)
+            self.processCode = c.lenient(.processCode)
             self.definitionGroupId = c.lenient(.definitionGroupId)
             self.definitionGroupName = c.lenient(.definitionGroupName)
             self.definitionId = c.lenient(.definitionId)
@@ -2337,9 +2321,9 @@ extension Approval {
     }
 
     public struct Count: Codable, Sendable {
-        public var total: Int
+        public var total: Int?
         public var hasMore: Bool?
-        public init(total: Int, hasMore: Bool? = nil) {
+        public init(total: Int? = nil, hasMore: Bool? = nil) {
             self.total = total
             self.hasMore = hasMore
         }
@@ -2349,7 +2333,7 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.total = try c.lenientRequired(.total)
+            self.total = c.lenient(.total)
             self.hasMore = c.lenient(.hasMore)
         }
     }
@@ -2531,11 +2515,11 @@ extension Approval {
     }
 
     public struct TaskListResponse: Codable, Sendable {
-        public var tasks: [TaskListResponseTask]
+        public var tasks: [TaskListResponseTask]?
         public var pageToken: String?
         public var hasMore: Bool?
         public var count: Int?
-        public init(tasks: [TaskListResponseTask], pageToken: String? = nil, hasMore: Bool? = nil, count: Int? = nil) {
+        public init(tasks: [TaskListResponseTask]? = nil, pageToken: String? = nil, hasMore: Bool? = nil, count: Int? = nil) {
             self.tasks = tasks
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -2549,7 +2533,7 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.tasks = try c.lenientRequired(.tasks)
+            self.tasks = c.lenient(.tasks)
             self.pageToken = c.lenient(.pageToken)
             self.hasMore = c.lenient(.hasMore)
             self.count = c.lenient(.count)
@@ -2557,25 +2541,25 @@ extension Approval {
     }
 
     public struct TaskListResponseTask: Codable, Sendable {
-        public var topic: Topic
-        public var userId: String
-        public var title: String
-        public var status: TaskQueryResponseTaskStatus
-        public var instanceStatus: InstanceInitiatedResponseInstanceInstanceStatus
-        public var definitionCode: String
+        public var topic: Topic?
+        public var userId: String?
+        public var title: String?
+        public var status: TaskQueryResponseTaskStatus?
+        public var instanceStatus: InstanceInitiatedResponseInstanceInstanceStatus?
+        public var definitionCode: String?
         public var initiator: String?
         public var initiatorName: String?
-        public var taskId: String
-        public var instanceCode: String
+        public var taskId: String?
+        public var instanceCode: String?
         public var definitionGroupId: String?
         public var definitionGroupName: String?
         public var definitionName: String?
-        public var summaries: [Summary]?
+        public var summaries: [Text]?
         public var instanceExternalId: String?
         public var taskExternalId: String?
         public var supportApiOperate: Bool?
         public var link: String?
-        public init(topic: Topic, userId: String, title: String, status: TaskQueryResponseTaskStatus, instanceStatus: InstanceInitiatedResponseInstanceInstanceStatus, definitionCode: String, initiator: String? = nil, initiatorName: String? = nil, taskId: String, instanceCode: String, definitionGroupId: String? = nil, definitionGroupName: String? = nil, definitionName: String? = nil, summaries: [Summary]? = nil, instanceExternalId: String? = nil, taskExternalId: String? = nil, supportApiOperate: Bool? = nil, link: String? = nil) {
+        public init(topic: Topic? = nil, userId: String? = nil, title: String? = nil, status: TaskQueryResponseTaskStatus? = nil, instanceStatus: InstanceInitiatedResponseInstanceInstanceStatus? = nil, definitionCode: String? = nil, initiator: String? = nil, initiatorName: String? = nil, taskId: String? = nil, instanceCode: String? = nil, definitionGroupId: String? = nil, definitionGroupName: String? = nil, definitionName: String? = nil, summaries: [Text]? = nil, instanceExternalId: String? = nil, taskExternalId: String? = nil, supportApiOperate: Bool? = nil, link: String? = nil) {
             self.topic = topic
             self.userId = userId
             self.title = title
@@ -2617,16 +2601,16 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.topic = try c.lenientRequired(.topic)
-            self.userId = try c.lenientRequired(.userId)
-            self.title = try c.lenientRequired(.title)
-            self.status = try c.lenientRequired(.status)
-            self.instanceStatus = try c.lenientRequired(.instanceStatus)
-            self.definitionCode = try c.lenientRequired(.definitionCode)
+            self.topic = c.lenient(.topic)
+            self.userId = c.lenient(.userId)
+            self.title = c.lenient(.title)
+            self.status = c.lenient(.status)
+            self.instanceStatus = c.lenient(.instanceStatus)
+            self.definitionCode = c.lenient(.definitionCode)
             self.initiator = c.lenient(.initiator)
             self.initiatorName = c.lenient(.initiatorName)
-            self.taskId = try c.lenientRequired(.taskId)
-            self.instanceCode = try c.lenientRequired(.instanceCode)
+            self.taskId = c.lenient(.taskId)
+            self.instanceCode = c.lenient(.instanceCode)
             self.definitionGroupId = c.lenient(.definitionGroupId)
             self.definitionGroupName = c.lenient(.definitionGroupName)
             self.definitionName = c.lenient(.definitionName)
@@ -2744,16 +2728,16 @@ extension Approval {
     public struct ViewerType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let tENANT: Self = "TENANT"
-        public static let dEPARTMENT: Self = "DEPARTMENT"
-        public static let uSER: Self = "USER"
-        public static let nONE: Self = "NONE"
+        public static let tenant: Self = "TENANT"
+        public static let department: Self = "DEPARTMENT"
+        public static let user: Self = "USER"
+        public static let none: Self = "NONE"
     }
 
     public struct Form: Codable, Sendable {
-        public var formContent: String
+        public var formContent: String?
         public var widgetRelation: String?
-        public init(formContent: String, widgetRelation: String? = nil) {
+        public init(formContent: String? = nil, widgetRelation: String? = nil) {
             self.formContent = formContent
             self.widgetRelation = widgetRelation
         }
@@ -2763,13 +2747,13 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.formContent = try c.lenientRequired(.formContent)
+            self.formContent = c.lenient(.formContent)
             self.widgetRelation = c.lenient(.widgetRelation)
         }
     }
 
     public struct NodeList: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var name: String?
         public var nodeType: NodeType?
         public var approver: [NodeListApprover]?
@@ -2778,7 +2762,7 @@ extension Approval {
         public var approverChosenMulti: Bool?
         public var approverChosenRange: [ApproverChosenRange]?
         public var starterAssignee: StarterAssignee?
-        public init(id: String, name: String? = nil, nodeType: NodeType? = nil, approver: [NodeListApprover]? = nil, ccer: [NodeListApprover]? = nil, privilegeField: PrivilegeField? = nil, approverChosenMulti: Bool? = nil, approverChosenRange: [ApproverChosenRange]? = nil, starterAssignee: StarterAssignee? = nil) {
+        public init(id: String? = nil, name: String? = nil, nodeType: NodeType? = nil, approver: [NodeListApprover]? = nil, ccer: [NodeListApprover]? = nil, privilegeField: PrivilegeField? = nil, approverChosenMulti: Bool? = nil, approverChosenRange: [ApproverChosenRange]? = nil, starterAssignee: StarterAssignee? = nil) {
             self.id = id
             self.name = name
             self.nodeType = nodeType
@@ -2802,7 +2786,7 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.name = c.lenient(.name)
             self.nodeType = c.lenient(.nodeType)
             self.approver = c.lenient(.approver)
@@ -2818,16 +2802,16 @@ extension Approval {
     public struct NodeType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let aND: Self = "AND"
-        public static let oR: Self = "OR"
-        public static let sEQUENTIAL: Self = "SEQUENTIAL"
+        public static let and: Self = "AND"
+        public static let or: Self = "OR"
+        public static let sequential: Self = "SEQUENTIAL"
     }
 
     public struct NodeListApprover: Codable, Sendable {
-        public var type: NodeListApproverType
+        public var type: NodeListApproverType?
         public var userId: String?
         public var level: String?
-        public init(type: NodeListApproverType, userId: String? = nil, level: String? = nil) {
+        public init(type: NodeListApproverType? = nil, userId: String? = nil, level: String? = nil) {
             self.type = type
             self.userId = userId
             self.level = level
@@ -2839,7 +2823,7 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.userId = c.lenient(.userId)
             self.level = c.lenient(.level)
         }
@@ -2858,9 +2842,9 @@ extension Approval {
     }
 
     public struct PrivilegeField: Codable, Sendable {
-        public var writable: [String]
-        public var readable: [String]
-        public init(writable: [String], readable: [String]) {
+        public var writable: [String]?
+        public var readable: [String]?
+        public init(writable: [String]? = nil, readable: [String]? = nil) {
             self.writable = writable
             self.readable = readable
         }
@@ -2870,8 +2854,8 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.writable = try c.lenientRequired(.writable)
-            self.readable = try c.lenientRequired(.readable)
+            self.writable = c.lenient(.writable)
+            self.readable = c.lenient(.readable)
         }
     }
 
@@ -2897,19 +2881,19 @@ extension Approval {
     public struct ApproverChosenRangeType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let aLL: Self = "ALL"
-        public static let pERSONAL: Self = "PERSONAL"
-        public static let rOLE: Self = "ROLE"
+        public static let all: Self = "ALL"
+        public static let personal: Self = "PERSONAL"
+        public static let role: Self = "ROLE"
     }
 
     /// Open enumeration: unknown server values are preserved in `rawValue`.
     public struct StarterAssignee: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let sTARTER: Self = "STARTER"
-        public static let aUTOPASS: Self = "AUTO_PASS"
-        public static let sUPERVISOR: Self = "SUPERVISOR"
-        public static let dEPARTMENTMANAGER: Self = "DEPARTMENT_MANAGER"
+        public static let starter: Self = "STARTER"
+        public static let autoPass: Self = "AUTO_PASS"
+        public static let supervisor: Self = "SUPERVISOR"
+        public static let departmentManager: Self = "DEPARTMENT_MANAGER"
     }
 
     public struct ApprovalCreateBodySettings: Codable, Sendable {
@@ -2955,12 +2939,12 @@ extension Approval {
     }
 
     public struct ApprovalCreateBodyConfig: Codable, Sendable {
-        public var canUpdateViewer: Bool
-        public var canUpdateForm: Bool
-        public var canUpdateProcess: Bool
-        public var canUpdateRevert: Bool
+        public var canUpdateViewer: Bool?
+        public var canUpdateForm: Bool?
+        public var canUpdateProcess: Bool?
+        public var canUpdateRevert: Bool?
         public var helpUrl: String?
-        public init(canUpdateViewer: Bool, canUpdateForm: Bool, canUpdateProcess: Bool, canUpdateRevert: Bool, helpUrl: String? = nil) {
+        public init(canUpdateViewer: Bool? = nil, canUpdateForm: Bool? = nil, canUpdateProcess: Bool? = nil, canUpdateRevert: Bool? = nil, helpUrl: String? = nil) {
             self.canUpdateViewer = canUpdateViewer
             self.canUpdateForm = canUpdateForm
             self.canUpdateProcess = canUpdateProcess
@@ -2976,10 +2960,10 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.canUpdateViewer = try c.lenientRequired(.canUpdateViewer)
-            self.canUpdateForm = try c.lenientRequired(.canUpdateForm)
-            self.canUpdateProcess = try c.lenientRequired(.canUpdateProcess)
-            self.canUpdateRevert = try c.lenientRequired(.canUpdateRevert)
+            self.canUpdateViewer = c.lenient(.canUpdateViewer)
+            self.canUpdateForm = c.lenient(.canUpdateForm)
+            self.canUpdateProcess = c.lenient(.canUpdateProcess)
+            self.canUpdateRevert = c.lenient(.canUpdateRevert)
             self.helpUrl = c.lenient(.helpUrl)
         }
     }
@@ -3037,14 +3021,14 @@ extension Approval {
     }
 
     public struct ApprovalGetResponse: Codable, Sendable {
-        public var approvalName: String
-        public var status: ApprovalGetResponseStatus
-        public var form: String
-        public var nodeList: [ApprovalGetResponseNodeList]
-        public var viewers: [ApprovalGetResponseViewer]
+        public var approvalName: String?
+        public var status: ApprovalGetResponseStatus?
+        public var form: String?
+        public var nodeList: [ApprovalGetResponseNodeList]?
+        public var viewers: [ApprovalGetResponseViewer]?
         public var approvalAdminIds: [String]?
         public var formWidgetRelation: String?
-        public init(approvalName: String, status: ApprovalGetResponseStatus, form: String, nodeList: [ApprovalGetResponseNodeList], viewers: [ApprovalGetResponseViewer], approvalAdminIds: [String]? = nil, formWidgetRelation: String? = nil) {
+        public init(approvalName: String? = nil, status: ApprovalGetResponseStatus? = nil, form: String? = nil, nodeList: [ApprovalGetResponseNodeList]? = nil, viewers: [ApprovalGetResponseViewer]? = nil, approvalAdminIds: [String]? = nil, formWidgetRelation: String? = nil) {
             self.approvalName = approvalName
             self.status = status
             self.form = form
@@ -3064,11 +3048,11 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.approvalName = try c.lenientRequired(.approvalName)
-            self.status = try c.lenientRequired(.status)
-            self.form = try c.lenientRequired(.form)
-            self.nodeList = try c.lenientRequired(.nodeList)
-            self.viewers = try c.lenientRequired(.viewers)
+            self.approvalName = c.lenient(.approvalName)
+            self.status = c.lenient(.status)
+            self.form = c.lenient(.form)
+            self.nodeList = c.lenient(.nodeList)
+            self.viewers = c.lenient(.viewers)
             self.approvalAdminIds = c.lenient(.approvalAdminIds)
             self.formWidgetRelation = c.lenient(.formWidgetRelation)
         }
@@ -3078,22 +3062,22 @@ extension Approval {
     public struct ApprovalGetResponseStatus: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let aCTIVE: Self = "ACTIVE"
-        public static let iNACTIVE: Self = "INACTIVE"
-        public static let dELETED: Self = "DELETED"
-        public static let uNKNOWN: Self = "UNKNOWN"
+        public static let active: Self = "ACTIVE"
+        public static let inactive: Self = "INACTIVE"
+        public static let deleted: Self = "DELETED"
+        public static let unknown: Self = "UNKNOWN"
     }
 
     public struct ApprovalGetResponseNodeList: Codable, Sendable {
-        public var name: String
-        public var needApprover: Bool
-        public var nodeId: String
+        public var name: String?
+        public var needApprover: Bool?
+        public var nodeId: String?
         public var customNodeId: String?
-        public var nodeType: ApprovalGetResponseNodeListNodeType
-        public var approverChosenMulti: Bool
+        public var nodeType: ApprovalGetResponseNodeListNodeType?
+        public var approverChosenMulti: Bool?
         public var approverChosenRange: [ApprovalGetResponseNodeListApproverChosenRange]?
         public var requireSignature: Bool?
-        public init(name: String, needApprover: Bool, nodeId: String, customNodeId: String? = nil, nodeType: ApprovalGetResponseNodeListNodeType, approverChosenMulti: Bool, approverChosenRange: [ApprovalGetResponseNodeListApproverChosenRange]? = nil, requireSignature: Bool? = nil) {
+        public init(name: String? = nil, needApprover: Bool? = nil, nodeId: String? = nil, customNodeId: String? = nil, nodeType: ApprovalGetResponseNodeListNodeType? = nil, approverChosenMulti: Bool? = nil, approverChosenRange: [ApprovalGetResponseNodeListApproverChosenRange]? = nil, requireSignature: Bool? = nil) {
             self.name = name
             self.needApprover = needApprover
             self.nodeId = nodeId
@@ -3115,12 +3099,12 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.needApprover = try c.lenientRequired(.needApprover)
-            self.nodeId = try c.lenientRequired(.nodeId)
+            self.name = c.lenient(.name)
+            self.needApprover = c.lenient(.needApprover)
+            self.nodeId = c.lenient(.nodeId)
             self.customNodeId = c.lenient(.customNodeId)
-            self.nodeType = try c.lenientRequired(.nodeType)
-            self.approverChosenMulti = try c.lenientRequired(.approverChosenMulti)
+            self.nodeType = c.lenient(.nodeType)
+            self.approverChosenMulti = c.lenient(.approverChosenMulti)
             self.approverChosenRange = c.lenient(.approverChosenRange)
             self.requireSignature = c.lenient(.requireSignature)
         }
@@ -3130,10 +3114,10 @@ extension Approval {
     public struct ApprovalGetResponseNodeListNodeType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let aND: Self = "AND"
-        public static let oR: Self = "OR"
-        public static let sEQUENTIAL: Self = "SEQUENTIAL"
-        public static let cCNODE: Self = "CC_NODE"
+        public static let and: Self = "AND"
+        public static let or: Self = "OR"
+        public static let sequential: Self = "SEQUENTIAL"
+        public static let ccNode: Self = "CC_NODE"
     }
 
     public struct ApprovalGetResponseNodeListApproverChosenRange: Codable, Sendable {
@@ -3155,10 +3139,10 @@ extension Approval {
     }
 
     public struct ApprovalGetResponseViewer: Codable, Sendable {
-        public var type: ApprovalGetResponseViewerType
+        public var type: ApprovalGetResponseViewerType?
         public var id: String?
         public var userId: String?
-        public init(type: ApprovalGetResponseViewerType, id: String? = nil, userId: String? = nil) {
+        public init(type: ApprovalGetResponseViewerType? = nil, id: String? = nil, userId: String? = nil) {
             self.type = type
             self.id = id
             self.userId = userId
@@ -3170,7 +3154,7 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.id = c.lenient(.id)
             self.userId = c.lenient(.userId)
         }
@@ -3180,12 +3164,12 @@ extension Approval {
     public struct ApprovalGetResponseViewerType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let tENANT: Self = "TENANT"
-        public static let dEPARTMENT: Self = "DEPARTMENT"
-        public static let uSER: Self = "USER"
-        public static let rOLE: Self = "ROLE"
-        public static let uSERGROUP: Self = "USER_GROUP"
-        public static let nONE: Self = "NONE"
+        public static let tenant: Self = "TENANT"
+        public static let department: Self = "DEPARTMENT"
+        public static let user: Self = "USER"
+        public static let role: Self = "ROLE"
+        public static let userGroup: Self = "USER_GROUP"
+        public static let none: Self = "NONE"
     }
 
     public struct InstanceCommentCreateQuery: Codable, Sendable {
@@ -3241,10 +3225,10 @@ extension Approval {
     }
 
     public struct AtInfoList: Codable, Sendable {
-        public var userId: String
-        public var name: String
-        public var offset: String
-        public init(userId: String, name: String, offset: String) {
+        public var userId: String?
+        public var name: String?
+        public var offset: String?
+        public init(userId: String? = nil, name: String? = nil, offset: String? = nil) {
             self.userId = userId
             self.name = name
             self.offset = offset
@@ -3256,27 +3240,13 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.name = try c.lenientRequired(.name)
-            self.offset = try c.lenientRequired(.offset)
+            self.userId = c.lenient(.userId)
+            self.name = c.lenient(.name)
+            self.offset = c.lenient(.offset)
         }
     }
 
     public struct InstanceCommentCreateResponse: Codable, Sendable {
-        public var commentId: String
-        public init(commentId: String) {
-            self.commentId = commentId
-        }
-        enum CodingKeys: String, CodingKey {
-            case commentId = "comment_id"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.commentId = try c.lenientRequired(.commentId)
-        }
-    }
-
-    public struct InstanceCommentDeleteResponse: Codable, Sendable {
         public var commentId: String?
         public init(commentId: String? = nil) {
             self.commentId = commentId
@@ -3353,8 +3323,8 @@ extension Approval {
     }
 
     public struct InstanceCommentListResponse: Codable, Sendable {
-        public var comments: [InstanceCommentListResponseComment]
-        public init(comments: [InstanceCommentListResponseComment]) {
+        public var comments: [InstanceCommentListResponseComment]?
+        public init(comments: [InstanceCommentListResponseComment]? = nil) {
             self.comments = comments
         }
         enum CodingKeys: String, CodingKey {
@@ -3362,21 +3332,21 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.comments = try c.lenientRequired(.comments)
+            self.comments = c.lenient(.comments)
         }
     }
 
     public struct InstanceCommentListResponseComment: Codable, Sendable {
-        public var id: String
-        public var content: String
-        public var createTime: String
-        public var updateTime: String
-        public var isDelete: Int
+        public var id: String?
+        public var content: String?
+        public var createTime: String?
+        public var updateTime: String?
+        public var isDelete: Int?
         public var replies: [Reply]?
         public var atInfoList: [AtInfoList]?
-        public var commentator: String
+        public var commentator: String?
         public var extra: String?
-        public init(id: String, content: String, createTime: String, updateTime: String, isDelete: Int, replies: [Reply]? = nil, atInfoList: [AtInfoList]? = nil, commentator: String, extra: String? = nil) {
+        public init(id: String? = nil, content: String? = nil, createTime: String? = nil, updateTime: String? = nil, isDelete: Int? = nil, replies: [Reply]? = nil, atInfoList: [AtInfoList]? = nil, commentator: String? = nil, extra: String? = nil) {
             self.id = id
             self.content = content
             self.createTime = createTime
@@ -3400,28 +3370,28 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.content = try c.lenientRequired(.content)
-            self.createTime = try c.lenientRequired(.createTime)
-            self.updateTime = try c.lenientRequired(.updateTime)
-            self.isDelete = try c.lenientRequired(.isDelete)
+            self.id = c.lenient(.id)
+            self.content = c.lenient(.content)
+            self.createTime = c.lenient(.createTime)
+            self.updateTime = c.lenient(.updateTime)
+            self.isDelete = c.lenient(.isDelete)
             self.replies = c.lenient(.replies)
             self.atInfoList = c.lenient(.atInfoList)
-            self.commentator = try c.lenientRequired(.commentator)
+            self.commentator = c.lenient(.commentator)
             self.extra = c.lenient(.extra)
         }
     }
 
     public struct Reply: Codable, Sendable {
-        public var id: String
-        public var content: String
+        public var id: String?
+        public var content: String?
         public var createTime: String?
         public var updateTime: String?
-        public var isDelete: Int
+        public var isDelete: Int?
         public var atInfoList: [AtInfoList]?
-        public var commentator: String
+        public var commentator: String?
         public var extra: String?
-        public init(id: String, content: String, createTime: String? = nil, updateTime: String? = nil, isDelete: Int, atInfoList: [AtInfoList]? = nil, commentator: String, extra: String? = nil) {
+        public init(id: String? = nil, content: String? = nil, createTime: String? = nil, updateTime: String? = nil, isDelete: Int? = nil, atInfoList: [AtInfoList]? = nil, commentator: String? = nil, extra: String? = nil) {
             self.id = id
             self.content = content
             self.createTime = createTime
@@ -3443,13 +3413,13 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.content = try c.lenientRequired(.content)
+            self.id = c.lenient(.id)
+            self.content = c.lenient(.content)
             self.createTime = c.lenient(.createTime)
             self.updateTime = c.lenient(.updateTime)
-            self.isDelete = try c.lenientRequired(.isDelete)
+            self.isDelete = c.lenient(.isDelete)
             self.atInfoList = c.lenient(.atInfoList)
-            self.commentator = try c.lenientRequired(.commentator)
+            self.commentator = c.lenient(.commentator)
             self.extra = c.lenient(.extra)
         }
     }
@@ -3521,13 +3491,13 @@ extension Approval {
     }
 
     public struct ExternalTask: Codable, Sendable {
-        public var instanceId: String
-        public var approvalId: String
-        public var approvalCode: String
-        public var status: ExternalTaskStatus
-        public var updateTime: String
+        public var instanceId: String?
+        public var approvalId: String?
+        public var approvalCode: String?
+        public var status: ExternalTaskStatus?
+        public var updateTime: String?
         public var tasks: [ExternalTaskTask]?
-        public init(instanceId: String, approvalId: String, approvalCode: String, status: ExternalTaskStatus, updateTime: String, tasks: [ExternalTaskTask]? = nil) {
+        public init(instanceId: String? = nil, approvalId: String? = nil, approvalCode: String? = nil, status: ExternalTaskStatus? = nil, updateTime: String? = nil, tasks: [ExternalTaskTask]? = nil) {
             self.instanceId = instanceId
             self.approvalId = approvalId
             self.approvalCode = approvalCode
@@ -3545,11 +3515,11 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.instanceId = try c.lenientRequired(.instanceId)
-            self.approvalId = try c.lenientRequired(.approvalId)
-            self.approvalCode = try c.lenientRequired(.approvalCode)
-            self.status = try c.lenientRequired(.status)
-            self.updateTime = try c.lenientRequired(.updateTime)
+            self.instanceId = c.lenient(.instanceId)
+            self.approvalId = c.lenient(.approvalId)
+            self.approvalCode = c.lenient(.approvalCode)
+            self.status = c.lenient(.status)
+            self.updateTime = c.lenient(.updateTime)
             self.tasks = c.lenient(.tasks)
         }
     }
@@ -3558,19 +3528,19 @@ extension Approval {
     public struct ExternalTaskStatus: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let pENDING: Self = "PENDING"
-        public static let aPPROVED: Self = "APPROVED"
-        public static let rEJECTED: Self = "REJECTED"
-        public static let cANCELED: Self = "CANCELED"
-        public static let dELETED: Self = "DELETED"
-        public static let hIDDEN: Self = "HIDDEN"
+        public static let pending: Self = "PENDING"
+        public static let approved: Self = "APPROVED"
+        public static let rejected: Self = "REJECTED"
+        public static let canceled: Self = "CANCELED"
+        public static let deleted: Self = "DELETED"
+        public static let hidden: Self = "HIDDEN"
     }
 
     public struct ExternalTaskTask: Codable, Sendable {
-        public var id: String
-        public var status: TaskListStatus
-        public var updateTime: String
-        public init(id: String, status: TaskListStatus, updateTime: String) {
+        public var id: String?
+        public var status: TaskListStatus?
+        public var updateTime: String?
+        public init(id: String? = nil, status: TaskListStatus? = nil, updateTime: String? = nil) {
             self.id = id
             self.status = status
             self.updateTime = updateTime
@@ -3582,9 +3552,9 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.status = try c.lenientRequired(.status)
-            self.updateTime = try c.lenientRequired(.updateTime)
+            self.id = c.lenient(.id)
+            self.status = c.lenient(.status)
+            self.updateTime = c.lenient(.updateTime)
         }
     }
 
@@ -3603,10 +3573,10 @@ extension Approval {
     }
 
     public struct ExternalInstanceCheckBodyInstance: Codable, Sendable {
-        public var instanceId: String
-        public var updateTime: String
-        public var tasks: [ExternalInstanceCheckBodyInstanceTask]
-        public init(instanceId: String, updateTime: String, tasks: [ExternalInstanceCheckBodyInstanceTask]) {
+        public var instanceId: String?
+        public var updateTime: String?
+        public var tasks: [ExternalInstanceCheckBodyInstanceTask]?
+        public init(instanceId: String? = nil, updateTime: String? = nil, tasks: [ExternalInstanceCheckBodyInstanceTask]? = nil) {
             self.instanceId = instanceId
             self.updateTime = updateTime
             self.tasks = tasks
@@ -3618,16 +3588,16 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.instanceId = try c.lenientRequired(.instanceId)
-            self.updateTime = try c.lenientRequired(.updateTime)
-            self.tasks = try c.lenientRequired(.tasks)
+            self.instanceId = c.lenient(.instanceId)
+            self.updateTime = c.lenient(.updateTime)
+            self.tasks = c.lenient(.tasks)
         }
     }
 
     public struct ExternalInstanceCheckBodyInstanceTask: Codable, Sendable {
-        public var taskId: String
-        public var updateTime: String
-        public init(taskId: String, updateTime: String) {
+        public var taskId: String?
+        public var updateTime: String?
+        public init(taskId: String? = nil, updateTime: String? = nil) {
             self.taskId = taskId
             self.updateTime = updateTime
         }
@@ -3637,14 +3607,14 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.taskId = try c.lenientRequired(.taskId)
-            self.updateTime = try c.lenientRequired(.updateTime)
+            self.taskId = c.lenient(.taskId)
+            self.updateTime = c.lenient(.updateTime)
         }
     }
 
     public struct ExternalInstanceCheckResponse: Codable, Sendable {
-        public var diffInstances: [DiffInstance]?
-        public init(diffInstances: [DiffInstance]? = nil) {
+        public var diffInstances: [ExternalInstanceCheckBodyInstance]?
+        public init(diffInstances: [ExternalInstanceCheckBodyInstance]? = nil) {
             self.diffInstances = diffInstances
         }
         enum CodingKeys: String, CodingKey {
@@ -3656,34 +3626,12 @@ extension Approval {
         }
     }
 
-    public struct DiffInstance: Codable, Sendable {
-        public var instanceId: String
-        public var updateTime: String?
-        public var tasks: [ExternalInstanceCheckBodyInstanceTask]?
-        public init(instanceId: String, updateTime: String? = nil, tasks: [ExternalInstanceCheckBodyInstanceTask]? = nil) {
-            self.instanceId = instanceId
-            self.updateTime = updateTime
-            self.tasks = tasks
-        }
-        enum CodingKeys: String, CodingKey {
-            case instanceId = "instance_id"
-            case updateTime = "update_time"
-            case tasks
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.instanceId = try c.lenientRequired(.instanceId)
-            self.updateTime = c.lenient(.updateTime)
-            self.tasks = c.lenient(.tasks)
-        }
-    }
-
     public struct ExternalInstanceCreateBody: Codable, Sendable {
         public var approvalCode: String
         public var status: ExternalInstanceCreateBodyStatus
         public var extra: String?
         public var instanceId: String
-        public var links: Links
+        public var links: Link
         public var title: String?
         public var form: [ExternalInstanceCreateBodyForm]?
         public var userId: String?
@@ -3704,7 +3652,7 @@ extension Approval {
         public var trusteeshipUrls: TrusteeshipUrls?
         public var trusteeshipCacheConfig: TrusteeshipCacheConfig?
         public var resourceRegion: String?
-        public init(approvalCode: String, status: ExternalInstanceCreateBodyStatus, extra: String? = nil, instanceId: String, links: Links, title: String? = nil, form: [ExternalInstanceCreateBodyForm]? = nil, userId: String? = nil, userName: String? = nil, openId: String? = nil, departmentId: String? = nil, departmentName: String? = nil, startTime: String, endTime: String, updateTime: String, displayMethod: DisplayMethod? = nil, updateMode: UpdateMode? = nil, taskList: [ExternalInstanceCreateBodyTaskList]? = nil, ccList: [ExternalInstanceCreateBodyCcList]? = nil, i18nResources: [I18nResource], trusteeshipUrlToken: String? = nil, trusteeshipUserIdType: String? = nil, trusteeshipUrls: TrusteeshipUrls? = nil, trusteeshipCacheConfig: TrusteeshipCacheConfig? = nil, resourceRegion: String? = nil) {
+        public init(approvalCode: String, status: ExternalInstanceCreateBodyStatus, extra: String? = nil, instanceId: String, links: Link, title: String? = nil, form: [ExternalInstanceCreateBodyForm]? = nil, userId: String? = nil, userName: String? = nil, openId: String? = nil, departmentId: String? = nil, departmentName: String? = nil, startTime: String, endTime: String, updateTime: String, displayMethod: DisplayMethod? = nil, updateMode: UpdateMode? = nil, taskList: [ExternalInstanceCreateBodyTaskList]? = nil, ccList: [ExternalInstanceCreateBodyCcList]? = nil, i18nResources: [I18nResource], trusteeshipUrlToken: String? = nil, trusteeshipUserIdType: String? = nil, trusteeshipUrls: TrusteeshipUrls? = nil, trusteeshipCacheConfig: TrusteeshipCacheConfig? = nil, resourceRegion: String? = nil) {
             self.approvalCode = approvalCode
             self.status = status
             self.extra = extra
@@ -3792,31 +3740,13 @@ extension Approval {
     public struct ExternalInstanceCreateBodyStatus: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let pENDING: Self = "PENDING"
-        public static let aPPROVED: Self = "APPROVED"
-        public static let rEJECTED: Self = "REJECTED"
-        public static let cANCELED: Self = "CANCELED"
-        public static let dELETED: Self = "DELETED"
-        public static let hIDDEN: Self = "HIDDEN"
-        public static let tERMINATED: Self = "TERMINATED"
-    }
-
-    public struct Links: Codable, Sendable {
-        public var pcLink: String
-        public var mobileLink: String?
-        public init(pcLink: String, mobileLink: String? = nil) {
-            self.pcLink = pcLink
-            self.mobileLink = mobileLink
-        }
-        enum CodingKeys: String, CodingKey {
-            case pcLink = "pc_link"
-            case mobileLink = "mobile_link"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.pcLink = try c.lenientRequired(.pcLink)
-            self.mobileLink = c.lenient(.mobileLink)
-        }
+        public static let pending: Self = "PENDING"
+        public static let approved: Self = "APPROVED"
+        public static let rejected: Self = "REJECTED"
+        public static let canceled: Self = "CANCELED"
+        public static let deleted: Self = "DELETED"
+        public static let hidden: Self = "HIDDEN"
+        public static let terminated: Self = "TERMINATED"
     }
 
     public struct ExternalInstanceCreateBodyForm: Codable, Sendable {
@@ -3841,30 +3771,30 @@ extension Approval {
     public struct DisplayMethod: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let bROWSER: Self = "BROWSER"
-        public static let sIDEBAR: Self = "SIDEBAR"
-        public static let nORMAL: Self = "NORMAL"
-        public static let tRUSTEESHIP: Self = "TRUSTEESHIP"
+        public static let browser: Self = "BROWSER"
+        public static let sidebar: Self = "SIDEBAR"
+        public static let normal: Self = "NORMAL"
+        public static let trusteeship: Self = "TRUSTEESHIP"
     }
 
     /// Open enumeration: unknown server values are preserved in `rawValue`.
     public struct UpdateMode: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let rEPLACE: Self = "REPLACE"
-        public static let uPDATE: Self = "UPDATE"
+        public static let replace: Self = "REPLACE"
+        public static let update: Self = "UPDATE"
     }
 
     public struct ExternalInstanceCreateBodyTaskList: Codable, Sendable {
-        public var taskId: String
+        public var taskId: String?
         public var userId: String?
         public var openId: String?
         public var title: String?
-        public var links: Links
-        public var status: TaskListStatus
+        public var links: Link?
+        public var status: TaskListStatus?
         public var extra: String?
-        public var createTime: String
-        public var endTime: String
+        public var createTime: String?
+        public var endTime: String?
         public var updateTime: String?
         public var actionContext: String?
         public var actionConfigs: [ActionConfig]?
@@ -3873,7 +3803,7 @@ extension Approval {
         public var nodeId: String?
         public var nodeName: String?
         public var generateType: GenerateType?
-        public init(taskId: String, userId: String? = nil, openId: String? = nil, title: String? = nil, links: Links, status: TaskListStatus, extra: String? = nil, createTime: String, endTime: String, updateTime: String? = nil, actionContext: String? = nil, actionConfigs: [ActionConfig]? = nil, displayMethod: DisplayMethod? = nil, excludeStatistics: Bool? = nil, nodeId: String? = nil, nodeName: String? = nil, generateType: GenerateType? = nil) {
+        public init(taskId: String? = nil, userId: String? = nil, openId: String? = nil, title: String? = nil, links: Link? = nil, status: TaskListStatus? = nil, extra: String? = nil, createTime: String? = nil, endTime: String? = nil, updateTime: String? = nil, actionContext: String? = nil, actionConfigs: [ActionConfig]? = nil, displayMethod: DisplayMethod? = nil, excludeStatistics: Bool? = nil, nodeId: String? = nil, nodeName: String? = nil, generateType: GenerateType? = nil) {
             self.taskId = taskId
             self.userId = userId
             self.openId = openId
@@ -3913,15 +3843,15 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.taskId = try c.lenientRequired(.taskId)
+            self.taskId = c.lenient(.taskId)
             self.userId = c.lenient(.userId)
             self.openId = c.lenient(.openId)
             self.title = c.lenient(.title)
-            self.links = try c.lenientRequired(.links)
-            self.status = try c.lenientRequired(.status)
+            self.links = c.lenient(.links)
+            self.status = c.lenient(.status)
             self.extra = c.lenient(.extra)
-            self.createTime = try c.lenientRequired(.createTime)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.createTime = c.lenient(.createTime)
+            self.endTime = c.lenient(.endTime)
             self.updateTime = c.lenient(.updateTime)
             self.actionContext = c.lenient(.actionContext)
             self.actionConfigs = c.lenient(.actionConfigs)
@@ -3934,12 +3864,12 @@ extension Approval {
     }
 
     public struct ActionConfig: Codable, Sendable {
-        public var actionType: String
+        public var actionType: String?
         public var actionName: String?
         public var isNeedReason: Bool?
         public var isReasonRequired: Bool?
         public var isNeedAttachment: Bool?
-        public init(actionType: String, actionName: String? = nil, isNeedReason: Bool? = nil, isReasonRequired: Bool? = nil, isNeedAttachment: Bool? = nil) {
+        public init(actionType: String? = nil, actionName: String? = nil, isNeedReason: Bool? = nil, isReasonRequired: Bool? = nil, isNeedAttachment: Bool? = nil) {
             self.actionType = actionType
             self.actionName = actionName
             self.isNeedReason = isNeedReason
@@ -3955,7 +3885,7 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.actionType = try c.lenientRequired(.actionType)
+            self.actionType = c.lenient(.actionType)
             self.actionName = c.lenient(.actionName)
             self.isNeedReason = c.lenient(.isNeedReason)
             self.isReasonRequired = c.lenient(.isReasonRequired)
@@ -3967,22 +3897,22 @@ extension Approval {
     public struct GenerateType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let eXTERNALCONSIGN: Self = "EXTERNAL_CONSIGN"
-        public static let dEFAULT: Self = "DEFAULT"
+        public static let externalConsign: Self = "EXTERNAL_CONSIGN"
+        public static let `default`: Self = "DEFAULT"
     }
 
     public struct ExternalInstanceCreateBodyCcList: Codable, Sendable {
-        public var ccId: String
+        public var ccId: String?
         public var userId: String?
         public var openId: String?
-        public var links: Links
-        public var readStatus: ExternalInstanceCreateBodyCcListReadStatus
+        public var links: Link?
+        public var readStatus: ExternalInstanceCreateBodyCcListReadStatus?
         public var extra: String?
         public var title: String?
-        public var createTime: String
-        public var updateTime: String
+        public var createTime: String?
+        public var updateTime: String?
         public var displayMethod: DisplayMethod?
-        public init(ccId: String, userId: String? = nil, openId: String? = nil, links: Links, readStatus: ExternalInstanceCreateBodyCcListReadStatus, extra: String? = nil, title: String? = nil, createTime: String, updateTime: String, displayMethod: DisplayMethod? = nil) {
+        public init(ccId: String? = nil, userId: String? = nil, openId: String? = nil, links: Link? = nil, readStatus: ExternalInstanceCreateBodyCcListReadStatus? = nil, extra: String? = nil, title: String? = nil, createTime: String? = nil, updateTime: String? = nil, displayMethod: DisplayMethod? = nil) {
             self.ccId = ccId
             self.userId = userId
             self.openId = openId
@@ -4008,15 +3938,15 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.ccId = try c.lenientRequired(.ccId)
+            self.ccId = c.lenient(.ccId)
             self.userId = c.lenient(.userId)
             self.openId = c.lenient(.openId)
-            self.links = try c.lenientRequired(.links)
-            self.readStatus = try c.lenientRequired(.readStatus)
+            self.links = c.lenient(.links)
+            self.readStatus = c.lenient(.readStatus)
             self.extra = c.lenient(.extra)
             self.title = c.lenient(.title)
-            self.createTime = try c.lenientRequired(.createTime)
-            self.updateTime = try c.lenientRequired(.updateTime)
+            self.createTime = c.lenient(.createTime)
+            self.updateTime = c.lenient(.updateTime)
             self.displayMethod = c.lenient(.displayMethod)
         }
     }
@@ -4025,8 +3955,8 @@ extension Approval {
     public struct ExternalInstanceCreateBodyCcListReadStatus: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let rEAD: Self = "READ"
-        public static let uNREAD: Self = "UNREAD"
+        public static let read: Self = "READ"
+        public static let unread: Self = "UNREAD"
     }
 
     public struct TrusteeshipUrls: Codable, Sendable {
@@ -4085,10 +4015,10 @@ extension Approval {
     public struct FormPolicy: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let dISABLE: Self = "DISABLE"
-        public static let iMMUTABLE: Self = "IMMUTABLE"
-        public static let bYNODE: Self = "BY_NODE"
-        public static let bYUSER: Self = "BY_USER"
+        public static let disable: Self = "DISABLE"
+        public static let immutable: Self = "IMMUTABLE"
+        public static let byNode: Self = "BY_NODE"
+        public static let byUser: Self = "BY_USER"
     }
 
     public struct ExternalInstanceCreateResponse: Codable, Sendable {
@@ -4110,11 +4040,11 @@ extension Approval {
     }
 
     public struct ExternalInstance: Codable, Sendable {
-        public var approvalCode: String
-        public var status: ExternalInstanceCreateBodyStatus
+        public var approvalCode: String?
+        public var status: ExternalInstanceCreateBodyStatus?
         public var extra: String?
-        public var instanceId: String
-        public var links: Links
+        public var instanceId: String?
+        public var links: Link?
         public var title: String?
         public var form: [ExternalInstanceCreateBodyForm]?
         public var userId: String?
@@ -4122,20 +4052,20 @@ extension Approval {
         public var openId: String?
         public var departmentId: String?
         public var departmentName: String?
-        public var startTime: String
-        public var endTime: String
-        public var updateTime: String
+        public var startTime: String?
+        public var endTime: String?
+        public var updateTime: String?
         public var displayMethod: DisplayMethod?
         public var updateMode: UpdateMode?
         public var taskList: [ExternalInstanceCreateBodyTaskList]?
         public var ccList: [ExternalInstanceCreateBodyCcList]?
-        public var i18nResources: [I18nResource]
+        public var i18nResources: [I18nResource]?
         public var trusteeshipUrlToken: String?
         public var trusteeshipUserIdType: String?
         public var trusteeshipUrls: TrusteeshipUrls?
         public var trusteeshipCacheConfig: TrusteeshipCacheConfig?
         public var resourceRegion: String?
-        public init(approvalCode: String, status: ExternalInstanceCreateBodyStatus, extra: String? = nil, instanceId: String, links: Links, title: String? = nil, form: [ExternalInstanceCreateBodyForm]? = nil, userId: String? = nil, userName: String? = nil, openId: String? = nil, departmentId: String? = nil, departmentName: String? = nil, startTime: String, endTime: String, updateTime: String, displayMethod: DisplayMethod? = nil, updateMode: UpdateMode? = nil, taskList: [ExternalInstanceCreateBodyTaskList]? = nil, ccList: [ExternalInstanceCreateBodyCcList]? = nil, i18nResources: [I18nResource], trusteeshipUrlToken: String? = nil, trusteeshipUserIdType: String? = nil, trusteeshipUrls: TrusteeshipUrls? = nil, trusteeshipCacheConfig: TrusteeshipCacheConfig? = nil, resourceRegion: String? = nil) {
+        public init(approvalCode: String? = nil, status: ExternalInstanceCreateBodyStatus? = nil, extra: String? = nil, instanceId: String? = nil, links: Link? = nil, title: String? = nil, form: [ExternalInstanceCreateBodyForm]? = nil, userId: String? = nil, userName: String? = nil, openId: String? = nil, departmentId: String? = nil, departmentName: String? = nil, startTime: String? = nil, endTime: String? = nil, updateTime: String? = nil, displayMethod: DisplayMethod? = nil, updateMode: UpdateMode? = nil, taskList: [ExternalInstanceCreateBodyTaskList]? = nil, ccList: [ExternalInstanceCreateBodyCcList]? = nil, i18nResources: [I18nResource]? = nil, trusteeshipUrlToken: String? = nil, trusteeshipUserIdType: String? = nil, trusteeshipUrls: TrusteeshipUrls? = nil, trusteeshipCacheConfig: TrusteeshipCacheConfig? = nil, resourceRegion: String? = nil) {
             self.approvalCode = approvalCode
             self.status = status
             self.extra = extra
@@ -4191,11 +4121,11 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.approvalCode = try c.lenientRequired(.approvalCode)
-            self.status = try c.lenientRequired(.status)
+            self.approvalCode = c.lenient(.approvalCode)
+            self.status = c.lenient(.status)
             self.extra = c.lenient(.extra)
-            self.instanceId = try c.lenientRequired(.instanceId)
-            self.links = try c.lenientRequired(.links)
+            self.instanceId = c.lenient(.instanceId)
+            self.links = c.lenient(.links)
             self.title = c.lenient(.title)
             self.form = c.lenient(.form)
             self.userId = c.lenient(.userId)
@@ -4203,14 +4133,14 @@ extension Approval {
             self.openId = c.lenient(.openId)
             self.departmentId = c.lenient(.departmentId)
             self.departmentName = c.lenient(.departmentName)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
-            self.updateTime = try c.lenientRequired(.updateTime)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
+            self.updateTime = c.lenient(.updateTime)
             self.displayMethod = c.lenient(.displayMethod)
             self.updateMode = c.lenient(.updateMode)
             self.taskList = c.lenient(.taskList)
             self.ccList = c.lenient(.ccList)
-            self.i18nResources = try c.lenientRequired(.i18nResources)
+            self.i18nResources = c.lenient(.i18nResources)
             self.trusteeshipUrlToken = c.lenient(.trusteeshipUrlToken)
             self.trusteeshipUserIdType = c.lenient(.trusteeshipUserIdType)
             self.trusteeshipUrls = c.lenient(.trusteeshipUrls)
@@ -4264,16 +4194,16 @@ extension Approval {
     }
 
     public struct ExternalApprovalGetResponse: Codable, Sendable {
-        public var approvalName: String
-        public var approvalCode: String
-        public var groupCode: String
+        public var approvalName: String?
+        public var approvalCode: String?
+        public var groupCode: String?
         public var groupName: String?
         public var description: String?
         public var external: ExternalApprovalGetResponseExternal?
         public var viewers: [Viewer]?
         public var i18nResources: [I18nResource]?
         public var managers: [String]?
-        public init(approvalName: String, approvalCode: String, groupCode: String, groupName: String? = nil, description: String? = nil, external: ExternalApprovalGetResponseExternal? = nil, viewers: [Viewer]? = nil, i18nResources: [I18nResource]? = nil, managers: [String]? = nil) {
+        public init(approvalName: String? = nil, approvalCode: String? = nil, groupCode: String? = nil, groupName: String? = nil, description: String? = nil, external: ExternalApprovalGetResponseExternal? = nil, viewers: [Viewer]? = nil, i18nResources: [I18nResource]? = nil, managers: [String]? = nil) {
             self.approvalName = approvalName
             self.approvalCode = approvalCode
             self.groupCode = groupCode
@@ -4297,9 +4227,9 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.approvalName = try c.lenientRequired(.approvalName)
-            self.approvalCode = try c.lenientRequired(.approvalCode)
-            self.groupCode = try c.lenientRequired(.groupCode)
+            self.approvalName = c.lenient(.approvalName)
+            self.approvalCode = c.lenient(.approvalCode)
+            self.groupCode = c.lenient(.groupCode)
             self.groupName = c.lenient(.groupName)
             self.description = c.lenient(.description)
             self.external = c.lenient(.external)
@@ -4422,8 +4352,8 @@ extension Approval {
     }
 
     public struct ExternalApprovalCreateResponse: Codable, Sendable {
-        public var approvalCode: String
-        public init(approvalCode: String) {
+        public var approvalCode: String?
+        public init(approvalCode: String? = nil) {
             self.approvalCode = approvalCode
         }
         enum CodingKeys: String, CodingKey {
@@ -4431,7 +4361,7 @@ extension Approval {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.approvalCode = try c.lenientRequired(.approvalCode)
+            self.approvalCode = c.lenient(.approvalCode)
         }
     }
 

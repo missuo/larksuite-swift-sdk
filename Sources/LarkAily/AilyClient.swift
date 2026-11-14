@@ -212,7 +212,7 @@ public final class AilyClient: Sendable {
         // step2: create the message and the run
         let messageBody = Aily.AilySessionAilyMessageCreateBody(
             idempotentId: String(Int64(Date().timeIntervalSince1970 * 1000)),
-            contentType: .mDX,
+            contentType: .mdx,
             content: params.message,
             fileIds: params.messageInfo?.fileIds,
             quoteMessageId: params.messageInfo?.quoteMessageId,
@@ -293,7 +293,7 @@ public final class AilyClient: Sendable {
             params: .init(runId: ref.runId, withPartialMessage: false),
             options: options)
         for try await page in pages {
-            for message in page.messages ?? [] where message.sender?.senderType == .aSSISTANT {
+            for message in page.messages ?? [] where message.sender?.senderType == .assistant {
                 reply = message
             }
         }
@@ -361,9 +361,9 @@ public struct AilyMessageStream: AsyncSequence, Sendable {
                     let message = buffer[index]
                     index += 1
                     if startOutput {
-                        if message.status == .cOMPLETED { finished = true }
+                        if message.status == .completed { finished = true }
                         return message
-                    } else if message.id == messageId && message.status == .cOMPLETED {
+                    } else if message.id == messageId && message.status == .completed {
                         startOutput = true
                     }
                     continue

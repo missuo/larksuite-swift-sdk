@@ -199,13 +199,13 @@ extension Mail {
     public struct MailgroupMemberType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let uSER: Self = "USER"
-        public static let dEPARTMENT: Self = "DEPARTMENT"
-        public static let cOMPANY: Self = "COMPANY"
-        public static let eXTERNALUSER: Self = "EXTERNAL_USER"
-        public static let mAILGROUP: Self = "MAIL_GROUP"
-        public static let pUBLICMAILBOX: Self = "PUBLIC_MAILBOX"
-        public static let oTHERMEMBER: Self = "OTHER_MEMBER"
+        public static let user: Self = "USER"
+        public static let department: Self = "DEPARTMENT"
+        public static let company: Self = "COMPANY"
+        public static let externalUser: Self = "EXTERNAL_USER"
+        public static let mailGroup: Self = "MAIL_GROUP"
+        public static let publicMailbox: Self = "PUBLIC_MAILBOX"
+        public static let otherMember: Self = "OTHER_MEMBER"
     }
 
     public struct MailgroupMemberBatchDeleteBody: Codable, Sendable {
@@ -336,10 +336,10 @@ extension Mail {
     public struct MailgroupPermissionMemberType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let uSER: Self = "USER"
-        public static let dEPARTMENT: Self = "DEPARTMENT"
-        public static let mAILGROUP: Self = "MAIL_GROUP"
-        public static let pUBLICMAILBOX: Self = "PUBLIC_MAILBOX"
+        public static let user: Self = "USER"
+        public static let department: Self = "DEPARTMENT"
+        public static let mailGroup: Self = "MAIL_GROUP"
+        public static let publicMailbox: Self = "PUBLIC_MAILBOX"
     }
 
     public struct MailgroupPermissionMemberCreateBody: Codable, Sendable {
@@ -442,10 +442,10 @@ extension Mail {
     public struct WhoCanSendMail: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let aNYONE: Self = "ANYONE"
-        public static let aLLINTERNALUSERS: Self = "ALL_INTERNAL_USERS"
-        public static let aLLGROUPMEMBERS: Self = "ALL_GROUP_MEMBERS"
-        public static let cUSTOMMEMBERS: Self = "CUSTOM_MEMBERS"
+        public static let anyone: Self = "ANYONE"
+        public static let allInternalUsers: Self = "ALL_INTERNAL_USERS"
+        public static let allGroupMembers: Self = "ALL_GROUP_MEMBERS"
+        public static let customMembers: Self = "CUSTOM_MEMBERS"
     }
 
     public struct MailgroupListQuery: Codable, Sendable {
@@ -604,7 +604,7 @@ extension Mail {
     public struct PublicMailboxMemberGetResponseType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let uSER: Self = "USER"
+        public static let user: Self = "USER"
     }
 
     public struct PublicMailboxMemberListQuery: Codable, Sendable {
@@ -857,11 +857,11 @@ extension Mail {
     public struct EmailType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let mAILGROUP: Self = "MAIL_GROUP"
-        public static let pUBLICMAILBOX: Self = "PUBLIC_MAILBOX"
-        public static let uSERPRIMARY: Self = "USER_PRIMARY"
-        public static let uSERALIAS: Self = "USER_ALIAS"
-        public static let pUBLICMAILBOXALIAS: Self = "PUBLIC_MAILBOX_ALIAS"
+        public static let mailGroup: Self = "MAIL_GROUP"
+        public static let publicMailbox: Self = "PUBLIC_MAILBOX"
+        public static let userPrimary: Self = "USER_PRIMARY"
+        public static let userAlias: Self = "USER_ALIAS"
+        public static let publicMailboxAlias: Self = "PUBLIC_MAILBOX_ALIAS"
     }
 
     public struct UserMailboxProfileResponse: Codable, Sendable {
@@ -987,12 +987,12 @@ extension Mail {
     }
 
     public struct UserMailboxSearchResponse: Codable, Sendable {
-        public var items: [UserMailbox]
+        public var items: [UserMailbox]?
         public var total: Int?
-        public var hasMore: Bool
+        public var hasMore: Bool?
         public var pageToken: String?
         public var notice: String?
-        public init(items: [UserMailbox], total: Int? = nil, hasMore: Bool, pageToken: String? = nil, notice: String? = nil) {
+        public init(items: [UserMailbox]? = nil, total: Int? = nil, hasMore: Bool? = nil, pageToken: String? = nil, notice: String? = nil) {
             self.items = items
             self.total = total
             self.hasMore = hasMore
@@ -1008,19 +1008,19 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
             self.total = c.lenient(.total)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
             self.pageToken = c.lenient(.pageToken)
             self.notice = c.lenient(.notice)
         }
     }
 
     public struct UserMailbox: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var displayInfo: String?
         public var metaData: MetaData?
-        public init(id: String, displayInfo: String? = nil, metaData: MetaData? = nil) {
+        public init(id: String? = nil, displayInfo: String? = nil, metaData: MetaData? = nil) {
             self.id = id
             self.displayInfo = displayInfo
             self.metaData = metaData
@@ -1032,7 +1032,7 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.displayInfo = c.lenient(.displayInfo)
             self.metaData = c.lenient(.metaData)
         }
@@ -1069,9 +1069,9 @@ extension Mail {
     }
 
     public struct From: Codable, Sendable {
-        public var mailAddress: String
+        public var mailAddress: String?
         public var name: String?
-        public init(mailAddress: String, name: String? = nil) {
+        public init(mailAddress: String? = nil, name: String? = nil) {
             self.mailAddress = mailAddress
             self.name = name
         }
@@ -1081,7 +1081,7 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.mailAddress = try c.lenientRequired(.mailAddress)
+            self.mailAddress = c.lenient(.mailAddress)
             self.name = c.lenient(.name)
         }
     }
@@ -1399,10 +1399,10 @@ extension Mail {
     }
 
     public struct UserMailboxMessageGetByCardResponse: Codable, Sendable {
-        public var ownerInfo: OwnerInfo
-        public var messageIds: [String]
-        public var cardId: String
-        public init(ownerInfo: OwnerInfo, messageIds: [String], cardId: String) {
+        public var ownerInfo: OwnerInfo?
+        public var messageIds: [String]?
+        public var cardId: String?
+        public init(ownerInfo: OwnerInfo? = nil, messageIds: [String]? = nil, cardId: String? = nil) {
             self.ownerInfo = ownerInfo
             self.messageIds = messageIds
             self.cardId = cardId
@@ -1414,17 +1414,17 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.ownerInfo = try c.lenientRequired(.ownerInfo)
-            self.messageIds = try c.lenientRequired(.messageIds)
-            self.cardId = try c.lenientRequired(.cardId)
+            self.ownerInfo = c.lenient(.ownerInfo)
+            self.messageIds = c.lenient(.messageIds)
+            self.cardId = c.lenient(.cardId)
         }
     }
 
     public struct OwnerInfo: Codable, Sendable {
-        public var type: String
+        public var type: String?
         public var ownerUserId: String?
         public var publicMailboxId: String?
-        public init(type: String, ownerUserId: String? = nil, publicMailboxId: String? = nil) {
+        public init(type: String? = nil, ownerUserId: String? = nil, publicMailboxId: String? = nil) {
             self.type = type
             self.ownerUserId = ownerUserId
             self.publicMailboxId = publicMailboxId
@@ -1436,7 +1436,7 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.ownerUserId = c.lenient(.ownerUserId)
             self.publicMailboxId = c.lenient(.publicMailboxId)
         }
@@ -1493,11 +1493,11 @@ extension Mail {
     }
 
     public struct Attachment: Codable, Sendable {
-        public var body: String
-        public var filename: String
+        public var body: String?
+        public var filename: String?
         public var isInline: Bool?
         public var cid: String?
-        public init(body: String, filename: String, isInline: Bool? = nil, cid: String? = nil) {
+        public init(body: String? = nil, filename: String? = nil, isInline: Bool? = nil, cid: String? = nil) {
             self.body = body
             self.filename = filename
             self.isInline = isInline
@@ -1511,8 +1511,8 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.body = try c.lenientRequired(.body)
-            self.filename = try c.lenientRequired(.filename)
+            self.body = c.lenient(.body)
+            self.filename = c.lenient(.filename)
             self.isInline = c.lenient(.isInline)
             self.cid = c.lenient(.cid)
         }
@@ -1788,12 +1788,12 @@ extension Mail {
     }
 
     public struct MessageAttachment: Codable, Sendable {
-        public var filename: String
+        public var filename: String?
         public var id: String?
         public var attachmentType: Int?
         public var isInline: Bool?
         public var cid: String?
-        public init(filename: String, id: String? = nil, attachmentType: Int? = nil, isInline: Bool? = nil, cid: String? = nil) {
+        public init(filename: String? = nil, id: String? = nil, attachmentType: Int? = nil, isInline: Bool? = nil, cid: String? = nil) {
             self.filename = filename
             self.id = id
             self.attachmentType = attachmentType
@@ -1809,7 +1809,7 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.filename = try c.lenientRequired(.filename)
+            self.filename = c.lenient(.filename)
             self.id = c.lenient(.id)
             self.attachmentType = c.lenient(.attachmentType)
             self.isInline = c.lenient(.isInline)
@@ -1873,36 +1873,36 @@ extension Mail {
     public struct RiskBannerLevel: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let wARNING: Self = "WARNING"
-        public static let dANGER: Self = "DANGER"
-        public static let iNFO: Self = "INFO"
+        public static let warning: Self = "WARNING"
+        public static let danger: Self = "DANGER"
+        public static let info: Self = "INFO"
     }
 
     /// Open enumeration: unknown server values are preserved in `rawValue`.
     public struct RiskBannerReason: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let nOREASON: Self = "NO_REASON"
-        public static let iMPERSONATEDOMAIN: Self = "IMPERSONATE_DOMAIN"
-        public static let iMPERSONATEKPNAME: Self = "IMPERSONATE_KP_NAME"
-        public static let uNAUTHEXTERNAL: Self = "UNAUTH_EXTERNAL"
-        public static let mALICIOUSURL: Self = "MALICIOUS_URL"
-        public static let mALICIOUSATTACHMENT: Self = "MALICIOUS_ATTACHMENT"
-        public static let pHISHING: Self = "PHISHING"
-        public static let iMPERSONATEPARTNER: Self = "IMPERSONATE_PARTNER"
-        public static let eXTERNALENCRYPTIONATTACHMENT: Self = "EXTERNAL_ENCRYPTION_ATTACHMENT"
+        public static let noReason: Self = "NO_REASON"
+        public static let impersonateDomain: Self = "IMPERSONATE_DOMAIN"
+        public static let impersonateKpName: Self = "IMPERSONATE_KP_NAME"
+        public static let unauthExternal: Self = "UNAUTH_EXTERNAL"
+        public static let maliciousUrl: Self = "MALICIOUS_URL"
+        public static let maliciousAttachment: Self = "MALICIOUS_ATTACHMENT"
+        public static let phishing: Self = "PHISHING"
+        public static let impersonatePartner: Self = "IMPERSONATE_PARTNER"
+        public static let externalEncryptionAttachment: Self = "EXTERNAL_ENCRYPTION_ATTACHMENT"
     }
 
     /// Open enumeration: unknown server values are preserved in `rawValue`.
     public struct SpamBannerType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let uSERREPORT: Self = "USER_REPORT"
-        public static let uSERBLOCK: Self = "USER_BLOCK"
-        public static let aNTISPAM: Self = "ANTI_SPAM"
-        public static let uSERRULE: Self = "USER_RULE"
-        public static let bLOCKDOMIN: Self = "BLOCK_DOMIN"
-        public static let bLOCKADDRESS: Self = "BLOCK_ADDRESS"
+        public static let userReport: Self = "USER_REPORT"
+        public static let userBlock: Self = "USER_BLOCK"
+        public static let antiSpam: Self = "ANTI_SPAM"
+        public static let userRule: Self = "USER_RULE"
+        public static let blockDomin: Self = "BLOCK_DOMIN"
+        public static let blockAddress: Self = "BLOCK_ADDRESS"
     }
 
     public struct UserMailboxMessageListThreadMessageQuery: Codable, Sendable {
@@ -2078,13 +2078,13 @@ extension Mail {
     }
 
     public struct UserMailboxMessageMessageAttachment: Codable, Sendable {
-        public var body: String
-        public var filename: String
+        public var body: String?
+        public var filename: String?
         public var id: String?
         public var attachmentType: Int?
         public var isInline: Bool?
         public var cid: String?
-        public init(body: String, filename: String, id: String? = nil, attachmentType: Int? = nil, isInline: Bool? = nil, cid: String? = nil) {
+        public init(body: String? = nil, filename: String? = nil, id: String? = nil, attachmentType: Int? = nil, isInline: Bool? = nil, cid: String? = nil) {
             self.body = body
             self.filename = filename
             self.id = id
@@ -2102,8 +2102,8 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.body = try c.lenientRequired(.body)
-            self.filename = try c.lenientRequired(.filename)
+            self.body = c.lenient(.body)
+            self.filename = c.lenient(.filename)
             self.id = c.lenient(.id)
             self.attachmentType = c.lenient(.attachmentType)
             self.isInline = c.lenient(.isInline)
@@ -2393,7 +2393,7 @@ extension Mail {
 
     public struct MailContact: Codable, Sendable {
         public var id: String?
-        public var name: String
+        public var name: String?
         public var company: String?
         public var phone: String?
         public var mailAddress: String?
@@ -2401,7 +2401,7 @@ extension Mail {
         public var remark: String?
         public var avatar: String?
         public var position: String?
-        public init(id: String? = nil, name: String, company: String? = nil, phone: String? = nil, mailAddress: String? = nil, tag: String? = nil, remark: String? = nil, avatar: String? = nil, position: String? = nil) {
+        public init(id: String? = nil, name: String? = nil, company: String? = nil, phone: String? = nil, mailAddress: String? = nil, tag: String? = nil, remark: String? = nil, avatar: String? = nil, position: String? = nil) {
             self.id = id
             self.name = name
             self.company = company
@@ -2426,7 +2426,7 @@ extension Mail {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.company = c.lenient(.company)
             self.phone = c.lenient(.phone)
             self.mailAddress = c.lenient(.mailAddress)
@@ -2532,9 +2532,9 @@ extension Mail {
     }
 
     public struct Label: Codable, Sendable {
-        public var name: String
+        public var name: String?
         public var backgroundColor: String?
-        public init(name: String, backgroundColor: String? = nil) {
+        public init(name: String? = nil, backgroundColor: String? = nil) {
             self.name = name
             self.backgroundColor = backgroundColor
         }
@@ -2544,7 +2544,7 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.backgroundColor = c.lenient(.backgroundColor)
         }
     }
@@ -2564,8 +2564,8 @@ extension Mail {
     }
 
     public struct UserMailboxLabelPatchBody: Codable, Sendable {
-        public var label: UserMailboxLabelPatchBodyLabel
-        public init(label: UserMailboxLabelPatchBodyLabel) {
+        public var label: Label
+        public init(label: Label) {
             self.label = label
         }
         enum CodingKeys: String, CodingKey {
@@ -2574,24 +2574,6 @@ extension Mail {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.label = try c.lenientRequired(.label)
-        }
-    }
-
-    public struct UserMailboxLabelPatchBodyLabel: Codable, Sendable {
-        public var name: String?
-        public var backgroundColor: String?
-        public init(name: String? = nil, backgroundColor: String? = nil) {
-            self.name = name
-            self.backgroundColor = backgroundColor
-        }
-        enum CodingKeys: String, CodingKey {
-            case name
-            case backgroundColor = "background_color"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = c.lenient(.name)
-            self.backgroundColor = c.lenient(.backgroundColor)
         }
     }
 
@@ -2861,9 +2843,9 @@ extension Mail {
     }
 
     public struct Condition: Codable, Sendable {
-        public var matchType: Int
-        public var items: [ConditionItem]
-        public init(matchType: Int, items: [ConditionItem]) {
+        public var matchType: Int?
+        public var items: [ConditionItem]?
+        public init(matchType: Int? = nil, items: [ConditionItem]? = nil) {
             self.matchType = matchType
             self.items = items
         }
@@ -2873,16 +2855,16 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.matchType = try c.lenientRequired(.matchType)
-            self.items = try c.lenientRequired(.items)
+            self.matchType = c.lenient(.matchType)
+            self.items = c.lenient(.items)
         }
     }
 
     public struct ConditionItem: Codable, Sendable {
-        public var type: Int
+        public var type: Int?
         public var `operator`: Int?
         public var input: String?
-        public init(type: Int, `operator`: Int? = nil, input: String? = nil) {
+        public init(type: Int? = nil, `operator`: Int? = nil, input: String? = nil) {
             self.type = type
             self.operator = `operator`
             self.input = input
@@ -2894,15 +2876,15 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.operator = c.lenient(.`operator`)
             self.input = c.lenient(.input)
         }
     }
 
     public struct Action: Codable, Sendable {
-        public var items: [ActionItem]
-        public init(items: [ActionItem]) {
+        public var items: [ActionItem]?
+        public init(items: [ActionItem]? = nil) {
             self.items = items
         }
         enum CodingKeys: String, CodingKey {
@@ -2910,14 +2892,14 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
         }
     }
 
     public struct ActionItem: Codable, Sendable {
-        public var type: Int
+        public var type: Int?
         public var input: String?
-        public init(type: Int, input: String? = nil) {
+        public init(type: Int? = nil, input: String? = nil) {
             self.type = type
             self.input = input
         }
@@ -2927,7 +2909,7 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.input = c.lenient(.input)
         }
     }
@@ -2948,12 +2930,12 @@ extension Mail {
 
     public struct UserMailboxRule: Codable, Sendable {
         public var id: String?
-        public var condition: Condition
-        public var action: Action
-        public var ignoreTheRestOfRules: Bool
-        public var name: String
-        public var isEnable: Bool
-        public init(id: String? = nil, condition: Condition, action: Action, ignoreTheRestOfRules: Bool, name: String, isEnable: Bool) {
+        public var condition: Condition?
+        public var action: Action?
+        public var ignoreTheRestOfRules: Bool?
+        public var name: String?
+        public var isEnable: Bool?
+        public init(id: String? = nil, condition: Condition? = nil, action: Action? = nil, ignoreTheRestOfRules: Bool? = nil, name: String? = nil, isEnable: Bool? = nil) {
             self.id = id
             self.condition = condition
             self.action = action
@@ -2972,11 +2954,11 @@ extension Mail {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.condition = try c.lenientRequired(.condition)
-            self.action = try c.lenientRequired(.action)
-            self.ignoreTheRestOfRules = try c.lenientRequired(.ignoreTheRestOfRules)
-            self.name = try c.lenientRequired(.name)
-            self.isEnable = try c.lenientRequired(.isEnable)
+            self.condition = c.lenient(.condition)
+            self.action = c.lenient(.action)
+            self.ignoreTheRestOfRules = c.lenient(.ignoreTheRestOfRules)
+            self.name = c.lenient(.name)
+            self.isEnable = c.lenient(.isEnable)
         }
     }
 
@@ -3327,15 +3309,15 @@ extension Mail {
     }
 
     public struct Template: Codable, Sendable {
-        public var name: String
+        public var name: String?
         public var subject: String?
         public var templateContent: String?
         public var isPlainTextMode: Bool?
         public var tos: [From]?
         public var ccs: [From]?
         public var bccs: [From]?
-        public var attachments: [TemplateAttachment]?
-        public init(name: String, subject: String? = nil, templateContent: String? = nil, isPlainTextMode: Bool? = nil, tos: [From]? = nil, ccs: [From]? = nil, bccs: [From]? = nil, attachments: [TemplateAttachment]? = nil) {
+        public var attachments: [MessageAttachment]?
+        public init(name: String? = nil, subject: String? = nil, templateContent: String? = nil, isPlainTextMode: Bool? = nil, tos: [From]? = nil, ccs: [From]? = nil, bccs: [From]? = nil, attachments: [MessageAttachment]? = nil) {
             self.name = name
             self.subject = subject
             self.templateContent = templateContent
@@ -3357,7 +3339,7 @@ extension Mail {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.subject = c.lenient(.subject)
             self.templateContent = c.lenient(.templateContent)
             self.isPlainTextMode = c.lenient(.isPlainTextMode)
@@ -3365,36 +3347,6 @@ extension Mail {
             self.ccs = c.lenient(.ccs)
             self.bccs = c.lenient(.bccs)
             self.attachments = c.lenient(.attachments)
-        }
-    }
-
-    public struct TemplateAttachment: Codable, Sendable {
-        public var filename: String?
-        public var id: String?
-        public var attachmentType: Int?
-        public var isInline: Bool?
-        public var cid: String?
-        public init(filename: String? = nil, id: String? = nil, attachmentType: Int? = nil, isInline: Bool? = nil, cid: String? = nil) {
-            self.filename = filename
-            self.id = id
-            self.attachmentType = attachmentType
-            self.isInline = isInline
-            self.cid = cid
-        }
-        enum CodingKeys: String, CodingKey {
-            case filename
-            case id
-            case attachmentType = "attachment_type"
-            case isInline = "is_inline"
-            case cid
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.filename = c.lenient(.filename)
-            self.id = c.lenient(.id)
-            self.attachmentType = c.lenient(.attachmentType)
-            self.isInline = c.lenient(.isInline)
-            self.cid = c.lenient(.cid)
         }
     }
 
@@ -3414,16 +3366,16 @@ extension Mail {
 
     public struct UserMailboxTemplateCreateResponseTemplate: Codable, Sendable {
         public var templateId: String?
-        public var name: String
+        public var name: String?
         public var subject: String?
         public var templateContent: String?
         public var isPlainTextMode: Bool?
         public var tos: [From]?
         public var ccs: [From]?
         public var bccs: [From]?
-        public var attachments: [TemplateAttachment]?
+        public var attachments: [MessageAttachment]?
         public var createTime: String?
-        public init(templateId: String? = nil, name: String, subject: String? = nil, templateContent: String? = nil, isPlainTextMode: Bool? = nil, tos: [From]? = nil, ccs: [From]? = nil, bccs: [From]? = nil, attachments: [TemplateAttachment]? = nil, createTime: String? = nil) {
+        public init(templateId: String? = nil, name: String? = nil, subject: String? = nil, templateContent: String? = nil, isPlainTextMode: Bool? = nil, tos: [From]? = nil, ccs: [From]? = nil, bccs: [From]? = nil, attachments: [MessageAttachment]? = nil, createTime: String? = nil) {
             self.templateId = templateId
             self.name = name
             self.subject = subject
@@ -3450,7 +3402,7 @@ extension Mail {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.templateId = c.lenient(.templateId)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.subject = c.lenient(.subject)
             self.templateContent = c.lenient(.templateContent)
             self.isPlainTextMode = c.lenient(.isPlainTextMode)
@@ -3668,12 +3620,12 @@ extension Mail {
 
     public struct Folder: Codable, Sendable {
         public var id: String?
-        public var name: String
-        public var parentFolderId: String
+        public var name: String?
+        public var parentFolderId: String?
         public var folderType: Int?
         public var unreadMessageCount: Int?
         public var unreadThreadCount: Int?
-        public init(id: String? = nil, name: String, parentFolderId: String, folderType: Int? = nil, unreadMessageCount: Int? = nil, unreadThreadCount: Int? = nil) {
+        public init(id: String? = nil, name: String? = nil, parentFolderId: String? = nil, folderType: Int? = nil, unreadMessageCount: Int? = nil, unreadThreadCount: Int? = nil) {
             self.id = id
             self.name = name
             self.parentFolderId = parentFolderId
@@ -3692,8 +3644,8 @@ extension Mail {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.name = try c.lenientRequired(.name)
-            self.parentFolderId = try c.lenientRequired(.parentFolderId)
+            self.name = c.lenient(.name)
+            self.parentFolderId = c.lenient(.parentFolderId)
             self.folderType = c.lenient(.folderType)
             self.unreadMessageCount = c.lenient(.unreadMessageCount)
             self.unreadThreadCount = c.lenient(.unreadThreadCount)

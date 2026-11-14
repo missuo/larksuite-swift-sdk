@@ -6,14 +6,14 @@ import LarkCore
 extension CoreHR {
     public struct PhoneList: Codable, Sendable {
         public var internationalAreaCode: ContractType?
-        public var phoneNumber: String
+        public var phoneNumber: String?
         public var formattedPhoneNumber: String?
         public var deviceType: ContractType?
         public var phoneUsage: ContractType?
         public var isPrimary: Bool?
         public var isPublic: Bool?
         public var customFields: [CustomField]?
-        public init(internationalAreaCode: ContractType? = nil, phoneNumber: String, formattedPhoneNumber: String? = nil, deviceType: ContractType? = nil, phoneUsage: ContractType? = nil, isPrimary: Bool? = nil, isPublic: Bool? = nil, customFields: [CustomField]? = nil) {
+        public init(internationalAreaCode: ContractType? = nil, phoneNumber: String? = nil, formattedPhoneNumber: String? = nil, deviceType: ContractType? = nil, phoneUsage: ContractType? = nil, isPrimary: Bool? = nil, isPublic: Bool? = nil, customFields: [CustomField]? = nil) {
             self.internationalAreaCode = internationalAreaCode
             self.phoneNumber = phoneNumber
             self.formattedPhoneNumber = formattedPhoneNumber
@@ -36,7 +36,7 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.internationalAreaCode = c.lenient(.internationalAreaCode)
-            self.phoneNumber = try c.lenientRequired(.phoneNumber)
+            self.phoneNumber = c.lenient(.phoneNumber)
             self.formattedPhoneNumber = c.lenient(.formattedPhoneNumber)
             self.deviceType = c.lenient(.deviceType)
             self.phoneUsage = c.lenient(.phoneUsage)
@@ -50,7 +50,7 @@ extension CoreHR {
         public var fullAddressLocalScript: String?
         public var fullAddressWesternScript: String?
         public var id: String?
-        public var countryRegionId: String
+        public var countryRegionId: String?
         public var regionId: String?
         public var cityId: String?
         public var distinctId: String?
@@ -79,7 +79,7 @@ extension CoreHR {
         public var isPrimary: Bool?
         public var isPublic: Bool?
         public var customFields: [CustomField]?
-        public init(fullAddressLocalScript: String? = nil, fullAddressWesternScript: String? = nil, id: String? = nil, countryRegionId: String, regionId: String? = nil, cityId: String? = nil, distinctId: String? = nil, cityIdV2: String? = nil, districtIdV2: String? = nil, addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, addressLine4: String? = nil, addressLine5: String? = nil, addressLine6: String? = nil, addressLine7: String? = nil, addressLine8: String? = nil, addressLine9: String? = nil, localAddressLine1: String? = nil, localAddressLine2: String? = nil, localAddressLine3: String? = nil, localAddressLine4: String? = nil, localAddressLine5: String? = nil, localAddressLine6: String? = nil, localAddressLine7: String? = nil, localAddressLine8: String? = nil, localAddressLine9: String? = nil, postalCode: String? = nil, addressTypeList: [ContractType]? = nil, isPrimary: Bool? = nil, isPublic: Bool? = nil, customFields: [CustomField]? = nil) {
+        public init(fullAddressLocalScript: String? = nil, fullAddressWesternScript: String? = nil, id: String? = nil, countryRegionId: String? = nil, regionId: String? = nil, cityId: String? = nil, distinctId: String? = nil, cityIdV2: String? = nil, districtIdV2: String? = nil, addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, addressLine4: String? = nil, addressLine5: String? = nil, addressLine6: String? = nil, addressLine7: String? = nil, addressLine8: String? = nil, addressLine9: String? = nil, localAddressLine1: String? = nil, localAddressLine2: String? = nil, localAddressLine3: String? = nil, localAddressLine4: String? = nil, localAddressLine5: String? = nil, localAddressLine6: String? = nil, localAddressLine7: String? = nil, localAddressLine8: String? = nil, localAddressLine9: String? = nil, postalCode: String? = nil, addressTypeList: [ContractType]? = nil, isPrimary: Bool? = nil, isPublic: Bool? = nil, customFields: [CustomField]? = nil) {
             self.fullAddressLocalScript = fullAddressLocalScript
             self.fullAddressWesternScript = fullAddressWesternScript
             self.id = id
@@ -152,7 +152,7 @@ extension CoreHR {
             self.fullAddressLocalScript = c.lenient(.fullAddressLocalScript)
             self.fullAddressWesternScript = c.lenient(.fullAddressWesternScript)
             self.id = c.lenient(.id)
-            self.countryRegionId = try c.lenientRequired(.countryRegionId)
+            self.countryRegionId = c.lenient(.countryRegionId)
             self.regionId = c.lenient(.regionId)
             self.cityId = c.lenient(.cityId)
             self.distinctId = c.lenient(.distinctId)
@@ -223,7 +223,7 @@ extension CoreHR {
     }
 
     public struct EducationList: Codable, Sendable {
-        public var school: [Display]
+        public var school: [Display]?
         public var levelOfEducation: ContractType?
         public var startDate: String?
         public var endDate: String?
@@ -234,7 +234,7 @@ extension CoreHR {
         public var countryRegionId: String?
         public var expectedEndDate: String?
         public var customFields: [CustomField]?
-        public init(school: [Display], levelOfEducation: ContractType? = nil, startDate: String? = nil, endDate: String? = nil, fieldOfStudy: [Display]? = nil, degree: ContractType? = nil, schoolName: ContractType? = nil, fieldOfStudyName: ContractType? = nil, countryRegionId: String? = nil, expectedEndDate: String? = nil, customFields: [CustomField]? = nil) {
+        public init(school: [Display]? = nil, levelOfEducation: ContractType? = nil, startDate: String? = nil, endDate: String? = nil, fieldOfStudy: [Display]? = nil, degree: ContractType? = nil, schoolName: ContractType? = nil, fieldOfStudyName: ContractType? = nil, countryRegionId: String? = nil, expectedEndDate: String? = nil, customFields: [CustomField]? = nil) {
             self.school = school
             self.levelOfEducation = levelOfEducation
             self.startDate = startDate
@@ -262,7 +262,7 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.school = try c.lenientRequired(.school)
+            self.school = c.lenient(.school)
             self.levelOfEducation = c.lenient(.levelOfEducation)
             self.startDate = c.lenient(.startDate)
             self.endDate = c.lenient(.endDate)
@@ -278,8 +278,8 @@ extension CoreHR {
 
     public struct BankAccountList: Codable, Sendable {
         public var bankName: String?
-        public var bankAccountNumber: String
-        public var accountHolder: String
+        public var bankAccountNumber: String?
+        public var accountHolder: String?
         public var bank: ContractType?
         public var bankIdentificationCode: String?
         public var branchName: String?
@@ -292,7 +292,7 @@ extension CoreHR {
         public var bankAccountUsage: [ContractType]?
         public var bankAccountType: ContractType?
         public var currencyId: String?
-        public init(bankName: String? = nil, bankAccountNumber: String, accountHolder: String, bank: ContractType? = nil, bankIdentificationCode: String? = nil, branchName: String? = nil, bankId: String? = nil, branchId: String? = nil, bankIdV2: String? = nil, branchIdV2: String? = nil, customFields: [CustomField]? = nil, countryRegionId: String? = nil, bankAccountUsage: [ContractType]? = nil, bankAccountType: ContractType? = nil, currencyId: String? = nil) {
+        public init(bankName: String? = nil, bankAccountNumber: String? = nil, accountHolder: String? = nil, bank: ContractType? = nil, bankIdentificationCode: String? = nil, branchName: String? = nil, bankId: String? = nil, branchId: String? = nil, bankIdV2: String? = nil, branchIdV2: String? = nil, customFields: [CustomField]? = nil, countryRegionId: String? = nil, bankAccountUsage: [ContractType]? = nil, bankAccountType: ContractType? = nil, currencyId: String? = nil) {
             self.bankName = bankName
             self.bankAccountNumber = bankAccountNumber
             self.accountHolder = accountHolder
@@ -329,8 +329,8 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.bankName = c.lenient(.bankName)
-            self.bankAccountNumber = try c.lenientRequired(.bankAccountNumber)
-            self.accountHolder = try c.lenientRequired(.accountHolder)
+            self.bankAccountNumber = c.lenient(.bankAccountNumber)
+            self.accountHolder = c.lenient(.accountHolder)
             self.bank = c.lenient(.bank)
             self.bankIdentificationCode = c.lenient(.bankIdentificationCode)
             self.branchName = c.lenient(.branchName)
@@ -347,14 +347,14 @@ extension CoreHR {
     }
 
     public struct NationalIdList: Codable, Sendable {
-        public var nationalIdTypeId: String
-        public var nationalIdNumber: String
+        public var nationalIdTypeId: String?
+        public var nationalIdNumber: String?
         public var issueDate: String?
         public var expirationDate: String?
-        public var countryRegionId: String
+        public var countryRegionId: String?
         public var issuedBy: String?
         public var customFields: [CustomField]?
-        public init(nationalIdTypeId: String, nationalIdNumber: String, issueDate: String? = nil, expirationDate: String? = nil, countryRegionId: String, issuedBy: String? = nil, customFields: [CustomField]? = nil) {
+        public init(nationalIdTypeId: String? = nil, nationalIdNumber: String? = nil, issueDate: String? = nil, expirationDate: String? = nil, countryRegionId: String? = nil, issuedBy: String? = nil, customFields: [CustomField]? = nil) {
             self.nationalIdTypeId = nationalIdTypeId
             self.nationalIdNumber = nationalIdNumber
             self.issueDate = issueDate
@@ -374,11 +374,11 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.nationalIdTypeId = try c.lenientRequired(.nationalIdTypeId)
-            self.nationalIdNumber = try c.lenientRequired(.nationalIdNumber)
+            self.nationalIdTypeId = c.lenient(.nationalIdTypeId)
+            self.nationalIdNumber = c.lenient(.nationalIdNumber)
             self.issueDate = c.lenient(.issueDate)
             self.expirationDate = c.lenient(.expirationDate)
-            self.countryRegionId = try c.lenientRequired(.countryRegionId)
+            self.countryRegionId = c.lenient(.countryRegionId)
             self.issuedBy = c.lenient(.issuedBy)
             self.customFields = c.lenient(.customFields)
         }
@@ -386,7 +386,7 @@ extension CoreHR {
 
     public struct DependentList: Codable, Sendable {
         public var name: Name?
-        public var relationship: ContractType
+        public var relationship: ContractType?
         public var gender: ContractType?
         public var dateOfBirth: String?
         public var nationalityId: String?
@@ -402,7 +402,7 @@ extension CoreHR {
         public var phone: PhoneList?
         public var address: AddressList?
         public var birthCertificateOfChild: [BirthCertificateOfChild]?
-        public init(name: Name? = nil, relationship: ContractType, gender: ContractType? = nil, dateOfBirth: String? = nil, nationalityId: String? = nil, nationalityIdV2: String? = nil, nationalIdList: [NationalIdList]? = nil, spousesWorkingStatus: ContractType? = nil, isThisPersonCoveredByHealthInsurance: Bool? = nil, isThisPersonAllowedForTaxDeduction: Bool? = nil, customFields: [CustomField]? = nil, dependentName: String? = nil, employer: String? = nil, job: String? = nil, phone: PhoneList? = nil, address: AddressList? = nil, birthCertificateOfChild: [BirthCertificateOfChild]? = nil) {
+        public init(name: Name? = nil, relationship: ContractType? = nil, gender: ContractType? = nil, dateOfBirth: String? = nil, nationalityId: String? = nil, nationalityIdV2: String? = nil, nationalIdList: [NationalIdList]? = nil, spousesWorkingStatus: ContractType? = nil, isThisPersonCoveredByHealthInsurance: Bool? = nil, isThisPersonAllowedForTaxDeduction: Bool? = nil, customFields: [CustomField]? = nil, dependentName: String? = nil, employer: String? = nil, job: String? = nil, phone: PhoneList? = nil, address: AddressList? = nil, birthCertificateOfChild: [BirthCertificateOfChild]? = nil) {
             self.name = name
             self.relationship = relationship
             self.gender = gender
@@ -443,7 +443,7 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.name = c.lenient(.name)
-            self.relationship = try c.lenientRequired(.relationship)
+            self.relationship = c.lenient(.relationship)
             self.gender = c.lenient(.gender)
             self.dateOfBirth = c.lenient(.dateOfBirth)
             self.nationalityId = c.lenient(.nationalityId)
@@ -465,8 +465,8 @@ extension CoreHR {
     public struct Name: Codable, Sendable {
         public var localPrimary: String?
         public var localFirstName: String?
-        public var countryRegionId: String
-        public var nameType: ContractType
+        public var countryRegionId: String?
+        public var nameType: ContractType?
         public var localFirstName2: String?
         public var localPrimary2: String?
         public var additionalNameType: ContractType?
@@ -487,7 +487,7 @@ extension CoreHR {
         public var displayNameLocalScript: String?
         public var displayNameWesternScript: String?
         public var customFields: [CustomField]?
-        public init(localPrimary: String? = nil, localFirstName: String? = nil, countryRegionId: String, nameType: ContractType, localFirstName2: String? = nil, localPrimary2: String? = nil, additionalNameType: ContractType? = nil, firstName: String? = nil, fullName: String? = nil, hereditary: String? = nil, customName: String? = nil, customLocalName: String? = nil, middleName: String? = nil, namePrimary: String? = nil, secondary: String? = nil, social: ContractType? = nil, tertiary: String? = nil, title: ContractType? = nil, localMiddleName: String? = nil, localSecondary: String? = nil, displayNameLocalAndWesternScript: String? = nil, displayNameLocalScript: String? = nil, displayNameWesternScript: String? = nil, customFields: [CustomField]? = nil) {
+        public init(localPrimary: String? = nil, localFirstName: String? = nil, countryRegionId: String? = nil, nameType: ContractType? = nil, localFirstName2: String? = nil, localPrimary2: String? = nil, additionalNameType: ContractType? = nil, firstName: String? = nil, fullName: String? = nil, hereditary: String? = nil, customName: String? = nil, customLocalName: String? = nil, middleName: String? = nil, namePrimary: String? = nil, secondary: String? = nil, social: ContractType? = nil, tertiary: String? = nil, title: ContractType? = nil, localMiddleName: String? = nil, localSecondary: String? = nil, displayNameLocalAndWesternScript: String? = nil, displayNameLocalScript: String? = nil, displayNameWesternScript: String? = nil, customFields: [CustomField]? = nil) {
             self.localPrimary = localPrimary
             self.localFirstName = localFirstName
             self.countryRegionId = countryRegionId
@@ -543,8 +543,8 @@ extension CoreHR {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.localPrimary = c.lenient(.localPrimary)
             self.localFirstName = c.lenient(.localFirstName)
-            self.countryRegionId = try c.lenientRequired(.countryRegionId)
-            self.nameType = try c.lenientRequired(.nameType)
+            self.countryRegionId = c.lenient(.countryRegionId)
+            self.nameType = c.lenient(.nameType)
             self.localFirstName2 = c.lenient(.localFirstName2)
             self.localPrimary2 = c.lenient(.localPrimary2)
             self.additionalNameType = c.lenient(.additionalNameType)
@@ -755,8 +755,8 @@ extension CoreHR {
     public struct PersonPatchBodyNameList: Codable, Sendable {
         public var localPrimary: String?
         public var localFirstName: String?
-        public var countryRegionId: String
-        public var nameType: ContractPatchBodyContractType
+        public var countryRegionId: String?
+        public var nameType: ContractPatchBodyContractType?
         public var localFirstName2: String?
         public var localPrimary2: String?
         public var additionalNameType: ContractPatchBodyContractType?
@@ -774,7 +774,7 @@ extension CoreHR {
         public var localMiddleName: String?
         public var localSecondary: String?
         public var customFields: [CustomField]?
-        public init(localPrimary: String? = nil, localFirstName: String? = nil, countryRegionId: String, nameType: ContractPatchBodyContractType, localFirstName2: String? = nil, localPrimary2: String? = nil, additionalNameType: ContractPatchBodyContractType? = nil, firstName: String? = nil, fullName: String? = nil, hereditary: String? = nil, customName: String? = nil, customLocalName: String? = nil, middleName: String? = nil, namePrimary: String? = nil, secondary: String? = nil, social: ContractPatchBodyContractType? = nil, tertiary: String? = nil, title: ContractPatchBodyContractType? = nil, localMiddleName: String? = nil, localSecondary: String? = nil, customFields: [CustomField]? = nil) {
+        public init(localPrimary: String? = nil, localFirstName: String? = nil, countryRegionId: String? = nil, nameType: ContractPatchBodyContractType? = nil, localFirstName2: String? = nil, localPrimary2: String? = nil, additionalNameType: ContractPatchBodyContractType? = nil, firstName: String? = nil, fullName: String? = nil, hereditary: String? = nil, customName: String? = nil, customLocalName: String? = nil, middleName: String? = nil, namePrimary: String? = nil, secondary: String? = nil, social: ContractPatchBodyContractType? = nil, tertiary: String? = nil, title: ContractPatchBodyContractType? = nil, localMiddleName: String? = nil, localSecondary: String? = nil, customFields: [CustomField]? = nil) {
             self.localPrimary = localPrimary
             self.localFirstName = localFirstName
             self.countryRegionId = countryRegionId
@@ -824,8 +824,8 @@ extension CoreHR {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.localPrimary = c.lenient(.localPrimary)
             self.localFirstName = c.lenient(.localFirstName)
-            self.countryRegionId = try c.lenientRequired(.countryRegionId)
-            self.nameType = try c.lenientRequired(.nameType)
+            self.countryRegionId = c.lenient(.countryRegionId)
+            self.nameType = c.lenient(.nameType)
             self.localFirstName2 = c.lenient(.localFirstName2)
             self.localPrimary2 = c.lenient(.localPrimary2)
             self.additionalNameType = c.lenient(.additionalNameType)
@@ -848,13 +848,13 @@ extension CoreHR {
 
     public struct PersonPatchBodyPhoneList: Codable, Sendable {
         public var internationalAreaCode: ContractPatchBodyContractType?
-        public var phoneNumber: String
+        public var phoneNumber: String?
         public var deviceType: ContractPatchBodyContractType?
         public var phoneUsage: ContractPatchBodyContractType?
         public var isPrimary: Bool?
         public var isPublic: Bool?
         public var customFields: [CustomField]?
-        public init(internationalAreaCode: ContractPatchBodyContractType? = nil, phoneNumber: String, deviceType: ContractPatchBodyContractType? = nil, phoneUsage: ContractPatchBodyContractType? = nil, isPrimary: Bool? = nil, isPublic: Bool? = nil, customFields: [CustomField]? = nil) {
+        public init(internationalAreaCode: ContractPatchBodyContractType? = nil, phoneNumber: String? = nil, deviceType: ContractPatchBodyContractType? = nil, phoneUsage: ContractPatchBodyContractType? = nil, isPrimary: Bool? = nil, isPublic: Bool? = nil, customFields: [CustomField]? = nil) {
             self.internationalAreaCode = internationalAreaCode
             self.phoneNumber = phoneNumber
             self.deviceType = deviceType
@@ -875,7 +875,7 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.internationalAreaCode = c.lenient(.internationalAreaCode)
-            self.phoneNumber = try c.lenientRequired(.phoneNumber)
+            self.phoneNumber = c.lenient(.phoneNumber)
             self.deviceType = c.lenient(.deviceType)
             self.phoneUsage = c.lenient(.phoneUsage)
             self.isPrimary = c.lenient(.isPrimary)
@@ -885,7 +885,7 @@ extension CoreHR {
     }
 
     public struct PersonPatchBodyAddressList: Codable, Sendable {
-        public var countryRegionId: String
+        public var countryRegionId: String?
         public var regionId: String?
         public var cityId: String?
         public var distinctId: String?
@@ -909,7 +909,7 @@ extension CoreHR {
         public var localAddressLine9: String?
         public var postalCode: String?
         public var customFields: [CustomField]?
-        public init(countryRegionId: String, regionId: String? = nil, cityId: String? = nil, distinctId: String? = nil, addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, addressLine4: String? = nil, addressLine5: String? = nil, addressLine6: String? = nil, addressLine7: String? = nil, addressLine8: String? = nil, addressLine9: String? = nil, localAddressLine1: String? = nil, localAddressLine2: String? = nil, localAddressLine3: String? = nil, localAddressLine4: String? = nil, localAddressLine5: String? = nil, localAddressLine6: String? = nil, localAddressLine7: String? = nil, localAddressLine8: String? = nil, localAddressLine9: String? = nil, postalCode: String? = nil, customFields: [CustomField]? = nil) {
+        public init(countryRegionId: String? = nil, regionId: String? = nil, cityId: String? = nil, distinctId: String? = nil, addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, addressLine4: String? = nil, addressLine5: String? = nil, addressLine6: String? = nil, addressLine7: String? = nil, addressLine8: String? = nil, addressLine9: String? = nil, localAddressLine1: String? = nil, localAddressLine2: String? = nil, localAddressLine3: String? = nil, localAddressLine4: String? = nil, localAddressLine5: String? = nil, localAddressLine6: String? = nil, localAddressLine7: String? = nil, localAddressLine8: String? = nil, localAddressLine9: String? = nil, postalCode: String? = nil, customFields: [CustomField]? = nil) {
             self.countryRegionId = countryRegionId
             self.regionId = regionId
             self.cityId = cityId
@@ -963,7 +963,7 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.countryRegionId = try c.lenientRequired(.countryRegionId)
+            self.countryRegionId = c.lenient(.countryRegionId)
             self.regionId = c.lenient(.regionId)
             self.cityId = c.lenient(.cityId)
             self.distinctId = c.lenient(.distinctId)
@@ -991,9 +991,9 @@ extension CoreHR {
     }
 
     public struct EmailList: Codable, Sendable {
-        public var email: String
+        public var email: String?
         public var customFields: [CustomField]?
-        public init(email: String, customFields: [CustomField]? = nil) {
+        public init(email: String? = nil, customFields: [CustomField]? = nil) {
             self.email = email
             self.customFields = customFields
         }
@@ -1003,13 +1003,13 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.email = try c.lenientRequired(.email)
+            self.email = c.lenient(.email)
             self.customFields = c.lenient(.customFields)
         }
     }
 
     public struct PersonPatchBodyEducationList: Codable, Sendable {
-        public var school: [Display]
+        public var school: [Display]?
         public var levelOfEducation: ContractPatchBodyContractType?
         public var startDate: String?
         public var endDate: String?
@@ -1020,7 +1020,7 @@ extension CoreHR {
         public var countryRegionId: String?
         public var expectedEndDate: String?
         public var customFields: [CustomField]?
-        public init(school: [Display], levelOfEducation: ContractPatchBodyContractType? = nil, startDate: String? = nil, endDate: String? = nil, fieldOfStudy: [Display]? = nil, degree: ContractPatchBodyContractType? = nil, schoolName: ContractPatchBodyContractType? = nil, fieldOfStudyName: ContractPatchBodyContractType? = nil, countryRegionId: String? = nil, expectedEndDate: String? = nil, customFields: [CustomField]? = nil) {
+        public init(school: [Display]? = nil, levelOfEducation: ContractPatchBodyContractType? = nil, startDate: String? = nil, endDate: String? = nil, fieldOfStudy: [Display]? = nil, degree: ContractPatchBodyContractType? = nil, schoolName: ContractPatchBodyContractType? = nil, fieldOfStudyName: ContractPatchBodyContractType? = nil, countryRegionId: String? = nil, expectedEndDate: String? = nil, customFields: [CustomField]? = nil) {
             self.school = school
             self.levelOfEducation = levelOfEducation
             self.startDate = startDate
@@ -1048,7 +1048,7 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.school = try c.lenientRequired(.school)
+            self.school = c.lenient(.school)
             self.levelOfEducation = c.lenient(.levelOfEducation)
             self.startDate = c.lenient(.startDate)
             self.endDate = c.lenient(.endDate)
@@ -1064,8 +1064,8 @@ extension CoreHR {
 
     public struct PersonPatchBodyBankAccountList: Codable, Sendable {
         public var bankName: String?
-        public var bankAccountNumber: String
-        public var accountHolder: String
+        public var bankAccountNumber: String?
+        public var accountHolder: String?
         public var bank: ContractPatchBodyContractType?
         public var bankIdentificationCode: String?
         public var branchName: String?
@@ -1076,7 +1076,7 @@ extension CoreHR {
         public var bankAccountUsage: [ContractPatchBodyContractType]?
         public var bankAccountType: ContractPatchBodyContractType?
         public var currencyId: String?
-        public init(bankName: String? = nil, bankAccountNumber: String, accountHolder: String, bank: ContractPatchBodyContractType? = nil, bankIdentificationCode: String? = nil, branchName: String? = nil, bankId: String? = nil, branchId: String? = nil, customFields: [CustomField]? = nil, countryRegionId: String? = nil, bankAccountUsage: [ContractPatchBodyContractType]? = nil, bankAccountType: ContractPatchBodyContractType? = nil, currencyId: String? = nil) {
+        public init(bankName: String? = nil, bankAccountNumber: String? = nil, accountHolder: String? = nil, bank: ContractPatchBodyContractType? = nil, bankIdentificationCode: String? = nil, branchName: String? = nil, bankId: String? = nil, branchId: String? = nil, customFields: [CustomField]? = nil, countryRegionId: String? = nil, bankAccountUsage: [ContractPatchBodyContractType]? = nil, bankAccountType: ContractPatchBodyContractType? = nil, currencyId: String? = nil) {
             self.bankName = bankName
             self.bankAccountNumber = bankAccountNumber
             self.accountHolder = accountHolder
@@ -1109,8 +1109,8 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.bankName = c.lenient(.bankName)
-            self.bankAccountNumber = try c.lenientRequired(.bankAccountNumber)
-            self.accountHolder = try c.lenientRequired(.accountHolder)
+            self.bankAccountNumber = c.lenient(.bankAccountNumber)
+            self.accountHolder = c.lenient(.accountHolder)
             self.bank = c.lenient(.bank)
             self.bankIdentificationCode = c.lenient(.bankIdentificationCode)
             self.branchName = c.lenient(.branchName)
@@ -1126,7 +1126,7 @@ extension CoreHR {
 
     public struct PersonPatchBodyDependentList: Codable, Sendable {
         public var name: PersonPatchBodyNameList?
-        public var relationship: ContractPatchBodyContractType
+        public var relationship: ContractPatchBodyContractType?
         public var gender: ContractPatchBodyContractType?
         public var dateOfBirth: String?
         public var nationalityId: String?
@@ -1141,7 +1141,7 @@ extension CoreHR {
         public var phone: PersonPatchBodyDependentListPhone?
         public var address: Address?
         public var birthCertificateOfChild: [BirthCertificateOfChild]?
-        public init(name: PersonPatchBodyNameList? = nil, relationship: ContractPatchBodyContractType, gender: ContractPatchBodyContractType? = nil, dateOfBirth: String? = nil, nationalityId: String? = nil, nationalIdList: [NationalIdList]? = nil, spousesWorkingStatus: ContractPatchBodyContractType? = nil, isThisPersonCoveredByHealthInsurance: Bool? = nil, isThisPersonAllowedForTaxDeduction: Bool? = nil, customFields: [CustomField]? = nil, dependentName: String? = nil, employer: String? = nil, job: String? = nil, phone: PersonPatchBodyDependentListPhone? = nil, address: Address? = nil, birthCertificateOfChild: [BirthCertificateOfChild]? = nil) {
+        public init(name: PersonPatchBodyNameList? = nil, relationship: ContractPatchBodyContractType? = nil, gender: ContractPatchBodyContractType? = nil, dateOfBirth: String? = nil, nationalityId: String? = nil, nationalIdList: [NationalIdList]? = nil, spousesWorkingStatus: ContractPatchBodyContractType? = nil, isThisPersonCoveredByHealthInsurance: Bool? = nil, isThisPersonAllowedForTaxDeduction: Bool? = nil, customFields: [CustomField]? = nil, dependentName: String? = nil, employer: String? = nil, job: String? = nil, phone: PersonPatchBodyDependentListPhone? = nil, address: Address? = nil, birthCertificateOfChild: [BirthCertificateOfChild]? = nil) {
             self.name = name
             self.relationship = relationship
             self.gender = gender
@@ -1180,7 +1180,7 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.name = c.lenient(.name)
-            self.relationship = try c.lenientRequired(.relationship)
+            self.relationship = c.lenient(.relationship)
             self.gender = c.lenient(.gender)
             self.dateOfBirth = c.lenient(.dateOfBirth)
             self.nationalityId = c.lenient(.nationalityId)
@@ -1200,9 +1200,9 @@ extension CoreHR {
 
     public struct PersonPatchBodyDependentListPhone: Codable, Sendable {
         public var internationalAreaCode: ContractPatchBodyContractType?
-        public var phoneNumber: String
+        public var phoneNumber: String?
         public var customFields: [CustomField]?
-        public init(internationalAreaCode: ContractPatchBodyContractType? = nil, phoneNumber: String, customFields: [CustomField]? = nil) {
+        public init(internationalAreaCode: ContractPatchBodyContractType? = nil, phoneNumber: String? = nil, customFields: [CustomField]? = nil) {
             self.internationalAreaCode = internationalAreaCode
             self.phoneNumber = phoneNumber
             self.customFields = customFields
@@ -1215,14 +1215,14 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.internationalAreaCode = c.lenient(.internationalAreaCode)
-            self.phoneNumber = try c.lenientRequired(.phoneNumber)
+            self.phoneNumber = c.lenient(.phoneNumber)
             self.customFields = c.lenient(.customFields)
         }
     }
 
     public struct Address: Codable, Sendable {
         public var id: String?
-        public var countryRegionId: String
+        public var countryRegionId: String?
         public var regionId: String?
         public var cityId: String?
         public var distinctId: String?
@@ -1246,7 +1246,7 @@ extension CoreHR {
         public var localAddressLine9: String?
         public var postalCode: String?
         public var customFields: [CustomField]?
-        public init(id: String? = nil, countryRegionId: String, regionId: String? = nil, cityId: String? = nil, distinctId: String? = nil, addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, addressLine4: String? = nil, addressLine5: String? = nil, addressLine6: String? = nil, addressLine7: String? = nil, addressLine8: String? = nil, addressLine9: String? = nil, localAddressLine1: String? = nil, localAddressLine2: String? = nil, localAddressLine3: String? = nil, localAddressLine4: String? = nil, localAddressLine5: String? = nil, localAddressLine6: String? = nil, localAddressLine7: String? = nil, localAddressLine8: String? = nil, localAddressLine9: String? = nil, postalCode: String? = nil, customFields: [CustomField]? = nil) {
+        public init(id: String? = nil, countryRegionId: String? = nil, regionId: String? = nil, cityId: String? = nil, distinctId: String? = nil, addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, addressLine4: String? = nil, addressLine5: String? = nil, addressLine6: String? = nil, addressLine7: String? = nil, addressLine8: String? = nil, addressLine9: String? = nil, localAddressLine1: String? = nil, localAddressLine2: String? = nil, localAddressLine3: String? = nil, localAddressLine4: String? = nil, localAddressLine5: String? = nil, localAddressLine6: String? = nil, localAddressLine7: String? = nil, localAddressLine8: String? = nil, localAddressLine9: String? = nil, postalCode: String? = nil, customFields: [CustomField]? = nil) {
             self.id = id
             self.countryRegionId = countryRegionId
             self.regionId = regionId
@@ -1303,7 +1303,7 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.countryRegionId = try c.lenientRequired(.countryRegionId)
+            self.countryRegionId = c.lenient(.countryRegionId)
             self.regionId = c.lenient(.regionId)
             self.cityId = c.lenient(.cityId)
             self.distinctId = c.lenient(.distinctId)
@@ -1397,7 +1397,7 @@ extension CoreHR {
         public var legalName: String?
         public var preferredName: String?
         public var id: String?
-        public var nameList: [NameList]
+        public var nameList: [NameList]?
         public var gender: ContractType?
         public var dateOfBirth: String?
         public var nationalityId: String?
@@ -1421,7 +1421,7 @@ extension CoreHR {
         public var highestLevelOfEducation: EducationList?
         public var highestDegreeOfEducation: EducationList?
         public var personalProfile: [PersonalProfile]?
-        public init(phoneNumber: String? = nil, legalName: String? = nil, preferredName: String? = nil, id: String? = nil, nameList: [NameList], gender: ContractType? = nil, dateOfBirth: String? = nil, nationalityId: String? = nil, race: ContractType? = nil, maritalStatus: ContractType? = nil, phoneList: [PhoneList]? = nil, addressList: [PersonPatchResponsePersonAddressList]? = nil, emailList: [EmailList]? = nil, workExperienceList: [WorkExperienceList]? = nil, educationList: [EducationList]? = nil, bankAccountList: [PersonPatchResponsePersonBankAccountList]? = nil, nationalIdList: [NationalIdList]? = nil, dependentList: [PersonPatchResponsePersonDependentList]? = nil, emergencyContactList: [PersonPatchResponsePersonEmergencyContactList]? = nil, dateEnteredWorkforce: String? = nil, profileImageId: String? = nil, customFields: [CustomField]? = nil, emailAddress: String? = nil, residentTaxIdList: [String]? = nil, age: Int? = nil, highestLevelOfEducation: EducationList? = nil, highestDegreeOfEducation: EducationList? = nil, personalProfile: [PersonalProfile]? = nil) {
+        public init(phoneNumber: String? = nil, legalName: String? = nil, preferredName: String? = nil, id: String? = nil, nameList: [NameList]? = nil, gender: ContractType? = nil, dateOfBirth: String? = nil, nationalityId: String? = nil, race: ContractType? = nil, maritalStatus: ContractType? = nil, phoneList: [PhoneList]? = nil, addressList: [PersonPatchResponsePersonAddressList]? = nil, emailList: [EmailList]? = nil, workExperienceList: [WorkExperienceList]? = nil, educationList: [EducationList]? = nil, bankAccountList: [PersonPatchResponsePersonBankAccountList]? = nil, nationalIdList: [NationalIdList]? = nil, dependentList: [PersonPatchResponsePersonDependentList]? = nil, emergencyContactList: [PersonPatchResponsePersonEmergencyContactList]? = nil, dateEnteredWorkforce: String? = nil, profileImageId: String? = nil, customFields: [CustomField]? = nil, emailAddress: String? = nil, residentTaxIdList: [String]? = nil, age: Int? = nil, highestLevelOfEducation: EducationList? = nil, highestDegreeOfEducation: EducationList? = nil, personalProfile: [PersonalProfile]? = nil) {
             self.phoneNumber = phoneNumber
             self.legalName = legalName
             self.preferredName = preferredName
@@ -1487,7 +1487,7 @@ extension CoreHR {
             self.legalName = c.lenient(.legalName)
             self.preferredName = c.lenient(.preferredName)
             self.id = c.lenient(.id)
-            self.nameList = try c.lenientRequired(.nameList)
+            self.nameList = c.lenient(.nameList)
             self.gender = c.lenient(.gender)
             self.dateOfBirth = c.lenient(.dateOfBirth)
             self.nationalityId = c.lenient(.nationalityId)
@@ -1518,7 +1518,7 @@ extension CoreHR {
         public var fullAddressLocalScript: String?
         public var fullAddressWesternScript: String?
         public var id: String?
-        public var countryRegionId: String
+        public var countryRegionId: String?
         public var regionId: String?
         public var cityId: String?
         public var distinctId: String?
@@ -1542,7 +1542,7 @@ extension CoreHR {
         public var localAddressLine9: String?
         public var postalCode: String?
         public var customFields: [CustomField]?
-        public init(fullAddressLocalScript: String? = nil, fullAddressWesternScript: String? = nil, id: String? = nil, countryRegionId: String, regionId: String? = nil, cityId: String? = nil, distinctId: String? = nil, addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, addressLine4: String? = nil, addressLine5: String? = nil, addressLine6: String? = nil, addressLine7: String? = nil, addressLine8: String? = nil, addressLine9: String? = nil, localAddressLine1: String? = nil, localAddressLine2: String? = nil, localAddressLine3: String? = nil, localAddressLine4: String? = nil, localAddressLine5: String? = nil, localAddressLine6: String? = nil, localAddressLine7: String? = nil, localAddressLine8: String? = nil, localAddressLine9: String? = nil, postalCode: String? = nil, customFields: [CustomField]? = nil) {
+        public init(fullAddressLocalScript: String? = nil, fullAddressWesternScript: String? = nil, id: String? = nil, countryRegionId: String? = nil, regionId: String? = nil, cityId: String? = nil, distinctId: String? = nil, addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, addressLine4: String? = nil, addressLine5: String? = nil, addressLine6: String? = nil, addressLine7: String? = nil, addressLine8: String? = nil, addressLine9: String? = nil, localAddressLine1: String? = nil, localAddressLine2: String? = nil, localAddressLine3: String? = nil, localAddressLine4: String? = nil, localAddressLine5: String? = nil, localAddressLine6: String? = nil, localAddressLine7: String? = nil, localAddressLine8: String? = nil, localAddressLine9: String? = nil, postalCode: String? = nil, customFields: [CustomField]? = nil) {
             self.fullAddressLocalScript = fullAddressLocalScript
             self.fullAddressWesternScript = fullAddressWesternScript
             self.id = id
@@ -1605,7 +1605,7 @@ extension CoreHR {
             self.fullAddressLocalScript = c.lenient(.fullAddressLocalScript)
             self.fullAddressWesternScript = c.lenient(.fullAddressWesternScript)
             self.id = c.lenient(.id)
-            self.countryRegionId = try c.lenientRequired(.countryRegionId)
+            self.countryRegionId = c.lenient(.countryRegionId)
             self.regionId = c.lenient(.regionId)
             self.cityId = c.lenient(.cityId)
             self.distinctId = c.lenient(.distinctId)
@@ -1634,8 +1634,8 @@ extension CoreHR {
 
     public struct PersonPatchResponsePersonBankAccountList: Codable, Sendable {
         public var bankName: String?
-        public var bankAccountNumber: String
-        public var accountHolder: String
+        public var bankAccountNumber: String?
+        public var accountHolder: String?
         public var bank: ContractType?
         public var bankIdentificationCode: String?
         public var branchName: String?
@@ -1646,7 +1646,7 @@ extension CoreHR {
         public var bankAccountUsage: [ContractType]?
         public var bankAccountType: ContractType?
         public var currencyId: String?
-        public init(bankName: String? = nil, bankAccountNumber: String, accountHolder: String, bank: ContractType? = nil, bankIdentificationCode: String? = nil, branchName: String? = nil, bankId: String? = nil, branchId: String? = nil, customFields: [CustomField]? = nil, countryRegionId: String? = nil, bankAccountUsage: [ContractType]? = nil, bankAccountType: ContractType? = nil, currencyId: String? = nil) {
+        public init(bankName: String? = nil, bankAccountNumber: String? = nil, accountHolder: String? = nil, bank: ContractType? = nil, bankIdentificationCode: String? = nil, branchName: String? = nil, bankId: String? = nil, branchId: String? = nil, customFields: [CustomField]? = nil, countryRegionId: String? = nil, bankAccountUsage: [ContractType]? = nil, bankAccountType: ContractType? = nil, currencyId: String? = nil) {
             self.bankName = bankName
             self.bankAccountNumber = bankAccountNumber
             self.accountHolder = accountHolder
@@ -1679,8 +1679,8 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.bankName = c.lenient(.bankName)
-            self.bankAccountNumber = try c.lenientRequired(.bankAccountNumber)
-            self.accountHolder = try c.lenientRequired(.accountHolder)
+            self.bankAccountNumber = c.lenient(.bankAccountNumber)
+            self.accountHolder = c.lenient(.accountHolder)
             self.bank = c.lenient(.bank)
             self.bankIdentificationCode = c.lenient(.bankIdentificationCode)
             self.branchName = c.lenient(.branchName)
@@ -1696,7 +1696,7 @@ extension CoreHR {
 
     public struct PersonPatchResponsePersonDependentList: Codable, Sendable {
         public var name: Name?
-        public var relationship: ContractType
+        public var relationship: ContractType?
         public var gender: ContractType?
         public var dateOfBirth: String?
         public var nationalityId: String?
@@ -1711,7 +1711,7 @@ extension CoreHR {
         public var phone: PersonPatchResponsePersonDependentListPhone?
         public var address: PersonPatchResponsePersonAddressList?
         public var birthCertificateOfChild: [BirthCertificateOfChild]?
-        public init(name: Name? = nil, relationship: ContractType, gender: ContractType? = nil, dateOfBirth: String? = nil, nationalityId: String? = nil, nationalIdList: [NationalIdList]? = nil, spousesWorkingStatus: ContractType? = nil, isThisPersonCoveredByHealthInsurance: Bool? = nil, isThisPersonAllowedForTaxDeduction: Bool? = nil, customFields: [CustomField]? = nil, dependentName: String? = nil, employer: String? = nil, job: String? = nil, phone: PersonPatchResponsePersonDependentListPhone? = nil, address: PersonPatchResponsePersonAddressList? = nil, birthCertificateOfChild: [BirthCertificateOfChild]? = nil) {
+        public init(name: Name? = nil, relationship: ContractType? = nil, gender: ContractType? = nil, dateOfBirth: String? = nil, nationalityId: String? = nil, nationalIdList: [NationalIdList]? = nil, spousesWorkingStatus: ContractType? = nil, isThisPersonCoveredByHealthInsurance: Bool? = nil, isThisPersonAllowedForTaxDeduction: Bool? = nil, customFields: [CustomField]? = nil, dependentName: String? = nil, employer: String? = nil, job: String? = nil, phone: PersonPatchResponsePersonDependentListPhone? = nil, address: PersonPatchResponsePersonAddressList? = nil, birthCertificateOfChild: [BirthCertificateOfChild]? = nil) {
             self.name = name
             self.relationship = relationship
             self.gender = gender
@@ -1750,7 +1750,7 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.name = c.lenient(.name)
-            self.relationship = try c.lenientRequired(.relationship)
+            self.relationship = c.lenient(.relationship)
             self.gender = c.lenient(.gender)
             self.dateOfBirth = c.lenient(.dateOfBirth)
             self.nationalityId = c.lenient(.nationalityId)
@@ -1770,10 +1770,10 @@ extension CoreHR {
 
     public struct PersonPatchResponsePersonDependentListPhone: Codable, Sendable {
         public var internationalAreaCode: ContractType?
-        public var phoneNumber: String
+        public var phoneNumber: String?
         public var formattedPhoneNumber: String?
         public var customFields: [CustomField]?
-        public init(internationalAreaCode: ContractType? = nil, phoneNumber: String, formattedPhoneNumber: String? = nil, customFields: [CustomField]? = nil) {
+        public init(internationalAreaCode: ContractType? = nil, phoneNumber: String? = nil, formattedPhoneNumber: String? = nil, customFields: [CustomField]? = nil) {
             self.internationalAreaCode = internationalAreaCode
             self.phoneNumber = phoneNumber
             self.formattedPhoneNumber = formattedPhoneNumber
@@ -1788,7 +1788,7 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.internationalAreaCode = c.lenient(.internationalAreaCode)
-            self.phoneNumber = try c.lenientRequired(.phoneNumber)
+            self.phoneNumber = c.lenient(.phoneNumber)
             self.formattedPhoneNumber = c.lenient(.formattedPhoneNumber)
             self.customFields = c.lenient(.customFields)
         }
@@ -1937,7 +1937,7 @@ extension CoreHR {
         public var legalName: String?
         public var preferredName: String?
         public var id: String?
-        public var nameList: [NameList]
+        public var nameList: [NameList]?
         public var gender: ContractType?
         public var dateOfBirth: String?
         public var nationalityId: String?
@@ -1961,7 +1961,7 @@ extension CoreHR {
         public var highestLevelOfEducation: EducationList?
         public var highestDegreeOfEducation: EducationList?
         public var personalProfile: [PersonalProfile]?
-        public init(phoneNumber: String? = nil, legalName: String? = nil, preferredName: String? = nil, id: String? = nil, nameList: [NameList], gender: ContractType? = nil, dateOfBirth: String? = nil, nationalityId: String? = nil, race: ContractType? = nil, maritalStatus: ContractType? = nil, phoneList: [PhoneList]? = nil, addressList: [PersonPatchResponsePersonAddressList]? = nil, emailList: [EmailList]? = nil, workExperienceList: [WorkExperienceList]? = nil, educationList: [EducationList]? = nil, bankAccountList: [PersonPatchResponsePersonBankAccountList]? = nil, nationalIdList: [NationalIdList]? = nil, dependentList: [PersonPatchResponsePersonDependentList]? = nil, emergencyContactList: [PersonCreateResponsePersonEmergencyContactList]? = nil, dateEnteredWorkforce: String? = nil, profileImageId: String? = nil, customFields: [CustomField]? = nil, emailAddress: String? = nil, residentTaxIdList: [String]? = nil, age: Int? = nil, highestLevelOfEducation: EducationList? = nil, highestDegreeOfEducation: EducationList? = nil, personalProfile: [PersonalProfile]? = nil) {
+        public init(phoneNumber: String? = nil, legalName: String? = nil, preferredName: String? = nil, id: String? = nil, nameList: [NameList]? = nil, gender: ContractType? = nil, dateOfBirth: String? = nil, nationalityId: String? = nil, race: ContractType? = nil, maritalStatus: ContractType? = nil, phoneList: [PhoneList]? = nil, addressList: [PersonPatchResponsePersonAddressList]? = nil, emailList: [EmailList]? = nil, workExperienceList: [WorkExperienceList]? = nil, educationList: [EducationList]? = nil, bankAccountList: [PersonPatchResponsePersonBankAccountList]? = nil, nationalIdList: [NationalIdList]? = nil, dependentList: [PersonPatchResponsePersonDependentList]? = nil, emergencyContactList: [PersonCreateResponsePersonEmergencyContactList]? = nil, dateEnteredWorkforce: String? = nil, profileImageId: String? = nil, customFields: [CustomField]? = nil, emailAddress: String? = nil, residentTaxIdList: [String]? = nil, age: Int? = nil, highestLevelOfEducation: EducationList? = nil, highestDegreeOfEducation: EducationList? = nil, personalProfile: [PersonalProfile]? = nil) {
             self.phoneNumber = phoneNumber
             self.legalName = legalName
             self.preferredName = preferredName
@@ -2027,7 +2027,7 @@ extension CoreHR {
             self.legalName = c.lenient(.legalName)
             self.preferredName = c.lenient(.preferredName)
             self.id = c.lenient(.id)
-            self.nameList = try c.lenientRequired(.nameList)
+            self.nameList = c.lenient(.nameList)
             self.gender = c.lenient(.gender)
             self.dateOfBirth = c.lenient(.dateOfBirth)
             self.nationalityId = c.lenient(.nationalityId)
@@ -2086,9 +2086,9 @@ extension CoreHR {
 
     public struct PhoneIst: Codable, Sendable {
         public var internationalAreaCode: ContractType?
-        public var phoneNumber: String
+        public var phoneNumber: String?
         public var customFields: [CustomField]?
-        public init(internationalAreaCode: ContractType? = nil, phoneNumber: String, customFields: [CustomField]? = nil) {
+        public init(internationalAreaCode: ContractType? = nil, phoneNumber: String? = nil, customFields: [CustomField]? = nil) {
             self.internationalAreaCode = internationalAreaCode
             self.phoneNumber = phoneNumber
             self.customFields = customFields
@@ -2101,7 +2101,7 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.internationalAreaCode = c.lenient(.internationalAreaCode)
-            self.phoneNumber = try c.lenientRequired(.phoneNumber)
+            self.phoneNumber = c.lenient(.phoneNumber)
             self.customFields = c.lenient(.customFields)
         }
     }
@@ -2197,12 +2197,12 @@ extension CoreHR {
     }
 
     public struct EmploymentCreateBodyWorkEmailList: Codable, Sendable {
-        public var email: String
+        public var email: String?
         public var isPrimary: Bool?
         public var isPublic: Bool?
         public var emailUsage: ContractPatchBodyContractType?
         public var customFields: [CustomField]?
-        public init(email: String, isPrimary: Bool? = nil, isPublic: Bool? = nil, emailUsage: ContractPatchBodyContractType? = nil, customFields: [CustomField]? = nil) {
+        public init(email: String? = nil, isPrimary: Bool? = nil, isPublic: Bool? = nil, emailUsage: ContractPatchBodyContractType? = nil, customFields: [CustomField]? = nil) {
             self.email = email
             self.isPrimary = isPrimary
             self.isPublic = isPublic
@@ -2218,7 +2218,7 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.email = try c.lenientRequired(.email)
+            self.email = c.lenient(.email)
             self.isPrimary = c.lenient(.isPrimary)
             self.isPublic = c.lenient(.isPublic)
             self.emailUsage = c.lenient(.emailUsage)
@@ -2254,14 +2254,14 @@ extension CoreHR {
         public var id: String?
         public var seniorityDate: String?
         public var employeeNumber: String?
-        public var effectiveTime: String
+        public var effectiveTime: String?
         public var expirationTime: String?
-        public var employmentType: ContractType
-        public var personId: String
+        public var employmentType: ContractType?
+        public var personId: String?
         public var probationPeriod: Int?
         public var onProbation: String?
         public var probationEndDate: String?
-        public var primaryEmployment: Bool
+        public var primaryEmployment: Bool?
         public var employmentStatus: ContractType?
         public var customFields: [CustomField]?
         public var workEmailList: [WorkEmailList]?
@@ -2271,7 +2271,7 @@ extension CoreHR {
         public var atsApplicationId: String?
         public var rehire: ContractType?
         public var rehireEmploymentId: String?
-        public init(prehireId: String? = nil, employeeTypeId: String? = nil, tenure: String? = nil, departmentId: String? = nil, jobLevelId: String? = nil, workLocationId: String? = nil, jobFamilyId: String? = nil, jobId: String? = nil, companyId: String? = nil, workingHoursTypeId: String? = nil, id: String? = nil, seniorityDate: String? = nil, employeeNumber: String? = nil, effectiveTime: String, expirationTime: String? = nil, employmentType: ContractType, personId: String, probationPeriod: Int? = nil, onProbation: String? = nil, probationEndDate: String? = nil, primaryEmployment: Bool, employmentStatus: ContractType? = nil, customFields: [CustomField]? = nil, workEmailList: [WorkEmailList]? = nil, emailAddress: String? = nil, reasonForOffboarding: ContractType? = nil, costCenterList: [CostCenterList]? = nil, atsApplicationId: String? = nil, rehire: ContractType? = nil, rehireEmploymentId: String? = nil) {
+        public init(prehireId: String? = nil, employeeTypeId: String? = nil, tenure: String? = nil, departmentId: String? = nil, jobLevelId: String? = nil, workLocationId: String? = nil, jobFamilyId: String? = nil, jobId: String? = nil, companyId: String? = nil, workingHoursTypeId: String? = nil, id: String? = nil, seniorityDate: String? = nil, employeeNumber: String? = nil, effectiveTime: String? = nil, expirationTime: String? = nil, employmentType: ContractType? = nil, personId: String? = nil, probationPeriod: Int? = nil, onProbation: String? = nil, probationEndDate: String? = nil, primaryEmployment: Bool? = nil, employmentStatus: ContractType? = nil, customFields: [CustomField]? = nil, workEmailList: [WorkEmailList]? = nil, emailAddress: String? = nil, reasonForOffboarding: ContractType? = nil, costCenterList: [CostCenterList]? = nil, atsApplicationId: String? = nil, rehire: ContractType? = nil, rehireEmploymentId: String? = nil) {
             self.prehireId = prehireId
             self.employeeTypeId = employeeTypeId
             self.tenure = tenure
@@ -2350,14 +2350,14 @@ extension CoreHR {
             self.id = c.lenient(.id)
             self.seniorityDate = c.lenient(.seniorityDate)
             self.employeeNumber = c.lenient(.employeeNumber)
-            self.effectiveTime = try c.lenientRequired(.effectiveTime)
+            self.effectiveTime = c.lenient(.effectiveTime)
             self.expirationTime = c.lenient(.expirationTime)
-            self.employmentType = try c.lenientRequired(.employmentType)
-            self.personId = try c.lenientRequired(.personId)
+            self.employmentType = c.lenient(.employmentType)
+            self.personId = c.lenient(.personId)
             self.probationPeriod = c.lenient(.probationPeriod)
             self.onProbation = c.lenient(.onProbation)
             self.probationEndDate = c.lenient(.probationEndDate)
-            self.primaryEmployment = try c.lenientRequired(.primaryEmployment)
+            self.primaryEmployment = c.lenient(.primaryEmployment)
             self.employmentStatus = c.lenient(.employmentStatus)
             self.customFields = c.lenient(.customFields)
             self.workEmailList = c.lenient(.workEmailList)
@@ -2501,14 +2501,14 @@ extension CoreHR {
         public var id: String?
         public var seniorityDate: String?
         public var employeeNumber: String?
-        public var effectiveTime: String
+        public var effectiveTime: String?
         public var expirationTime: String?
-        public var employmentType: ContractType
-        public var personId: String
+        public var employmentType: ContractType?
+        public var personId: String?
         public var probationPeriod: Int?
         public var onProbation: String?
         public var probationEndDate: String?
-        public var primaryEmployment: Bool
+        public var primaryEmployment: Bool?
         public var conditionWorker: Bool?
         public var employmentStatus: ContractType?
         public var customFields: [CustomField]?
@@ -2520,7 +2520,7 @@ extension CoreHR {
         public var serviceCompany: String?
         public var compensationType: ContractType?
         public var workShift: ContractType?
-        public init(prehireId: String? = nil, employeeTypeId: String? = nil, tenure: String? = nil, departmentId: String? = nil, jobLevelId: String? = nil, workLocationId: String? = nil, jobFamilyId: String? = nil, jobId: String? = nil, companyId: String? = nil, workingHoursTypeId: String? = nil, id: String? = nil, seniorityDate: String? = nil, employeeNumber: String? = nil, effectiveTime: String, expirationTime: String? = nil, employmentType: ContractType, personId: String, probationPeriod: Int? = nil, onProbation: String? = nil, probationEndDate: String? = nil, primaryEmployment: Bool, conditionWorker: Bool? = nil, employmentStatus: ContractType? = nil, customFields: [CustomField]? = nil, workEmailList: [WorkEmailList]? = nil, emailAddress: String? = nil, reasonForOffboarding: ContractType? = nil, costCenterList: [CostCenterList]? = nil, atsApplicationId: String? = nil, serviceCompany: String? = nil, compensationType: ContractType? = nil, workShift: ContractType? = nil) {
+        public init(prehireId: String? = nil, employeeTypeId: String? = nil, tenure: String? = nil, departmentId: String? = nil, jobLevelId: String? = nil, workLocationId: String? = nil, jobFamilyId: String? = nil, jobId: String? = nil, companyId: String? = nil, workingHoursTypeId: String? = nil, id: String? = nil, seniorityDate: String? = nil, employeeNumber: String? = nil, effectiveTime: String? = nil, expirationTime: String? = nil, employmentType: ContractType? = nil, personId: String? = nil, probationPeriod: Int? = nil, onProbation: String? = nil, probationEndDate: String? = nil, primaryEmployment: Bool? = nil, conditionWorker: Bool? = nil, employmentStatus: ContractType? = nil, customFields: [CustomField]? = nil, workEmailList: [WorkEmailList]? = nil, emailAddress: String? = nil, reasonForOffboarding: ContractType? = nil, costCenterList: [CostCenterList]? = nil, atsApplicationId: String? = nil, serviceCompany: String? = nil, compensationType: ContractType? = nil, workShift: ContractType? = nil) {
             self.prehireId = prehireId
             self.employeeTypeId = employeeTypeId
             self.tenure = tenure
@@ -2603,14 +2603,14 @@ extension CoreHR {
             self.id = c.lenient(.id)
             self.seniorityDate = c.lenient(.seniorityDate)
             self.employeeNumber = c.lenient(.employeeNumber)
-            self.effectiveTime = try c.lenientRequired(.effectiveTime)
+            self.effectiveTime = c.lenient(.effectiveTime)
             self.expirationTime = c.lenient(.expirationTime)
-            self.employmentType = try c.lenientRequired(.employmentType)
-            self.personId = try c.lenientRequired(.personId)
+            self.employmentType = c.lenient(.employmentType)
+            self.personId = c.lenient(.personId)
             self.probationPeriod = c.lenient(.probationPeriod)
             self.onProbation = c.lenient(.onProbation)
             self.probationEndDate = c.lenient(.probationEndDate)
-            self.primaryEmployment = try c.lenientRequired(.primaryEmployment)
+            self.primaryEmployment = c.lenient(.primaryEmployment)
             self.conditionWorker = c.lenient(.conditionWorker)
             self.employmentStatus = c.lenient(.employmentStatus)
             self.customFields = c.lenient(.customFields)
@@ -2649,16 +2649,16 @@ extension CoreHR {
 
     public struct JobLevel: Codable, Sendable {
         public var id: String?
-        public var levelOrder: Int
+        public var levelOrder: Int?
         public var code: String?
-        public var name: [Display]
+        public var name: [Display]?
         public var description: [Display]?
-        public var active: Bool
+        public var active: Bool?
         public var customFields: [CustomField]?
         public var jobGrade: [String]?
         public var pathwayIds: [String]?
         public var viewOrder: Int?
-        public init(id: String? = nil, levelOrder: Int, code: String? = nil, name: [Display], description: [Display]? = nil, active: Bool, customFields: [CustomField]? = nil, jobGrade: [String]? = nil, pathwayIds: [String]? = nil, viewOrder: Int? = nil) {
+        public init(id: String? = nil, levelOrder: Int? = nil, code: String? = nil, name: [Display]? = nil, description: [Display]? = nil, active: Bool? = nil, customFields: [CustomField]? = nil, jobGrade: [String]? = nil, pathwayIds: [String]? = nil, viewOrder: Int? = nil) {
             self.id = id
             self.levelOrder = levelOrder
             self.code = code
@@ -2685,11 +2685,11 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.levelOrder = try c.lenientRequired(.levelOrder)
+            self.levelOrder = c.lenient(.levelOrder)
             self.code = c.lenient(.code)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.description = c.lenient(.description)
-            self.active = try c.lenientRequired(.active)
+            self.active = c.lenient(.active)
             self.customFields = c.lenient(.customFields)
             self.jobGrade = c.lenient(.jobGrade)
             self.pathwayIds = c.lenient(.pathwayIds)
@@ -2819,17 +2819,17 @@ extension CoreHR {
 
     public struct JobFamily: Codable, Sendable {
         public var id: String?
-        public var name: [Display]
-        public var active: Bool
+        public var name: [Display]?
+        public var active: Bool?
         public var selectable: Bool?
         public var parentId: String?
         public var pathwayIds: [String]?
-        public var effectiveTime: String
+        public var effectiveTime: String?
         public var expirationTime: String?
         public var code: String?
         public var description: [Display]?
         public var customFields: [CustomField]?
-        public init(id: String? = nil, name: [Display], active: Bool, selectable: Bool? = nil, parentId: String? = nil, pathwayIds: [String]? = nil, effectiveTime: String, expirationTime: String? = nil, code: String? = nil, description: [Display]? = nil, customFields: [CustomField]? = nil) {
+        public init(id: String? = nil, name: [Display]? = nil, active: Bool? = nil, selectable: Bool? = nil, parentId: String? = nil, pathwayIds: [String]? = nil, effectiveTime: String? = nil, expirationTime: String? = nil, code: String? = nil, description: [Display]? = nil, customFields: [CustomField]? = nil) {
             self.id = id
             self.name = name
             self.active = active
@@ -2858,12 +2858,12 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.name = try c.lenientRequired(.name)
-            self.active = try c.lenientRequired(.active)
+            self.name = c.lenient(.name)
+            self.active = c.lenient(.active)
             self.selectable = c.lenient(.selectable)
             self.parentId = c.lenient(.parentId)
             self.pathwayIds = c.lenient(.pathwayIds)
-            self.effectiveTime = try c.lenientRequired(.effectiveTime)
+            self.effectiveTime = c.lenient(.effectiveTime)
             self.expirationTime = c.lenient(.expirationTime)
             self.code = c.lenient(.code)
             self.description = c.lenient(.description)
@@ -3072,18 +3072,18 @@ extension CoreHR {
     public struct Job: Codable, Sendable {
         public var id: String?
         public var code: String?
-        public var name: [Display]
+        public var name: [Display]?
         public var description: [Display]?
-        public var active: Bool
+        public var active: Bool?
         public var jobTitle: [Display]?
         public var pathwayId: String?
         public var jobFamilyIdList: [String]?
         public var jobLevelIdList: [String]?
         public var workingHoursTypeId: String?
-        public var effectiveTime: String
+        public var effectiveTime: String?
         public var expirationTime: String?
         public var customFields: [CustomField]?
-        public init(id: String? = nil, code: String? = nil, name: [Display], description: [Display]? = nil, active: Bool, jobTitle: [Display]? = nil, pathwayId: String? = nil, jobFamilyIdList: [String]? = nil, jobLevelIdList: [String]? = nil, workingHoursTypeId: String? = nil, effectiveTime: String, expirationTime: String? = nil, customFields: [CustomField]? = nil) {
+        public init(id: String? = nil, code: String? = nil, name: [Display]? = nil, description: [Display]? = nil, active: Bool? = nil, jobTitle: [Display]? = nil, pathwayId: String? = nil, jobFamilyIdList: [String]? = nil, jobLevelIdList: [String]? = nil, workingHoursTypeId: String? = nil, effectiveTime: String? = nil, expirationTime: String? = nil, customFields: [CustomField]? = nil) {
             self.id = id
             self.code = code
             self.name = name
@@ -3117,15 +3117,15 @@ extension CoreHR {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
             self.code = c.lenient(.code)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.description = c.lenient(.description)
-            self.active = try c.lenientRequired(.active)
+            self.active = c.lenient(.active)
             self.jobTitle = c.lenient(.jobTitle)
             self.pathwayId = c.lenient(.pathwayId)
             self.jobFamilyIdList = c.lenient(.jobFamilyIdList)
             self.jobLevelIdList = c.lenient(.jobLevelIdList)
             self.workingHoursTypeId = c.lenient(.workingHoursTypeId)
-            self.effectiveTime = try c.lenientRequired(.effectiveTime)
+            self.effectiveTime = c.lenient(.effectiveTime)
             self.expirationTime = c.lenient(.expirationTime)
             self.customFields = c.lenient(.customFields)
         }
@@ -3589,9 +3589,9 @@ extension CoreHR {
     }
 
     public struct OriginalEmploymentChangeCustomField: Codable, Sendable {
-        public var customApiName: String
-        public var value: String
-        public init(customApiName: String, value: String) {
+        public var customApiName: String?
+        public var value: String?
+        public init(customApiName: String? = nil, value: String? = nil) {
             self.customApiName = customApiName
             self.value = value
         }
@@ -3601,8 +3601,8 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.customApiName = try c.lenientRequired(.customApiName)
-            self.value = try c.lenientRequired(.value)
+            self.customApiName = c.lenient(.customApiName)
+            self.value = c.lenient(.value)
         }
     }
 
@@ -3929,11 +3929,11 @@ extension CoreHR {
     }
 
     public struct JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomField: Codable, Sendable {
-        public var customApiName: String
+        public var customApiName: String?
         public var name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName?
         public var type: Int?
-        public var value: String
-        public init(customApiName: String, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, type: Int? = nil, value: String) {
+        public var value: String?
+        public init(customApiName: String? = nil, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, type: Int? = nil, value: String? = nil) {
             self.customApiName = customApiName
             self.name = name
             self.type = type
@@ -3947,10 +3947,10 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.customApiName = try c.lenientRequired(.customApiName)
+            self.customApiName = c.lenient(.customApiName)
             self.name = c.lenient(.name)
             self.type = c.lenient(.type)
-            self.value = try c.lenientRequired(.value)
+            self.value = c.lenient(.value)
         }
     }
 
@@ -3997,12 +3997,12 @@ extension CoreHR {
     public struct WorkingHoursType: Codable, Sendable {
         public var id: String?
         public var code: String?
-        public var name: [Display]
+        public var name: [Display]?
         public var countryRegionIdList: [String]?
-        public var defaultForJob: Bool
-        public var active: Bool
+        public var defaultForJob: Bool?
+        public var active: Bool?
         public var customFields: [CustomField]?
-        public init(id: String? = nil, code: String? = nil, name: [Display], countryRegionIdList: [String]? = nil, defaultForJob: Bool, active: Bool, customFields: [CustomField]? = nil) {
+        public init(id: String? = nil, code: String? = nil, name: [Display]? = nil, countryRegionIdList: [String]? = nil, defaultForJob: Bool? = nil, active: Bool? = nil, customFields: [CustomField]? = nil) {
             self.id = id
             self.code = code
             self.name = name
@@ -4024,10 +4024,10 @@ extension CoreHR {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
             self.code = c.lenient(.code)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.countryRegionIdList = c.lenient(.countryRegionIdList)
-            self.defaultForJob = try c.lenientRequired(.defaultForJob)
-            self.active = try c.lenientRequired(.active)
+            self.defaultForJob = c.lenient(.defaultForJob)
+            self.active = c.lenient(.active)
             self.customFields = c.lenient(.customFields)
         }
     }
@@ -4175,13 +4175,13 @@ extension CoreHR {
         public var subType: ContractType?
         public var manager: String?
         public var isConfidential: Bool?
-        public var hiberarchyCommon: CompanyHiberarchyCommon
-        public var effectiveTime: String
+        public var hiberarchyCommon: CompanyHiberarchyCommon?
+        public var effectiveTime: String?
         public var expirationTime: String?
         public var customFields: [CustomField]?
         public var costCenterId: String?
         public var staffingModel: ContractType?
-        public init(id: String? = nil, subType: ContractType? = nil, manager: String? = nil, isConfidential: Bool? = nil, hiberarchyCommon: CompanyHiberarchyCommon, effectiveTime: String, expirationTime: String? = nil, customFields: [CustomField]? = nil, costCenterId: String? = nil, staffingModel: ContractType? = nil) {
+        public init(id: String? = nil, subType: ContractType? = nil, manager: String? = nil, isConfidential: Bool? = nil, hiberarchyCommon: CompanyHiberarchyCommon? = nil, effectiveTime: String? = nil, expirationTime: String? = nil, customFields: [CustomField]? = nil, costCenterId: String? = nil, staffingModel: ContractType? = nil) {
             self.id = id
             self.subType = subType
             self.manager = manager
@@ -4211,8 +4211,8 @@ extension CoreHR {
             self.subType = c.lenient(.subType)
             self.manager = c.lenient(.manager)
             self.isConfidential = c.lenient(.isConfidential)
-            self.hiberarchyCommon = try c.lenientRequired(.hiberarchyCommon)
-            self.effectiveTime = try c.lenientRequired(.effectiveTime)
+            self.hiberarchyCommon = c.lenient(.hiberarchyCommon)
+            self.effectiveTime = c.lenient(.effectiveTime)
             self.expirationTime = c.lenient(.expirationTime)
             self.customFields = c.lenient(.customFields)
             self.costCenterId = c.lenient(.costCenterId)
@@ -4225,13 +4225,13 @@ extension CoreHR {
         public var subType: ContractPatchBodyContractType?
         public var manager: String?
         public var isConfidential: Bool?
-        public var hiberarchyCommon: DepartmentPatchBodyHiberarchyCommon?
+        public var hiberarchyCommon: HiberarchyCommon?
         public var effectiveTime: String
         public var expirationTime: String?
         public var customFields: [CustomField]?
         public var costCenterId: String?
         public var staffingModel: ContractPatchBodyContractType?
-        public init(id: String? = nil, subType: ContractPatchBodyContractType? = nil, manager: String? = nil, isConfidential: Bool? = nil, hiberarchyCommon: DepartmentPatchBodyHiberarchyCommon? = nil, effectiveTime: String, expirationTime: String? = nil, customFields: [CustomField]? = nil, costCenterId: String? = nil, staffingModel: ContractPatchBodyContractType? = nil) {
+        public init(id: String? = nil, subType: ContractPatchBodyContractType? = nil, manager: String? = nil, isConfidential: Bool? = nil, hiberarchyCommon: HiberarchyCommon? = nil, effectiveTime: String, expirationTime: String? = nil, customFields: [CustomField]? = nil, costCenterId: String? = nil, staffingModel: ContractPatchBodyContractType? = nil) {
             self.id = id
             self.subType = subType
             self.manager = manager
@@ -4267,52 +4267,6 @@ extension CoreHR {
             self.customFields = c.lenient(.customFields)
             self.costCenterId = c.lenient(.costCenterId)
             self.staffingModel = c.lenient(.staffingModel)
-        }
-    }
-
-    public struct DepartmentPatchBodyHiberarchyCommon: Codable, Sendable {
-        public var parentId: String?
-        public var name: [Display]?
-        public var type: ContractPatchBodyContractType?
-        public var active: Bool?
-        public var effectiveTime: String?
-        public var expirationTime: String?
-        public var code: String?
-        public var description: [Display]?
-        public var customFields: [CustomField]?
-        public init(parentId: String? = nil, name: [Display]? = nil, type: ContractPatchBodyContractType? = nil, active: Bool? = nil, effectiveTime: String? = nil, expirationTime: String? = nil, code: String? = nil, description: [Display]? = nil, customFields: [CustomField]? = nil) {
-            self.parentId = parentId
-            self.name = name
-            self.type = type
-            self.active = active
-            self.effectiveTime = effectiveTime
-            self.expirationTime = expirationTime
-            self.code = code
-            self.description = description
-            self.customFields = customFields
-        }
-        enum CodingKeys: String, CodingKey {
-            case parentId = "parent_id"
-            case name
-            case type
-            case active
-            case effectiveTime = "effective_time"
-            case expirationTime = "expiration_time"
-            case code
-            case description
-            case customFields = "custom_fields"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.parentId = c.lenient(.parentId)
-            self.name = c.lenient(.name)
-            self.type = c.lenient(.type)
-            self.active = c.lenient(.active)
-            self.effectiveTime = c.lenient(.effectiveTime)
-            self.expirationTime = c.lenient(.expirationTime)
-            self.code = c.lenient(.code)
-            self.description = c.lenient(.description)
-            self.customFields = c.lenient(.customFields)
         }
     }
 
@@ -4400,14 +4354,14 @@ extension CoreHR {
 
     public struct DepartmentCreateBodyHiberarchyCommon: Codable, Sendable {
         public var parentId: String?
-        public var name: [Display]
+        public var name: [Display]?
         public var type: ContractPatchBodyContractType?
-        public var active: Bool
+        public var active: Bool?
         public var expirationTime: String?
         public var code: String?
         public var description: [Display]?
         public var customFields: [CustomField]?
-        public init(parentId: String? = nil, name: [Display], type: ContractPatchBodyContractType? = nil, active: Bool, expirationTime: String? = nil, code: String? = nil, description: [Display]? = nil, customFields: [CustomField]? = nil) {
+        public init(parentId: String? = nil, name: [Display]? = nil, type: ContractPatchBodyContractType? = nil, active: Bool? = nil, expirationTime: String? = nil, code: String? = nil, description: [Display]? = nil, customFields: [CustomField]? = nil) {
             self.parentId = parentId
             self.name = name
             self.type = type
@@ -4430,9 +4384,9 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.parentId = c.lenient(.parentId)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.type = c.lenient(.type)
-            self.active = try c.lenientRequired(.active)
+            self.active = c.lenient(.active)
             self.expirationTime = c.lenient(.expirationTime)
             self.code = c.lenient(.code)
             self.description = c.lenient(.description)
@@ -4464,17 +4418,17 @@ extension CoreHR {
 
     public struct Location: Codable, Sendable {
         public var id: String?
-        public var hiberarchyCommon: CompanyHiberarchyCommon
+        public var hiberarchyCommon: CompanyHiberarchyCommon?
         public var locationUsageList: [ContractType]?
         public var address: [LocationAddress]?
         public var workingHoursTypeId: String?
-        public var effectiveTime: String
+        public var effectiveTime: String?
         public var expirationTime: String?
         public var customFields: [CustomField]?
         public var locale: ContractType?
         public var timeZoneId: String?
         public var displayLanguageId: String?
-        public init(id: String? = nil, hiberarchyCommon: CompanyHiberarchyCommon, locationUsageList: [ContractType]? = nil, address: [LocationAddress]? = nil, workingHoursTypeId: String? = nil, effectiveTime: String, expirationTime: String? = nil, customFields: [CustomField]? = nil, locale: ContractType? = nil, timeZoneId: String? = nil, displayLanguageId: String? = nil) {
+        public init(id: String? = nil, hiberarchyCommon: CompanyHiberarchyCommon? = nil, locationUsageList: [ContractType]? = nil, address: [LocationAddress]? = nil, workingHoursTypeId: String? = nil, effectiveTime: String? = nil, expirationTime: String? = nil, customFields: [CustomField]? = nil, locale: ContractType? = nil, timeZoneId: String? = nil, displayLanguageId: String? = nil) {
             self.id = id
             self.hiberarchyCommon = hiberarchyCommon
             self.locationUsageList = locationUsageList
@@ -4503,11 +4457,11 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.hiberarchyCommon = try c.lenientRequired(.hiberarchyCommon)
+            self.hiberarchyCommon = c.lenient(.hiberarchyCommon)
             self.locationUsageList = c.lenient(.locationUsageList)
             self.address = c.lenient(.address)
             self.workingHoursTypeId = c.lenient(.workingHoursTypeId)
-            self.effectiveTime = try c.lenientRequired(.effectiveTime)
+            self.effectiveTime = c.lenient(.effectiveTime)
             self.expirationTime = c.lenient(.expirationTime)
             self.customFields = c.lenient(.customFields)
             self.locale = c.lenient(.locale)
@@ -4520,7 +4474,7 @@ extension CoreHR {
         public var fullAddressLocalScript: String?
         public var fullAddressWesternScript: String?
         public var id: String?
-        public var countryRegionId: String
+        public var countryRegionId: String?
         public var regionId: String?
         public var cityId: String?
         public var distinctId: String?
@@ -4547,7 +4501,7 @@ extension CoreHR {
         public var isPrimary: Bool?
         public var isPublic: Bool?
         public var customFields: [CustomField]?
-        public init(fullAddressLocalScript: String? = nil, fullAddressWesternScript: String? = nil, id: String? = nil, countryRegionId: String, regionId: String? = nil, cityId: String? = nil, distinctId: String? = nil, addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, addressLine4: String? = nil, addressLine5: String? = nil, addressLine6: String? = nil, addressLine7: String? = nil, addressLine8: String? = nil, addressLine9: String? = nil, localAddressLine1: String? = nil, localAddressLine2: String? = nil, localAddressLine3: String? = nil, localAddressLine4: String? = nil, localAddressLine5: String? = nil, localAddressLine6: String? = nil, localAddressLine7: String? = nil, localAddressLine8: String? = nil, localAddressLine9: String? = nil, postalCode: String? = nil, addressTypeList: [ContractType]? = nil, isPrimary: Bool? = nil, isPublic: Bool? = nil, customFields: [CustomField]? = nil) {
+        public init(fullAddressLocalScript: String? = nil, fullAddressWesternScript: String? = nil, id: String? = nil, countryRegionId: String? = nil, regionId: String? = nil, cityId: String? = nil, distinctId: String? = nil, addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, addressLine4: String? = nil, addressLine5: String? = nil, addressLine6: String? = nil, addressLine7: String? = nil, addressLine8: String? = nil, addressLine9: String? = nil, localAddressLine1: String? = nil, localAddressLine2: String? = nil, localAddressLine3: String? = nil, localAddressLine4: String? = nil, localAddressLine5: String? = nil, localAddressLine6: String? = nil, localAddressLine7: String? = nil, localAddressLine8: String? = nil, localAddressLine9: String? = nil, postalCode: String? = nil, addressTypeList: [ContractType]? = nil, isPrimary: Bool? = nil, isPublic: Bool? = nil, customFields: [CustomField]? = nil) {
             self.fullAddressLocalScript = fullAddressLocalScript
             self.fullAddressWesternScript = fullAddressWesternScript
             self.id = id
@@ -4616,7 +4570,7 @@ extension CoreHR {
             self.fullAddressLocalScript = c.lenient(.fullAddressLocalScript)
             self.fullAddressWesternScript = c.lenient(.fullAddressWesternScript)
             self.id = c.lenient(.id)
-            self.countryRegionId = try c.lenientRequired(.countryRegionId)
+            self.countryRegionId = c.lenient(.countryRegionId)
             self.regionId = c.lenient(.regionId)
             self.cityId = c.lenient(.cityId)
             self.distinctId = c.lenient(.distinctId)
@@ -4701,7 +4655,7 @@ extension CoreHR {
     }
 
     public struct LocationCreateBodyAddress: Codable, Sendable {
-        public var countryRegionId: String
+        public var countryRegionId: String?
         public var regionId: String?
         public var cityId: String?
         public var distinctId: String?
@@ -4728,7 +4682,7 @@ extension CoreHR {
         public var isPrimary: Bool?
         public var isPublic: Bool?
         public var customFields: [CustomField]?
-        public init(countryRegionId: String, regionId: String? = nil, cityId: String? = nil, distinctId: String? = nil, addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, addressLine4: String? = nil, addressLine5: String? = nil, addressLine6: String? = nil, addressLine7: String? = nil, addressLine8: String? = nil, addressLine9: String? = nil, localAddressLine1: String? = nil, localAddressLine2: String? = nil, localAddressLine3: String? = nil, localAddressLine4: String? = nil, localAddressLine5: String? = nil, localAddressLine6: String? = nil, localAddressLine7: String? = nil, localAddressLine8: String? = nil, localAddressLine9: String? = nil, postalCode: String? = nil, addressTypeList: [ContractPatchBodyContractType]? = nil, isPrimary: Bool? = nil, isPublic: Bool? = nil, customFields: [CustomField]? = nil) {
+        public init(countryRegionId: String? = nil, regionId: String? = nil, cityId: String? = nil, distinctId: String? = nil, addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, addressLine4: String? = nil, addressLine5: String? = nil, addressLine6: String? = nil, addressLine7: String? = nil, addressLine8: String? = nil, addressLine9: String? = nil, localAddressLine1: String? = nil, localAddressLine2: String? = nil, localAddressLine3: String? = nil, localAddressLine4: String? = nil, localAddressLine5: String? = nil, localAddressLine6: String? = nil, localAddressLine7: String? = nil, localAddressLine8: String? = nil, localAddressLine9: String? = nil, postalCode: String? = nil, addressTypeList: [ContractPatchBodyContractType]? = nil, isPrimary: Bool? = nil, isPublic: Bool? = nil, customFields: [CustomField]? = nil) {
             self.countryRegionId = countryRegionId
             self.regionId = regionId
             self.cityId = cityId
@@ -4788,7 +4742,7 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.countryRegionId = try c.lenientRequired(.countryRegionId)
+            self.countryRegionId = c.lenient(.countryRegionId)
             self.regionId = c.lenient(.regionId)
             self.cityId = c.lenient(.cityId)
             self.distinctId = c.lenient(.distinctId)
@@ -5375,21 +5329,21 @@ extension CoreHR {
     }
 
     public struct LeaveGrantingRecord: Codable, Sendable {
-        public var id: String
-        public var employmentId: String
-        public var leaveTypeId: String
-        public var grantingQuantity: String
-        public var grantingUnit: Int
-        public var effectiveDate: String
-        public var expirationDate: String
-        public var grantedBy: Int
-        public var reason: [Display]
-        public var createdAt: String
-        public var createdBy: String
-        public var updatedAt: String
-        public var updatedBy: String
+        public var id: String?
+        public var employmentId: String?
+        public var leaveTypeId: String?
+        public var grantingQuantity: String?
+        public var grantingUnit: Int?
+        public var effectiveDate: String?
+        public var expirationDate: String?
+        public var grantedBy: Int?
+        public var reason: [Display]?
+        public var createdAt: String?
+        public var createdBy: String?
+        public var updatedAt: String?
+        public var updatedBy: String?
         public var sectionType: Int?
-        public init(id: String, employmentId: String, leaveTypeId: String, grantingQuantity: String, grantingUnit: Int, effectiveDate: String, expirationDate: String, grantedBy: Int, reason: [Display], createdAt: String, createdBy: String, updatedAt: String, updatedBy: String, sectionType: Int? = nil) {
+        public init(id: String? = nil, employmentId: String? = nil, leaveTypeId: String? = nil, grantingQuantity: String? = nil, grantingUnit: Int? = nil, effectiveDate: String? = nil, expirationDate: String? = nil, grantedBy: Int? = nil, reason: [Display]? = nil, createdAt: String? = nil, createdBy: String? = nil, updatedAt: String? = nil, updatedBy: String? = nil, sectionType: Int? = nil) {
             self.id = id
             self.employmentId = employmentId
             self.leaveTypeId = leaveTypeId
@@ -5423,19 +5377,19 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.employmentId = try c.lenientRequired(.employmentId)
-            self.leaveTypeId = try c.lenientRequired(.leaveTypeId)
-            self.grantingQuantity = try c.lenientRequired(.grantingQuantity)
-            self.grantingUnit = try c.lenientRequired(.grantingUnit)
-            self.effectiveDate = try c.lenientRequired(.effectiveDate)
-            self.expirationDate = try c.lenientRequired(.expirationDate)
-            self.grantedBy = try c.lenientRequired(.grantedBy)
-            self.reason = try c.lenientRequired(.reason)
-            self.createdAt = try c.lenientRequired(.createdAt)
-            self.createdBy = try c.lenientRequired(.createdBy)
-            self.updatedAt = try c.lenientRequired(.updatedAt)
-            self.updatedBy = try c.lenientRequired(.updatedBy)
+            self.id = c.lenient(.id)
+            self.employmentId = c.lenient(.employmentId)
+            self.leaveTypeId = c.lenient(.leaveTypeId)
+            self.grantingQuantity = c.lenient(.grantingQuantity)
+            self.grantingUnit = c.lenient(.grantingUnit)
+            self.effectiveDate = c.lenient(.effectiveDate)
+            self.expirationDate = c.lenient(.expirationDate)
+            self.grantedBy = c.lenient(.grantedBy)
+            self.reason = c.lenient(.reason)
+            self.createdAt = c.lenient(.createdAt)
+            self.createdBy = c.lenient(.createdBy)
+            self.updatedAt = c.lenient(.updatedAt)
+            self.updatedBy = c.lenient(.updatedBy)
             self.sectionType = c.lenient(.sectionType)
         }
     }
@@ -5489,15 +5443,15 @@ extension CoreHR {
     }
 
     public struct LeaveTypeList: Codable, Sendable {
-        public var leaveTypeId: String
-        public var leaveTypeName: [Display]
-        public var status: Int
+        public var leaveTypeId: String?
+        public var leaveTypeName: [Display]?
+        public var status: Int?
         public var leaveSubtypeList: [LeaveSubtypeList]?
-        public var createdAt: String
-        public var createdBy: String
-        public var updatedAt: String
-        public var updatedBy: String
-        public init(leaveTypeId: String, leaveTypeName: [Display], status: Int, leaveSubtypeList: [LeaveSubtypeList]? = nil, createdAt: String, createdBy: String, updatedAt: String, updatedBy: String) {
+        public var createdAt: String?
+        public var createdBy: String?
+        public var updatedAt: String?
+        public var updatedBy: String?
+        public init(leaveTypeId: String? = nil, leaveTypeName: [Display]? = nil, status: Int? = nil, leaveSubtypeList: [LeaveSubtypeList]? = nil, createdAt: String? = nil, createdBy: String? = nil, updatedAt: String? = nil, updatedBy: String? = nil) {
             self.leaveTypeId = leaveTypeId
             self.leaveTypeName = leaveTypeName
             self.status = status
@@ -5519,21 +5473,21 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.leaveTypeId = try c.lenientRequired(.leaveTypeId)
-            self.leaveTypeName = try c.lenientRequired(.leaveTypeName)
-            self.status = try c.lenientRequired(.status)
+            self.leaveTypeId = c.lenient(.leaveTypeId)
+            self.leaveTypeName = c.lenient(.leaveTypeName)
+            self.status = c.lenient(.status)
             self.leaveSubtypeList = c.lenient(.leaveSubtypeList)
-            self.createdAt = try c.lenientRequired(.createdAt)
-            self.createdBy = try c.lenientRequired(.createdBy)
-            self.updatedAt = try c.lenientRequired(.updatedAt)
-            self.updatedBy = try c.lenientRequired(.updatedBy)
+            self.createdAt = c.lenient(.createdAt)
+            self.createdBy = c.lenient(.createdBy)
+            self.updatedAt = c.lenient(.updatedAt)
+            self.updatedBy = c.lenient(.updatedBy)
         }
     }
 
     public struct LeaveSubtypeList: Codable, Sendable {
-        public var leaveTypeId: String
-        public var leaveTypeName: [Display]
-        public init(leaveTypeId: String, leaveTypeName: [Display]) {
+        public var leaveTypeId: String?
+        public var leaveTypeName: [Display]?
+        public init(leaveTypeId: String? = nil, leaveTypeName: [Display]? = nil) {
             self.leaveTypeId = leaveTypeId
             self.leaveTypeName = leaveTypeName
         }
@@ -5543,8 +5497,8 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.leaveTypeId = try c.lenientRequired(.leaveTypeId)
-            self.leaveTypeName = try c.lenientRequired(.leaveTypeName)
+            self.leaveTypeId = c.lenient(.leaveTypeId)
+            self.leaveTypeName = c.lenient(.leaveTypeName)
         }
     }
 
@@ -5577,9 +5531,9 @@ extension CoreHR {
     public struct WkOption: Codable, Sendable {
         public var count: Bool?
         public var offset: Int?
-        public var limit: Int
+        public var limit: Int?
         public var sortOptions: [SortOption]?
-        public init(count: Bool? = nil, offset: Int? = nil, limit: Int, sortOptions: [SortOption]? = nil) {
+        public init(count: Bool? = nil, offset: Int? = nil, limit: Int? = nil, sortOptions: [SortOption]? = nil) {
             self.count = count
             self.offset = offset
             self.limit = limit
@@ -5595,7 +5549,7 @@ extension CoreHR {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.count = c.lenient(.count)
             self.offset = c.lenient(.offset)
-            self.limit = try c.lenientRequired(.limit)
+            self.limit = c.lenient(.limit)
             self.sortOptions = c.lenient(.sortOptions)
         }
     }
@@ -5653,10 +5607,10 @@ extension CoreHR {
     }
 
     public struct WorkCalendar: Codable, Sendable {
-        public var calendarId: String
+        public var calendarId: String?
         public var calendarName: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName?
-        public var enable: Bool
-        public init(calendarId: String, calendarName: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, enable: Bool) {
+        public var enable: Bool?
+        public init(calendarId: String? = nil, calendarName: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, enable: Bool? = nil) {
             self.calendarId = calendarId
             self.calendarName = calendarName
             self.enable = enable
@@ -5668,9 +5622,9 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.calendarId = try c.lenientRequired(.calendarId)
+            self.calendarId = c.lenient(.calendarId)
             self.calendarName = c.lenient(.calendarName)
-            self.enable = try c.lenientRequired(.enable)
+            self.enable = c.lenient(.enable)
         }
     }
 
@@ -5874,11 +5828,11 @@ extension CoreHR {
     }
 
     public struct EmploymentLeaveBalanceList: Codable, Sendable {
-        public var employmentId: String
-        public var employmentName: [Display]
-        public var asOfDate: String
-        public var leaveBalanceList: [LeaveBalanceList]
-        public init(employmentId: String, employmentName: [Display], asOfDate: String, leaveBalanceList: [LeaveBalanceList]) {
+        public var employmentId: String?
+        public var employmentName: [Display]?
+        public var asOfDate: String?
+        public var leaveBalanceList: [LeaveBalanceList]?
+        public init(employmentId: String? = nil, employmentName: [Display]? = nil, asOfDate: String? = nil, leaveBalanceList: [LeaveBalanceList]? = nil) {
             self.employmentId = employmentId
             self.employmentName = employmentName
             self.asOfDate = asOfDate
@@ -5892,21 +5846,21 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.employmentId = try c.lenientRequired(.employmentId)
-            self.employmentName = try c.lenientRequired(.employmentName)
-            self.asOfDate = try c.lenientRequired(.asOfDate)
-            self.leaveBalanceList = try c.lenientRequired(.leaveBalanceList)
+            self.employmentId = c.lenient(.employmentId)
+            self.employmentName = c.lenient(.employmentName)
+            self.asOfDate = c.lenient(.asOfDate)
+            self.leaveBalanceList = c.lenient(.leaveBalanceList)
         }
     }
 
     public struct LeaveBalanceList: Codable, Sendable {
-        public var leaveTypeId: String
-        public var leaveTypeName: [Display]
+        public var leaveTypeId: String?
+        public var leaveTypeName: [Display]?
         public var historicalCyclesLeft: String?
         public var thisCycleTotal: String?
-        public var thisCycleTaken: String
-        public var leaveBalance: String
-        public var leaveDurationUnit: Int
+        public var thisCycleTaken: String?
+        public var leaveBalance: String?
+        public var leaveDurationUnit: Int?
         public var historyCycleAccrual: String?
         public var balanceInCurrentCycle: String?
         public var taken: String?
@@ -5916,7 +5870,7 @@ extension CoreHR {
         public var offboardingGranted: String?
         public var leaveBalanceExcludingUnderApproval: String?
         public var leaveQuantityUnderApproval: String?
-        public init(leaveTypeId: String, leaveTypeName: [Display], historicalCyclesLeft: String? = nil, thisCycleTotal: String? = nil, thisCycleTaken: String, leaveBalance: String, leaveDurationUnit: Int, historyCycleAccrual: String? = nil, balanceInCurrentCycle: String? = nil, taken: String? = nil, takenHistoryCycle: String? = nil, offboardingBalance: String? = nil, takenCurrentDate: String? = nil, offboardingGranted: String? = nil, leaveBalanceExcludingUnderApproval: String? = nil, leaveQuantityUnderApproval: String? = nil) {
+        public init(leaveTypeId: String? = nil, leaveTypeName: [Display]? = nil, historicalCyclesLeft: String? = nil, thisCycleTotal: String? = nil, thisCycleTaken: String? = nil, leaveBalance: String? = nil, leaveDurationUnit: Int? = nil, historyCycleAccrual: String? = nil, balanceInCurrentCycle: String? = nil, taken: String? = nil, takenHistoryCycle: String? = nil, offboardingBalance: String? = nil, takenCurrentDate: String? = nil, offboardingGranted: String? = nil, leaveBalanceExcludingUnderApproval: String? = nil, leaveQuantityUnderApproval: String? = nil) {
             self.leaveTypeId = leaveTypeId
             self.leaveTypeName = leaveTypeName
             self.historicalCyclesLeft = historicalCyclesLeft
@@ -5954,13 +5908,13 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.leaveTypeId = try c.lenientRequired(.leaveTypeId)
-            self.leaveTypeName = try c.lenientRequired(.leaveTypeName)
+            self.leaveTypeId = c.lenient(.leaveTypeId)
+            self.leaveTypeName = c.lenient(.leaveTypeName)
             self.historicalCyclesLeft = c.lenient(.historicalCyclesLeft)
             self.thisCycleTotal = c.lenient(.thisCycleTotal)
-            self.thisCycleTaken = try c.lenientRequired(.thisCycleTaken)
-            self.leaveBalance = try c.lenientRequired(.leaveBalance)
-            self.leaveDurationUnit = try c.lenientRequired(.leaveDurationUnit)
+            self.thisCycleTaken = c.lenient(.thisCycleTaken)
+            self.leaveBalance = c.lenient(.leaveBalance)
+            self.leaveDurationUnit = c.lenient(.leaveDurationUnit)
             self.historyCycleAccrual = c.lenient(.historyCycleAccrual)
             self.balanceInCurrentCycle = c.lenient(.balanceInCurrentCycle)
             self.taken = c.lenient(.taken)
@@ -6102,21 +6056,21 @@ extension CoreHR {
     }
 
     public struct LeaveRequestList: Codable, Sendable {
-        public var leaveRequestId: String
-        public var employmentId: String
-        public var employmentName: [Display]
-        public var leaveTypeId: String
-        public var leaveTypeName: [Display]
-        public var startTime: String
-        public var endTime: String
-        public var leaveDuration: String
-        public var leaveDurationUnit: Int
-        public var leaveRequestStatus: Int
-        public var grantSource: String
-        public var returnTime: String
-        public var submittedAt: String
-        public var submittedBy: String
-        public var notes: String
+        public var leaveRequestId: String?
+        public var employmentId: String?
+        public var employmentName: [Display]?
+        public var leaveTypeId: String?
+        public var leaveTypeName: [Display]?
+        public var startTime: String?
+        public var endTime: String?
+        public var leaveDuration: String?
+        public var leaveDurationUnit: Int?
+        public var leaveRequestStatus: Int?
+        public var grantSource: String?
+        public var returnTime: String?
+        public var submittedAt: String?
+        public var submittedBy: String?
+        public var notes: String?
         public var approvalDate: String?
         public var isDeducted: Bool?
         public var details: [LeaveRequestListDetail]?
@@ -6133,7 +6087,7 @@ extension CoreHR {
         public var leaveCorrectProcessInfo: [LeaveCorrectProcessInfo]?
         public var workdayExtendInfos: [WorkdayExtendInfo]?
         public var leaveTagConf: LeaveTagConf?
-        public init(leaveRequestId: String, employmentId: String, employmentName: [Display], leaveTypeId: String, leaveTypeName: [Display], startTime: String, endTime: String, leaveDuration: String, leaveDurationUnit: Int, leaveRequestStatus: Int, grantSource: String, returnTime: String, submittedAt: String, submittedBy: String, notes: String, approvalDate: String? = nil, isDeducted: Bool? = nil, details: [LeaveRequestListDetail]? = nil, leaveTypeCode: String? = nil, actualEndDate: String? = nil, estimatedEndDate: String? = nil, timeZone: String? = nil, dataSource: Int? = nil, leaveProcessId: [String]? = nil, leaveCorrectProcessId: [String]? = nil, leaveCancelProcessId: [String]? = nil, leaveReturnProcessId: [String]? = nil, wdPaidType: Int? = nil, leaveCorrectProcessInfo: [LeaveCorrectProcessInfo]? = nil, workdayExtendInfos: [WorkdayExtendInfo]? = nil, leaveTagConf: LeaveTagConf? = nil) {
+        public init(leaveRequestId: String? = nil, employmentId: String? = nil, employmentName: [Display]? = nil, leaveTypeId: String? = nil, leaveTypeName: [Display]? = nil, startTime: String? = nil, endTime: String? = nil, leaveDuration: String? = nil, leaveDurationUnit: Int? = nil, leaveRequestStatus: Int? = nil, grantSource: String? = nil, returnTime: String? = nil, submittedAt: String? = nil, submittedBy: String? = nil, notes: String? = nil, approvalDate: String? = nil, isDeducted: Bool? = nil, details: [LeaveRequestListDetail]? = nil, leaveTypeCode: String? = nil, actualEndDate: String? = nil, estimatedEndDate: String? = nil, timeZone: String? = nil, dataSource: Int? = nil, leaveProcessId: [String]? = nil, leaveCorrectProcessId: [String]? = nil, leaveCancelProcessId: [String]? = nil, leaveReturnProcessId: [String]? = nil, wdPaidType: Int? = nil, leaveCorrectProcessInfo: [LeaveCorrectProcessInfo]? = nil, workdayExtendInfos: [WorkdayExtendInfo]? = nil, leaveTagConf: LeaveTagConf? = nil) {
             self.leaveRequestId = leaveRequestId
             self.employmentId = employmentId
             self.employmentName = employmentName
@@ -6201,21 +6155,21 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.leaveRequestId = try c.lenientRequired(.leaveRequestId)
-            self.employmentId = try c.lenientRequired(.employmentId)
-            self.employmentName = try c.lenientRequired(.employmentName)
-            self.leaveTypeId = try c.lenientRequired(.leaveTypeId)
-            self.leaveTypeName = try c.lenientRequired(.leaveTypeName)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
-            self.leaveDuration = try c.lenientRequired(.leaveDuration)
-            self.leaveDurationUnit = try c.lenientRequired(.leaveDurationUnit)
-            self.leaveRequestStatus = try c.lenientRequired(.leaveRequestStatus)
-            self.grantSource = try c.lenientRequired(.grantSource)
-            self.returnTime = try c.lenientRequired(.returnTime)
-            self.submittedAt = try c.lenientRequired(.submittedAt)
-            self.submittedBy = try c.lenientRequired(.submittedBy)
-            self.notes = try c.lenientRequired(.notes)
+            self.leaveRequestId = c.lenient(.leaveRequestId)
+            self.employmentId = c.lenient(.employmentId)
+            self.employmentName = c.lenient(.employmentName)
+            self.leaveTypeId = c.lenient(.leaveTypeId)
+            self.leaveTypeName = c.lenient(.leaveTypeName)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
+            self.leaveDuration = c.lenient(.leaveDuration)
+            self.leaveDurationUnit = c.lenient(.leaveDurationUnit)
+            self.leaveRequestStatus = c.lenient(.leaveRequestStatus)
+            self.grantSource = c.lenient(.grantSource)
+            self.returnTime = c.lenient(.returnTime)
+            self.submittedAt = c.lenient(.submittedAt)
+            self.submittedBy = c.lenient(.submittedBy)
+            self.notes = c.lenient(.notes)
             self.approvalDate = c.lenient(.approvalDate)
             self.isDeducted = c.lenient(.isDeducted)
             self.details = c.lenient(.details)
@@ -6236,12 +6190,12 @@ extension CoreHR {
     }
 
     public struct LeaveRequestListDetail: Codable, Sendable {
-        public var leaveRequestId: String
-        public var leaveDate: String
-        public var leaveDuration: String
-        public var leaveDurationUnit: Int
-        public var paidType: Int
-        public init(leaveRequestId: String, leaveDate: String, leaveDuration: String, leaveDurationUnit: Int, paidType: Int) {
+        public var leaveRequestId: String?
+        public var leaveDate: String?
+        public var leaveDuration: String?
+        public var leaveDurationUnit: Int?
+        public var paidType: Int?
+        public init(leaveRequestId: String? = nil, leaveDate: String? = nil, leaveDuration: String? = nil, leaveDurationUnit: Int? = nil, paidType: Int? = nil) {
             self.leaveRequestId = leaveRequestId
             self.leaveDate = leaveDate
             self.leaveDuration = leaveDuration
@@ -6257,19 +6211,19 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.leaveRequestId = try c.lenientRequired(.leaveRequestId)
-            self.leaveDate = try c.lenientRequired(.leaveDate)
-            self.leaveDuration = try c.lenientRequired(.leaveDuration)
-            self.leaveDurationUnit = try c.lenientRequired(.leaveDurationUnit)
-            self.paidType = try c.lenientRequired(.paidType)
+            self.leaveRequestId = c.lenient(.leaveRequestId)
+            self.leaveDate = c.lenient(.leaveDate)
+            self.leaveDuration = c.lenient(.leaveDuration)
+            self.leaveDurationUnit = c.lenient(.leaveDurationUnit)
+            self.paidType = c.lenient(.paidType)
         }
     }
 
     public struct LeaveCorrectProcessInfo: Codable, Sendable {
-        public var processId: String
-        public var processStatus: String
-        public var processApplyTime: String
-        public init(processId: String, processStatus: String, processApplyTime: String) {
+        public var processId: String?
+        public var processStatus: String?
+        public var processApplyTime: String?
+        public init(processId: String? = nil, processStatus: String? = nil, processApplyTime: String? = nil) {
             self.processId = processId
             self.processStatus = processStatus
             self.processApplyTime = processApplyTime
@@ -6281,9 +6235,9 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.processId = try c.lenientRequired(.processId)
-            self.processStatus = try c.lenientRequired(.processStatus)
-            self.processApplyTime = try c.lenientRequired(.processApplyTime)
+            self.processId = c.lenient(.processId)
+            self.processStatus = c.lenient(.processStatus)
+            self.processApplyTime = c.lenient(.processApplyTime)
         }
     }
 
@@ -6886,16 +6840,16 @@ extension CoreHR {
     }
 
     public struct SecurityGroup: Codable, Sendable {
-        public var id: String
-        public var code: String
+        public var id: String?
+        public var code: String?
         public var name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName?
-        public var activeStatus: Int
+        public var activeStatus: Int?
         public var description: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName?
-        public var groupType: Int
-        public var createdBy: String
-        public var updateTime: String
+        public var groupType: Int?
+        public var createdBy: String?
+        public var updateTime: String?
         public var orgTruncation: [OrgTruncation]?
-        public init(id: String, code: String, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, activeStatus: Int, description: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, groupType: Int, createdBy: String, updateTime: String, orgTruncation: [OrgTruncation]? = nil) {
+        public init(id: String? = nil, code: String? = nil, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, activeStatus: Int? = nil, description: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, groupType: Int? = nil, createdBy: String? = nil, updateTime: String? = nil, orgTruncation: [OrgTruncation]? = nil) {
             self.id = id
             self.code = code
             self.name = name
@@ -6919,14 +6873,14 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.code = try c.lenientRequired(.code)
+            self.id = c.lenient(.id)
+            self.code = c.lenient(.code)
             self.name = c.lenient(.name)
-            self.activeStatus = try c.lenientRequired(.activeStatus)
+            self.activeStatus = c.lenient(.activeStatus)
             self.description = c.lenient(.description)
-            self.groupType = try c.lenientRequired(.groupType)
-            self.createdBy = try c.lenientRequired(.createdBy)
-            self.updateTime = try c.lenientRequired(.updateTime)
+            self.groupType = c.lenient(.groupType)
+            self.createdBy = c.lenient(.createdBy)
+            self.updateTime = c.lenient(.updateTime)
             self.orgTruncation = c.lenient(.orgTruncation)
         }
     }
@@ -6990,10 +6944,10 @@ extension CoreHR {
     }
 
     public struct ItemList: Codable, Sendable {
-        public var roleKey: String
-        public var departmentId: String
+        public var roleKey: String?
+        public var departmentId: String?
         public var workLocationId: String?
-        public init(roleKey: String, departmentId: String, workLocationId: String? = nil) {
+        public init(roleKey: String? = nil, departmentId: String? = nil, workLocationId: String? = nil) {
             self.roleKey = roleKey
             self.departmentId = departmentId
             self.workLocationId = workLocationId
@@ -7005,8 +6959,8 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.roleKey = try c.lenientRequired(.roleKey)
-            self.departmentId = try c.lenientRequired(.departmentId)
+            self.roleKey = c.lenient(.roleKey)
+            self.departmentId = c.lenient(.departmentId)
             self.workLocationId = c.lenient(.workLocationId)
         }
     }
@@ -7026,10 +6980,10 @@ extension CoreHR {
     }
 
     public struct HrbpList: Codable, Sendable {
-        public var employmentIdList: [String]
+        public var employmentIdList: [String]?
         public var departmentId: String?
         public var workLocationId: String?
-        public init(employmentIdList: [String], departmentId: String? = nil, workLocationId: String? = nil) {
+        public init(employmentIdList: [String]? = nil, departmentId: String? = nil, workLocationId: String? = nil) {
             self.employmentIdList = employmentIdList
             self.departmentId = departmentId
             self.workLocationId = workLocationId
@@ -7041,7 +6995,7 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.employmentIdList = try c.lenientRequired(.employmentIdList)
+            self.employmentIdList = c.lenient(.employmentIdList)
             self.departmentId = c.lenient(.departmentId)
             self.workLocationId = c.lenient(.workLocationId)
         }
@@ -7133,17 +7087,17 @@ extension CoreHR {
 
     public struct CustomFieldGetByParamResponseData: Codable, Sendable {
         public var customApiName: String?
-        public var name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName
-        public var description: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName
-        public var isOpen: Bool
-        public var isRequired: Bool
-        public var isUnique: Bool
-        public var objectApiName: String
-        public var type: Int
+        public var name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName?
+        public var description: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName?
+        public var isOpen: Bool?
+        public var isRequired: Bool?
+        public var isUnique: Bool?
+        public var objectApiName: String?
+        public var type: Int?
         public var commonSchemaConfig: CommonSchemaConfig?
         public var createTime: String?
         public var updateTime: String?
-        public init(customApiName: String? = nil, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName, description: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName, isOpen: Bool, isRequired: Bool, isUnique: Bool, objectApiName: String, type: Int, commonSchemaConfig: CommonSchemaConfig? = nil, createTime: String? = nil, updateTime: String? = nil) {
+        public init(customApiName: String? = nil, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, description: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, isOpen: Bool? = nil, isRequired: Bool? = nil, isUnique: Bool? = nil, objectApiName: String? = nil, type: Int? = nil, commonSchemaConfig: CommonSchemaConfig? = nil, createTime: String? = nil, updateTime: String? = nil) {
             self.customApiName = customApiName
             self.name = name
             self.description = description
@@ -7172,13 +7126,13 @@ extension CoreHR {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.customApiName = c.lenient(.customApiName)
-            self.name = try c.lenientRequired(.name)
-            self.description = try c.lenientRequired(.description)
-            self.isOpen = try c.lenientRequired(.isOpen)
-            self.isRequired = try c.lenientRequired(.isRequired)
-            self.isUnique = try c.lenientRequired(.isUnique)
-            self.objectApiName = try c.lenientRequired(.objectApiName)
-            self.type = try c.lenientRequired(.type)
+            self.name = c.lenient(.name)
+            self.description = c.lenient(.description)
+            self.isOpen = c.lenient(.isOpen)
+            self.isRequired = c.lenient(.isRequired)
+            self.isUnique = c.lenient(.isUnique)
+            self.objectApiName = c.lenient(.objectApiName)
+            self.type = c.lenient(.type)
             self.commonSchemaConfig = c.lenient(.commonSchemaConfig)
             self.createTime = c.lenient(.createTime)
             self.updateTime = c.lenient(.updateTime)
@@ -7230,9 +7184,9 @@ extension CoreHR {
     public struct TextFieldSetting: Codable, Sendable {
         public var isMultilingual: Bool?
         public var isMultiline: Bool?
-        public var maxLength: Int
+        public var maxLength: Int?
         public var isUrlType: Bool?
-        public init(isMultilingual: Bool? = nil, isMultiline: Bool? = nil, maxLength: Int, isUrlType: Bool? = nil) {
+        public init(isMultilingual: Bool? = nil, isMultiline: Bool? = nil, maxLength: Int? = nil, isUrlType: Bool? = nil) {
             self.isMultilingual = isMultilingual
             self.isMultiline = isMultiline
             self.maxLength = maxLength
@@ -7248,7 +7202,7 @@ extension CoreHR {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.isMultilingual = c.lenient(.isMultilingual)
             self.isMultiline = c.lenient(.isMultiline)
-            self.maxLength = try c.lenientRequired(.maxLength)
+            self.maxLength = c.lenient(.maxLength)
             self.isUrlType = c.lenient(.isUrlType)
         }
     }
@@ -7392,8 +7346,8 @@ extension CoreHR {
     }
 
     public struct CalculatedFieldSetting: Codable, Sendable {
-        public var type: Int
-        public init(type: Int) {
+        public var type: Int?
+        public init(type: Int? = nil) {
             self.type = type
         }
         enum CodingKeys: String, CodingKey {
@@ -7401,7 +7355,7 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
         }
     }
 
@@ -7456,10 +7410,10 @@ extension CoreHR {
     }
 
     public struct EnumFieldOption: Codable, Sendable {
-        public var optionApiName: String
-        public var active: Bool
-        public var name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName
-        public init(optionApiName: String, active: Bool, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName) {
+        public var optionApiName: String?
+        public var active: Bool?
+        public var name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName?
+        public init(optionApiName: String? = nil, active: Bool? = nil, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil) {
             self.optionApiName = optionApiName
             self.active = active
             self.name = name
@@ -7471,16 +7425,16 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.optionApiName = try c.lenientRequired(.optionApiName)
-            self.active = try c.lenientRequired(.active)
-            self.name = try c.lenientRequired(.name)
+            self.optionApiName = c.lenient(.optionApiName)
+            self.active = c.lenient(.active)
+            self.name = c.lenient(.name)
         }
     }
 
     public struct CommonDataMetaDataEditEnumOptionResponse: Codable, Sendable {
         public var enumFieldApiName: String?
-        public var enumFieldOptions: [CommonDataMetaDataEditEnumOptionResponseEnumFieldOption]?
-        public init(enumFieldApiName: String? = nil, enumFieldOptions: [CommonDataMetaDataEditEnumOptionResponseEnumFieldOption]? = nil) {
+        public var enumFieldOptions: [EnumFieldOption]?
+        public init(enumFieldApiName: String? = nil, enumFieldOptions: [EnumFieldOption]? = nil) {
             self.enumFieldApiName = enumFieldApiName
             self.enumFieldOptions = enumFieldOptions
         }
@@ -7492,28 +7446,6 @@ extension CoreHR {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.enumFieldApiName = c.lenient(.enumFieldApiName)
             self.enumFieldOptions = c.lenient(.enumFieldOptions)
-        }
-    }
-
-    public struct CommonDataMetaDataEditEnumOptionResponseEnumFieldOption: Codable, Sendable {
-        public var optionApiName: String
-        public var active: Bool?
-        public var name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName
-        public init(optionApiName: String, active: Bool? = nil, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName) {
-            self.optionApiName = optionApiName
-            self.active = active
-            self.name = name
-        }
-        enum CodingKeys: String, CodingKey {
-            case optionApiName = "option_api_name"
-            case active
-            case name
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.optionApiName = try c.lenientRequired(.optionApiName)
-            self.active = c.lenient(.active)
-            self.name = try c.lenientRequired(.name)
         }
     }
 
@@ -7540,9 +7472,9 @@ extension CoreHR {
     }
 
     public struct CommonDataMetaDataAddEnumOptionBodyEnumFieldOption: Codable, Sendable {
-        public var optionApiName: String
-        public var name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName
-        public init(optionApiName: String, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName) {
+        public var optionApiName: String?
+        public var name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName?
+        public init(optionApiName: String? = nil, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil) {
             self.optionApiName = optionApiName
             self.name = name
         }
@@ -7552,8 +7484,8 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.optionApiName = try c.lenientRequired(.optionApiName)
-            self.name = try c.lenientRequired(.name)
+            self.optionApiName = c.lenient(.optionApiName)
+            self.name = c.lenient(.name)
         }
     }
 
@@ -7594,10 +7526,10 @@ extension CoreHR {
     }
 
     public struct AssignedOrganizationItem: Codable, Sendable {
-        public var orgKey: String
+        public var orgKey: String?
         public var orgIds: [String]?
         public var orgCodes: [String]?
-        public init(orgKey: String, orgIds: [String]? = nil, orgCodes: [String]? = nil) {
+        public init(orgKey: String? = nil, orgIds: [String]? = nil, orgCodes: [String]? = nil) {
             self.orgKey = orgKey
             self.orgIds = orgIds
             self.orgCodes = orgCodes
@@ -7609,7 +7541,7 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.orgKey = try c.lenientRequired(.orgKey)
+            self.orgKey = c.lenient(.orgKey)
             self.orgIds = c.lenient(.orgIds)
             self.orgCodes = c.lenient(.orgCodes)
         }
@@ -7662,9 +7594,9 @@ extension CoreHR {
     }
 
     public struct RoleAuthorization: Codable, Sendable {
-        public var employmentId: String
-        public var permissionDetailList: [PermissionDetailList]
-        public init(employmentId: String, permissionDetailList: [PermissionDetailList]) {
+        public var employmentId: String?
+        public var permissionDetailList: [PermissionDetailList]?
+        public init(employmentId: String? = nil, permissionDetailList: [PermissionDetailList]? = nil) {
             self.employmentId = employmentId
             self.permissionDetailList = permissionDetailList
         }
@@ -7674,8 +7606,8 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.employmentId = try c.lenientRequired(.employmentId)
-            self.permissionDetailList = try c.lenientRequired(.permissionDetailList)
+            self.employmentId = c.lenient(.employmentId)
+            self.permissionDetailList = c.lenient(.permissionDetailList)
         }
     }
 
@@ -7706,12 +7638,12 @@ extension CoreHR {
     }
 
     public struct Role: Codable, Sendable {
-        public var id: String
-        public var code: String
+        public var id: String?
+        public var code: String?
         public var name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName?
         public var description: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName?
         public var orgTruncation: [OrgTruncation]?
-        public init(id: String, code: String, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, description: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, orgTruncation: [OrgTruncation]? = nil) {
+        public init(id: String? = nil, code: String? = nil, name: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, description: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, orgTruncation: [OrgTruncation]? = nil) {
             self.id = id
             self.code = code
             self.name = name
@@ -7727,8 +7659,8 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.code = try c.lenientRequired(.code)
+            self.id = c.lenient(.id)
+            self.code = c.lenient(.code)
             self.name = c.lenient(.name)
             self.description = c.lenient(.description)
             self.orgTruncation = c.lenient(.orgTruncation)
@@ -7736,10 +7668,10 @@ extension CoreHR {
     }
 
     public struct AssignedOrganizationList: Codable, Sendable {
-        public var orgKey: String
+        public var orgKey: String?
         public var orgName: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName?
-        public var orgIdList: [String]
-        public init(orgKey: String, orgName: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, orgIdList: [String]) {
+        public var orgIdList: [String]?
+        public init(orgKey: String? = nil, orgName: JobChangeCreateResponseTransferInfoOriginalEmploymentChangeCustomFieldName? = nil, orgIdList: [String]? = nil) {
             self.orgKey = orgKey
             self.orgName = orgName
             self.orgIdList = orgIdList
@@ -7751,9 +7683,9 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.orgKey = try c.lenientRequired(.orgKey)
+            self.orgKey = c.lenient(.orgKey)
             self.orgName = c.lenient(.orgName)
-            self.orgIdList = try c.lenientRequired(.orgIdList)
+            self.orgIdList = c.lenient(.orgIdList)
         }
     }
 
@@ -7932,9 +7864,9 @@ extension CoreHR {
     }
 
     public struct Authorization: Codable, Sendable {
-        public var employmentId: String
-        public var permissionDetailList: [AuthorizationPermissionDetailList]
-        public init(employmentId: String, permissionDetailList: [AuthorizationPermissionDetailList]) {
+        public var employmentId: String?
+        public var permissionDetailList: [AuthorizationPermissionDetailList]?
+        public init(employmentId: String? = nil, permissionDetailList: [AuthorizationPermissionDetailList]? = nil) {
             self.employmentId = employmentId
             self.permissionDetailList = permissionDetailList
         }
@@ -7944,8 +7876,8 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.employmentId = try c.lenientRequired(.employmentId)
-            self.permissionDetailList = try c.lenientRequired(.permissionDetailList)
+            self.employmentId = c.lenient(.employmentId)
+            self.permissionDetailList = c.lenient(.permissionDetailList)
         }
     }
 
@@ -8006,9 +7938,9 @@ extension CoreHR {
     }
 
     public struct ManagementScopeList: Codable, Sendable {
-        public var managementDimension: String
-        public var objId: String
-        public init(managementDimension: String, objId: String) {
+        public var managementDimension: String?
+        public var objId: String?
+        public init(managementDimension: String? = nil, objId: String? = nil) {
             self.managementDimension = managementDimension
             self.objId = objId
         }
@@ -8018,8 +7950,8 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.managementDimension = try c.lenientRequired(.managementDimension)
-            self.objId = try c.lenientRequired(.objId)
+            self.managementDimension = c.lenient(.managementDimension)
+            self.objId = c.lenient(.objId)
         }
     }
 
@@ -8046,9 +7978,9 @@ extension CoreHR {
     }
 
     public struct AssignedUser: Codable, Sendable {
-        public var employmentId: String
+        public var employmentId: String?
         public var managementScopeList: [ManagementScopeList]?
-        public init(employmentId: String, managementScopeList: [ManagementScopeList]? = nil) {
+        public init(employmentId: String? = nil, managementScopeList: [ManagementScopeList]? = nil) {
             self.employmentId = employmentId
             self.managementScopeList = managementScopeList
         }
@@ -8058,7 +7990,7 @@ extension CoreHR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.employmentId = try c.lenientRequired(.employmentId)
+            self.employmentId = c.lenient(.employmentId)
             self.managementScopeList = c.lenient(.managementScopeList)
         }
     }
@@ -8136,16 +8068,16 @@ extension CoreHR {
         public var versionId: String?
         public var jobLevelId: String?
         public var jobGradeId: String?
-        public var employeeTypeId: String
+        public var employeeTypeId: String?
         public var workingHoursTypeId: String?
         public var workLocationId: String?
         public var departmentId: String?
         public var jobId: String?
         public var probationStartDate: String?
         public var probationEndDate: String?
-        public var primaryJobData: Bool
-        public var employmentId: String
-        public var effectiveTime: String
+        public var primaryJobData: Bool?
+        public var employmentId: String?
+        public var effectiveTime: String?
         public var expirationTime: String?
         public var jobFamilyId: String?
         public var assignmentStartReason: ContractType?
@@ -8166,7 +8098,7 @@ extension CoreHR {
         public var pathwayId: String?
         public var jobDataReason: ContractType?
         public var workCalendarId: String?
-        public init(id: String? = nil, versionId: String? = nil, jobLevelId: String? = nil, jobGradeId: String? = nil, employeeTypeId: String, workingHoursTypeId: String? = nil, workLocationId: String? = nil, departmentId: String? = nil, jobId: String? = nil, probationStartDate: String? = nil, probationEndDate: String? = nil, primaryJobData: Bool, employmentId: String, effectiveTime: String, expirationTime: String? = nil, jobFamilyId: String? = nil, assignmentStartReason: ContractType? = nil, probationExpectedEndDate: String? = nil, probationOutcome: ContractType? = nil, weeklyWorkingHours: Int? = nil, directManagerId: String? = nil, dottedLineManagerIdList: [String]? = nil, secondDirectManagerId: String? = nil, costCenterRate: [CostCenterRate]? = nil, customFields: [CustomField]? = nil, weeklyWorkingHoursV2: Double? = nil, workShift: ContractType? = nil, compensationType: ContractType? = nil, serviceCompany: String? = nil, employeeSubtypeId: String? = nil, positionId: String? = nil, pathwayId: String? = nil, jobDataReason: ContractType? = nil, workCalendarId: String? = nil) {
+        public init(id: String? = nil, versionId: String? = nil, jobLevelId: String? = nil, jobGradeId: String? = nil, employeeTypeId: String? = nil, workingHoursTypeId: String? = nil, workLocationId: String? = nil, departmentId: String? = nil, jobId: String? = nil, probationStartDate: String? = nil, probationEndDate: String? = nil, primaryJobData: Bool? = nil, employmentId: String? = nil, effectiveTime: String? = nil, expirationTime: String? = nil, jobFamilyId: String? = nil, assignmentStartReason: ContractType? = nil, probationExpectedEndDate: String? = nil, probationOutcome: ContractType? = nil, weeklyWorkingHours: Int? = nil, directManagerId: String? = nil, dottedLineManagerIdList: [String]? = nil, secondDirectManagerId: String? = nil, costCenterRate: [CostCenterRate]? = nil, customFields: [CustomField]? = nil, weeklyWorkingHoursV2: Double? = nil, workShift: ContractType? = nil, compensationType: ContractType? = nil, serviceCompany: String? = nil, employeeSubtypeId: String? = nil, positionId: String? = nil, pathwayId: String? = nil, jobDataReason: ContractType? = nil, workCalendarId: String? = nil) {
             self.id = id
             self.versionId = versionId
             self.jobLevelId = jobLevelId
@@ -8244,16 +8176,16 @@ extension CoreHR {
             self.versionId = c.lenient(.versionId)
             self.jobLevelId = c.lenient(.jobLevelId)
             self.jobGradeId = c.lenient(.jobGradeId)
-            self.employeeTypeId = try c.lenientRequired(.employeeTypeId)
+            self.employeeTypeId = c.lenient(.employeeTypeId)
             self.workingHoursTypeId = c.lenient(.workingHoursTypeId)
             self.workLocationId = c.lenient(.workLocationId)
             self.departmentId = c.lenient(.departmentId)
             self.jobId = c.lenient(.jobId)
             self.probationStartDate = c.lenient(.probationStartDate)
             self.probationEndDate = c.lenient(.probationEndDate)
-            self.primaryJobData = try c.lenientRequired(.primaryJobData)
-            self.employmentId = try c.lenientRequired(.employmentId)
-            self.effectiveTime = try c.lenientRequired(.effectiveTime)
+            self.primaryJobData = c.lenient(.primaryJobData)
+            self.employmentId = c.lenient(.employmentId)
+            self.effectiveTime = c.lenient(.effectiveTime)
             self.expirationTime = c.lenient(.expirationTime)
             self.jobFamilyId = c.lenient(.jobFamilyId)
             self.assignmentStartReason = c.lenient(.assignmentStartReason)
@@ -8296,16 +8228,16 @@ extension CoreHR {
         public var versionId: String?
         public var jobLevelId: String?
         public var jobGradeId: String?
-        public var employeeTypeId: String
+        public var employeeTypeId: String?
         public var workingHoursTypeId: String?
         public var workLocationId: String?
         public var departmentId: String?
         public var jobId: String?
         public var probationStartDate: String?
         public var probationEndDate: String?
-        public var primaryJobData: Bool
-        public var employmentId: String
-        public var effectiveTime: String
+        public var primaryJobData: Bool?
+        public var employmentId: String?
+        public var effectiveTime: String?
         public var expirationTime: String?
         public var jobFamilyId: String?
         public var assignmentStartReason: ContractType?
@@ -8325,7 +8257,7 @@ extension CoreHR {
         public var pathwayId: String?
         public var jobDataReason: ContractType?
         public var workCalendarId: String?
-        public init(id: String? = nil, versionId: String? = nil, jobLevelId: String? = nil, jobGradeId: String? = nil, employeeTypeId: String, workingHoursTypeId: String? = nil, workLocationId: String? = nil, departmentId: String? = nil, jobId: String? = nil, probationStartDate: String? = nil, probationEndDate: String? = nil, primaryJobData: Bool, employmentId: String, effectiveTime: String, expirationTime: String? = nil, jobFamilyId: String? = nil, assignmentStartReason: ContractType? = nil, probationExpectedEndDate: String? = nil, weeklyWorkingHours: Int? = nil, directManagerId: String? = nil, dottedLineManagerIdList: [String]? = nil, secondDirectManagerId: String? = nil, costCenterRate: [CostCenterRate]? = nil, customFields: [CustomField]? = nil, weeklyWorkingHoursV2: Double? = nil, workShift: ContractType? = nil, compensationType: ContractType? = nil, serviceCompany: String? = nil, employeeSubtypeId: String? = nil, positionId: String? = nil, pathwayId: String? = nil, jobDataReason: ContractType? = nil, workCalendarId: String? = nil) {
+        public init(id: String? = nil, versionId: String? = nil, jobLevelId: String? = nil, jobGradeId: String? = nil, employeeTypeId: String? = nil, workingHoursTypeId: String? = nil, workLocationId: String? = nil, departmentId: String? = nil, jobId: String? = nil, probationStartDate: String? = nil, probationEndDate: String? = nil, primaryJobData: Bool? = nil, employmentId: String? = nil, effectiveTime: String? = nil, expirationTime: String? = nil, jobFamilyId: String? = nil, assignmentStartReason: ContractType? = nil, probationExpectedEndDate: String? = nil, weeklyWorkingHours: Int? = nil, directManagerId: String? = nil, dottedLineManagerIdList: [String]? = nil, secondDirectManagerId: String? = nil, costCenterRate: [CostCenterRate]? = nil, customFields: [CustomField]? = nil, weeklyWorkingHoursV2: Double? = nil, workShift: ContractType? = nil, compensationType: ContractType? = nil, serviceCompany: String? = nil, employeeSubtypeId: String? = nil, positionId: String? = nil, pathwayId: String? = nil, jobDataReason: ContractType? = nil, workCalendarId: String? = nil) {
             self.id = id
             self.versionId = versionId
             self.jobLevelId = jobLevelId
@@ -8401,16 +8333,16 @@ extension CoreHR {
             self.versionId = c.lenient(.versionId)
             self.jobLevelId = c.lenient(.jobLevelId)
             self.jobGradeId = c.lenient(.jobGradeId)
-            self.employeeTypeId = try c.lenientRequired(.employeeTypeId)
+            self.employeeTypeId = c.lenient(.employeeTypeId)
             self.workingHoursTypeId = c.lenient(.workingHoursTypeId)
             self.workLocationId = c.lenient(.workLocationId)
             self.departmentId = c.lenient(.departmentId)
             self.jobId = c.lenient(.jobId)
             self.probationStartDate = c.lenient(.probationStartDate)
             self.probationEndDate = c.lenient(.probationEndDate)
-            self.primaryJobData = try c.lenientRequired(.primaryJobData)
-            self.employmentId = try c.lenientRequired(.employmentId)
-            self.effectiveTime = try c.lenientRequired(.effectiveTime)
+            self.primaryJobData = c.lenient(.primaryJobData)
+            self.employmentId = c.lenient(.employmentId)
+            self.effectiveTime = c.lenient(.effectiveTime)
             self.expirationTime = c.lenient(.expirationTime)
             self.jobFamilyId = c.lenient(.jobFamilyId)
             self.assignmentStartReason = c.lenient(.assignmentStartReason)
@@ -8604,16 +8536,16 @@ extension CoreHR {
         public var versionId: String?
         public var jobLevelId: String?
         public var jobGradeId: String?
-        public var employeeTypeId: String
+        public var employeeTypeId: String?
         public var workingHoursTypeId: String?
         public var workLocationId: String?
         public var departmentId: String?
         public var jobId: String?
         public var probationStartDate: String?
         public var probationEndDate: String?
-        public var primaryJobData: Bool
-        public var employmentId: String
-        public var effectiveTime: String
+        public var primaryJobData: Bool?
+        public var employmentId: String?
+        public var effectiveTime: String?
         public var expirationTime: String?
         public var jobFamilyId: String?
         public var assignmentStartReason: ContractType?
@@ -8631,7 +8563,7 @@ extension CoreHR {
         public var employeeSubtypeId: String?
         public var pathwayId: String?
         public var workCalendarId: String?
-        public init(id: String? = nil, versionId: String? = nil, jobLevelId: String? = nil, jobGradeId: String? = nil, employeeTypeId: String, workingHoursTypeId: String? = nil, workLocationId: String? = nil, departmentId: String? = nil, jobId: String? = nil, probationStartDate: String? = nil, probationEndDate: String? = nil, primaryJobData: Bool, employmentId: String, effectiveTime: String, expirationTime: String? = nil, jobFamilyId: String? = nil, assignmentStartReason: ContractType? = nil, probationExpectedEndDate: String? = nil, weeklyWorkingHours: Int? = nil, directManagerId: String? = nil, dottedLineManagerIdList: [String]? = nil, secondDirectManagerId: String? = nil, costCenterRate: [CostCenterRate]? = nil, customFields: [CustomField]? = nil, weeklyWorkingHoursV2: Double? = nil, workShift: ContractType? = nil, compensationType: ContractType? = nil, serviceCompany: String? = nil, employeeSubtypeId: String? = nil, pathwayId: String? = nil, workCalendarId: String? = nil) {
+        public init(id: String? = nil, versionId: String? = nil, jobLevelId: String? = nil, jobGradeId: String? = nil, employeeTypeId: String? = nil, workingHoursTypeId: String? = nil, workLocationId: String? = nil, departmentId: String? = nil, jobId: String? = nil, probationStartDate: String? = nil, probationEndDate: String? = nil, primaryJobData: Bool? = nil, employmentId: String? = nil, effectiveTime: String? = nil, expirationTime: String? = nil, jobFamilyId: String? = nil, assignmentStartReason: ContractType? = nil, probationExpectedEndDate: String? = nil, weeklyWorkingHours: Int? = nil, directManagerId: String? = nil, dottedLineManagerIdList: [String]? = nil, secondDirectManagerId: String? = nil, costCenterRate: [CostCenterRate]? = nil, customFields: [CustomField]? = nil, weeklyWorkingHoursV2: Double? = nil, workShift: ContractType? = nil, compensationType: ContractType? = nil, serviceCompany: String? = nil, employeeSubtypeId: String? = nil, pathwayId: String? = nil, workCalendarId: String? = nil) {
             self.id = id
             self.versionId = versionId
             self.jobLevelId = jobLevelId
@@ -8703,16 +8635,16 @@ extension CoreHR {
             self.versionId = c.lenient(.versionId)
             self.jobLevelId = c.lenient(.jobLevelId)
             self.jobGradeId = c.lenient(.jobGradeId)
-            self.employeeTypeId = try c.lenientRequired(.employeeTypeId)
+            self.employeeTypeId = c.lenient(.employeeTypeId)
             self.workingHoursTypeId = c.lenient(.workingHoursTypeId)
             self.workLocationId = c.lenient(.workLocationId)
             self.departmentId = c.lenient(.departmentId)
             self.jobId = c.lenient(.jobId)
             self.probationStartDate = c.lenient(.probationStartDate)
             self.probationEndDate = c.lenient(.probationEndDate)
-            self.primaryJobData = try c.lenientRequired(.primaryJobData)
-            self.employmentId = try c.lenientRequired(.employmentId)
-            self.effectiveTime = try c.lenientRequired(.effectiveTime)
+            self.primaryJobData = c.lenient(.primaryJobData)
+            self.employmentId = c.lenient(.employmentId)
+            self.effectiveTime = c.lenient(.effectiveTime)
             self.expirationTime = c.lenient(.expirationTime)
             self.jobFamilyId = c.lenient(.jobFamilyId)
             self.assignmentStartReason = c.lenient(.assignmentStartReason)
@@ -9438,6 +9370,82 @@ extension CoreHR {
             self.items = c.lenient(.items)
             self.pageToken = c.lenient(.pageToken)
             self.hasMore = c.lenient(.hasMore)
+        }
+    }
+
+    public struct CostCenter: Codable, Sendable {
+        public var costCenterId: String?
+        public var versionId: String?
+        public var name: [Display]?
+        public var code: String?
+        public var parentCostCenterId: String?
+        public var managers: [String]?
+        public var description: [Display]?
+        public var effectiveTime: String?
+        public var expirationTime: String?
+        public var active: Bool?
+        public init(costCenterId: String? = nil, versionId: String? = nil, name: [Display]? = nil, code: String? = nil, parentCostCenterId: String? = nil, managers: [String]? = nil, description: [Display]? = nil, effectiveTime: String? = nil, expirationTime: String? = nil, active: Bool? = nil) {
+            self.costCenterId = costCenterId
+            self.versionId = versionId
+            self.name = name
+            self.code = code
+            self.parentCostCenterId = parentCostCenterId
+            self.managers = managers
+            self.description = description
+            self.effectiveTime = effectiveTime
+            self.expirationTime = expirationTime
+            self.active = active
+        }
+        enum CodingKeys: String, CodingKey {
+            case costCenterId = "cost_center_id"
+            case versionId = "version_id"
+            case name
+            case code
+            case parentCostCenterId = "parent_cost_center_id"
+            case managers
+            case description
+            case effectiveTime = "effective_time"
+            case expirationTime = "expiration_time"
+            case active
+        }
+        public init(from decoder: any Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            self.costCenterId = c.lenient(.costCenterId)
+            self.versionId = c.lenient(.versionId)
+            self.name = c.lenient(.name)
+            self.code = c.lenient(.code)
+            self.parentCostCenterId = c.lenient(.parentCostCenterId)
+            self.managers = c.lenient(.managers)
+            self.description = c.lenient(.description)
+            self.effectiveTime = c.lenient(.effectiveTime)
+            self.expirationTime = c.lenient(.expirationTime)
+            self.active = c.lenient(.active)
+        }
+    }
+
+    public struct CostCenterQueryRecentChangeQuery: Codable, Sendable {
+        public var pageSize: Int
+        public var pageToken: String?
+        public var startDate: String
+        public var endDate: String
+        public init(pageSize: Int, pageToken: String? = nil, startDate: String, endDate: String) {
+            self.pageSize = pageSize
+            self.pageToken = pageToken
+            self.startDate = startDate
+            self.endDate = endDate
+        }
+        enum CodingKeys: String, CodingKey {
+            case pageSize = "page_size"
+            case pageToken = "page_token"
+            case startDate = "start_date"
+            case endDate = "end_date"
+        }
+        public init(from decoder: any Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            self.pageSize = try c.lenientRequired(.pageSize)
+            self.pageToken = c.lenient(.pageToken)
+            self.startDate = try c.lenientRequired(.startDate)
+            self.endDate = try c.lenientRequired(.endDate)
         }
     }
 }

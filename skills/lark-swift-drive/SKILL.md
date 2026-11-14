@@ -50,7 +50,7 @@ as `client.drive.<resource>`):
 for try await page in client.drive.v1.file.listWithIterator(
     params: .init(pageSize: 50, folderToken: folderToken, orderBy: .editedTime, direction: "DESC"))
 {
-    for f in page.files ?? [] { print(f.type, f.name, f.token, f.url ?? "") }
+    for f in page.files ?? [] { print(f.type ?? "", f.name ?? "", f.token ?? "", f.url ?? "") }
 }
 
 let folder = try await client.drive.v1.file.createFolder(body: .init(name: "Reports", folderToken: parentFolderToken))
@@ -127,7 +127,7 @@ print(head.data.count)
 let img = try await client.drive.v1.media.download(fileToken: imageToken)
 try img.writeFile("/tmp/image.png")
 let links = try await client.drive.v1.media.batchGetTmpDownloadUrl(params: .init(fileTokens: [imageToken]))
-for l in links.data?.tmpDownloadUrls ?? [] { print(l.fileToken, l.tmpDownloadUrl) }   // valid for 24 h
+for l in links.data?.tmpDownloadUrls ?? [] { print(l.fileToken ?? "", l.tmpDownloadUrl ?? "") }   // valid for 24 h
 ```
 
 ## Export a document (docx/sheet/bitable → pdf/docx/xlsx/csv)
@@ -182,7 +182,7 @@ _ = try await client.drive.v1.permissionMember.batchCreate(
     body: .init(members: [.init(memberType: .openchat, memberId: chatId, perm: .view, type: .chat)]))
 
 let members = try await client.drive.v1.permissionMember.list(token: documentId, params: .init(type: .docx))
-for m in members.data?.items ?? [] { print(m.memberType.rawValue, m.memberId, m.perm.rawValue, m.name ?? "") }
+for m in members.data?.items ?? [] { print(m.memberType?.rawValue ?? "", m.memberId ?? "", m.perm?.rawValue ?? "", m.name ?? "") }
 
 let check = try await client.drive.v1.permissionMember.auth(
     token: documentId, params: .init(type: .docx, action: .edit), options: .userAccessToken(userToken))
@@ -202,8 +202,8 @@ as a collaborator directly: add the bot to a group and grant that group access i
 let metas = try await client.drive.v1.meta.batchQuery(body: .init(requestDocs: [
     .init(docToken: documentId, docType: .docx), .init(docToken: sheetToken, docType: .sheet),
 ], withUrl: true))
-for m in metas.data?.metas ?? [] { print(m.docType, m.title, m.ownerId, m.latestModifyTime, m.url) }
-for f in metas.data?.failedList ?? [] { print("failed:", f.token, f.code) }
+for m in metas.data?.metas ?? [] { print(m.docType ?? "", m.title ?? "", m.ownerId ?? "", m.latestModifyTime ?? "", m.url ?? "") }
+for f in metas.data?.failedList ?? [] { print("failed:", f.token ?? "", f.code ?? 0) }
 
 _ = try await client.drive.v1.file.move(fileToken: fileToken, body: .init(type: .file, folderToken: targetFolderToken))
 let copied = try await client.drive.v1.file.copy(
@@ -226,7 +226,7 @@ for try await page in client.drive.v1.fileComment.listWithIterator(
     fileToken: documentId, params: .init(fileType: .docx, isSolved: false, pageSize: 50))
 {
     for c in page.items ?? [] {
-        let text = c.replyList?.replies.first?.content.elements.compactMap { $0.textRun?.text }.joined() ?? ""
+        let text = c.replyList?.replies?.first?.content?.elements?.compactMap { $0.textRun?.text }.joined() ?? ""
         print(c.commentId ?? "", c.quote ?? "", text)
     }
 }
@@ -252,7 +252,7 @@ let dispatcher = EventDispatcher()
 
 ## Gotchas
 
-- `Drive.Direction` cases are generated as `.aSC` / `.dESC`; prefer the literals `"ASC"` / `"DESC"`.
+- Open enums take literals or static members: `direction: "ASC"` and `direction: .asc` are the same.
 - `permissionMember.list` is not paginated: one call returns every collaborator.
 - Endpoint missing (e.g. the root folder meta above)? `client.request(...)` (see
   `lark-swift-sdk`). Never call method names that are not in `Sources/LarkDrive/DriveService.swift`.

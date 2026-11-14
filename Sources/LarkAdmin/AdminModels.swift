@@ -140,15 +140,15 @@ extension Admin {
     public struct Grant: Codable, Sendable {
         public var id: String?
         public var badgeId: String?
-        public var name: String
-        public var grantType: Int
-        public var timeZone: String
-        public var ruleDetail: RuleDetail
-        public var isGrantAll: Bool
+        public var name: String?
+        public var grantType: Int?
+        public var timeZone: String?
+        public var ruleDetail: RuleDetail?
+        public var isGrantAll: Bool?
         public var userIds: [String]?
         public var departmentIds: [String]?
         public var groupIds: [String]?
-        public init(id: String? = nil, badgeId: String? = nil, name: String, grantType: Int, timeZone: String, ruleDetail: RuleDetail, isGrantAll: Bool, userIds: [String]? = nil, departmentIds: [String]? = nil, groupIds: [String]? = nil) {
+        public init(id: String? = nil, badgeId: String? = nil, name: String? = nil, grantType: Int? = nil, timeZone: String? = nil, ruleDetail: RuleDetail? = nil, isGrantAll: Bool? = nil, userIds: [String]? = nil, departmentIds: [String]? = nil, groupIds: [String]? = nil) {
             self.id = id
             self.badgeId = badgeId
             self.name = name
@@ -176,11 +176,11 @@ extension Admin {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
             self.badgeId = c.lenient(.badgeId)
-            self.name = try c.lenientRequired(.name)
-            self.grantType = try c.lenientRequired(.grantType)
-            self.timeZone = try c.lenientRequired(.timeZone)
-            self.ruleDetail = try c.lenientRequired(.ruleDetail)
-            self.isGrantAll = try c.lenientRequired(.isGrantAll)
+            self.name = c.lenient(.name)
+            self.grantType = c.lenient(.grantType)
+            self.timeZone = c.lenient(.timeZone)
+            self.ruleDetail = c.lenient(.ruleDetail)
+            self.isGrantAll = c.lenient(.isGrantAll)
             self.userIds = c.lenient(.userIds)
             self.departmentIds = c.lenient(.departmentIds)
             self.groupIds = c.lenient(.groupIds)
@@ -311,13 +311,13 @@ extension Admin {
 
     public struct Badge: Codable, Sendable {
         public var id: String?
-        public var name: String
+        public var name: String?
         public var explanation: String?
-        public var detailImage: String
-        public var showImage: String
+        public var detailImage: String?
+        public var showImage: String?
         public var i18nName: I18nName?
         public var i18nExplanation: I18nName?
-        public init(id: String? = nil, name: String, explanation: String? = nil, detailImage: String, showImage: String, i18nName: I18nName? = nil, i18nExplanation: I18nName? = nil) {
+        public init(id: String? = nil, name: String? = nil, explanation: String? = nil, detailImage: String? = nil, showImage: String? = nil, i18nName: I18nName? = nil, i18nExplanation: I18nName? = nil) {
             self.id = id
             self.name = name
             self.explanation = explanation
@@ -338,10 +338,10 @@ extension Admin {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.explanation = c.lenient(.explanation)
-            self.detailImage = try c.lenientRequired(.detailImage)
-            self.showImage = try c.lenientRequired(.showImage)
+            self.detailImage = c.lenient(.detailImage)
+            self.showImage = c.lenient(.showImage)
             self.i18nName = c.lenient(.i18nName)
             self.i18nExplanation = c.lenient(.i18nExplanation)
         }
@@ -424,8 +424,8 @@ extension Admin {
     }
 
     public struct Password: Codable, Sendable {
-        public var entEmailPassword: String
-        public init(entEmailPassword: String) {
+        public var entEmailPassword: String?
+        public init(entEmailPassword: String? = nil) {
             self.entEmailPassword = entEmailPassword
         }
         enum CodingKeys: String, CodingKey {
@@ -433,7 +433,7 @@ extension Admin {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.entEmailPassword = try c.lenientRequired(.entEmailPassword)
+            self.entEmailPassword = c.lenient(.entEmailPassword)
         }
     }
 
@@ -570,9 +570,9 @@ extension Admin {
     public struct AuditInfo: Codable, Sendable {
         public var eventId: String?
         public var uniqueId: String?
-        public var eventName: String
+        public var eventName: String?
         public var departmentIds: [String]?
-        public var eventModule: Int
+        public var eventModule: Int?
         public var operatorType: Int?
         public var operatorValue: String?
         public var objects: [AuditInfoObject]?
@@ -587,7 +587,7 @@ extension Admin {
         public var auditDetail: AuditDetail?
         public var operatorTenant: String?
         public var operatorDetail: OperatorDetail?
-        public init(eventId: String? = nil, uniqueId: String? = nil, eventName: String, departmentIds: [String]? = nil, eventModule: Int, operatorType: Int? = nil, operatorValue: String? = nil, objects: [AuditInfoObject]? = nil, recipients: [Recipient]? = nil, eventTime: Int? = nil, ip: String? = nil, operatorApp: String? = nil, auditContext: AuditContext? = nil, extend: AuditInfoExtend? = nil, operatorAppName: String? = nil, commonDrawers: CommonDrawers? = nil, auditDetail: AuditDetail? = nil, operatorTenant: String? = nil, operatorDetail: OperatorDetail? = nil) {
+        public init(eventId: String? = nil, uniqueId: String? = nil, eventName: String? = nil, departmentIds: [String]? = nil, eventModule: Int? = nil, operatorType: Int? = nil, operatorValue: String? = nil, objects: [AuditInfoObject]? = nil, recipients: [Recipient]? = nil, eventTime: Int? = nil, ip: String? = nil, operatorApp: String? = nil, auditContext: AuditContext? = nil, extend: AuditInfoExtend? = nil, operatorAppName: String? = nil, commonDrawers: CommonDrawers? = nil, auditDetail: AuditDetail? = nil, operatorTenant: String? = nil, operatorDetail: OperatorDetail? = nil) {
             self.eventId = eventId
             self.uniqueId = uniqueId
             self.eventName = eventName
@@ -633,9 +633,9 @@ extension Admin {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.eventId = c.lenient(.eventId)
             self.uniqueId = c.lenient(.uniqueId)
-            self.eventName = try c.lenientRequired(.eventName)
+            self.eventName = c.lenient(.eventName)
             self.departmentIds = c.lenient(.departmentIds)
-            self.eventModule = try c.lenientRequired(.eventModule)
+            self.eventModule = c.lenient(.eventModule)
             self.operatorType = c.lenient(.operatorType)
             self.operatorValue = c.lenient(.operatorValue)
             self.objects = c.lenient(.objects)
@@ -833,8 +833,8 @@ extension Admin {
         public var appVer: String?
         public var ver: String?
         public var os: String?
-        public var sTZone: String?
-        public var mL: String?
+        public var stZone: String?
+        public var ml: String?
         public var sjd: String?
         public var proxyip: String?
         public var wifip: String?
@@ -842,15 +842,15 @@ extension Admin {
         public var activeIp: String?
         public var activeIpDetail: String?
         public var cellBaseStation: String?
-        public var iP: String?
-        public init(udid: String? = nil, did: String? = nil, appVer: String? = nil, ver: String? = nil, os: String? = nil, sTZone: String? = nil, mL: String? = nil, sjd: String? = nil, proxyip: String? = nil, wifip: String? = nil, location: String? = nil, activeIp: String? = nil, activeIpDetail: String? = nil, cellBaseStation: String? = nil, iP: String? = nil) {
+        public var ip: String?
+        public init(udid: String? = nil, did: String? = nil, appVer: String? = nil, ver: String? = nil, os: String? = nil, stZone: String? = nil, ml: String? = nil, sjd: String? = nil, proxyip: String? = nil, wifip: String? = nil, location: String? = nil, activeIp: String? = nil, activeIpDetail: String? = nil, cellBaseStation: String? = nil, ip: String? = nil) {
             self.udid = udid
             self.did = did
             self.appVer = appVer
             self.ver = ver
             self.os = os
-            self.sTZone = sTZone
-            self.mL = mL
+            self.stZone = stZone
+            self.ml = ml
             self.sjd = sjd
             self.proxyip = proxyip
             self.wifip = wifip
@@ -858,7 +858,7 @@ extension Admin {
             self.activeIp = activeIp
             self.activeIpDetail = activeIpDetail
             self.cellBaseStation = cellBaseStation
-            self.iP = iP
+            self.ip = ip
         }
         enum CodingKeys: String, CodingKey {
             case udid
@@ -866,8 +866,8 @@ extension Admin {
             case appVer = "app_ver"
             case ver
             case os
-            case sTZone = "STZone"
-            case mL = "ML"
+            case stZone = "STZone"
+            case ml = "ML"
             case sjd
             case proxyip
             case wifip
@@ -875,7 +875,7 @@ extension Admin {
             case activeIp = "active_ip"
             case activeIpDetail = "active_ip_detail"
             case cellBaseStation = "cell_base_station"
-            case iP = "IP"
+            case ip = "IP"
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -884,8 +884,8 @@ extension Admin {
             self.appVer = c.lenient(.appVer)
             self.ver = c.lenient(.ver)
             self.os = c.lenient(.os)
-            self.sTZone = c.lenient(.sTZone)
-            self.mL = c.lenient(.mL)
+            self.stZone = c.lenient(.stZone)
+            self.ml = c.lenient(.ml)
             self.sjd = c.lenient(.sjd)
             self.proxyip = c.lenient(.proxyip)
             self.wifip = c.lenient(.wifip)
@@ -893,7 +893,7 @@ extension Admin {
             self.activeIp = c.lenient(.activeIp)
             self.activeIpDetail = c.lenient(.activeIpDetail)
             self.cellBaseStation = c.lenient(.cellBaseStation)
-            self.iP = c.lenient(.iP)
+            self.ip = c.lenient(.ip)
         }
     }
 
@@ -905,8 +905,8 @@ extension Admin {
         public var os: String?
         public var wifip: String?
         public var region: String?
-        public var iP: String?
-        public init(udid: String? = nil, did: String? = nil, appVer: String? = nil, ver: String? = nil, os: String? = nil, wifip: String? = nil, region: String? = nil, iP: String? = nil) {
+        public var ip: String?
+        public init(udid: String? = nil, did: String? = nil, appVer: String? = nil, ver: String? = nil, os: String? = nil, wifip: String? = nil, region: String? = nil, ip: String? = nil) {
             self.udid = udid
             self.did = did
             self.appVer = appVer
@@ -914,7 +914,7 @@ extension Admin {
             self.os = os
             self.wifip = wifip
             self.region = region
-            self.iP = iP
+            self.ip = ip
         }
         enum CodingKeys: String, CodingKey {
             case udid
@@ -924,7 +924,7 @@ extension Admin {
             case os
             case wifip
             case region
-            case iP = "IP"
+            case ip = "IP"
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -935,25 +935,25 @@ extension Admin {
             self.os = c.lenient(.os)
             self.wifip = c.lenient(.wifip)
             self.region = c.lenient(.region)
-            self.iP = c.lenient(.iP)
+            self.ip = c.lenient(.ip)
         }
     }
 
     public struct WebContext: Codable, Sendable {
         public var userAgent: String?
-        public var iP: String?
-        public init(userAgent: String? = nil, iP: String? = nil) {
+        public var ip: String?
+        public init(userAgent: String? = nil, ip: String? = nil) {
             self.userAgent = userAgent
-            self.iP = iP
+            self.ip = ip
         }
         enum CodingKeys: String, CodingKey {
             case userAgent = "user_agent"
-            case iP = "IP"
+            case ip = "IP"
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.userAgent = c.lenient(.userAgent)
-            self.iP = c.lenient(.iP)
+            self.ip = c.lenient(.ip)
         }
     }
 
@@ -977,8 +977,8 @@ extension Admin {
         public var activeIp: String?
         public var activeIpDetail: String?
         public var cellBaseStation: String?
-        public var iP: String?
-        public init(udid: String? = nil, did: String? = nil, appVer: String? = nil, ver: String? = nil, region: String? = nil, idI: String? = nil, idR: String? = nil, hwBrand: String? = nil, hwManuf: String? = nil, wifip: String? = nil, routeIip: String? = nil, routeGip: String? = nil, envSu: String? = nil, envTz: String? = nil, envMl: String? = nil, location: String? = nil, activeIp: String? = nil, activeIpDetail: String? = nil, cellBaseStation: String? = nil, iP: String? = nil) {
+        public var ip: String?
+        public init(udid: String? = nil, did: String? = nil, appVer: String? = nil, ver: String? = nil, region: String? = nil, idI: String? = nil, idR: String? = nil, hwBrand: String? = nil, hwManuf: String? = nil, wifip: String? = nil, routeIip: String? = nil, routeGip: String? = nil, envSu: String? = nil, envTz: String? = nil, envMl: String? = nil, location: String? = nil, activeIp: String? = nil, activeIpDetail: String? = nil, cellBaseStation: String? = nil, ip: String? = nil) {
             self.udid = udid
             self.did = did
             self.appVer = appVer
@@ -998,7 +998,7 @@ extension Admin {
             self.activeIp = activeIp
             self.activeIpDetail = activeIpDetail
             self.cellBaseStation = cellBaseStation
-            self.iP = iP
+            self.ip = ip
         }
         enum CodingKeys: String, CodingKey {
             case udid
@@ -1020,7 +1020,7 @@ extension Admin {
             case activeIp = "active_ip"
             case activeIpDetail = "active_ip_detail"
             case cellBaseStation = "cell_base_station"
-            case iP = "IP"
+            case ip = "IP"
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -1043,7 +1043,7 @@ extension Admin {
             self.activeIp = c.lenient(.activeIp)
             self.activeIpDetail = c.lenient(.activeIpDetail)
             self.cellBaseStation = c.lenient(.cellBaseStation)
-            self.iP = c.lenient(.iP)
+            self.ip = c.lenient(.ip)
         }
     }
 
@@ -1168,9 +1168,9 @@ extension Admin {
     }
 
     public struct OperatorDetail: Codable, Sendable {
-        public var operatorName: OperatorName
+        public var operatorName: OperatorName?
         public var tenantName: String?
-        public init(operatorName: OperatorName, tenantName: String? = nil) {
+        public init(operatorName: OperatorName? = nil, tenantName: String? = nil) {
             self.operatorName = operatorName
             self.tenantName = tenantName
         }
@@ -1180,15 +1180,15 @@ extension Admin {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.operatorName = try c.lenientRequired(.operatorName)
+            self.operatorName = c.lenient(.operatorName)
             self.tenantName = c.lenient(.tenantName)
         }
     }
 
     public struct OperatorName: Codable, Sendable {
-        public var defaultName: String
+        public var defaultName: String?
         public var i18nValue: I18nName?
-        public init(defaultName: String, i18nValue: I18nName? = nil) {
+        public init(defaultName: String? = nil, i18nValue: I18nName? = nil) {
             self.defaultName = defaultName
             self.i18nValue = i18nValue
         }
@@ -1198,7 +1198,7 @@ extension Admin {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.defaultName = try c.lenientRequired(.defaultName)
+            self.defaultName = c.lenient(.defaultName)
             self.i18nValue = c.lenient(.i18nValue)
         }
     }

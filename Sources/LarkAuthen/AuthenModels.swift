@@ -201,13 +201,13 @@ extension Authen {
     }
 
     public struct OidcAccessTokenCreateResponse: Codable, Sendable {
-        public var accessToken: String
+        public var accessToken: String?
         public var refreshToken: String?
-        public var tokenType: String
+        public var tokenType: String?
         public var expiresIn: Int?
         public var refreshExpiresIn: Int?
         public var scope: String?
-        public init(accessToken: String, refreshToken: String? = nil, tokenType: String, expiresIn: Int? = nil, refreshExpiresIn: Int? = nil, scope: String? = nil) {
+        public init(accessToken: String? = nil, refreshToken: String? = nil, tokenType: String? = nil, expiresIn: Int? = nil, refreshExpiresIn: Int? = nil, scope: String? = nil) {
             self.accessToken = accessToken
             self.refreshToken = refreshToken
             self.tokenType = tokenType
@@ -225,9 +225,9 @@ extension Authen {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.accessToken = try c.lenientRequired(.accessToken)
+            self.accessToken = c.lenient(.accessToken)
             self.refreshToken = c.lenient(.refreshToken)
-            self.tokenType = try c.lenientRequired(.tokenType)
+            self.tokenType = c.lenient(.tokenType)
             self.expiresIn = c.lenient(.expiresIn)
             self.refreshExpiresIn = c.lenient(.refreshExpiresIn)
             self.scope = c.lenient(.scope)

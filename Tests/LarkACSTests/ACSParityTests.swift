@@ -151,7 +151,7 @@ import LarkACS
 
     @Test("POST /open-apis/acs/v1/visitors") func v1_visitor_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"visitor_id":"s"}}"##)
-        let resp = try await client.acs.v1.visitor.create(params: ACS.UserPatchQuery(), body: ACS.VisitorCreateBody(user: ACS.RuleUser(userType: 1)))
+        let resp = try await client.acs.v1.visitor.create(params: ACS.UserPatchQuery(), body: ACS.VisitorCreateBody(user: ACS.RuleUser()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

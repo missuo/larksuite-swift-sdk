@@ -48,7 +48,7 @@ var token: String? = nil
 repeat {
     let r = try await client.calendar.v4.calendar.list(params: .init(pageSize: 500, pageToken: token))
     for c in r.data?.calendarList ?? [] {
-        print(c.calendarId, c.summary ?? "", c.type?.rawValue ?? "", c.role?.rawValue ?? "")
+        print(c.calendarId ?? "", c.summary ?? "", c.type?.rawValue ?? "", c.role?.rawValue ?? "")
     }
     token = r.data?.hasMore == true ? r.data?.pageToken : nil
 } while token != nil
@@ -103,13 +103,13 @@ let r = try await client.calendar.v4.calendarEvent.list(
     calendarId: calendarId,
     params: .init(pageSize: 500, startTime: String(from), endTime: String(to), userIdType: .openId))
 for e in r.data?.items ?? [] where e.status != "cancelled" {
-    print(e.eventId, e.summary ?? "", e.startTime.timestamp ?? e.startTime.date ?? "", e.recurrence ?? "")
+    print(e.eventId ?? "", e.summary ?? "", e.startTime?.timestamp ?? e.startTime?.date ?? "", e.recurrence ?? "")
 }
 
 // Recurring events expanded into single occurrences (window of at most 40 days)
 let view = try await client.calendar.v4.calendarEvent.instanceView(
     calendarId: calendarId, params: .init(startTime: String(from), endTime: String(to), userIdType: .openId))
-for e in view.data?.items ?? [] { print(e.eventId, e.summary ?? "", e.startTime?.timestamp ?? "") }
+for e in view.data?.items ?? [] { print(e.eventId ?? "", e.summary ?? "", e.startTime?.timestamp ?? "") }
 ```
 
 Set `startTime` and `endTime` together. For incremental sync, call `list` without a window and
@@ -124,7 +124,7 @@ let fmt = ISO8601DateFormatter()                       // "2026-11-20T01:00:00Z"
 let timeMin = fmt.string(from: Date()), timeMax = fmt.string(from: Date().addingTimeInterval(86_400))
 let fb = try await client.calendar.v4.freebusy.list(
     params: .init(userIdType: .openId), body: .init(timeMin: timeMin, timeMax: timeMax, userId: attendeeOpenId))
-for slot in fb.data?.freebusyList ?? [] { print("busy", slot.startTime, "-", slot.endTime) }
+for slot in fb.data?.freebusyList ?? [] { print("busy", slot.startTime ?? "", "-", slot.endTime ?? "") }
 
 // Several users at once (meeting rooms: freebusy.list with roomId:)
 let many = try await client.calendar.v4.freebusy.batch(
@@ -188,9 +188,8 @@ let dispatcher = EventDispatcher()
 - **Pagination**: iterators exist only where node-sdk has them (`calendarEventAttendee`,
   `calendarAcl.list`, `calendar.search`, `calendarEvent.search`). Page `calendar.list` and
   `calendarEvent.list` manually with `pageToken`/`hasMore`.
-- **Strict required fields**: list items missing a field node-sdk marks required are dropped
-  from the decoded array; a missing top-level field throws `LarkError.decoding(message:body:)`.
-  When in doubt read `response.json` (the whole body as `JSONValue`).
+- **Every response field is optional**: like node-sdk (which never validates server data), a
+  field the server omits is `nil`. The whole body is also available as `response.json`.
 - **Endpoints node-sdk lacks**: `client.request(.get, "/open-apis/calendar/v4/...", query: q, as: JSONValue.self)`.
   Never guess a generated method name; grep `Sources/LarkCalendar/CalendarService.swift` for the
   HTTP path.

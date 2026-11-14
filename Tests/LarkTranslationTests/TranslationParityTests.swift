@@ -21,7 +21,7 @@ import LarkTranslation
 
     @Test("POST /open-apis/translation/v1/text/detect") func v1_text_detect() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"language":"s"}}"##)
-        let resp = try await client.translation.v1.text.detect(body: Translation.TextTranslateResponse(text: "s"))
+        let resp = try await client.translation.v1.text.detect(body: Translation.TextDetectBody(text: "s"))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

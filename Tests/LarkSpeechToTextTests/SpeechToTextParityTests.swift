@@ -10,7 +10,7 @@ import LarkSpeechToText
 @Suite struct SpeechToTextParityTests {
     @Test("POST /open-apis/speech_to_text/v1/speech/file_recognize") func v1_speech_fileRecognize() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"recognition_text":"s"}}"##)
-        let resp = try await client.speechToText.v1.speech.fileRecognize(body: SpeechToText.SpeechFileRecognizeBody(speech: SpeechToText.Speech(), config: SpeechToText.SpeechFileRecognizeBodyConfig(fileId: "s", format: "s", engineType: "s")))
+        let resp = try await client.speechToText.v1.speech.fileRecognize(body: SpeechToText.SpeechFileRecognizeBody(speech: SpeechToText.Speech(), config: SpeechToText.SpeechFileRecognizeBodyConfig()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -21,7 +21,7 @@ import LarkSpeechToText
 
     @Test("POST /open-apis/speech_to_text/v1/speech/stream_recognize") func v1_speech_streamRecognize() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"stream_id":"s","sequence_id":1,"recognition_text":"s"}}"##)
-        let resp = try await client.speechToText.v1.speech.streamRecognize(body: SpeechToText.SpeechStreamRecognizeBody(speech: SpeechToText.Speech(), config: SpeechToText.SpeechStreamRecognizeBodyConfig(streamId: "s", sequenceId: 1, action: 1, format: "s", engineType: "s")))
+        let resp = try await client.speechToText.v1.speech.streamRecognize(body: SpeechToText.SpeechStreamRecognizeBody(speech: SpeechToText.Speech(), config: SpeechToText.SpeechStreamRecognizeBodyConfig()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

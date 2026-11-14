@@ -14,6 +14,8 @@ extension Sheets {
 
     public typealias SpreadsheetSheetFilterViewConditionCreateResponse = SpreadsheetSheetFilterViewConditionGetResponse
 
+    public typealias SpreadsheetSheetFilterViewConditionUpdateBody = Condition
+
     public typealias SpreadsheetSheetFilterViewConditionUpdateResponse = SpreadsheetSheetFilterViewConditionGetResponse
 
     public typealias SpreadsheetSheetFloatImageGetResponse = SpreadsheetSheetFloatImageCreateResponse
@@ -186,12 +188,12 @@ extension Sheets {
     }
 
     public struct FindCondition: Codable, Sendable {
-        public var range: String
+        public var range: String?
         public var matchCase: Bool?
         public var matchEntireCell: Bool?
         public var searchByRegex: Bool?
         public var includeFormulas: Bool?
-        public init(range: String, matchCase: Bool? = nil, matchEntireCell: Bool? = nil, searchByRegex: Bool? = nil, includeFormulas: Bool? = nil) {
+        public init(range: String? = nil, matchCase: Bool? = nil, matchEntireCell: Bool? = nil, searchByRegex: Bool? = nil, includeFormulas: Bool? = nil) {
             self.range = range
             self.matchCase = matchCase
             self.matchEntireCell = matchEntireCell
@@ -207,7 +209,7 @@ extension Sheets {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.range = try c.lenientRequired(.range)
+            self.range = c.lenient(.range)
             self.matchCase = c.lenient(.matchCase)
             self.matchEntireCell = c.lenient(.matchEntireCell)
             self.searchByRegex = c.lenient(.searchByRegex)
@@ -456,10 +458,10 @@ extension Sheets {
     }
 
     public struct SheetFilterInfo: Codable, Sendable {
-        public var range: String
-        public var filteredOutRows: [Int]
-        public var filterInfos: [FilterInfo]
-        public init(range: String, filteredOutRows: [Int], filterInfos: [FilterInfo]) {
+        public var range: String?
+        public var filteredOutRows: [Int]?
+        public var filterInfos: [FilterInfo]?
+        public init(range: String? = nil, filteredOutRows: [Int]? = nil, filterInfos: [FilterInfo]? = nil) {
             self.range = range
             self.filteredOutRows = filteredOutRows
             self.filterInfos = filterInfos
@@ -471,16 +473,16 @@ extension Sheets {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.range = try c.lenientRequired(.range)
-            self.filteredOutRows = try c.lenientRequired(.filteredOutRows)
-            self.filterInfos = try c.lenientRequired(.filterInfos)
+            self.range = c.lenient(.range)
+            self.filteredOutRows = c.lenient(.filteredOutRows)
+            self.filterInfos = c.lenient(.filterInfos)
         }
     }
 
     public struct FilterInfo: Codable, Sendable {
-        public var col: String
-        public var conditions: [Condition]
-        public init(col: String, conditions: [Condition]) {
+        public var col: String?
+        public var conditions: [Condition]?
+        public init(col: String? = nil, conditions: [Condition]? = nil) {
             self.col = col
             self.conditions = conditions
         }
@@ -490,16 +492,16 @@ extension Sheets {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.col = try c.lenientRequired(.col)
-            self.conditions = try c.lenientRequired(.conditions)
+            self.col = c.lenient(.col)
+            self.conditions = c.lenient(.conditions)
         }
     }
 
     public struct Condition: Codable, Sendable {
-        public var filterType: String
+        public var filterType: String?
         public var compareType: String?
         public var expected: [String]?
-        public init(filterType: String, compareType: String? = nil, expected: [String]? = nil) {
+        public init(filterType: String? = nil, compareType: String? = nil, expected: [String]? = nil) {
             self.filterType = filterType
             self.compareType = compareType
             self.expected = expected
@@ -511,7 +513,7 @@ extension Sheets {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.filterType = try c.lenientRequired(.filterType)
+            self.filterType = c.lenient(.filterType)
             self.compareType = c.lenient(.compareType)
             self.expected = c.lenient(.expected)
         }
@@ -676,28 +678,6 @@ extension Sheets {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.items = c.lenient(.items)
-        }
-    }
-
-    public struct SpreadsheetSheetFilterViewConditionUpdateBody: Codable, Sendable {
-        public var filterType: String?
-        public var compareType: String?
-        public var expected: [String]?
-        public init(filterType: String? = nil, compareType: String? = nil, expected: [String]? = nil) {
-            self.filterType = filterType
-            self.compareType = compareType
-            self.expected = expected
-        }
-        enum CodingKeys: String, CodingKey {
-            case filterType = "filter_type"
-            case compareType = "compare_type"
-            case expected
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.filterType = c.lenient(.filterType)
-            self.compareType = c.lenient(.compareType)
-            self.expected = c.lenient(.expected)
         }
     }
 

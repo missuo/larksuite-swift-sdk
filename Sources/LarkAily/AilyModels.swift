@@ -61,13 +61,13 @@ extension Aily {
     }
 
     public struct Session: Codable, Sendable {
-        public var id: String
-        public var createdAt: String
-        public var modifiedAt: String
-        public var createdBy: String
+        public var id: String?
+        public var createdAt: String?
+        public var modifiedAt: String?
+        public var createdBy: String?
         public var channelContext: String?
         public var metadata: String?
-        public init(id: String, createdAt: String, modifiedAt: String, createdBy: String, channelContext: String? = nil, metadata: String? = nil) {
+        public init(id: String? = nil, createdAt: String? = nil, modifiedAt: String? = nil, createdBy: String? = nil, channelContext: String? = nil, metadata: String? = nil) {
             self.id = id
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
@@ -85,10 +85,10 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.createdAt = try c.lenientRequired(.createdAt)
-            self.modifiedAt = try c.lenientRequired(.modifiedAt)
-            self.createdBy = try c.lenientRequired(.createdBy)
+            self.id = c.lenient(.id)
+            self.createdAt = c.lenient(.createdAt)
+            self.modifiedAt = c.lenient(.modifiedAt)
+            self.createdBy = c.lenient(.createdBy)
             self.channelContext = c.lenient(.channelContext)
             self.metadata = c.lenient(.metadata)
         }
@@ -535,11 +535,11 @@ extension Aily {
     }
 
     public struct ChunkSetting: Codable, Sendable {
-        public var ruleType: RuleType
+        public var ruleType: RuleType?
         public var separateType: SeparateType?
         public var size: Int?
         public var overlap: Int?
-        public init(ruleType: RuleType, separateType: SeparateType? = nil, size: Int? = nil, overlap: Int? = nil) {
+        public init(ruleType: RuleType? = nil, separateType: SeparateType? = nil, size: Int? = nil, overlap: Int? = nil) {
             self.ruleType = ruleType
             self.separateType = separateType
             self.size = size
@@ -553,7 +553,7 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.ruleType = try c.lenientRequired(.ruleType)
+            self.ruleType = c.lenient(.ruleType)
             self.separateType = c.lenient(.separateType)
             self.size = c.lenient(.size)
             self.overlap = c.lenient(.overlap)
@@ -607,11 +607,11 @@ extension Aily {
     }
 
     public struct LarkDoc: Codable, Sendable {
-        public var type: LarkDocType
-        public var token: String
+        public var type: LarkDocType?
+        public var token: String?
         public var withSubDocs: Bool?
         public var url: String?
-        public init(type: LarkDocType, token: String, withSubDocs: Bool? = nil, url: String? = nil) {
+        public init(type: LarkDocType? = nil, token: String? = nil, withSubDocs: Bool? = nil, url: String? = nil) {
             self.type = type
             self.token = token
             self.withSubDocs = withSubDocs
@@ -625,8 +625,8 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.token = try c.lenientRequired(.token)
+            self.type = c.lenient(.type)
+            self.token = c.lenient(.token)
             self.withSubDocs = c.lenient(.withSubDocs)
             self.url = c.lenient(.url)
         }
@@ -644,10 +644,10 @@ extension Aily {
     }
 
     public struct LarkWikiSpace: Codable, Sendable {
-        public var spaceId: String
+        public var spaceId: String?
         public var subDocs: [SubDoc]?
         public var url: String?
-        public init(spaceId: String, subDocs: [SubDoc]? = nil, url: String? = nil) {
+        public init(spaceId: String? = nil, subDocs: [SubDoc]? = nil, url: String? = nil) {
             self.spaceId = spaceId
             self.subDocs = subDocs
             self.url = url
@@ -659,17 +659,17 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.spaceId = try c.lenientRequired(.spaceId)
+            self.spaceId = c.lenient(.spaceId)
             self.subDocs = c.lenient(.subDocs)
             self.url = c.lenient(.url)
         }
     }
 
     public struct SubDoc: Codable, Sendable {
-        public var type: SubDocType
-        public var token: String
+        public var type: SubDocType?
+        public var token: String?
         public var url: String?
-        public init(type: SubDocType, token: String, url: String? = nil) {
+        public init(type: SubDocType? = nil, token: String? = nil, url: String? = nil) {
             self.type = type
             self.token = token
             self.url = url
@@ -681,8 +681,8 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.token = try c.lenientRequired(.token)
+            self.type = c.lenient(.type)
+            self.token = c.lenient(.token)
             self.url = c.lenient(.url)
         }
     }
@@ -695,8 +695,8 @@ extension Aily {
     }
 
     public struct LarkHelpdesk: Codable, Sendable {
-        public var helpdeskId: String
-        public init(helpdeskId: String) {
+        public var helpdeskId: String?
+        public init(helpdeskId: String? = nil) {
             self.helpdeskId = helpdeskId
         }
         enum CodingKeys: String, CodingKey {
@@ -704,7 +704,7 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.helpdeskId = try c.lenientRequired(.helpdeskId)
+            self.helpdeskId = c.lenient(.helpdeskId)
         }
     }
 
@@ -1004,9 +1004,9 @@ extension Aily {
     }
 
     public struct FileInfo: Codable, Sendable {
-        public var token: String
-        public var mimeType: String
-        public init(token: String, mimeType: String) {
+        public var token: String?
+        public var mimeType: String?
+        public init(token: String? = nil, mimeType: String? = nil) {
             self.token = token
             self.mimeType = mimeType
         }
@@ -1016,8 +1016,8 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
-            self.mimeType = try c.lenientRequired(.mimeType)
+            self.token = c.lenient(.token)
+            self.mimeType = c.lenient(.mimeType)
         }
     }
 
@@ -1036,16 +1036,16 @@ extension Aily {
     }
 
     public struct Run: Codable, Sendable {
-        public var id: String
-        public var createdAt: String
-        public var appId: String
-        public var sessionId: String
-        public var status: RunStatus
+        public var id: String?
+        public var createdAt: String?
+        public var appId: String?
+        public var sessionId: String?
+        public var status: RunStatus?
         public var startedAt: String?
         public var endedAt: String?
         public var error: RunError?
         public var metadata: String?
-        public init(id: String, createdAt: String, appId: String, sessionId: String, status: RunStatus, startedAt: String? = nil, endedAt: String? = nil, error: RunError? = nil, metadata: String? = nil) {
+        public init(id: String? = nil, createdAt: String? = nil, appId: String? = nil, sessionId: String? = nil, status: RunStatus? = nil, startedAt: String? = nil, endedAt: String? = nil, error: RunError? = nil, metadata: String? = nil) {
             self.id = id
             self.createdAt = createdAt
             self.appId = appId
@@ -1069,11 +1069,11 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.createdAt = try c.lenientRequired(.createdAt)
-            self.appId = try c.lenientRequired(.appId)
-            self.sessionId = try c.lenientRequired(.sessionId)
-            self.status = try c.lenientRequired(.status)
+            self.id = c.lenient(.id)
+            self.createdAt = c.lenient(.createdAt)
+            self.appId = c.lenient(.appId)
+            self.sessionId = c.lenient(.sessionId)
+            self.status = c.lenient(.status)
             self.startedAt = c.lenient(.startedAt)
             self.endedAt = c.lenient(.endedAt)
             self.error = c.lenient(.error)
@@ -1085,19 +1085,19 @@ extension Aily {
     public struct RunStatus: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let qUEUED: Self = "QUEUED"
-        public static let iNPROGRESS: Self = "IN_PROGRESS"
-        public static let rEQUIRESMESSAGE: Self = "REQUIRES_MESSAGE"
-        public static let cANCELLED: Self = "CANCELLED"
-        public static let cOMPLETED: Self = "COMPLETED"
-        public static let fAILED: Self = "FAILED"
-        public static let eXPIRED: Self = "EXPIRED"
+        public static let queued: Self = "QUEUED"
+        public static let inProgress: Self = "IN_PROGRESS"
+        public static let requiresMessage: Self = "REQUIRES_MESSAGE"
+        public static let cancelled: Self = "CANCELLED"
+        public static let completed: Self = "COMPLETED"
+        public static let failed: Self = "FAILED"
+        public static let expired: Self = "EXPIRED"
     }
 
     public struct RunError: Codable, Sendable {
-        public var code: String
-        public var message: String
-        public init(code: String, message: String) {
+        public var code: String?
+        public var message: String?
+        public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
         }
@@ -1107,8 +1107,8 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.code = try c.lenientRequired(.code)
-            self.message = try c.lenientRequired(.message)
+            self.code = c.lenient(.code)
+            self.message = c.lenient(.message)
         }
     }
 
@@ -1274,11 +1274,11 @@ extension Aily {
     public struct ContentType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let mDX: Self = "MDX"
-        public static let tEXT: Self = "TEXT"
-        public static let cLIP: Self = "CLIP"
+        public static let mdx: Self = "MDX"
+        public static let text: Self = "TEXT"
+        public static let clip: Self = "CLIP"
         public static let smartCard: Self = "SmartCard"
-        public static let jSON: Self = "JSON"
+        public static let json: Self = "JSON"
     }
 
     public struct AilySessionAilyMessageListResponseMessageFile: Codable, Sendable {
@@ -1316,9 +1316,9 @@ extension Aily {
     }
 
     public struct PreviewUrl: Codable, Sendable {
-        public var url: String
+        public var url: String?
         public var expiredAt: String?
-        public init(url: String, expiredAt: String? = nil) {
+        public init(url: String? = nil, expiredAt: String? = nil) {
             self.url = url
             self.expiredAt = expiredAt
         }
@@ -1328,7 +1328,7 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.url = try c.lenientRequired(.url)
+            self.url = c.lenient(.url)
             self.expiredAt = c.lenient(.expiredAt)
         }
     }
@@ -1363,16 +1363,16 @@ extension Aily {
     public struct IdentityProvider: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let aILY: Self = "AILY"
-        public static let fEISHU: Self = "FEISHU"
+        public static let aily: Self = "AILY"
+        public static let feishu: Self = "FEISHU"
     }
 
     /// Open enumeration: unknown server values are preserved in `rawValue`.
     public struct SenderType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let uSER: Self = "USER"
-        public static let aSSISTANT: Self = "ASSISTANT"
+        public static let user: Self = "USER"
+        public static let assistant: Self = "ASSISTANT"
     }
 
     public struct Mention: Codable, Sendable {
@@ -1409,8 +1409,8 @@ extension Aily {
     public struct AilySessionAilyMessageListResponseMessageStatus: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let iNPROGRESS: Self = "IN_PROGRESS"
-        public static let cOMPLETED: Self = "COMPLETED"
+        public static let inProgress: Self = "IN_PROGRESS"
+        public static let completed: Self = "COMPLETED"
     }
 
     public struct AilySessionAilyMessageGetResponse: Codable, Sendable {
@@ -1519,8 +1519,8 @@ extension Aily {
     }
 
     public struct AgentAgentAttachmentCreateResponse: Codable, Sendable {
-        public var agentAttachmentId: String
-        public init(agentAttachmentId: String) {
+        public var agentAttachmentId: String?
+        public init(agentAttachmentId: String? = nil) {
             self.agentAttachmentId = agentAttachmentId
         }
         enum CodingKeys: String, CodingKey {
@@ -1528,7 +1528,7 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.agentAttachmentId = try c.lenientRequired(.agentAttachmentId)
+            self.agentAttachmentId = c.lenient(.agentAttachmentId)
         }
     }
 
@@ -1585,7 +1585,7 @@ extension Aily {
     }
 
     public struct TenantAppStat: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var name: String?
         public var avgDailyActiveUserNum: Double?
         public var avgDailyRunNum: Double?
@@ -1593,7 +1593,7 @@ extension Aily {
         public var totalCreditUsage: Double?
         public var owner: Owner?
         public var appCreatedAt: String?
-        public init(id: String, name: String? = nil, avgDailyActiveUserNum: Double? = nil, avgDailyRunNum: Double? = nil, avgDailyCreditUsage: Double? = nil, totalCreditUsage: Double? = nil, owner: Owner? = nil, appCreatedAt: String? = nil) {
+        public init(id: String? = nil, name: String? = nil, avgDailyActiveUserNum: Double? = nil, avgDailyRunNum: Double? = nil, avgDailyCreditUsage: Double? = nil, totalCreditUsage: Double? = nil, owner: Owner? = nil, appCreatedAt: String? = nil) {
             self.id = id
             self.name = name
             self.avgDailyActiveUserNum = avgDailyActiveUserNum
@@ -1615,7 +1615,7 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.name = c.lenient(.name)
             self.avgDailyActiveUserNum = c.lenient(.avgDailyActiveUserNum)
             self.avgDailyRunNum = c.lenient(.avgDailyRunNum)
@@ -1627,13 +1627,13 @@ extension Aily {
     }
 
     public struct Owner: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var name: String?
         public var tenantId: String?
         public var larkUserId: String?
         public var openUserId: String?
         public var openId: String?
-        public init(id: String, name: String? = nil, tenantId: String? = nil, larkUserId: String? = nil, openUserId: String? = nil, openId: String? = nil) {
+        public init(id: String? = nil, name: String? = nil, tenantId: String? = nil, larkUserId: String? = nil, openUserId: String? = nil, openId: String? = nil) {
             self.id = id
             self.name = name
             self.tenantId = tenantId
@@ -1651,7 +1651,7 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.name = c.lenient(.name)
             self.tenantId = c.lenient(.tenantId)
             self.larkUserId = c.lenient(.larkUserId)
@@ -1661,10 +1661,10 @@ extension Aily {
     }
 
     public struct AgentAgentChatGetResponse: Codable, Sendable {
-        public var content: [AgentAgentChatGetResponseContent]
+        public var content: [AgentAgentChatGetResponseContent]?
         public var finishReason: String?
-        public var status: String
-        public init(content: [AgentAgentChatGetResponseContent], finishReason: String? = nil, status: String) {
+        public var status: String?
+        public init(content: [AgentAgentChatGetResponseContent]? = nil, finishReason: String? = nil, status: String? = nil) {
             self.content = content
             self.finishReason = finishReason
             self.status = status
@@ -1676,9 +1676,9 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.content = try c.lenientRequired(.content)
+            self.content = c.lenient(.content)
             self.finishReason = c.lenient(.finishReason)
-            self.status = try c.lenientRequired(.status)
+            self.status = c.lenient(.status)
         }
     }
 
@@ -1731,9 +1731,9 @@ extension Aily {
     }
 
     public struct UserMessage: Codable, Sendable {
-        public var content: [UserMessageContent]
+        public var content: [UserMessageContent]?
         public var agentAttachmentIds: [String]?
-        public init(content: [UserMessageContent], agentAttachmentIds: [String]? = nil) {
+        public init(content: [UserMessageContent]? = nil, agentAttachmentIds: [String]? = nil) {
             self.content = content
             self.agentAttachmentIds = agentAttachmentIds
         }
@@ -1743,15 +1743,15 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.content = try c.lenientRequired(.content)
+            self.content = c.lenient(.content)
             self.agentAttachmentIds = c.lenient(.agentAttachmentIds)
         }
     }
 
     public struct UserMessageContent: Codable, Sendable {
-        public var type: String
-        public var text: String
-        public init(type: String, text: String) {
+        public var type: String?
+        public var text: String?
+        public init(type: String? = nil, text: String? = nil) {
             self.type = type
             self.text = text
         }
@@ -1761,15 +1761,15 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.text = try c.lenientRequired(.text)
+            self.type = c.lenient(.type)
+            self.text = c.lenient(.text)
         }
     }
 
     public struct AgentAgentChatCreateResponse: Codable, Sendable {
-        public var agentChatId: String
+        public var agentChatId: String?
         public var sessionId: String?
-        public init(agentChatId: String, sessionId: String? = nil) {
+        public init(agentChatId: String? = nil, sessionId: String? = nil) {
             self.agentChatId = agentChatId
             self.sessionId = sessionId
         }
@@ -1779,7 +1779,7 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.agentChatId = try c.lenientRequired(.agentChatId)
+            self.agentChatId = c.lenient(.agentChatId)
             self.sessionId = c.lenient(.sessionId)
         }
     }
@@ -1899,12 +1899,12 @@ extension Aily {
     }
 
     public struct AgentAgentChatSessionListResponseSession: Codable, Sendable {
-        public var sessionId: String
+        public var sessionId: String?
         public var name: String?
         public var status: String?
         public var createdAt: Double?
         public var lastChatAt: Double?
-        public init(sessionId: String, name: String? = nil, status: String? = nil, createdAt: Double? = nil, lastChatAt: Double? = nil) {
+        public init(sessionId: String? = nil, name: String? = nil, status: String? = nil, createdAt: Double? = nil, lastChatAt: Double? = nil) {
             self.sessionId = sessionId
             self.name = name
             self.status = status
@@ -1920,7 +1920,7 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.sessionId = try c.lenientRequired(.sessionId)
+            self.sessionId = c.lenient(.sessionId)
             self.name = c.lenient(.name)
             self.status = c.lenient(.status)
             self.createdAt = c.lenient(.createdAt)
@@ -1943,10 +1943,10 @@ extension Aily {
     }
 
     public struct AgentArtifact: Codable, Sendable {
-        public var artifactId: String
-        public var name: String
-        public var url: String
-        public init(artifactId: String, name: String, url: String) {
+        public var artifactId: String?
+        public var name: String?
+        public var url: String?
+        public init(artifactId: String? = nil, name: String? = nil, url: String? = nil) {
             self.artifactId = artifactId
             self.name = name
             self.url = url
@@ -1958,9 +1958,9 @@ extension Aily {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.artifactId = try c.lenientRequired(.artifactId)
-            self.name = try c.lenientRequired(.name)
-            self.url = try c.lenientRequired(.url)
+            self.artifactId = c.lenient(.artifactId)
+            self.name = c.lenient(.name)
+            self.url = c.lenient(.url)
         }
     }
 }

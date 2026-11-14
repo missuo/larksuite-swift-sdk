@@ -63,8 +63,8 @@ extension Block {
     }
 
     public struct EntityCreateResponse: Codable, Sendable {
-        public var entity: EntityCreateResponseEntity
-        public init(entity: EntityCreateResponseEntity) {
+        public var entity: EntityCreateResponseEntity?
+        public init(entity: EntityCreateResponseEntity? = nil) {
             self.entity = entity
         }
         enum CodingKeys: String, CodingKey {
@@ -72,17 +72,17 @@ extension Block {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.entity = try c.lenientRequired(.entity)
+            self.entity = c.lenient(.entity)
         }
     }
 
     public struct EntityCreateResponseEntity: Codable, Sendable {
-        public var blockId: String
+        public var blockId: String?
         public var title: String?
-        public var blockTypeId: String
-        public var sourceData: String
-        public var sourceMeta: String
-        public var version: String
+        public var blockTypeId: String?
+        public var sourceData: String?
+        public var sourceMeta: String?
+        public var version: String?
         public var sourceLink: String?
         public var summary: String?
         public var preview: String?
@@ -90,7 +90,7 @@ extension Block {
         public var i18nPreview: String?
         public var owner: String?
         public var extra: String?
-        public init(blockId: String, title: String? = nil, blockTypeId: String, sourceData: String, sourceMeta: String, version: String, sourceLink: String? = nil, summary: String? = nil, preview: String? = nil, i18nSummay: String? = nil, i18nPreview: String? = nil, owner: String? = nil, extra: String? = nil) {
+        public init(blockId: String? = nil, title: String? = nil, blockTypeId: String? = nil, sourceData: String? = nil, sourceMeta: String? = nil, version: String? = nil, sourceLink: String? = nil, summary: String? = nil, preview: String? = nil, i18nSummay: String? = nil, i18nPreview: String? = nil, owner: String? = nil, extra: String? = nil) {
             self.blockId = blockId
             self.title = title
             self.blockTypeId = blockTypeId
@@ -122,12 +122,12 @@ extension Block {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.blockId = try c.lenientRequired(.blockId)
+            self.blockId = c.lenient(.blockId)
             self.title = c.lenient(.title)
-            self.blockTypeId = try c.lenientRequired(.blockTypeId)
-            self.sourceData = try c.lenientRequired(.sourceData)
-            self.sourceMeta = try c.lenientRequired(.sourceMeta)
-            self.version = try c.lenientRequired(.version)
+            self.blockTypeId = c.lenient(.blockTypeId)
+            self.sourceData = c.lenient(.sourceData)
+            self.sourceMeta = c.lenient(.sourceMeta)
+            self.version = c.lenient(.version)
             self.sourceLink = c.lenient(.sourceLink)
             self.summary = c.lenient(.summary)
             self.preview = c.lenient(.preview)

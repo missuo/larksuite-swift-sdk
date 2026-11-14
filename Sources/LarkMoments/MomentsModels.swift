@@ -45,7 +45,7 @@ extension Moments {
 
     public struct Post: Codable, Sendable {
         public var userId: String?
-        public var content: String
+        public var content: String?
         public var imageKeyList: [String]?
         public var mediaFileToken: String?
         public var commentCount: Int?
@@ -57,7 +57,7 @@ extension Moments {
         public var link: String?
         public var userType: Int?
         public var dislikeCount: Int?
-        public init(userId: String? = nil, content: String, imageKeyList: [String]? = nil, mediaFileToken: String? = nil, commentCount: Int? = nil, reactionSet: ReactionSet? = nil, id: String? = nil, createTime: String? = nil, mediaCoverImageKey: String? = nil, categoryIds: [String]? = nil, link: String? = nil, userType: Int? = nil, dislikeCount: Int? = nil) {
+        public init(userId: String? = nil, content: String? = nil, imageKeyList: [String]? = nil, mediaFileToken: String? = nil, commentCount: Int? = nil, reactionSet: ReactionSet? = nil, id: String? = nil, createTime: String? = nil, mediaCoverImageKey: String? = nil, categoryIds: [String]? = nil, link: String? = nil, userType: Int? = nil, dislikeCount: Int? = nil) {
             self.userId = userId
             self.content = content
             self.imageKeyList = imageKeyList
@@ -90,7 +90,7 @@ extension Moments {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.userId = c.lenient(.userId)
-            self.content = try c.lenientRequired(.content)
+            self.content = c.lenient(.content)
             self.imageKeyList = c.lenient(.imageKeyList)
             self.mediaFileToken = c.lenient(.mediaFileToken)
             self.commentCount = c.lenient(.commentCount)

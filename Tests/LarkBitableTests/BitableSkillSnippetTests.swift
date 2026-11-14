@@ -35,7 +35,7 @@ import Testing
 
         // Fields
         for try await page in client.bitable.v1.appTableField.listWithIterator(appToken: appToken, tableId: tableId) {
-            for f in page.items ?? [] { print(f.fieldId ?? "", f.fieldName, f.type, f.uiType?.rawValue ?? "") }
+            for f in page.items ?? [] { print(f.fieldId ?? "", f.fieldName ?? "", f.type ?? 0, f.uiType?.rawValue ?? "") }
         }
         _ = try await client.bitable.v1.appTableField.create(appToken: appToken, tableId: tableId,
             body: .init(fieldName: "Score", type: 2, property: .init(formatter: "0.0")))
@@ -106,7 +106,7 @@ import Testing
         for try await page in client.bitable.v1.appTableRecord.searchWithIterator(
             appToken: appToken, tableId: tableId, params: .init(userIdType: .openId, pageSize: 500), body: body)
         {
-            for r in page.items ?? [] { print(r.recordId ?? "", text(r.fields["Title"]), r.fields["Status"] ?? .null) }
+            for r in page.items ?? [] { print(r.recordId ?? "", text(r.fields?["Title"]), r.fields?["Status"] ?? .null) }
         }
         // One page: try await client.bitable.v1.appTableRecord.search(appToken:tableId:params:body:) -> data?.total
     }

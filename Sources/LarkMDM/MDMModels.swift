@@ -110,9 +110,9 @@ extension MDM {
     }
 
     public struct Filter: Codable, Sendable {
-        public var logic: Logic
+        public var logic: Logic?
         public var expressions: [Expression]?
-        public init(logic: Logic, expressions: [Expression]? = nil) {
+        public init(logic: Logic? = nil, expressions: [Expression]? = nil) {
             self.logic = logic
             self.expressions = expressions
         }
@@ -122,7 +122,7 @@ extension MDM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.logic = try c.lenientRequired(.logic)
+            self.logic = c.lenient(.logic)
             self.expressions = c.lenient(.expressions)
         }
     }
@@ -136,10 +136,10 @@ extension MDM {
     }
 
     public struct Expression: Codable, Sendable {
-        public var field: String
-        public var `operator`: Operator
-        public var value: ExpressionValue
-        public init(field: String, `operator`: Operator, value: ExpressionValue) {
+        public var field: String?
+        public var `operator`: Operator?
+        public var value: ExpressionValue?
+        public init(field: String? = nil, `operator`: Operator? = nil, value: ExpressionValue? = nil) {
             self.field = field
             self.operator = `operator`
             self.value = value
@@ -151,9 +151,9 @@ extension MDM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.field = try c.lenientRequired(.field)
-            self.operator = try c.lenientRequired(.`operator`)
-            self.value = try c.lenientRequired(.value)
+            self.field = c.lenient(.field)
+            self.operator = c.lenient(.`operator`)
+            self.value = c.lenient(.value)
         }
     }
 
@@ -311,9 +311,9 @@ extension MDM {
     }
 
     public struct Continents: Codable, Sendable {
-        public var value: String
+        public var value: String?
         public var multilingualName: [String: String]?
-        public init(value: String, multilingualName: [String: String]? = nil) {
+        public init(value: String? = nil, multilingualName: [String: String]? = nil) {
             self.value = value
             self.multilingualName = multilingualName
         }
@@ -323,7 +323,7 @@ extension MDM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.value = try c.lenientRequired(.value)
+            self.value = c.lenient(.value)
             self.multilingualName = c.lenient(.multilingualName)
         }
     }

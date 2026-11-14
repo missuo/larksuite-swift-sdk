@@ -20,7 +20,7 @@ import LarkIM
 
     @Test("POST /open-apis/im/v1/messages/:message_id/push_follow_up") func v1_message_pushFollowUp() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.im.v1.message.pushFollowUp(messageId: "s", body: IM.MessagePushFollowUpBody(followUps: [IM.FollowUps(content: "s")]))
+        let resp = try await client.im.v1.message.pushFollowUp(messageId: "s", body: IM.MessagePushFollowUpBody(followUps: [IM.FollowUps()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
@@ -462,7 +462,7 @@ import LarkIM
 
     @Test("POST /open-apis/im/v1/chats/:chat_id/chat_tabs/update_tabs") func v1_chatTab_updateTabs() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"chat_tabs":[{"tab_id":"s","tab_name":"s","tab_type":"message","tab_content":{"url":"s","doc":"s","meeting_minute":"s","task":"s"},"tab_config":{"icon_key":"s","is_built_in":true}}]}}"##)
-        let resp = try await client.im.v1.chatTab.updateTabs(chatId: "s", body: IM.ChatTabListTabsResponse())
+        let resp = try await client.im.v1.chatTab.updateTabs(chatId: "s", body: IM.ChatTabUpdateTabsBody())
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -473,7 +473,7 @@ import LarkIM
 
     @Test("POST /open-apis/im/v1/chats/:chat_id/chat_tabs") func v1_chatTab_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"chat_tabs":[{"tab_id":"s","tab_name":"s","tab_type":"message","tab_content":{"url":"s","doc":"s","meeting_minute":"s","task":"s"},"tab_config":{"icon_key":"s","is_built_in":true}}]}}"##)
-        let resp = try await client.im.v1.chatTab.create(chatId: "s", body: IM.ChatTabCreateBody(chatTabs: [IM.ChatTabCreateBodyChatTab(tabType: "message")]))
+        let resp = try await client.im.v1.chatTab.create(chatId: "s", body: IM.ChatTabCreateBody(chatTabs: [IM.ChatTabCreateBodyChatTab()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -558,7 +558,7 @@ import LarkIM
 
     @Test("POST /open-apis/im/v1/chats/:chat_id/menu_tree") func v1_chatMenuTree_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"menu_tree":{"chat_menu_top_levels":[{"chat_menu_top_level_id":"s","chat_menu_item":{"action_type":"NONE","redirect_link":{"common_url":"s","ios_url":"s","android_url":"s","pc_url":"s","web_url":"s"},"image_key":"s","name":"s","i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"}},"children":[{"chat_menu_second_level_id":"s","chat_menu_item":{"action_type":"NONE","redirect_link":{"common_url":"s","ios_url":"s","android_url":"s","pc_url":"s","web_url":"s"},"image_key":"s","name":"s","i18n_names":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}}]}]}}}"##)
-        let resp = try await client.im.v1.chatMenuTree.create(chatId: "s", body: IM.ChatMenuTreeCreateBody(menuTree: IM.ChatMenuTreeCreateBodyMenuTree(chatMenuTopLevels: [IM.ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevel(chatMenuItem: IM.ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevelChatMenuItem(actionType: "NONE", name: "s"))])))
+        let resp = try await client.im.v1.chatMenuTree.create(chatId: "s", body: IM.ChatMenuTreeCreateBody(menuTree: IM.ChatMenuTreeCreateBodyMenuTree()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -658,7 +658,7 @@ import LarkIM
 
     @Test("POST /open-apis/im/v1/messages/:message_id/reactions") func v1_messageReaction_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"reaction_id":"s","operator":{"operator_id":"s","operator_type":"app"},"action_time":"s","reaction_type":{"emoji_type":"s"}}}"##)
-        let resp = try await client.im.v1.messageReaction.create(messageId: "s", body: IM.MessageReactionCreateBody(reactionType: IM.ReactionType(emojiType: "s")))
+        let resp = try await client.im.v1.messageReaction.create(messageId: "s", body: IM.MessageReactionCreateBody(reactionType: IM.ReactionType()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -804,7 +804,7 @@ import LarkIM
 
     @Test("POST /open-apis/im/v2/tags") func v2_tag_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"id":"s","create_tag_fail_reason":{"duplicate_id":"s"}}}"##)
-        let resp = try await client.im.v2.tag.create(body: IM.TagCreateBody(createTag: IM.CreateTag(tagType: "tenant", name: "s")))
+        let resp = try await client.im.v2.tag.create(body: IM.TagCreateBody(createTag: IM.CreateTag()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

@@ -283,12 +283,12 @@ extension Minutes {
     }
 
     public struct MinuteSearchResponse: Codable, Sendable {
-        public var items: [MinuteSearchResponseItem]
+        public var items: [MinuteSearchResponseItem]?
         public var total: Int?
-        public var hasMore: Bool
+        public var hasMore: Bool?
         public var pageToken: String?
         public var notice: String?
-        public init(items: [MinuteSearchResponseItem], total: Int? = nil, hasMore: Bool, pageToken: String? = nil, notice: String? = nil) {
+        public init(items: [MinuteSearchResponseItem]? = nil, total: Int? = nil, hasMore: Bool? = nil, pageToken: String? = nil, notice: String? = nil) {
             self.items = items
             self.total = total
             self.hasMore = hasMore
@@ -304,19 +304,19 @@ extension Minutes {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
             self.total = c.lenient(.total)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
             self.pageToken = c.lenient(.pageToken)
             self.notice = c.lenient(.notice)
         }
     }
 
     public struct MinuteSearchResponseItem: Codable, Sendable {
-        public var token: String
+        public var token: String?
         public var displayInfo: String?
         public var metaData: MetaData?
-        public init(token: String, displayInfo: String? = nil, metaData: MetaData? = nil) {
+        public init(token: String? = nil, displayInfo: String? = nil, metaData: MetaData? = nil) {
             self.token = token
             self.displayInfo = displayInfo
             self.metaData = metaData
@@ -328,7 +328,7 @@ extension Minutes {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
+            self.token = c.lenient(.token)
             self.displayInfo = c.lenient(.displayInfo)
             self.metaData = c.lenient(.metaData)
         }

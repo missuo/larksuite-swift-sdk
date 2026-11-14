@@ -95,10 +95,10 @@ extension Baike {
     }
 
     public struct Phrase: Codable, Sendable {
-        public var name: String
-        public var entityIds: [String]
-        public var span: Span
-        public init(name: String, entityIds: [String], span: Span) {
+        public var name: String?
+        public var entityIds: [String]?
+        public var span: Span?
+        public init(name: String? = nil, entityIds: [String]? = nil, span: Span? = nil) {
             self.name = name
             self.entityIds = entityIds
             self.span = span
@@ -110,16 +110,16 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.entityIds = try c.lenientRequired(.entityIds)
-            self.span = try c.lenientRequired(.span)
+            self.name = c.lenient(.name)
+            self.entityIds = c.lenient(.entityIds)
+            self.span = c.lenient(.span)
         }
     }
 
     public struct Span: Codable, Sendable {
-        public var start: Int
-        public var end: Int
-        public init(start: Int, end: Int) {
+        public var start: Int?
+        public var end: Int?
+        public init(start: Int? = nil, end: Int? = nil) {
             self.start = start
             self.end = end
         }
@@ -129,8 +129,8 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.start = try c.lenientRequired(.start)
-            self.end = try c.lenientRequired(.end)
+            self.start = c.lenient(.start)
+            self.end = c.lenient(.end)
         }
     }
 
@@ -181,7 +181,7 @@ extension Baike {
 
     public struct EntityGetResponseEntity: Codable, Sendable {
         public var id: String?
-        public var mainKeys: [MainKey]
+        public var mainKeys: [MainKey]?
         public var fullNames: [MainKey]?
         public var aliases: [MainKey]?
         public var description: String?
@@ -194,7 +194,7 @@ extension Baike {
         public var outerInfo: OuterInfo?
         public var richText: String?
         public var source: Int?
-        public init(id: String? = nil, mainKeys: [MainKey], fullNames: [MainKey]? = nil, aliases: [MainKey]? = nil, description: String? = nil, creator: String? = nil, createTime: String? = nil, updater: String? = nil, updateTime: String? = nil, relatedMeta: RelatedMeta? = nil, statistics: Statistics? = nil, outerInfo: OuterInfo? = nil, richText: String? = nil, source: Int? = nil) {
+        public init(id: String? = nil, mainKeys: [MainKey]? = nil, fullNames: [MainKey]? = nil, aliases: [MainKey]? = nil, description: String? = nil, creator: String? = nil, createTime: String? = nil, updater: String? = nil, updateTime: String? = nil, relatedMeta: RelatedMeta? = nil, statistics: Statistics? = nil, outerInfo: OuterInfo? = nil, richText: String? = nil, source: Int? = nil) {
             self.id = id
             self.mainKeys = mainKeys
             self.fullNames = fullNames
@@ -229,7 +229,7 @@ extension Baike {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.mainKeys = try c.lenientRequired(.mainKeys)
+            self.mainKeys = c.lenient(.mainKeys)
             self.fullNames = c.lenient(.fullNames)
             self.aliases = c.lenient(.aliases)
             self.description = c.lenient(.description)
@@ -246,9 +246,9 @@ extension Baike {
     }
 
     public struct MainKey: Codable, Sendable {
-        public var key: String
-        public var displayStatus: DisplayStatus
-        public init(key: String, displayStatus: DisplayStatus) {
+        public var key: String?
+        public var displayStatus: DisplayStatus?
+        public init(key: String? = nil, displayStatus: DisplayStatus? = nil) {
             self.key = key
             self.displayStatus = displayStatus
         }
@@ -258,15 +258,15 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.key = try c.lenientRequired(.key)
-            self.displayStatus = try c.lenientRequired(.displayStatus)
+            self.key = c.lenient(.key)
+            self.displayStatus = c.lenient(.displayStatus)
         }
     }
 
     public struct DisplayStatus: Codable, Sendable {
-        public var allowHighlight: Bool
-        public var allowSearch: Bool
-        public init(allowHighlight: Bool, allowSearch: Bool) {
+        public var allowHighlight: Bool?
+        public var allowSearch: Bool?
+        public init(allowHighlight: Bool? = nil, allowSearch: Bool? = nil) {
             self.allowHighlight = allowHighlight
             self.allowSearch = allowSearch
         }
@@ -276,8 +276,8 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.allowHighlight = try c.lenientRequired(.allowHighlight)
-            self.allowSearch = try c.lenientRequired(.allowSearch)
+            self.allowHighlight = c.lenient(.allowHighlight)
+            self.allowSearch = c.lenient(.allowSearch)
         }
     }
 
@@ -324,10 +324,10 @@ extension Baike {
     }
 
     public struct User: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var title: String?
         public var url: String?
-        public init(id: String, title: String? = nil, url: String? = nil) {
+        public init(id: String? = nil, title: String? = nil, url: String? = nil) {
             self.id = id
             self.title = title
             self.url = url
@@ -339,7 +339,7 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.title = c.lenient(.title)
             self.url = c.lenient(.url)
         }
@@ -378,10 +378,10 @@ extension Baike {
     }
 
     public struct Classification: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var name: String?
         public var fatherId: String?
-        public init(id: String, name: String? = nil, fatherId: String? = nil) {
+        public init(id: String? = nil, name: String? = nil, fatherId: String? = nil) {
             self.id = id
             self.name = name
             self.fatherId = fatherId
@@ -393,15 +393,15 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.name = c.lenient(.name)
             self.fatherId = c.lenient(.fatherId)
         }
     }
 
     public struct Image: Codable, Sendable {
-        public var token: String
-        public init(token: String) {
+        public var token: String?
+        public init(token: String? = nil) {
             self.token = token
         }
         enum CodingKeys: String, CodingKey {
@@ -409,14 +409,14 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
+            self.token = c.lenient(.token)
         }
     }
 
     public struct Statistics: Codable, Sendable {
-        public var likeCount: Int
-        public var dislikeCount: Int
-        public init(likeCount: Int, dislikeCount: Int) {
+        public var likeCount: Int?
+        public var dislikeCount: Int?
+        public init(likeCount: Int? = nil, dislikeCount: Int? = nil) {
             self.likeCount = likeCount
             self.dislikeCount = dislikeCount
         }
@@ -426,15 +426,15 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.likeCount = try c.lenientRequired(.likeCount)
-            self.dislikeCount = try c.lenientRequired(.dislikeCount)
+            self.likeCount = c.lenient(.likeCount)
+            self.dislikeCount = c.lenient(.dislikeCount)
         }
     }
 
     public struct OuterInfo: Codable, Sendable {
-        public var provider: String
-        public var outerId: String
-        public init(provider: String, outerId: String) {
+        public var provider: String?
+        public var outerId: String?
+        public init(provider: String? = nil, outerId: String? = nil) {
             self.provider = provider
             self.outerId = outerId
         }
@@ -444,8 +444,8 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.provider = try c.lenientRequired(.provider)
-            self.outerId = try c.lenientRequired(.outerId)
+            self.provider = c.lenient(.provider)
+            self.outerId = c.lenient(.outerId)
         }
     }
 
@@ -508,8 +508,8 @@ extension Baike {
     }
 
     public struct EntityExtractResponse: Codable, Sendable {
-        public var entityWord: [EntityWord]
-        public init(entityWord: [EntityWord]) {
+        public var entityWord: [EntityWord]?
+        public init(entityWord: [EntityWord]? = nil) {
             self.entityWord = entityWord
         }
         enum CodingKeys: String, CodingKey {
@@ -517,14 +517,14 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.entityWord = try c.lenientRequired(.entityWord)
+            self.entityWord = c.lenient(.entityWord)
         }
     }
 
     public struct EntityWord: Codable, Sendable {
-        public var name: String
+        public var name: String?
         public var aliases: [String]?
-        public init(name: String, aliases: [String]? = nil) {
+        public init(name: String? = nil, aliases: [String]? = nil) {
             self.name = name
             self.aliases = aliases
         }
@@ -534,7 +534,7 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.aliases = c.lenient(.aliases)
         }
     }
@@ -659,14 +659,14 @@ extension Baike {
 
     public struct EntityCreateBodyRelatedMeta: Codable, Sendable {
         public var users: [EntityCreateBodyRelatedMetaUser]?
-        public var chats: [Chat]?
+        public var chats: [Abbreviation]?
         public var docs: [Doc]?
-        public var oncalls: [Chat]?
+        public var oncalls: [Abbreviation]?
         public var links: [Doc]?
         public var abbreviations: [Abbreviation]?
         public var classifications: [EntityCreateBodyRelatedMetaClassification]?
         public var images: [Image]?
-        public init(users: [EntityCreateBodyRelatedMetaUser]? = nil, chats: [Chat]? = nil, docs: [Doc]? = nil, oncalls: [Chat]? = nil, links: [Doc]? = nil, abbreviations: [Abbreviation]? = nil, classifications: [EntityCreateBodyRelatedMetaClassification]? = nil, images: [Image]? = nil) {
+        public init(users: [EntityCreateBodyRelatedMetaUser]? = nil, chats: [Abbreviation]? = nil, docs: [Doc]? = nil, oncalls: [Abbreviation]? = nil, links: [Doc]? = nil, abbreviations: [Abbreviation]? = nil, classifications: [EntityCreateBodyRelatedMetaClassification]? = nil, images: [Image]? = nil) {
             self.users = users
             self.chats = chats
             self.docs = docs
@@ -700,9 +700,9 @@ extension Baike {
     }
 
     public struct EntityCreateBodyRelatedMetaUser: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var title: String?
-        public init(id: String, title: String? = nil) {
+        public init(id: String? = nil, title: String? = nil) {
             self.id = id
             self.title = title
         }
@@ -712,29 +712,15 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.title = c.lenient(.title)
         }
     }
 
-    public struct Chat: Codable, Sendable {
-        public var id: String
-        public init(id: String) {
-            self.id = id
-        }
-        enum CodingKeys: String, CodingKey {
-            case id
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-        }
-    }
-
     public struct EntityCreateBodyRelatedMetaClassification: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var fatherId: String?
-        public init(id: String, fatherId: String? = nil) {
+        public init(id: String? = nil, fatherId: String? = nil) {
             self.id = id
             self.fatherId = fatherId
         }
@@ -744,7 +730,7 @@ extension Baike {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.fatherId = c.lenient(.fatherId)
         }
     }

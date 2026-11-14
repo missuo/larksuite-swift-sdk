@@ -42,7 +42,7 @@ import Testing
         for try await page in client.wiki.v2.spaceNode.listWithIterator(
             spaceId: spaceId, params: .init(pageSize: 50, parentNodeToken: parentToken))
         {
-            for n in page.items ?? [] { print(n.nodeToken ?? "", n.objType.rawValue, n.title ?? "", n.hasChild ?? false) }
+            for n in page.items ?? [] { print(n.nodeToken ?? "", n.objType?.rawValue ?? "", n.title ?? "", n.hasChild ?? false) }
         }
     }
 
@@ -52,7 +52,7 @@ import Testing
                 spaceId: spaceId, params: .init(pageSize: 50, parentNodeToken: parent))
             {
                 for n in page.items ?? [] {
-                    print(String(repeating: "  ", count: depth) + (n.title ?? ""), n.objType.rawValue)
+                    print(String(repeating: "  ", count: depth) + (n.title ?? ""), n.objType?.rawValue ?? "")
                     if n.hasChild == true { try await walk(spaceId, n.nodeToken, depth: depth + 1) }
                 }
             }
@@ -78,7 +78,7 @@ import Testing
         _ = try await client.wiki.v2.spaceNode.move(spaceId: spaceId, nodeToken: nodeToken, body: .init(targetParentToken: newParentToken))
         let copy = try await client.wiki.v2.spaceNode.copy(
             spaceId: spaceId, nodeToken: nodeToken, body: .init(targetSpaceId: otherSpaceId, title: "Design notes (copy)"))
-        print(copy.data?.node.nodeToken ?? "")
+        print(copy.data?.node?.nodeToken ?? "")
     }
 
     func moveDocs(client: LarkClient, spaceId: String, parentToken: String?, documentId: String) async throws {
@@ -88,7 +88,7 @@ import Testing
             print("in wiki:", token)
         } else if let taskId = moved.data?.taskId {
             let task = try await client.wiki.v2.task.get(taskId: taskId, params: .init(taskType: .move))
-            for r in task.data?.task.moveResult ?? [] { print(r.node.nodeToken ?? "", r.status, r.statusMsg) }
+            for r in task.data?.task?.moveResult ?? [] { print(r.node?.nodeToken ?? "", r.status ?? -1, r.statusMsg ?? "") }
         } else if moved.data?.applied == true {
             print("no permission to move; a move request was sent to the document owner")
         }
@@ -100,7 +100,7 @@ import Testing
             spaceId: spaceId, params: .init(needNotification: false),
             body: .init(memberType: "openchat", memberId: chatId, memberRole: "member"))
         let members = try await client.wiki.v2.spaceMember.list(spaceId: spaceId, params: .init(pageSize: 50))
-        for m in members.data?.members ?? [] { print(m.memberType, m.memberId, m.memberRole) }
+        for m in members.data?.members ?? [] { print(m.memberType ?? "", m.memberId ?? "", m.memberRole ?? "") }
         _ = try await client.wiki.v2.spaceMember.delete(
             spaceId: spaceId, memberId: chatId, body: .init(memberType: "openchat", memberRole: "member"))
         _ = try await client.wiki.v2.spaceSetting.update(spaceId: spaceId, body: .init(createSetting: "admin"))
@@ -110,7 +110,7 @@ import Testing
         for try await page in client.wiki.v1.node.searchWithIterator(
             body: .init(query: "roadmap", spaceId: spaceId), options: .userAccessToken(userToken))
         {
-            for n in page.items { print(n.title, n.objType, n.objToken, n.url ?? "") }
+            for n in page.items ?? [] { print(n.title ?? "", n.objType ?? 0, n.objToken ?? "", n.url ?? "") }
         }
     }
 

@@ -355,7 +355,7 @@ import LarkApproval
 
     @Test("POST /open-apis/approval/v4/approvals") func v4_approval_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"approval_code":"s","approval_id":"s"}}"##)
-        let resp = try await client.approval.v4.approval.create(params: Approval.ApprovalCreateQuery(), body: Approval.ApprovalCreateBody(approvalName: "s", viewers: [Approval.Viewer()], form: Approval.Form(formContent: "s"), nodeList: [Approval.NodeList(id: "s")], i18nResources: [Approval.I18nResource(locale: "zh-CN", texts: [Approval.Text(key: "s", value: "s")], isDefault: true)]))
+        let resp = try await client.approval.v4.approval.create(params: Approval.ApprovalCreateQuery(), body: Approval.ApprovalCreateBody(approvalName: "s", viewers: [Approval.Viewer()], form: Approval.Form(), nodeList: [Approval.NodeList()], i18nResources: [Approval.I18nResource()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -435,7 +435,7 @@ import LarkApproval
 
     @Test("POST /open-apis/approval/v4/external_instances/check") func v4_externalInstance_check() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"diff_instances":[{"instance_id":"s","update_time":"s","tasks":[{"task_id":"s","update_time":"s"}]}]}}"##)
-        let resp = try await client.approval.v4.externalInstance.check(body: Approval.ExternalInstanceCheckBody(instances: [Approval.ExternalInstanceCheckBodyInstance(instanceId: "s", updateTime: "s", tasks: [Approval.ExternalInstanceCheckBodyInstanceTask(taskId: "s", updateTime: "s")])]))
+        let resp = try await client.approval.v4.externalInstance.check(body: Approval.ExternalInstanceCheckBody(instances: [Approval.ExternalInstanceCheckBodyInstance()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -446,7 +446,7 @@ import LarkApproval
 
     @Test("POST /open-apis/approval/v4/external_instances") func v4_externalInstance_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"data":{"approval_code":"s","status":"PENDING","extra":"s","instance_id":"s","links":{"pc_link":"s","mobile_link":"s"},"title":"s","form":[{"name":"s","value":"s"}],"user_id":"s","user_name":"s","open_id":"s","department_id":"s","department_name":"s","start_time":"s","end_time":"s","update_time":"s","display_method":"BROWSER","update_mode":"REPLACE","task_list":[{"task_id":"s","user_id":"s","open_id":"s","title":"s","links":{"pc_link":"s","mobile_link":"s"},"status":"PENDING","extra":"s","create_time":"s","end_time":"s","update_time":"s","action_context":"s","action_configs":[{"action_type":"s","action_name":"s","is_need_reason":true,"is_reason_required":true,"is_need_attachment":true}],"display_method":"BROWSER","exclude_statistics":true,"node_id":"s","node_name":"s","generate_type":"EXTERNAL_CONSIGN"}],"cc_list":[{"cc_id":"s","user_id":"s","open_id":"s","links":{"pc_link":"s","mobile_link":"s"},"read_status":"READ","extra":"s","title":"s","create_time":"s","update_time":"s","display_method":"BROWSER"}],"i18n_resources":[{"locale":"zh-CN","texts":[{"key":"s","value":"s"}],"is_default":true}],"trusteeship_url_token":"s","trusteeship_user_id_type":"s","trusteeship_urls":{"form_detail_url":"s","action_definition_url":"s","approval_node_url":"s","action_callback_url":"s","pull_business_data_url":"s"},"trusteeship_cache_config":{"form_policy":"DISABLE","form_vary_with_locale":true,"form_version":"s"},"resource_region":"s"},"process_record":{"instance":{"insert_num":1,"update_num":1,"delete_num":1},"task":{"insert_num":1,"update_num":1,"delete_num":1},"cc":{"insert_num":1,"update_num":1,"delete_num":1}}}}"##)
-        let resp = try await client.approval.v4.externalInstance.create(body: Approval.ExternalInstanceCreateBody(approvalCode: "s", status: "PENDING", instanceId: "s", links: Approval.Links(pcLink: "s"), startTime: "s", endTime: "s", updateTime: "s", i18nResources: [Approval.I18nResource(locale: "zh-CN", texts: [Approval.Text(key: "s", value: "s")], isDefault: true)]))
+        let resp = try await client.approval.v4.externalInstance.create(body: Approval.ExternalInstanceCreateBody(approvalCode: "s", status: "PENDING", instanceId: "s", links: Approval.Link(), startTime: "s", endTime: "s", updateTime: "s", i18nResources: [Approval.I18nResource()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

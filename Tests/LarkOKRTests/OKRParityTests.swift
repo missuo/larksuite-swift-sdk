@@ -202,7 +202,7 @@ import LarkOKR
 
     @Test("PUT /open-apis/okr/v2/objectives/:objective_id/key_results_weight") func v2_okrObjective_keyResultsWeight() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","create_time":"s","update_time":"s","owner":{"owner_type":"user","user_id":"s"},"objective_id":"s","position":1,"content":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"score":1.5,"weight":1.5,"deadline":"s"}]}}"##)
-        let resp = try await client.okr.v2.okrObjective.keyResultsWeight(objectiveId: "s", params: OKR.OkrAlignmentGetQuery(), body: OKR.OkrObjectiveKeyResultsWeightBody(keyResultWeights: [OKR.KeyResultWeight(keyResultId: "s", weight: 1.5)]))
+        let resp = try await client.okr.v2.okrObjective.keyResultsWeight(objectiveId: "s", params: OKR.OkrAlignmentGetQuery(), body: OKR.OkrObjectiveKeyResultsWeightBody(keyResultWeights: [OKR.KeyResultWeight()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -302,7 +302,7 @@ import LarkOKR
 
     @Test("PUT /open-apis/okr/v2/cycles/:cycle_id/objectives_weight") func v2_okrCycle_objectivesWeight() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"items":[{"id":"s","create_time":"s","update_time":"s","owner":{"owner_type":"user","user_id":"s"},"cycle_id":"s","position":1,"content":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"score":1.5,"notes":{"blocks":[{"block_element_type":"paragraph","paragraph":{"style":{"list":{"list_type":"number","indent_level":1,"number":1}},"elements":[{"paragraph_element_type":"textRun","text_run":{"text":"s","style":{"bold":true,"strike_through":true,"back_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"text_color":{"red":1,"green":1,"blue":1,"alpha":1.5},"link":{"url":"s"}}},"docs_link":{"url":"s","title":"s"},"mention":{"user_id":"s"}}]},"gallery":{"images":[{"file_token":"s","src":"s","width":1.5,"height":1.5}]}}]},"weight":1.5,"deadline":"s","category_id":"s"}]}}"##)
-        let resp = try await client.okr.v2.okrCycle.objectivesWeight(cycleId: "s", params: OKR.OkrAlignmentGetQuery(), body: OKR.OkrCycleObjectivesWeightBody(objectiveWeights: [OKR.ObjectiveWeight(objectiveId: "s", weight: 1.5)]))
+        let resp = try await client.okr.v2.okrCycle.objectivesWeight(cycleId: "s", params: OKR.OkrAlignmentGetQuery(), body: OKR.OkrCycleObjectivesWeightBody(objectiveWeights: [OKR.ObjectiveWeight()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

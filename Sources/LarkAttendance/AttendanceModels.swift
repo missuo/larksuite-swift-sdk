@@ -34,8 +34,6 @@ extension Attendance {
 
     public typealias UserSettingModifyQuery = UserDailyShiftQueryQuery
 
-    public typealias UserSettingModifyResponse = UserSettingModifyBody
-
     public typealias UserSettingQueryQuery = UserDailyShiftQueryQuery
 
     public typealias UserStatsDataQueryQuery = UserDailyShiftQueryQuery
@@ -104,8 +102,8 @@ extension Attendance {
     }
 
     public struct File: Codable, Sendable {
-        public var fileId: String
-        public init(fileId: String) {
+        public var fileId: String?
+        public init(fileId: String? = nil) {
             self.fileId = fileId
         }
         enum CodingKeys: String, CodingKey {
@@ -113,7 +111,7 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fileId = try c.lenientRequired(.fileId)
+            self.fileId = c.lenient(.fileId)
         }
     }
 
@@ -158,9 +156,9 @@ extension Attendance {
     }
 
     public struct GroupList: Codable, Sendable {
-        public var groupId: String
-        public var groupName: String
-        public init(groupId: String, groupName: String) {
+        public var groupId: String?
+        public var groupName: String?
+        public init(groupId: String? = nil, groupName: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
         }
@@ -170,8 +168,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.groupId = try c.lenientRequired(.groupId)
-            self.groupName = try c.lenientRequired(.groupName)
+            self.groupId = c.lenient(.groupId)
+            self.groupName = c.lenient(.groupName)
         }
     }
 
@@ -330,13 +328,13 @@ extension Attendance {
 
     public struct Group: Codable, Sendable {
         public var groupId: String?
-        public var groupName: String
-        public var timeZone: String
+        public var groupName: String?
+        public var timeZone: String?
         public var bindDeptIds: [String]?
         public var exceptDeptIds: [String]?
         public var bindUserIds: [String]?
         public var exceptUserIds: [String]?
-        public var groupLeaderIds: [String]
+        public var groupLeaderIds: [String]?
         public var subGroupLeaderIds: [String]?
         public var allowOutPunch: Bool?
         public var outPunchNeedApproval: Bool?
@@ -369,10 +367,10 @@ extension Attendance {
         public var machines: [Machine]?
         public var gpsRange: Int?
         public var locations: [Location]?
-        public var groupType: Int
-        public var punchDayShiftIds: [String]
+        public var groupType: Int?
+        public var punchDayShiftIds: [String]?
         public var freePunchCfg: FreePunchCfg?
-        public var calendarId: Int
+        public var calendarId: Int?
         public var needPunchSpecialDays: [NeedPunchSpecialDay]?
         public var noNeedPunchSpecialDays: [NeedPunchSpecialDay]?
         public var workDayNoPunchAsLack: Bool?
@@ -399,7 +397,7 @@ extension Attendance {
         public var newCalendarId: String?
         public var allowApplyPunch: Bool?
         public var clockInAbnormalSettings: ClockInAbnormalSettings?
-        public init(groupId: String? = nil, groupName: String, timeZone: String, bindDeptIds: [String]? = nil, exceptDeptIds: [String]? = nil, bindUserIds: [String]? = nil, exceptUserIds: [String]? = nil, groupLeaderIds: [String], subGroupLeaderIds: [String]? = nil, allowOutPunch: Bool? = nil, outPunchNeedApproval: Bool? = nil, outPunchNeedPostApproval: Bool? = nil, outPunchNeedRemark: Bool? = nil, outPunchNeedPhoto: Bool? = nil, outPunchAllowedHideAddr: Bool? = nil, outPunchAllowedAdjustAddr: Bool? = nil, adjustRange: Int? = nil, allowPcPunch: Bool? = nil, allowRemedy: Bool? = nil, remedyLimit: Bool? = nil, remedyLimitCount: Int? = nil, remedyDateLimit: Bool? = nil, remedyDateNum: Int? = nil, allowRemedyTypeLack: Bool? = nil, allowRemedyTypeLate: Bool? = nil, allowRemedyTypeEarly: Bool? = nil, allowRemedyTypeNormal: Bool? = nil, showCumulativeTime: Bool? = nil, showOverTime: Bool? = nil, hideStaffPunchTime: Bool? = nil, hideClockInRule: Bool? = nil, facePunch: Bool? = nil, facePunchCfg: Int? = nil, faceLiveNeedAction: Bool? = nil, faceDowngrade: Bool? = nil, replaceBasicPic: Bool? = nil, antiCheatPunchConfig: AntiCheatPunchConfig? = nil, machines: [Machine]? = nil, gpsRange: Int? = nil, locations: [Location]? = nil, groupType: Int, punchDayShiftIds: [String], freePunchCfg: FreePunchCfg? = nil, calendarId: Int, needPunchSpecialDays: [NeedPunchSpecialDay]? = nil, noNeedPunchSpecialDays: [NeedPunchSpecialDay]? = nil, workDayNoPunchAsLack: Bool? = nil, effectNow: Bool? = nil, remedyPeriodType: Int? = nil, remedyPeriodCustomDate: Int? = nil, punchType: Int? = nil, restClockInNeedApproval: Bool? = nil, clockInNeedPhoto: Bool? = nil, memberStatusChange: MemberStatusChange? = nil, leaveNeedPunch: Bool? = nil, leaveNeedPunchCfg: LeaveNeedPunchCfg? = nil, goOutNeedPunch: Int? = nil, goOutNeedPunchCfg: LeaveNeedPunchCfg? = nil, travelNeedPunch: Int? = nil, travelNeedPunchCfg: LeaveNeedPunchCfg? = nil, needPunchMembers: [NeedPunchMember]? = nil, noNeedPunchMembers: [NeedPunchMember]? = nil, saveAutoChanges: Bool? = nil, orgChangeAutoAdjust: Bool? = nil, bindDefaultDeptIds: [String]? = nil, bindDefaultUserIds: [String]? = nil, overtimeClockCfg: OvertimeClockCfg? = nil, newCalendarId: String? = nil, allowApplyPunch: Bool? = nil, clockInAbnormalSettings: ClockInAbnormalSettings? = nil) {
+        public init(groupId: String? = nil, groupName: String? = nil, timeZone: String? = nil, bindDeptIds: [String]? = nil, exceptDeptIds: [String]? = nil, bindUserIds: [String]? = nil, exceptUserIds: [String]? = nil, groupLeaderIds: [String]? = nil, subGroupLeaderIds: [String]? = nil, allowOutPunch: Bool? = nil, outPunchNeedApproval: Bool? = nil, outPunchNeedPostApproval: Bool? = nil, outPunchNeedRemark: Bool? = nil, outPunchNeedPhoto: Bool? = nil, outPunchAllowedHideAddr: Bool? = nil, outPunchAllowedAdjustAddr: Bool? = nil, adjustRange: Int? = nil, allowPcPunch: Bool? = nil, allowRemedy: Bool? = nil, remedyLimit: Bool? = nil, remedyLimitCount: Int? = nil, remedyDateLimit: Bool? = nil, remedyDateNum: Int? = nil, allowRemedyTypeLack: Bool? = nil, allowRemedyTypeLate: Bool? = nil, allowRemedyTypeEarly: Bool? = nil, allowRemedyTypeNormal: Bool? = nil, showCumulativeTime: Bool? = nil, showOverTime: Bool? = nil, hideStaffPunchTime: Bool? = nil, hideClockInRule: Bool? = nil, facePunch: Bool? = nil, facePunchCfg: Int? = nil, faceLiveNeedAction: Bool? = nil, faceDowngrade: Bool? = nil, replaceBasicPic: Bool? = nil, antiCheatPunchConfig: AntiCheatPunchConfig? = nil, machines: [Machine]? = nil, gpsRange: Int? = nil, locations: [Location]? = nil, groupType: Int? = nil, punchDayShiftIds: [String]? = nil, freePunchCfg: FreePunchCfg? = nil, calendarId: Int? = nil, needPunchSpecialDays: [NeedPunchSpecialDay]? = nil, noNeedPunchSpecialDays: [NeedPunchSpecialDay]? = nil, workDayNoPunchAsLack: Bool? = nil, effectNow: Bool? = nil, remedyPeriodType: Int? = nil, remedyPeriodCustomDate: Int? = nil, punchType: Int? = nil, restClockInNeedApproval: Bool? = nil, clockInNeedPhoto: Bool? = nil, memberStatusChange: MemberStatusChange? = nil, leaveNeedPunch: Bool? = nil, leaveNeedPunchCfg: LeaveNeedPunchCfg? = nil, goOutNeedPunch: Int? = nil, goOutNeedPunchCfg: LeaveNeedPunchCfg? = nil, travelNeedPunch: Int? = nil, travelNeedPunchCfg: LeaveNeedPunchCfg? = nil, needPunchMembers: [NeedPunchMember]? = nil, noNeedPunchMembers: [NeedPunchMember]? = nil, saveAutoChanges: Bool? = nil, orgChangeAutoAdjust: Bool? = nil, bindDefaultDeptIds: [String]? = nil, bindDefaultUserIds: [String]? = nil, overtimeClockCfg: OvertimeClockCfg? = nil, newCalendarId: String? = nil, allowApplyPunch: Bool? = nil, clockInAbnormalSettings: ClockInAbnormalSettings? = nil) {
             self.groupId = groupId
             self.groupName = groupName
             self.timeZone = timeZone
@@ -546,13 +544,13 @@ extension Attendance {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.groupId = c.lenient(.groupId)
-            self.groupName = try c.lenientRequired(.groupName)
-            self.timeZone = try c.lenientRequired(.timeZone)
+            self.groupName = c.lenient(.groupName)
+            self.timeZone = c.lenient(.timeZone)
             self.bindDeptIds = c.lenient(.bindDeptIds)
             self.exceptDeptIds = c.lenient(.exceptDeptIds)
             self.bindUserIds = c.lenient(.bindUserIds)
             self.exceptUserIds = c.lenient(.exceptUserIds)
-            self.groupLeaderIds = try c.lenientRequired(.groupLeaderIds)
+            self.groupLeaderIds = c.lenient(.groupLeaderIds)
             self.subGroupLeaderIds = c.lenient(.subGroupLeaderIds)
             self.allowOutPunch = c.lenient(.allowOutPunch)
             self.outPunchNeedApproval = c.lenient(.outPunchNeedApproval)
@@ -585,10 +583,10 @@ extension Attendance {
             self.machines = c.lenient(.machines)
             self.gpsRange = c.lenient(.gpsRange)
             self.locations = c.lenient(.locations)
-            self.groupType = try c.lenientRequired(.groupType)
-            self.punchDayShiftIds = try c.lenientRequired(.punchDayShiftIds)
+            self.groupType = c.lenient(.groupType)
+            self.punchDayShiftIds = c.lenient(.punchDayShiftIds)
             self.freePunchCfg = c.lenient(.freePunchCfg)
-            self.calendarId = try c.lenientRequired(.calendarId)
+            self.calendarId = c.lenient(.calendarId)
             self.needPunchSpecialDays = c.lenient(.needPunchSpecialDays)
             self.noNeedPunchSpecialDays = c.lenient(.noNeedPunchSpecialDays)
             self.workDayNoPunchAsLack = c.lenient(.workDayNoPunchAsLack)
@@ -619,14 +617,14 @@ extension Attendance {
     }
 
     public struct AntiCheatPunchConfig: Codable, Sendable {
-        public var interceptSuspectedCheatPunch: Bool
+        public var interceptSuspectedCheatPunch: Bool?
         public var checkCheatSoftwarePunch: Bool?
         public var checkBuddyPunch: Bool?
         public var checkSimulateWifiPunch: Bool?
         public var checkChangeDevicePunch: Bool?
         public var allowChangeDeviceNum: Int?
         public var suspectedCheatHandleMethod: Int?
-        public init(interceptSuspectedCheatPunch: Bool, checkCheatSoftwarePunch: Bool? = nil, checkBuddyPunch: Bool? = nil, checkSimulateWifiPunch: Bool? = nil, checkChangeDevicePunch: Bool? = nil, allowChangeDeviceNum: Int? = nil, suspectedCheatHandleMethod: Int? = nil) {
+        public init(interceptSuspectedCheatPunch: Bool? = nil, checkCheatSoftwarePunch: Bool? = nil, checkBuddyPunch: Bool? = nil, checkSimulateWifiPunch: Bool? = nil, checkChangeDevicePunch: Bool? = nil, allowChangeDeviceNum: Int? = nil, suspectedCheatHandleMethod: Int? = nil) {
             self.interceptSuspectedCheatPunch = interceptSuspectedCheatPunch
             self.checkCheatSoftwarePunch = checkCheatSoftwarePunch
             self.checkBuddyPunch = checkBuddyPunch
@@ -646,7 +644,7 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.interceptSuspectedCheatPunch = try c.lenientRequired(.interceptSuspectedCheatPunch)
+            self.interceptSuspectedCheatPunch = c.lenient(.interceptSuspectedCheatPunch)
             self.checkCheatSoftwarePunch = c.lenient(.checkCheatSoftwarePunch)
             self.checkBuddyPunch = c.lenient(.checkBuddyPunch)
             self.checkSimulateWifiPunch = c.lenient(.checkSimulateWifiPunch)
@@ -657,9 +655,9 @@ extension Attendance {
     }
 
     public struct Machine: Codable, Sendable {
-        public var machineSn: String
-        public var machineName: String
-        public init(machineSn: String, machineName: String) {
+        public var machineSn: String?
+        public var machineName: String?
+        public init(machineSn: String? = nil, machineName: String? = nil) {
             self.machineSn = machineSn
             self.machineName = machineName
         }
@@ -669,14 +667,14 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.machineSn = try c.lenientRequired(.machineSn)
-            self.machineName = try c.lenientRequired(.machineName)
+            self.machineSn = c.lenient(.machineSn)
+            self.machineName = c.lenient(.machineName)
         }
     }
 
     public struct Location: Codable, Sendable {
-        public var locationName: String
-        public var locationType: Int
+        public var locationName: String?
+        public var locationType: Int?
         public var latitude: Double?
         public var longitude: Double?
         public var ssid: String?
@@ -686,7 +684,7 @@ extension Attendance {
         public var ip: String?
         public var feature: String?
         public var gpsRange: Int?
-        public init(locationName: String, locationType: Int, latitude: Double? = nil, longitude: Double? = nil, ssid: String? = nil, bssid: String? = nil, mapType: Int? = nil, address: String? = nil, ip: String? = nil, feature: String? = nil, gpsRange: Int? = nil) {
+        public init(locationName: String? = nil, locationType: Int? = nil, latitude: Double? = nil, longitude: Double? = nil, ssid: String? = nil, bssid: String? = nil, mapType: Int? = nil, address: String? = nil, ip: String? = nil, feature: String? = nil, gpsRange: Int? = nil) {
             self.locationName = locationName
             self.locationType = locationType
             self.latitude = latitude
@@ -714,8 +712,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.locationName = try c.lenientRequired(.locationName)
-            self.locationType = try c.lenientRequired(.locationType)
+            self.locationName = c.lenient(.locationName)
+            self.locationType = c.lenient(.locationType)
             self.latitude = c.lenient(.latitude)
             self.longitude = c.lenient(.longitude)
             self.ssid = c.lenient(.ssid)
@@ -729,14 +727,14 @@ extension Attendance {
     }
 
     public struct FreePunchCfg: Codable, Sendable {
-        public var freeStartTime: String
-        public var freeEndTime: String
-        public var punchDay: Int
+        public var freeStartTime: String?
+        public var freeEndTime: String?
+        public var punchDay: Int?
         public var workDayNoPunchAsLack: Bool?
         public var workHoursDemand: Bool?
         public var workHours: Int?
         public var freeClockSetting: FreeClockSetting?
-        public init(freeStartTime: String, freeEndTime: String, punchDay: Int, workDayNoPunchAsLack: Bool? = nil, workHoursDemand: Bool? = nil, workHours: Int? = nil, freeClockSetting: FreeClockSetting? = nil) {
+        public init(freeStartTime: String? = nil, freeEndTime: String? = nil, punchDay: Int? = nil, workDayNoPunchAsLack: Bool? = nil, workHoursDemand: Bool? = nil, workHours: Int? = nil, freeClockSetting: FreeClockSetting? = nil) {
             self.freeStartTime = freeStartTime
             self.freeEndTime = freeEndTime
             self.punchDay = punchDay
@@ -756,9 +754,9 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.freeStartTime = try c.lenientRequired(.freeStartTime)
-            self.freeEndTime = try c.lenientRequired(.freeEndTime)
-            self.punchDay = try c.lenientRequired(.punchDay)
+            self.freeStartTime = c.lenient(.freeStartTime)
+            self.freeEndTime = c.lenient(.freeEndTime)
+            self.punchDay = c.lenient(.punchDay)
             self.workDayNoPunchAsLack = c.lenient(.workDayNoPunchAsLack)
             self.workHoursDemand = c.lenient(.workHoursDemand)
             self.workHours = c.lenient(.workHours)
@@ -785,9 +783,9 @@ extension Attendance {
     }
 
     public struct NeedPunchSpecialDay: Codable, Sendable {
-        public var punchDay: Int
-        public var shiftId: String
-        public init(punchDay: Int, shiftId: String) {
+        public var punchDay: Int?
+        public var shiftId: String?
+        public init(punchDay: Int? = nil, shiftId: String? = nil) {
             self.punchDay = punchDay
             self.shiftId = shiftId
         }
@@ -797,8 +795,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.punchDay = try c.lenientRequired(.punchDay)
-            self.shiftId = try c.lenientRequired(.shiftId)
+            self.punchDay = c.lenient(.punchDay)
+            self.shiftId = c.lenient(.shiftId)
         }
     }
 
@@ -976,13 +974,13 @@ extension Attendance {
 
     public struct GroupCreateResponseGroup: Codable, Sendable {
         public var groupId: String?
-        public var groupName: String
-        public var timeZone: String
+        public var groupName: String?
+        public var timeZone: String?
         public var bindDeptIds: [String]?
         public var exceptDeptIds: [String]?
         public var bindUserIds: [String]?
         public var exceptUserIds: [String]?
-        public var groupLeaderIds: [String]
+        public var groupLeaderIds: [String]?
         public var subGroupLeaderIds: [String]?
         public var allowOutPunch: Bool?
         public var outPunchNeedApproval: Bool?
@@ -1015,10 +1013,10 @@ extension Attendance {
         public var machines: [Machine]?
         public var gpsRange: Int?
         public var locations: [GroupCreateResponseGroupLocation]?
-        public var groupType: Int
-        public var punchDayShiftIds: [String]
+        public var groupType: Int?
+        public var punchDayShiftIds: [String]?
         public var freePunchCfg: FreePunchCfg?
-        public var calendarId: Int
+        public var calendarId: Int?
         public var needPunchSpecialDays: [NeedPunchSpecialDay]?
         public var noNeedPunchSpecialDays: [NeedPunchSpecialDay]?
         public var workDayNoPunchAsLack: Bool?
@@ -1048,7 +1046,7 @@ extension Attendance {
         public var newCalendarId: String?
         public var allowApplyPunch: Bool?
         public var clockInAbnormalSettings: ClockInAbnormalSettings?
-        public init(groupId: String? = nil, groupName: String, timeZone: String, bindDeptIds: [String]? = nil, exceptDeptIds: [String]? = nil, bindUserIds: [String]? = nil, exceptUserIds: [String]? = nil, groupLeaderIds: [String], subGroupLeaderIds: [String]? = nil, allowOutPunch: Bool? = nil, outPunchNeedApproval: Bool? = nil, outPunchNeedPostApproval: Bool? = nil, outPunchNeedRemark: Bool? = nil, outPunchNeedPhoto: Bool? = nil, outPunchAllowedHideAddr: Bool? = nil, outPunchAllowedAdjustAddr: Bool? = nil, adjustRange: Int? = nil, allowPcPunch: Bool? = nil, allowRemedy: Bool? = nil, remedyLimit: Bool? = nil, remedyLimitCount: Int? = nil, remedyDateLimit: Bool? = nil, remedyDateNum: Int? = nil, allowRemedyTypeLack: Bool? = nil, allowRemedyTypeLate: Bool? = nil, allowRemedyTypeEarly: Bool? = nil, allowRemedyTypeNormal: Bool? = nil, showCumulativeTime: Bool? = nil, showOverTime: Bool? = nil, hideStaffPunchTime: Bool? = nil, hideClockInRule: Bool? = nil, facePunch: Bool? = nil, facePunchCfg: Int? = nil, faceLiveNeedAction: Bool? = nil, faceDowngrade: Bool? = nil, replaceBasicPic: Bool? = nil, antiCheatPunchConfig: AntiCheatPunchConfig? = nil, machines: [Machine]? = nil, gpsRange: Int? = nil, locations: [GroupCreateResponseGroupLocation]? = nil, groupType: Int, punchDayShiftIds: [String], freePunchCfg: FreePunchCfg? = nil, calendarId: Int, needPunchSpecialDays: [NeedPunchSpecialDay]? = nil, noNeedPunchSpecialDays: [NeedPunchSpecialDay]? = nil, workDayNoPunchAsLack: Bool? = nil, effectNow: Bool? = nil, remedyPeriodType: Int? = nil, remedyPeriodCustomDate: Int? = nil, punchType: Int? = nil, effectTime: String? = nil, fixshiftEffectTime: String? = nil, memberEffectTime: String? = nil, restClockInNeedApproval: Bool? = nil, clockInNeedPhoto: Bool? = nil, memberStatusChange: MemberStatusChange? = nil, leaveNeedPunch: Bool? = nil, leaveNeedPunchCfg: LeaveNeedPunchCfg? = nil, goOutNeedPunch: Int? = nil, goOutNeedPunchCfg: LeaveNeedPunchCfg? = nil, travelNeedPunch: Int? = nil, travelNeedPunchCfg: LeaveNeedPunchCfg? = nil, needPunchMembers: [NeedPunchMember]? = nil, noNeedPunchMembers: [NeedPunchMember]? = nil, saveAutoChanges: Bool? = nil, orgChangeAutoAdjust: Bool? = nil, bindDefaultDeptIds: [String]? = nil, bindDefaultUserIds: [String]? = nil, overtimeClockCfg: OvertimeClockCfg? = nil, newCalendarId: String? = nil, allowApplyPunch: Bool? = nil, clockInAbnormalSettings: ClockInAbnormalSettings? = nil) {
+        public init(groupId: String? = nil, groupName: String? = nil, timeZone: String? = nil, bindDeptIds: [String]? = nil, exceptDeptIds: [String]? = nil, bindUserIds: [String]? = nil, exceptUserIds: [String]? = nil, groupLeaderIds: [String]? = nil, subGroupLeaderIds: [String]? = nil, allowOutPunch: Bool? = nil, outPunchNeedApproval: Bool? = nil, outPunchNeedPostApproval: Bool? = nil, outPunchNeedRemark: Bool? = nil, outPunchNeedPhoto: Bool? = nil, outPunchAllowedHideAddr: Bool? = nil, outPunchAllowedAdjustAddr: Bool? = nil, adjustRange: Int? = nil, allowPcPunch: Bool? = nil, allowRemedy: Bool? = nil, remedyLimit: Bool? = nil, remedyLimitCount: Int? = nil, remedyDateLimit: Bool? = nil, remedyDateNum: Int? = nil, allowRemedyTypeLack: Bool? = nil, allowRemedyTypeLate: Bool? = nil, allowRemedyTypeEarly: Bool? = nil, allowRemedyTypeNormal: Bool? = nil, showCumulativeTime: Bool? = nil, showOverTime: Bool? = nil, hideStaffPunchTime: Bool? = nil, hideClockInRule: Bool? = nil, facePunch: Bool? = nil, facePunchCfg: Int? = nil, faceLiveNeedAction: Bool? = nil, faceDowngrade: Bool? = nil, replaceBasicPic: Bool? = nil, antiCheatPunchConfig: AntiCheatPunchConfig? = nil, machines: [Machine]? = nil, gpsRange: Int? = nil, locations: [GroupCreateResponseGroupLocation]? = nil, groupType: Int? = nil, punchDayShiftIds: [String]? = nil, freePunchCfg: FreePunchCfg? = nil, calendarId: Int? = nil, needPunchSpecialDays: [NeedPunchSpecialDay]? = nil, noNeedPunchSpecialDays: [NeedPunchSpecialDay]? = nil, workDayNoPunchAsLack: Bool? = nil, effectNow: Bool? = nil, remedyPeriodType: Int? = nil, remedyPeriodCustomDate: Int? = nil, punchType: Int? = nil, effectTime: String? = nil, fixshiftEffectTime: String? = nil, memberEffectTime: String? = nil, restClockInNeedApproval: Bool? = nil, clockInNeedPhoto: Bool? = nil, memberStatusChange: MemberStatusChange? = nil, leaveNeedPunch: Bool? = nil, leaveNeedPunchCfg: LeaveNeedPunchCfg? = nil, goOutNeedPunch: Int? = nil, goOutNeedPunchCfg: LeaveNeedPunchCfg? = nil, travelNeedPunch: Int? = nil, travelNeedPunchCfg: LeaveNeedPunchCfg? = nil, needPunchMembers: [NeedPunchMember]? = nil, noNeedPunchMembers: [NeedPunchMember]? = nil, saveAutoChanges: Bool? = nil, orgChangeAutoAdjust: Bool? = nil, bindDefaultDeptIds: [String]? = nil, bindDefaultUserIds: [String]? = nil, overtimeClockCfg: OvertimeClockCfg? = nil, newCalendarId: String? = nil, allowApplyPunch: Bool? = nil, clockInAbnormalSettings: ClockInAbnormalSettings? = nil) {
             self.groupId = groupId
             self.groupName = groupName
             self.timeZone = timeZone
@@ -1201,13 +1199,13 @@ extension Attendance {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.groupId = c.lenient(.groupId)
-            self.groupName = try c.lenientRequired(.groupName)
-            self.timeZone = try c.lenientRequired(.timeZone)
+            self.groupName = c.lenient(.groupName)
+            self.timeZone = c.lenient(.timeZone)
             self.bindDeptIds = c.lenient(.bindDeptIds)
             self.exceptDeptIds = c.lenient(.exceptDeptIds)
             self.bindUserIds = c.lenient(.bindUserIds)
             self.exceptUserIds = c.lenient(.exceptUserIds)
-            self.groupLeaderIds = try c.lenientRequired(.groupLeaderIds)
+            self.groupLeaderIds = c.lenient(.groupLeaderIds)
             self.subGroupLeaderIds = c.lenient(.subGroupLeaderIds)
             self.allowOutPunch = c.lenient(.allowOutPunch)
             self.outPunchNeedApproval = c.lenient(.outPunchNeedApproval)
@@ -1240,10 +1238,10 @@ extension Attendance {
             self.machines = c.lenient(.machines)
             self.gpsRange = c.lenient(.gpsRange)
             self.locations = c.lenient(.locations)
-            self.groupType = try c.lenientRequired(.groupType)
-            self.punchDayShiftIds = try c.lenientRequired(.punchDayShiftIds)
+            self.groupType = c.lenient(.groupType)
+            self.punchDayShiftIds = c.lenient(.punchDayShiftIds)
             self.freePunchCfg = c.lenient(.freePunchCfg)
-            self.calendarId = try c.lenientRequired(.calendarId)
+            self.calendarId = c.lenient(.calendarId)
             self.needPunchSpecialDays = c.lenient(.needPunchSpecialDays)
             self.noNeedPunchSpecialDays = c.lenient(.noNeedPunchSpecialDays)
             self.workDayNoPunchAsLack = c.lenient(.workDayNoPunchAsLack)
@@ -1278,8 +1276,8 @@ extension Attendance {
 
     public struct GroupCreateResponseGroupLocation: Codable, Sendable {
         public var locationId: String?
-        public var locationName: String
-        public var locationType: Int
+        public var locationName: String?
+        public var locationType: Int?
         public var latitude: Double?
         public var longitude: Double?
         public var ssid: String?
@@ -1289,7 +1287,7 @@ extension Attendance {
         public var ip: String?
         public var feature: String?
         public var gpsRange: Int?
-        public init(locationId: String? = nil, locationName: String, locationType: Int, latitude: Double? = nil, longitude: Double? = nil, ssid: String? = nil, bssid: String? = nil, mapType: Int? = nil, address: String? = nil, ip: String? = nil, feature: String? = nil, gpsRange: Int? = nil) {
+        public init(locationId: String? = nil, locationName: String? = nil, locationType: Int? = nil, latitude: Double? = nil, longitude: Double? = nil, ssid: String? = nil, bssid: String? = nil, mapType: Int? = nil, address: String? = nil, ip: String? = nil, feature: String? = nil, gpsRange: Int? = nil) {
             self.locationId = locationId
             self.locationName = locationName
             self.locationType = locationType
@@ -1320,8 +1318,8 @@ extension Attendance {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.locationId = c.lenient(.locationId)
-            self.locationName = try c.lenientRequired(.locationName)
-            self.locationType = try c.lenientRequired(.locationType)
+            self.locationName = c.lenient(.locationName)
+            self.locationType = c.lenient(.locationType)
             self.latitude = c.lenient(.latitude)
             self.longitude = c.lenient(.longitude)
             self.ssid = c.lenient(.ssid)
@@ -1336,13 +1334,13 @@ extension Attendance {
 
     public struct GroupGetResponse: Codable, Sendable {
         public var groupId: String?
-        public var groupName: String
-        public var timeZone: String
+        public var groupName: String?
+        public var timeZone: String?
         public var bindDeptIds: [String]?
         public var exceptDeptIds: [String]?
         public var bindUserIds: [String]?
         public var exceptUserIds: [String]?
-        public var groupLeaderIds: [String]
+        public var groupLeaderIds: [String]?
         public var subGroupLeaderIds: [String]?
         public var allowOutPunch: Bool?
         public var outPunchNeedApproval: Bool?
@@ -1375,10 +1373,10 @@ extension Attendance {
         public var machines: [Machine]?
         public var gpsRange: Int?
         public var locations: [GroupCreateResponseGroupLocation]?
-        public var groupType: Int
-        public var punchDayShiftIds: [String]
+        public var groupType: Int?
+        public var punchDayShiftIds: [String]?
         public var freePunchCfg: FreePunchCfg?
-        public var calendarId: Int
+        public var calendarId: Int?
         public var needPunchSpecialDays: [NeedPunchSpecialDay]?
         public var noNeedPunchSpecialDays: [NeedPunchSpecialDay]?
         public var workDayNoPunchAsLack: Bool?
@@ -1407,7 +1405,7 @@ extension Attendance {
         public var newCalendarId: String?
         public var allowApplyPunch: Bool?
         public var clockInAbnormalSettings: ClockInAbnormalSettings?
-        public init(groupId: String? = nil, groupName: String, timeZone: String, bindDeptIds: [String]? = nil, exceptDeptIds: [String]? = nil, bindUserIds: [String]? = nil, exceptUserIds: [String]? = nil, groupLeaderIds: [String], subGroupLeaderIds: [String]? = nil, allowOutPunch: Bool? = nil, outPunchNeedApproval: Bool? = nil, outPunchNeedPostApproval: Bool? = nil, outPunchNeedRemark: Bool? = nil, outPunchNeedPhoto: Bool? = nil, outPunchAllowedHideAddr: Bool? = nil, outPunchAllowedAdjustAddr: Bool? = nil, adjustRange: Int? = nil, allowPcPunch: Bool? = nil, allowRemedy: Bool? = nil, remedyLimit: Bool? = nil, remedyLimitCount: Int? = nil, remedyDateLimit: Bool? = nil, remedyDateNum: Int? = nil, allowRemedyTypeLack: Bool? = nil, allowRemedyTypeLate: Bool? = nil, allowRemedyTypeEarly: Bool? = nil, allowRemedyTypeNormal: Bool? = nil, showCumulativeTime: Bool? = nil, showOverTime: Bool? = nil, hideStaffPunchTime: Bool? = nil, hideClockInRule: Bool? = nil, facePunch: Bool? = nil, facePunchCfg: Int? = nil, faceLiveNeedAction: Bool? = nil, faceDowngrade: Bool? = nil, replaceBasicPic: Bool? = nil, antiCheatPunchConfig: AntiCheatPunchConfig? = nil, machines: [Machine]? = nil, gpsRange: Int? = nil, locations: [GroupCreateResponseGroupLocation]? = nil, groupType: Int, punchDayShiftIds: [String], freePunchCfg: FreePunchCfg? = nil, calendarId: Int, needPunchSpecialDays: [NeedPunchSpecialDay]? = nil, noNeedPunchSpecialDays: [NeedPunchSpecialDay]? = nil, workDayNoPunchAsLack: Bool? = nil, remedyPeriodType: Int? = nil, remedyPeriodCustomDate: Int? = nil, punchType: Int? = nil, effectTime: String? = nil, fixshiftEffectTime: String? = nil, memberEffectTime: String? = nil, restClockInNeedApproval: Bool? = nil, clockInNeedPhoto: Bool? = nil, memberStatusChange: MemberStatusChange? = nil, leaveNeedPunch: Bool? = nil, leaveNeedPunchCfg: LeaveNeedPunchCfg? = nil, goOutNeedPunch: Int? = nil, goOutNeedPunchCfg: LeaveNeedPunchCfg? = nil, travelNeedPunch: Int? = nil, travelNeedPunchCfg: LeaveNeedPunchCfg? = nil, needPunchMembers: [NeedPunchMember]? = nil, noNeedPunchMembers: [NeedPunchMember]? = nil, saveAutoChanges: Bool? = nil, orgChangeAutoAdjust: Bool? = nil, bindDefaultDeptIds: [String]? = nil, bindDefaultUserIds: [String]? = nil, overtimeClockCfg: OvertimeClockCfg? = nil, newCalendarId: String? = nil, allowApplyPunch: Bool? = nil, clockInAbnormalSettings: ClockInAbnormalSettings? = nil) {
+        public init(groupId: String? = nil, groupName: String? = nil, timeZone: String? = nil, bindDeptIds: [String]? = nil, exceptDeptIds: [String]? = nil, bindUserIds: [String]? = nil, exceptUserIds: [String]? = nil, groupLeaderIds: [String]? = nil, subGroupLeaderIds: [String]? = nil, allowOutPunch: Bool? = nil, outPunchNeedApproval: Bool? = nil, outPunchNeedPostApproval: Bool? = nil, outPunchNeedRemark: Bool? = nil, outPunchNeedPhoto: Bool? = nil, outPunchAllowedHideAddr: Bool? = nil, outPunchAllowedAdjustAddr: Bool? = nil, adjustRange: Int? = nil, allowPcPunch: Bool? = nil, allowRemedy: Bool? = nil, remedyLimit: Bool? = nil, remedyLimitCount: Int? = nil, remedyDateLimit: Bool? = nil, remedyDateNum: Int? = nil, allowRemedyTypeLack: Bool? = nil, allowRemedyTypeLate: Bool? = nil, allowRemedyTypeEarly: Bool? = nil, allowRemedyTypeNormal: Bool? = nil, showCumulativeTime: Bool? = nil, showOverTime: Bool? = nil, hideStaffPunchTime: Bool? = nil, hideClockInRule: Bool? = nil, facePunch: Bool? = nil, facePunchCfg: Int? = nil, faceLiveNeedAction: Bool? = nil, faceDowngrade: Bool? = nil, replaceBasicPic: Bool? = nil, antiCheatPunchConfig: AntiCheatPunchConfig? = nil, machines: [Machine]? = nil, gpsRange: Int? = nil, locations: [GroupCreateResponseGroupLocation]? = nil, groupType: Int? = nil, punchDayShiftIds: [String]? = nil, freePunchCfg: FreePunchCfg? = nil, calendarId: Int? = nil, needPunchSpecialDays: [NeedPunchSpecialDay]? = nil, noNeedPunchSpecialDays: [NeedPunchSpecialDay]? = nil, workDayNoPunchAsLack: Bool? = nil, remedyPeriodType: Int? = nil, remedyPeriodCustomDate: Int? = nil, punchType: Int? = nil, effectTime: String? = nil, fixshiftEffectTime: String? = nil, memberEffectTime: String? = nil, restClockInNeedApproval: Bool? = nil, clockInNeedPhoto: Bool? = nil, memberStatusChange: MemberStatusChange? = nil, leaveNeedPunch: Bool? = nil, leaveNeedPunchCfg: LeaveNeedPunchCfg? = nil, goOutNeedPunch: Int? = nil, goOutNeedPunchCfg: LeaveNeedPunchCfg? = nil, travelNeedPunch: Int? = nil, travelNeedPunchCfg: LeaveNeedPunchCfg? = nil, needPunchMembers: [NeedPunchMember]? = nil, noNeedPunchMembers: [NeedPunchMember]? = nil, saveAutoChanges: Bool? = nil, orgChangeAutoAdjust: Bool? = nil, bindDefaultDeptIds: [String]? = nil, bindDefaultUserIds: [String]? = nil, overtimeClockCfg: OvertimeClockCfg? = nil, newCalendarId: String? = nil, allowApplyPunch: Bool? = nil, clockInAbnormalSettings: ClockInAbnormalSettings? = nil) {
             self.groupId = groupId
             self.groupName = groupName
             self.timeZone = timeZone
@@ -1558,13 +1556,13 @@ extension Attendance {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.groupId = c.lenient(.groupId)
-            self.groupName = try c.lenientRequired(.groupName)
-            self.timeZone = try c.lenientRequired(.timeZone)
+            self.groupName = c.lenient(.groupName)
+            self.timeZone = c.lenient(.timeZone)
             self.bindDeptIds = c.lenient(.bindDeptIds)
             self.exceptDeptIds = c.lenient(.exceptDeptIds)
             self.bindUserIds = c.lenient(.bindUserIds)
             self.exceptUserIds = c.lenient(.exceptUserIds)
-            self.groupLeaderIds = try c.lenientRequired(.groupLeaderIds)
+            self.groupLeaderIds = c.lenient(.groupLeaderIds)
             self.subGroupLeaderIds = c.lenient(.subGroupLeaderIds)
             self.allowOutPunch = c.lenient(.allowOutPunch)
             self.outPunchNeedApproval = c.lenient(.outPunchNeedApproval)
@@ -1597,10 +1595,10 @@ extension Attendance {
             self.machines = c.lenient(.machines)
             self.gpsRange = c.lenient(.gpsRange)
             self.locations = c.lenient(.locations)
-            self.groupType = try c.lenientRequired(.groupType)
-            self.punchDayShiftIds = try c.lenientRequired(.punchDayShiftIds)
+            self.groupType = c.lenient(.groupType)
+            self.punchDayShiftIds = c.lenient(.punchDayShiftIds)
             self.freePunchCfg = c.lenient(.freePunchCfg)
-            self.calendarId = try c.lenientRequired(.calendarId)
+            self.calendarId = c.lenient(.calendarId)
             self.needPunchSpecialDays = c.lenient(.needPunchSpecialDays)
             self.noNeedPunchSpecialDays = c.lenient(.noNeedPunchSpecialDays)
             self.workDayNoPunchAsLack = c.lenient(.workDayNoPunchAsLack)
@@ -1683,13 +1681,13 @@ extension Attendance {
     }
 
     public struct UserDailyShift: Codable, Sendable {
-        public var groupId: String
-        public var shiftId: String
-        public var month: Int
-        public var userId: String
-        public var dayNo: Int
+        public var groupId: String?
+        public var shiftId: String?
+        public var month: Int?
+        public var userId: String?
+        public var dayNo: Int?
         public var isClearSchedule: Bool?
-        public init(groupId: String, shiftId: String, month: Int, userId: String, dayNo: Int, isClearSchedule: Bool? = nil) {
+        public init(groupId: String? = nil, shiftId: String? = nil, month: Int? = nil, userId: String? = nil, dayNo: Int? = nil, isClearSchedule: Bool? = nil) {
             self.groupId = groupId
             self.shiftId = shiftId
             self.month = month
@@ -1707,11 +1705,11 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.groupId = try c.lenientRequired(.groupId)
-            self.shiftId = try c.lenientRequired(.shiftId)
-            self.month = try c.lenientRequired(.month)
-            self.userId = try c.lenientRequired(.userId)
-            self.dayNo = try c.lenientRequired(.dayNo)
+            self.groupId = c.lenient(.groupId)
+            self.shiftId = c.lenient(.shiftId)
+            self.month = c.lenient(.month)
+            self.userId = c.lenient(.userId)
+            self.dayNo = c.lenient(.dayNo)
             self.isClearSchedule = c.lenient(.isClearSchedule)
         }
     }
@@ -1753,12 +1751,12 @@ extension Attendance {
     }
 
     public struct UserTmpDailyShift: Codable, Sendable {
-        public var groupId: String
-        public var userId: String
-        public var date: Int
-        public var shiftName: String
-        public var punchTimeSimpleRules: [PunchTimeSimpleRule]
-        public init(groupId: String, userId: String, date: Int, shiftName: String, punchTimeSimpleRules: [PunchTimeSimpleRule]) {
+        public var groupId: String?
+        public var userId: String?
+        public var date: Int?
+        public var shiftName: String?
+        public var punchTimeSimpleRules: [PunchTimeSimpleRule]?
+        public init(groupId: String? = nil, userId: String? = nil, date: Int? = nil, shiftName: String? = nil, punchTimeSimpleRules: [PunchTimeSimpleRule]? = nil) {
             self.groupId = groupId
             self.userId = userId
             self.date = date
@@ -1774,18 +1772,18 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.groupId = try c.lenientRequired(.groupId)
-            self.userId = try c.lenientRequired(.userId)
-            self.date = try c.lenientRequired(.date)
-            self.shiftName = try c.lenientRequired(.shiftName)
-            self.punchTimeSimpleRules = try c.lenientRequired(.punchTimeSimpleRules)
+            self.groupId = c.lenient(.groupId)
+            self.userId = c.lenient(.userId)
+            self.date = c.lenient(.date)
+            self.shiftName = c.lenient(.shiftName)
+            self.punchTimeSimpleRules = c.lenient(.punchTimeSimpleRules)
         }
     }
 
     public struct PunchTimeSimpleRule: Codable, Sendable {
-        public var onTime: String
-        public var offTime: String
-        public init(onTime: String, offTime: String) {
+        public var onTime: String?
+        public var offTime: String?
+        public init(onTime: String? = nil, offTime: String? = nil) {
             self.onTime = onTime
             self.offTime = offTime
         }
@@ -1795,8 +1793,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.onTime = try c.lenientRequired(.onTime)
-            self.offTime = try c.lenientRequired(.offTime)
+            self.onTime = c.lenient(.onTime)
+            self.offTime = c.lenient(.offTime)
         }
     }
 
@@ -1867,19 +1865,19 @@ extension Attendance {
     }
 
     public struct UserRemedy: Codable, Sendable {
-        public var userId: String
-        public var remedyDate: Int
-        public var punchNo: Int
-        public var workType: Int
+        public var userId: String?
+        public var remedyDate: Int?
+        public var punchNo: Int?
+        public var workType: Int?
         public var approvalId: String?
-        public var remedyTime: String
+        public var remedyTime: String?
         public var status: Int?
-        public var reason: String
+        public var reason: String?
         public var time: String?
         public var timeZone: String?
         public var createTime: String?
         public var updateTime: String?
-        public init(userId: String, remedyDate: Int, punchNo: Int, workType: Int, approvalId: String? = nil, remedyTime: String, status: Int? = nil, reason: String, time: String? = nil, timeZone: String? = nil, createTime: String? = nil, updateTime: String? = nil) {
+        public init(userId: String? = nil, remedyDate: Int? = nil, punchNo: Int? = nil, workType: Int? = nil, approvalId: String? = nil, remedyTime: String? = nil, status: Int? = nil, reason: String? = nil, time: String? = nil, timeZone: String? = nil, createTime: String? = nil, updateTime: String? = nil) {
             self.userId = userId
             self.remedyDate = remedyDate
             self.punchNo = punchNo
@@ -1909,14 +1907,14 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.remedyDate = try c.lenientRequired(.remedyDate)
-            self.punchNo = try c.lenientRequired(.punchNo)
-            self.workType = try c.lenientRequired(.workType)
+            self.userId = c.lenient(.userId)
+            self.remedyDate = c.lenient(.remedyDate)
+            self.punchNo = c.lenient(.punchNo)
+            self.workType = c.lenient(.workType)
             self.approvalId = c.lenient(.approvalId)
-            self.remedyTime = try c.lenientRequired(.remedyTime)
+            self.remedyTime = c.lenient(.remedyTime)
             self.status = c.lenient(.status)
-            self.reason = try c.lenientRequired(.reason)
+            self.reason = c.lenient(.reason)
             self.time = c.lenient(.time)
             self.timeZone = c.lenient(.timeZone)
             self.createTime = c.lenient(.createTime)
@@ -1957,8 +1955,8 @@ extension Attendance {
     }
 
     public struct UserAllowedRemedy: Codable, Sendable {
-        public var userId: String
-        public var remedyDate: Int
+        public var userId: String?
+        public var remedyDate: Int?
         public var isFreePunch: Bool?
         public var punchNo: Int?
         public var workType: Int?
@@ -1966,7 +1964,7 @@ extension Attendance {
         public var normalPunchTime: String?
         public var remedyStartTime: String?
         public var remedyEndTime: String?
-        public init(userId: String, remedyDate: Int, isFreePunch: Bool? = nil, punchNo: Int? = nil, workType: Int? = nil, punchStatus: String? = nil, normalPunchTime: String? = nil, remedyStartTime: String? = nil, remedyEndTime: String? = nil) {
+        public init(userId: String? = nil, remedyDate: Int? = nil, isFreePunch: Bool? = nil, punchNo: Int? = nil, workType: Int? = nil, punchStatus: String? = nil, normalPunchTime: String? = nil, remedyStartTime: String? = nil, remedyEndTime: String? = nil) {
             self.userId = userId
             self.remedyDate = remedyDate
             self.isFreePunch = isFreePunch
@@ -1990,8 +1988,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.remedyDate = try c.lenientRequired(.remedyDate)
+            self.userId = c.lenient(.userId)
+            self.remedyDate = c.lenient(.remedyDate)
             self.isFreePunch = c.lenient(.isFreePunch)
             self.punchNo = c.lenient(.punchNo)
             self.workType = c.lenient(.workType)
@@ -2078,15 +2076,15 @@ extension Attendance {
     }
 
     public struct ShiftList: Codable, Sendable {
-        public var shiftId: String
-        public var shiftName: String
-        public var punchTimes: Int
+        public var shiftId: String?
+        public var shiftName: String?
+        public var punchTimes: Int?
         public var subShiftLeaderIds: [String]?
         public var isFlexible: Bool?
         public var flexibleMinutes: Int?
         public var flexibleRule: [FlexibleRule]?
         public var noNeedOff: Bool?
-        public var punchTimeRule: [PunchTimeRule]
+        public var punchTimeRule: [PunchTimeRule]?
         public var lateOffLateOnRule: [LateOffLateOnRule]?
         public var restTimeRule: [RestTimeRule]?
         public var overtimeRule: [OvertimeRule]?
@@ -2098,7 +2096,7 @@ extension Attendance {
         public var lateOffLateOnSetting: LateOffLateOnSetting?
         public var id: String?
         public var restTimeFlexibleConfigs: [RestTimeFlexibleConfig]?
-        public init(shiftId: String, shiftName: String, punchTimes: Int, subShiftLeaderIds: [String]? = nil, isFlexible: Bool? = nil, flexibleMinutes: Int? = nil, flexibleRule: [FlexibleRule]? = nil, noNeedOff: Bool? = nil, punchTimeRule: [PunchTimeRule], lateOffLateOnRule: [LateOffLateOnRule]? = nil, restTimeRule: [RestTimeRule]? = nil, overtimeRule: [OvertimeRule]? = nil, dayType: Int? = nil, overtimeRestTimeRule: [RestTimeRule]? = nil, lateMinutesAsSeriousLate: Int? = nil, shiftMiddleTimeRule: ShiftMiddleTimeRule? = nil, shiftAttendanceTimeConfig: ShiftAttendanceTimeConfig? = nil, lateOffLateOnSetting: LateOffLateOnSetting? = nil, id: String? = nil, restTimeFlexibleConfigs: [RestTimeFlexibleConfig]? = nil) {
+        public init(shiftId: String? = nil, shiftName: String? = nil, punchTimes: Int? = nil, subShiftLeaderIds: [String]? = nil, isFlexible: Bool? = nil, flexibleMinutes: Int? = nil, flexibleRule: [FlexibleRule]? = nil, noNeedOff: Bool? = nil, punchTimeRule: [PunchTimeRule]? = nil, lateOffLateOnRule: [LateOffLateOnRule]? = nil, restTimeRule: [RestTimeRule]? = nil, overtimeRule: [OvertimeRule]? = nil, dayType: Int? = nil, overtimeRestTimeRule: [RestTimeRule]? = nil, lateMinutesAsSeriousLate: Int? = nil, shiftMiddleTimeRule: ShiftMiddleTimeRule? = nil, shiftAttendanceTimeConfig: ShiftAttendanceTimeConfig? = nil, lateOffLateOnSetting: LateOffLateOnSetting? = nil, id: String? = nil, restTimeFlexibleConfigs: [RestTimeFlexibleConfig]? = nil) {
             self.shiftId = shiftId
             self.shiftName = shiftName
             self.punchTimes = punchTimes
@@ -2144,15 +2142,15 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.shiftId = try c.lenientRequired(.shiftId)
-            self.shiftName = try c.lenientRequired(.shiftName)
-            self.punchTimes = try c.lenientRequired(.punchTimes)
+            self.shiftId = c.lenient(.shiftId)
+            self.shiftName = c.lenient(.shiftName)
+            self.punchTimes = c.lenient(.punchTimes)
             self.subShiftLeaderIds = c.lenient(.subShiftLeaderIds)
             self.isFlexible = c.lenient(.isFlexible)
             self.flexibleMinutes = c.lenient(.flexibleMinutes)
             self.flexibleRule = c.lenient(.flexibleRule)
             self.noNeedOff = c.lenient(.noNeedOff)
-            self.punchTimeRule = try c.lenientRequired(.punchTimeRule)
+            self.punchTimeRule = c.lenient(.punchTimeRule)
             self.lateOffLateOnRule = c.lenient(.lateOffLateOnRule)
             self.restTimeRule = c.lenient(.restTimeRule)
             self.overtimeRule = c.lenient(.overtimeRule)
@@ -2168,9 +2166,9 @@ extension Attendance {
     }
 
     public struct FlexibleRule: Codable, Sendable {
-        public var flexibleEarlyMinutes: Int
-        public var flexibleLateMinutes: Int
-        public init(flexibleEarlyMinutes: Int, flexibleLateMinutes: Int) {
+        public var flexibleEarlyMinutes: Int?
+        public var flexibleLateMinutes: Int?
+        public init(flexibleEarlyMinutes: Int? = nil, flexibleLateMinutes: Int? = nil) {
             self.flexibleEarlyMinutes = flexibleEarlyMinutes
             self.flexibleLateMinutes = flexibleLateMinutes
         }
@@ -2180,24 +2178,24 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.flexibleEarlyMinutes = try c.lenientRequired(.flexibleEarlyMinutes)
-            self.flexibleLateMinutes = try c.lenientRequired(.flexibleLateMinutes)
+            self.flexibleEarlyMinutes = c.lenient(.flexibleEarlyMinutes)
+            self.flexibleLateMinutes = c.lenient(.flexibleLateMinutes)
         }
     }
 
     public struct PunchTimeRule: Codable, Sendable {
-        public var onTime: String
-        public var offTime: String
-        public var lateMinutesAsLate: Int
-        public var lateMinutesAsLack: Int
-        public var onAdvanceMinutes: Int
-        public var earlyMinutesAsEarly: Int
-        public var earlyMinutesAsLack: Int
-        public var offDelayMinutes: Int
+        public var onTime: String?
+        public var offTime: String?
+        public var lateMinutesAsLate: Int?
+        public var lateMinutesAsLack: Int?
+        public var onAdvanceMinutes: Int?
+        public var earlyMinutesAsEarly: Int?
+        public var earlyMinutesAsLack: Int?
+        public var offDelayMinutes: Int?
         public var lateMinutesAsSeriousLate: Int?
         public var noNeedOn: Bool?
         public var noNeedOff: Bool?
-        public init(onTime: String, offTime: String, lateMinutesAsLate: Int, lateMinutesAsLack: Int, onAdvanceMinutes: Int, earlyMinutesAsEarly: Int, earlyMinutesAsLack: Int, offDelayMinutes: Int, lateMinutesAsSeriousLate: Int? = nil, noNeedOn: Bool? = nil, noNeedOff: Bool? = nil) {
+        public init(onTime: String? = nil, offTime: String? = nil, lateMinutesAsLate: Int? = nil, lateMinutesAsLack: Int? = nil, onAdvanceMinutes: Int? = nil, earlyMinutesAsEarly: Int? = nil, earlyMinutesAsLack: Int? = nil, offDelayMinutes: Int? = nil, lateMinutesAsSeriousLate: Int? = nil, noNeedOn: Bool? = nil, noNeedOff: Bool? = nil) {
             self.onTime = onTime
             self.offTime = offTime
             self.lateMinutesAsLate = lateMinutesAsLate
@@ -2225,14 +2223,14 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.onTime = try c.lenientRequired(.onTime)
-            self.offTime = try c.lenientRequired(.offTime)
-            self.lateMinutesAsLate = try c.lenientRequired(.lateMinutesAsLate)
-            self.lateMinutesAsLack = try c.lenientRequired(.lateMinutesAsLack)
-            self.onAdvanceMinutes = try c.lenientRequired(.onAdvanceMinutes)
-            self.earlyMinutesAsEarly = try c.lenientRequired(.earlyMinutesAsEarly)
-            self.earlyMinutesAsLack = try c.lenientRequired(.earlyMinutesAsLack)
-            self.offDelayMinutes = try c.lenientRequired(.offDelayMinutes)
+            self.onTime = c.lenient(.onTime)
+            self.offTime = c.lenient(.offTime)
+            self.lateMinutesAsLate = c.lenient(.lateMinutesAsLate)
+            self.lateMinutesAsLack = c.lenient(.lateMinutesAsLack)
+            self.onAdvanceMinutes = c.lenient(.onAdvanceMinutes)
+            self.earlyMinutesAsEarly = c.lenient(.earlyMinutesAsEarly)
+            self.earlyMinutesAsLack = c.lenient(.earlyMinutesAsLack)
+            self.offDelayMinutes = c.lenient(.offDelayMinutes)
             self.lateMinutesAsSeriousLate = c.lenient(.lateMinutesAsSeriousLate)
             self.noNeedOn = c.lenient(.noNeedOn)
             self.noNeedOff = c.lenient(.noNeedOff)
@@ -2240,9 +2238,9 @@ extension Attendance {
     }
 
     public struct LateOffLateOnRule: Codable, Sendable {
-        public var lateOffMinutes: Int
-        public var lateOnMinutes: Int
-        public init(lateOffMinutes: Int, lateOnMinutes: Int) {
+        public var lateOffMinutes: Int?
+        public var lateOnMinutes: Int?
+        public init(lateOffMinutes: Int? = nil, lateOnMinutes: Int? = nil) {
             self.lateOffMinutes = lateOffMinutes
             self.lateOnMinutes = lateOnMinutes
         }
@@ -2252,15 +2250,15 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.lateOffMinutes = try c.lenientRequired(.lateOffMinutes)
-            self.lateOnMinutes = try c.lenientRequired(.lateOnMinutes)
+            self.lateOffMinutes = c.lenient(.lateOffMinutes)
+            self.lateOnMinutes = c.lenient(.lateOnMinutes)
         }
     }
 
     public struct RestTimeRule: Codable, Sendable {
-        public var restBeginTime: String
-        public var restEndTime: String
-        public init(restBeginTime: String, restEndTime: String) {
+        public var restBeginTime: String?
+        public var restEndTime: String?
+        public init(restBeginTime: String? = nil, restEndTime: String? = nil) {
             self.restBeginTime = restBeginTime
             self.restEndTime = restEndTime
         }
@@ -2270,15 +2268,15 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.restBeginTime = try c.lenientRequired(.restBeginTime)
-            self.restEndTime = try c.lenientRequired(.restEndTime)
+            self.restBeginTime = c.lenient(.restBeginTime)
+            self.restEndTime = c.lenient(.restEndTime)
         }
     }
 
     public struct OvertimeRule: Codable, Sendable {
-        public var onOvertime: String
-        public var offOvertime: String
-        public init(onOvertime: String, offOvertime: String) {
+        public var onOvertime: String?
+        public var offOvertime: String?
+        public init(onOvertime: String? = nil, offOvertime: String? = nil) {
             self.onOvertime = onOvertime
             self.offOvertime = offOvertime
         }
@@ -2288,8 +2286,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.onOvertime = try c.lenientRequired(.onOvertime)
-            self.offOvertime = try c.lenientRequired(.offOvertime)
+            self.onOvertime = c.lenient(.onOvertime)
+            self.offOvertime = c.lenient(.offOvertime)
         }
     }
 
@@ -2555,10 +2553,10 @@ extension Attendance {
     }
 
     public struct UserStatsField: Codable, Sendable {
-        public var statsType: StatsType
-        public var userId: String
-        public var fields: [UserStatsFieldField]
-        public init(statsType: StatsType, userId: String, fields: [UserStatsFieldField]) {
+        public var statsType: StatsType?
+        public var userId: String?
+        public var fields: [UserStatsFieldField]?
+        public init(statsType: StatsType? = nil, userId: String? = nil, fields: [UserStatsFieldField]? = nil) {
             self.statsType = statsType
             self.userId = userId
             self.fields = fields
@@ -2570,17 +2568,17 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.statsType = try c.lenientRequired(.statsType)
-            self.userId = try c.lenientRequired(.userId)
-            self.fields = try c.lenientRequired(.fields)
+            self.statsType = c.lenient(.statsType)
+            self.userId = c.lenient(.userId)
+            self.fields = c.lenient(.fields)
         }
     }
 
     public struct UserStatsFieldField: Codable, Sendable {
-        public var code: String
-        public var title: String
+        public var code: String?
+        public var title: String?
         public var childFields: [ChildField]?
-        public init(code: String, title: String, childFields: [ChildField]? = nil) {
+        public init(code: String? = nil, title: String? = nil, childFields: [ChildField]? = nil) {
             self.code = code
             self.title = title
             self.childFields = childFields
@@ -2592,17 +2590,17 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.code = try c.lenientRequired(.code)
-            self.title = try c.lenientRequired(.title)
+            self.code = c.lenient(.code)
+            self.title = c.lenient(.title)
             self.childFields = c.lenient(.childFields)
         }
     }
 
     public struct ChildField: Codable, Sendable {
-        public var code: String
-        public var title: String
+        public var code: String?
+        public var title: String?
         public var timeUnit: String?
-        public init(code: String, title: String, timeUnit: String? = nil) {
+        public init(code: String? = nil, title: String? = nil, timeUnit: String? = nil) {
             self.code = code
             self.title = title
             self.timeUnit = timeUnit
@@ -2614,8 +2612,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.code = try c.lenientRequired(.code)
-            self.title = try c.lenientRequired(.title)
+            self.code = c.lenient(.code)
+            self.title = c.lenient(.title)
             self.timeUnit = c.lenient(.timeUnit)
         }
     }
@@ -2635,11 +2633,11 @@ extension Attendance {
     }
 
     public struct View: Codable, Sendable {
-        public var viewId: String
-        public var statsType: StatsType
-        public var userId: String
+        public var viewId: String?
+        public var statsType: StatsType?
+        public var userId: String?
         public var items: [ViewItem]?
-        public init(viewId: String, statsType: StatsType, userId: String, items: [ViewItem]? = nil) {
+        public init(viewId: String? = nil, statsType: StatsType? = nil, userId: String? = nil, items: [ViewItem]? = nil) {
             self.viewId = viewId
             self.statsType = statsType
             self.userId = userId
@@ -2653,17 +2651,17 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.viewId = try c.lenientRequired(.viewId)
-            self.statsType = try c.lenientRequired(.statsType)
-            self.userId = try c.lenientRequired(.userId)
+            self.viewId = c.lenient(.viewId)
+            self.statsType = c.lenient(.statsType)
+            self.userId = c.lenient(.userId)
             self.items = c.lenient(.items)
         }
     }
 
     public struct ViewItem: Codable, Sendable {
-        public var code: String
+        public var code: String?
         public var childItems: [ChildItem]?
-        public init(code: String, childItems: [ChildItem]? = nil) {
+        public init(code: String? = nil, childItems: [ChildItem]? = nil) {
             self.code = code
             self.childItems = childItems
         }
@@ -2673,15 +2671,15 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.code = try c.lenientRequired(.code)
+            self.code = c.lenient(.code)
             self.childItems = c.lenient(.childItems)
         }
     }
 
     public struct ChildItem: Codable, Sendable {
-        public var code: String
-        public var value: String
-        public init(code: String, value: String) {
+        public var code: String?
+        public var value: String?
+        public init(code: String? = nil, value: String? = nil) {
             self.code = code
             self.value = value
         }
@@ -2691,8 +2689,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.code = try c.lenientRequired(.code)
-            self.value = try c.lenientRequired(.value)
+            self.code = c.lenient(.code)
+            self.value = c.lenient(.value)
         }
     }
 
@@ -2711,11 +2709,11 @@ extension Attendance {
     }
 
     public struct UserStatsViewUpdateResponseView: Codable, Sendable {
-        public var viewId: String
-        public var statsType: StatsType
-        public var userId: String
+        public var viewId: String?
+        public var statsType: StatsType?
+        public var userId: String?
         public var items: [UserStatsViewUpdateResponseViewItem]?
-        public init(viewId: String, statsType: StatsType, userId: String, items: [UserStatsViewUpdateResponseViewItem]? = nil) {
+        public init(viewId: String? = nil, statsType: StatsType? = nil, userId: String? = nil, items: [UserStatsViewUpdateResponseViewItem]? = nil) {
             self.viewId = viewId
             self.statsType = statsType
             self.userId = userId
@@ -2729,18 +2727,18 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.viewId = try c.lenientRequired(.viewId)
-            self.statsType = try c.lenientRequired(.statsType)
-            self.userId = try c.lenientRequired(.userId)
+            self.viewId = c.lenient(.viewId)
+            self.statsType = c.lenient(.statsType)
+            self.userId = c.lenient(.userId)
             self.items = c.lenient(.items)
         }
     }
 
     public struct UserStatsViewUpdateResponseViewItem: Codable, Sendable {
-        public var code: String
+        public var code: String?
         public var title: String?
         public var childItems: [UserStatsViewUpdateResponseViewItemChildItem]?
-        public init(code: String, title: String? = nil, childItems: [UserStatsViewUpdateResponseViewItemChildItem]? = nil) {
+        public init(code: String? = nil, title: String? = nil, childItems: [UserStatsViewUpdateResponseViewItemChildItem]? = nil) {
             self.code = code
             self.title = title
             self.childItems = childItems
@@ -2752,21 +2750,21 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.code = try c.lenientRequired(.code)
+            self.code = c.lenient(.code)
             self.title = c.lenient(.title)
             self.childItems = c.lenient(.childItems)
         }
     }
 
     public struct UserStatsViewUpdateResponseViewItemChildItem: Codable, Sendable {
-        public var code: String
-        public var value: String
+        public var code: String?
+        public var value: String?
         public var title: String?
         public var columnType: Int?
         public var readOnly: Bool?
         public var minValue: String?
         public var maxValue: String?
-        public init(code: String, value: String, title: String? = nil, columnType: Int? = nil, readOnly: Bool? = nil, minValue: String? = nil, maxValue: String? = nil) {
+        public init(code: String? = nil, value: String? = nil, title: String? = nil, columnType: Int? = nil, readOnly: Bool? = nil, minValue: String? = nil, maxValue: String? = nil) {
             self.code = code
             self.value = value
             self.title = title
@@ -2786,8 +2784,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.code = try c.lenientRequired(.code)
-            self.value = try c.lenientRequired(.value)
+            self.code = c.lenient(.code)
+            self.value = c.lenient(.value)
             self.title = c.lenient(.title)
             self.columnType = c.lenient(.columnType)
             self.readOnly = c.lenient(.readOnly)
@@ -2855,10 +2853,10 @@ extension Attendance {
     }
 
     public struct ApprovalInfo: Codable, Sendable {
-        public var approvalId: String
-        public var approvalType: ApprovalType
-        public var status: Int
-        public init(approvalId: String, approvalType: ApprovalType, status: Int) {
+        public var approvalId: String?
+        public var approvalType: ApprovalType?
+        public var status: Int?
+        public init(approvalId: String? = nil, approvalType: ApprovalType? = nil, status: Int? = nil) {
             self.approvalId = approvalId
             self.approvalType = approvalType
             self.status = status
@@ -2870,9 +2868,9 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.approvalId = try c.lenientRequired(.approvalId)
-            self.approvalType = try c.lenientRequired(.approvalType)
-            self.status = try c.lenientRequired(.status)
+            self.approvalId = c.lenient(.approvalId)
+            self.approvalType = c.lenient(.approvalType)
+            self.status = c.lenient(.status)
         }
     }
 
@@ -2902,10 +2900,10 @@ extension Attendance {
     }
 
     public struct UserSetting: Codable, Sendable {
-        public var userId: String
-        public var faceKey: String
+        public var userId: String?
+        public var faceKey: String?
         public var faceKeyUpdateTime: String?
-        public init(userId: String, faceKey: String, faceKeyUpdateTime: String? = nil) {
+        public init(userId: String? = nil, faceKey: String? = nil, faceKeyUpdateTime: String? = nil) {
             self.userId = userId
             self.faceKey = faceKey
             self.faceKeyUpdateTime = faceKeyUpdateTime
@@ -2917,9 +2915,23 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.faceKey = try c.lenientRequired(.faceKey)
+            self.userId = c.lenient(.userId)
+            self.faceKey = c.lenient(.faceKey)
             self.faceKeyUpdateTime = c.lenient(.faceKeyUpdateTime)
+        }
+    }
+
+    public struct UserSettingModifyResponse: Codable, Sendable {
+        public var userSetting: UserSetting?
+        public init(userSetting: UserSetting? = nil) {
+            self.userSetting = userSetting
+        }
+        enum CodingKeys: String, CodingKey {
+            case userSetting = "user_setting"
+        }
+        public init(from decoder: any Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            self.userSetting = c.lenient(.userSetting)
         }
     }
 
@@ -3012,10 +3024,10 @@ extension Attendance {
     }
 
     public struct UserData: Codable, Sendable {
-        public var name: String
-        public var userId: String
+        public var name: String?
+        public var userId: String?
         public var datas: [UserDataData]?
-        public init(name: String, userId: String, datas: [UserDataData]? = nil) {
+        public init(name: String? = nil, userId: String? = nil, datas: [UserDataData]? = nil) {
             self.name = name
             self.userId = userId
             self.datas = datas
@@ -3027,19 +3039,19 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.userId = try c.lenientRequired(.userId)
+            self.name = c.lenient(.name)
+            self.userId = c.lenient(.userId)
             self.datas = c.lenient(.datas)
         }
     }
 
     public struct UserDataData: Codable, Sendable {
-        public var code: String
-        public var value: String
+        public var code: String?
+        public var value: String?
         public var features: [Feature]?
         public var title: String?
         public var durationNum: DurationNum?
-        public init(code: String, value: String, features: [Feature]? = nil, title: String? = nil, durationNum: DurationNum? = nil) {
+        public init(code: String? = nil, value: String? = nil, features: [Feature]? = nil, title: String? = nil, durationNum: DurationNum? = nil) {
             self.code = code
             self.value = value
             self.features = features
@@ -3055,8 +3067,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.code = try c.lenientRequired(.code)
-            self.value = try c.lenientRequired(.value)
+            self.code = c.lenient(.code)
+            self.value = c.lenient(.value)
             self.features = c.lenient(.features)
             self.title = c.lenient(.title)
             self.durationNum = c.lenient(.durationNum)
@@ -3064,9 +3076,9 @@ extension Attendance {
     }
 
     public struct Feature: Codable, Sendable {
-        public var key: String
-        public var value: String
-        public init(key: String, value: String) {
+        public var key: String?
+        public var value: String?
+        public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
         }
@@ -3076,8 +3088,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.key = try c.lenientRequired(.key)
-            self.value = try c.lenientRequired(.value)
+            self.key = c.lenient(.key)
+            self.value = c.lenient(.value)
         }
     }
 
@@ -3310,11 +3322,11 @@ extension Attendance {
     }
 
     public struct ArchiveReportData: Codable, Sendable {
-        public var memberId: String
-        public var startTime: String
-        public var endTime: String
-        public var fieldDatas: [FieldData]?
-        public init(memberId: String, startTime: String, endTime: String, fieldDatas: [FieldData]? = nil) {
+        public var memberId: String?
+        public var startTime: String?
+        public var endTime: String?
+        public var fieldDatas: [ChildItem]?
+        public init(memberId: String? = nil, startTime: String? = nil, endTime: String? = nil, fieldDatas: [ChildItem]? = nil) {
             self.memberId = memberId
             self.startTime = startTime
             self.endTime = endTime
@@ -3328,28 +3340,10 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.memberId = try c.lenientRequired(.memberId)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.memberId = c.lenient(.memberId)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
             self.fieldDatas = c.lenient(.fieldDatas)
-        }
-    }
-
-    public struct FieldData: Codable, Sendable {
-        public var code: String
-        public var value: String?
-        public init(code: String, value: String? = nil) {
-            self.code = code
-            self.value = value
-        }
-        enum CodingKeys: String, CodingKey {
-            case code
-            case value
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.code = try c.lenientRequired(.code)
-            self.value = c.lenient(.value)
         }
     }
 
@@ -3426,8 +3420,8 @@ extension Attendance {
     }
 
     public struct LeaveEmployExpireRecordGetResponse: Codable, Sendable {
-        public var records: [LeaveEmployExpireRecordGetResponseRecord]
-        public init(records: [LeaveEmployExpireRecordGetResponseRecord]) {
+        public var records: [LeaveEmployExpireRecordGetResponseRecord]?
+        public init(records: [LeaveEmployExpireRecordGetResponseRecord]? = nil) {
             self.records = records
         }
         enum CodingKeys: String, CodingKey {
@@ -3435,25 +3429,25 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.records = try c.lenientRequired(.records)
+            self.records = c.lenient(.records)
         }
     }
 
     public struct LeaveEmployExpireRecordGetResponseRecord: Codable, Sendable {
-        public var id: String
-        public var employmentId: String
-        public var leaveTypeId: String
-        public var grantingQuantity: String
-        public var leftGrantingQuantity: String
-        public var grantingUnit: Int
-        public var effectiveDate: String
-        public var expirationDate: String
-        public var reason: [Reason]
-        public var isUpdateByExternal: Bool
-        public var accrualSource: Int
-        public var leaveSubTypeId: String
+        public var id: String?
+        public var employmentId: String?
+        public var leaveTypeId: String?
+        public var grantingQuantity: String?
+        public var leftGrantingQuantity: String?
+        public var grantingUnit: Int?
+        public var effectiveDate: String?
+        public var expirationDate: String?
+        public var reason: [Reason]?
+        public var isUpdateByExternal: Bool?
+        public var accrualSource: Int?
+        public var leaveSubTypeId: String?
         public var sectionType: Int?
-        public init(id: String, employmentId: String, leaveTypeId: String, grantingQuantity: String, leftGrantingQuantity: String, grantingUnit: Int, effectiveDate: String, expirationDate: String, reason: [Reason], isUpdateByExternal: Bool, accrualSource: Int, leaveSubTypeId: String, sectionType: Int? = nil) {
+        public init(id: String? = nil, employmentId: String? = nil, leaveTypeId: String? = nil, grantingQuantity: String? = nil, leftGrantingQuantity: String? = nil, grantingUnit: Int? = nil, effectiveDate: String? = nil, expirationDate: String? = nil, reason: [Reason]? = nil, isUpdateByExternal: Bool? = nil, accrualSource: Int? = nil, leaveSubTypeId: String? = nil, sectionType: Int? = nil) {
             self.id = id
             self.employmentId = employmentId
             self.leaveTypeId = leaveTypeId
@@ -3485,26 +3479,26 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.employmentId = try c.lenientRequired(.employmentId)
-            self.leaveTypeId = try c.lenientRequired(.leaveTypeId)
-            self.grantingQuantity = try c.lenientRequired(.grantingQuantity)
-            self.leftGrantingQuantity = try c.lenientRequired(.leftGrantingQuantity)
-            self.grantingUnit = try c.lenientRequired(.grantingUnit)
-            self.effectiveDate = try c.lenientRequired(.effectiveDate)
-            self.expirationDate = try c.lenientRequired(.expirationDate)
-            self.reason = try c.lenientRequired(.reason)
-            self.isUpdateByExternal = try c.lenientRequired(.isUpdateByExternal)
-            self.accrualSource = try c.lenientRequired(.accrualSource)
-            self.leaveSubTypeId = try c.lenientRequired(.leaveSubTypeId)
+            self.id = c.lenient(.id)
+            self.employmentId = c.lenient(.employmentId)
+            self.leaveTypeId = c.lenient(.leaveTypeId)
+            self.grantingQuantity = c.lenient(.grantingQuantity)
+            self.leftGrantingQuantity = c.lenient(.leftGrantingQuantity)
+            self.grantingUnit = c.lenient(.grantingUnit)
+            self.effectiveDate = c.lenient(.effectiveDate)
+            self.expirationDate = c.lenient(.expirationDate)
+            self.reason = c.lenient(.reason)
+            self.isUpdateByExternal = c.lenient(.isUpdateByExternal)
+            self.accrualSource = c.lenient(.accrualSource)
+            self.leaveSubTypeId = c.lenient(.leaveSubTypeId)
             self.sectionType = c.lenient(.sectionType)
         }
     }
 
     public struct Reason: Codable, Sendable {
-        public var lang: String
-        public var value: String
-        public init(lang: String, value: String) {
+        public var lang: String?
+        public var value: String?
+        public init(lang: String? = nil, value: String? = nil) {
             self.lang = lang
             self.value = value
         }
@@ -3514,8 +3508,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.lang = try c.lenientRequired(.lang)
-            self.value = try c.lenientRequired(.value)
+            self.lang = c.lenient(.lang)
+            self.value = c.lenient(.value)
         }
     }
 
@@ -3562,8 +3556,8 @@ extension Attendance {
     }
 
     public struct LeaveAccrualRecordPatchResponse: Codable, Sendable {
-        public var record: LeaveAccrualRecordPatchResponseRecord
-        public init(record: LeaveAccrualRecordPatchResponseRecord) {
+        public var record: LeaveAccrualRecordPatchResponseRecord?
+        public init(record: LeaveAccrualRecordPatchResponseRecord? = nil) {
             self.record = record
         }
         enum CodingKeys: String, CodingKey {
@@ -3571,26 +3565,26 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.record = try c.lenientRequired(.record)
+            self.record = c.lenient(.record)
         }
     }
 
     public struct LeaveAccrualRecordPatchResponseRecord: Codable, Sendable {
-        public var id: String
-        public var employmentId: String
-        public var leaveTypeId: String
-        public var grantingQuantity: String
-        public var grantingUnit: Int
-        public var effectiveDate: String
-        public var expirationDate: String
-        public var grantedBy: Int
-        public var reason: [Reason]
-        public var createdAt: String
-        public var createdBy: String
-        public var updatedAt: String
-        public var updatedBy: String
+        public var id: String?
+        public var employmentId: String?
+        public var leaveTypeId: String?
+        public var grantingQuantity: String?
+        public var grantingUnit: Int?
+        public var effectiveDate: String?
+        public var expirationDate: String?
+        public var grantedBy: Int?
+        public var reason: [Reason]?
+        public var createdAt: String?
+        public var createdBy: String?
+        public var updatedAt: String?
+        public var updatedBy: String?
         public var sectionType: Int?
-        public init(id: String, employmentId: String, leaveTypeId: String, grantingQuantity: String, grantingUnit: Int, effectiveDate: String, expirationDate: String, grantedBy: Int, reason: [Reason], createdAt: String, createdBy: String, updatedAt: String, updatedBy: String, sectionType: Int? = nil) {
+        public init(id: String? = nil, employmentId: String? = nil, leaveTypeId: String? = nil, grantingQuantity: String? = nil, grantingUnit: Int? = nil, effectiveDate: String? = nil, expirationDate: String? = nil, grantedBy: Int? = nil, reason: [Reason]? = nil, createdAt: String? = nil, createdBy: String? = nil, updatedAt: String? = nil, updatedBy: String? = nil, sectionType: Int? = nil) {
             self.id = id
             self.employmentId = employmentId
             self.leaveTypeId = leaveTypeId
@@ -3624,19 +3618,19 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.employmentId = try c.lenientRequired(.employmentId)
-            self.leaveTypeId = try c.lenientRequired(.leaveTypeId)
-            self.grantingQuantity = try c.lenientRequired(.grantingQuantity)
-            self.grantingUnit = try c.lenientRequired(.grantingUnit)
-            self.effectiveDate = try c.lenientRequired(.effectiveDate)
-            self.expirationDate = try c.lenientRequired(.expirationDate)
-            self.grantedBy = try c.lenientRequired(.grantedBy)
-            self.reason = try c.lenientRequired(.reason)
-            self.createdAt = try c.lenientRequired(.createdAt)
-            self.createdBy = try c.lenientRequired(.createdBy)
-            self.updatedAt = try c.lenientRequired(.updatedAt)
-            self.updatedBy = try c.lenientRequired(.updatedBy)
+            self.id = c.lenient(.id)
+            self.employmentId = c.lenient(.employmentId)
+            self.leaveTypeId = c.lenient(.leaveTypeId)
+            self.grantingQuantity = c.lenient(.grantingQuantity)
+            self.grantingUnit = c.lenient(.grantingUnit)
+            self.effectiveDate = c.lenient(.effectiveDate)
+            self.expirationDate = c.lenient(.expirationDate)
+            self.grantedBy = c.lenient(.grantedBy)
+            self.reason = c.lenient(.reason)
+            self.createdAt = c.lenient(.createdAt)
+            self.createdBy = c.lenient(.createdBy)
+            self.updatedAt = c.lenient(.updatedAt)
+            self.updatedBy = c.lenient(.updatedBy)
             self.sectionType = c.lenient(.sectionType)
         }
     }
@@ -3688,11 +3682,11 @@ extension Attendance {
     }
 
     public struct FlowRecord: Codable, Sendable {
-        public var userId: String
-        public var creatorId: String
-        public var locationName: String
-        public var checkTime: String
-        public var comment: String
+        public var userId: String?
+        public var creatorId: String?
+        public var locationName: String?
+        public var checkTime: String?
+        public var comment: String?
         public var recordId: String?
         public var longitude: Double?
         public var latitude: Double?
@@ -3707,7 +3701,7 @@ extension Attendance {
         public var externalId: String?
         public var idempotentId: String?
         public var createTime: String?
-        public init(userId: String, creatorId: String, locationName: String, checkTime: String, comment: String, recordId: String? = nil, longitude: Double? = nil, latitude: Double? = nil, ssid: String? = nil, bssid: String? = nil, isField: Bool? = nil, isWifi: Bool? = nil, type: Int? = nil, photoUrls: [String]? = nil, deviceId: String? = nil, checkResult: CheckResult? = nil, externalId: String? = nil, idempotentId: String? = nil, createTime: String? = nil) {
+        public init(userId: String? = nil, creatorId: String? = nil, locationName: String? = nil, checkTime: String? = nil, comment: String? = nil, recordId: String? = nil, longitude: Double? = nil, latitude: Double? = nil, ssid: String? = nil, bssid: String? = nil, isField: Bool? = nil, isWifi: Bool? = nil, type: Int? = nil, photoUrls: [String]? = nil, deviceId: String? = nil, checkResult: CheckResult? = nil, externalId: String? = nil, idempotentId: String? = nil, createTime: String? = nil) {
             self.userId = userId
             self.creatorId = creatorId
             self.locationName = locationName
@@ -3751,11 +3745,11 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.creatorId = try c.lenientRequired(.creatorId)
-            self.locationName = try c.lenientRequired(.locationName)
-            self.checkTime = try c.lenientRequired(.checkTime)
-            self.comment = try c.lenientRequired(.comment)
+            self.userId = c.lenient(.userId)
+            self.creatorId = c.lenient(.creatorId)
+            self.locationName = c.lenient(.locationName)
+            self.checkTime = c.lenient(.checkTime)
+            self.comment = c.lenient(.comment)
             self.recordId = c.lenient(.recordId)
             self.longitude = c.lenient(.longitude)
             self.latitude = c.lenient(.latitude)
@@ -3895,14 +3889,14 @@ extension Attendance {
     }
 
     public struct UserApproval: Codable, Sendable {
-        public var userId: String
-        public var date: String
+        public var userId: String?
+        public var date: String?
         public var outs: [Out]?
         public var leaves: [Leave]?
         public var overtimeWorks: [OvertimeWork]?
         public var trips: [Trip]?
         public var timeZone: String?
-        public init(userId: String, date: String, outs: [Out]? = nil, leaves: [Leave]? = nil, overtimeWorks: [OvertimeWork]? = nil, trips: [Trip]? = nil, timeZone: String? = nil) {
+        public init(userId: String? = nil, date: String? = nil, outs: [Out]? = nil, leaves: [Leave]? = nil, overtimeWorks: [OvertimeWork]? = nil, trips: [Trip]? = nil, timeZone: String? = nil) {
             self.userId = userId
             self.date = date
             self.outs = outs
@@ -3922,8 +3916,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.date = try c.lenientRequired(.date)
+            self.userId = c.lenient(.userId)
+            self.date = c.lenient(.date)
             self.outs = c.lenient(.outs)
             self.leaves = c.lenient(.leaves)
             self.overtimeWorks = c.lenient(.overtimeWorks)
@@ -3933,19 +3927,19 @@ extension Attendance {
     }
 
     public struct Out: Codable, Sendable {
-        public var uniqId: String
-        public var unit: Int
-        public var interval: Int
-        public var startTime: String
-        public var endTime: String
-        public var i18nNames: I18nNames
-        public var defaultLocale: String
-        public var reason: String
+        public var uniqId: String?
+        public var unit: Int?
+        public var interval: Int?
+        public var startTime: String?
+        public var endTime: String?
+        public var i18nNames: I18nNames?
+        public var defaultLocale: String?
+        public var reason: String?
         public var idempotentId: String?
         public var correctProcessId: [String]?
         public var cancelProcessId: [String]?
         public var processId: [String]?
-        public init(uniqId: String, unit: Int, interval: Int, startTime: String, endTime: String, i18nNames: I18nNames, defaultLocale: String, reason: String, idempotentId: String? = nil, correctProcessId: [String]? = nil, cancelProcessId: [String]? = nil, processId: [String]? = nil) {
+        public init(uniqId: String? = nil, unit: Int? = nil, interval: Int? = nil, startTime: String? = nil, endTime: String? = nil, i18nNames: I18nNames? = nil, defaultLocale: String? = nil, reason: String? = nil, idempotentId: String? = nil, correctProcessId: [String]? = nil, cancelProcessId: [String]? = nil, processId: [String]? = nil) {
             self.uniqId = uniqId
             self.unit = unit
             self.interval = interval
@@ -3975,14 +3969,14 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.uniqId = try c.lenientRequired(.uniqId)
-            self.unit = try c.lenientRequired(.unit)
-            self.interval = try c.lenientRequired(.interval)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
-            self.i18nNames = try c.lenientRequired(.i18nNames)
-            self.defaultLocale = try c.lenientRequired(.defaultLocale)
-            self.reason = try c.lenientRequired(.reason)
+            self.uniqId = c.lenient(.uniqId)
+            self.unit = c.lenient(.unit)
+            self.interval = c.lenient(.interval)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
+            self.i18nNames = c.lenient(.i18nNames)
+            self.defaultLocale = c.lenient(.defaultLocale)
+            self.reason = c.lenient(.reason)
             self.idempotentId = c.lenient(.idempotentId)
             self.correctProcessId = c.lenient(.correctProcessId)
             self.cancelProcessId = c.lenient(.cancelProcessId)
@@ -4014,16 +4008,16 @@ extension Attendance {
 
     public struct Leave: Codable, Sendable {
         public var uniqId: String?
-        public var unit: Int
-        public var interval: Int
-        public var startTime: String
-        public var endTime: String
-        public var i18nNames: I18nNames
-        public var defaultLocale: DefaultLocale
-        public var reason: String
+        public var unit: Int?
+        public var interval: Int?
+        public var startTime: String?
+        public var endTime: String?
+        public var i18nNames: I18nNames?
+        public var defaultLocale: DefaultLocale?
+        public var reason: String?
         public var idempotentId: String?
         public var leaveDetailRangeObjs: [LeaveDetailRangeObj]?
-        public init(uniqId: String? = nil, unit: Int, interval: Int, startTime: String, endTime: String, i18nNames: I18nNames, defaultLocale: DefaultLocale, reason: String, idempotentId: String? = nil, leaveDetailRangeObjs: [LeaveDetailRangeObj]? = nil) {
+        public init(uniqId: String? = nil, unit: Int? = nil, interval: Int? = nil, startTime: String? = nil, endTime: String? = nil, i18nNames: I18nNames? = nil, defaultLocale: DefaultLocale? = nil, reason: String? = nil, idempotentId: String? = nil, leaveDetailRangeObjs: [LeaveDetailRangeObj]? = nil) {
             self.uniqId = uniqId
             self.unit = unit
             self.interval = interval
@@ -4050,13 +4044,13 @@ extension Attendance {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.uniqId = c.lenient(.uniqId)
-            self.unit = try c.lenientRequired(.unit)
-            self.interval = try c.lenientRequired(.interval)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
-            self.i18nNames = try c.lenientRequired(.i18nNames)
-            self.defaultLocale = try c.lenientRequired(.defaultLocale)
-            self.reason = try c.lenientRequired(.reason)
+            self.unit = c.lenient(.unit)
+            self.interval = c.lenient(.interval)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
+            self.i18nNames = c.lenient(.i18nNames)
+            self.defaultLocale = c.lenient(.defaultLocale)
+            self.reason = c.lenient(.reason)
             self.idempotentId = c.lenient(.idempotentId)
             self.leaveDetailRangeObjs = c.lenient(.leaveDetailRangeObjs)
         }
@@ -4108,18 +4102,18 @@ extension Attendance {
     }
 
     public struct OvertimeWork: Codable, Sendable {
-        public var duration: Double
-        public var unit: Int
-        public var category: Int
-        public var type: Int
-        public var startTime: String
-        public var endTime: String
+        public var duration: Double?
+        public var unit: Int?
+        public var category: Int?
+        public var type: Int?
+        public var startTime: String?
+        public var endTime: String?
         public var reason: String?
         public var idempotentId: String?
         public var correctProcessId: [String]?
         public var cancelProcessId: [String]?
         public var processId: [String]?
-        public init(duration: Double, unit: Int, category: Int, type: Int, startTime: String, endTime: String, reason: String? = nil, idempotentId: String? = nil, correctProcessId: [String]? = nil, cancelProcessId: [String]? = nil, processId: [String]? = nil) {
+        public init(duration: Double? = nil, unit: Int? = nil, category: Int? = nil, type: Int? = nil, startTime: String? = nil, endTime: String? = nil, reason: String? = nil, idempotentId: String? = nil, correctProcessId: [String]? = nil, cancelProcessId: [String]? = nil, processId: [String]? = nil) {
             self.duration = duration
             self.unit = unit
             self.category = category
@@ -4147,12 +4141,12 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.duration = try c.lenientRequired(.duration)
-            self.unit = try c.lenientRequired(.unit)
-            self.category = try c.lenientRequired(.category)
-            self.type = try c.lenientRequired(.type)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.duration = c.lenient(.duration)
+            self.unit = c.lenient(.unit)
+            self.category = c.lenient(.category)
+            self.type = c.lenient(.type)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
             self.reason = c.lenient(.reason)
             self.idempotentId = c.lenient(.idempotentId)
             self.correctProcessId = c.lenient(.correctProcessId)
@@ -4162,11 +4156,11 @@ extension Attendance {
     }
 
     public struct Trip: Codable, Sendable {
-        public var startTime: String
-        public var endTime: String
-        public var reason: String
-        public var approvePassTime: String
-        public var approveApplyTime: String
+        public var startTime: String?
+        public var endTime: String?
+        public var reason: String?
+        public var approvePassTime: String?
+        public var approveApplyTime: String?
         public var idempotentId: String?
         public var correctProcessId: [String]?
         public var cancelProcessId: [String]?
@@ -4176,7 +4170,7 @@ extension Attendance {
         public var transportation: [Int]?
         public var tripType: Int?
         public var remarks: String?
-        public init(startTime: String, endTime: String, reason: String, approvePassTime: String, approveApplyTime: String, idempotentId: String? = nil, correctProcessId: [String]? = nil, cancelProcessId: [String]? = nil, processId: [String]? = nil, departure: Departure? = nil, destinations: [Departure]? = nil, transportation: [Int]? = nil, tripType: Int? = nil, remarks: String? = nil) {
+        public init(startTime: String? = nil, endTime: String? = nil, reason: String? = nil, approvePassTime: String? = nil, approveApplyTime: String? = nil, idempotentId: String? = nil, correctProcessId: [String]? = nil, cancelProcessId: [String]? = nil, processId: [String]? = nil, departure: Departure? = nil, destinations: [Departure]? = nil, transportation: [Int]? = nil, tripType: Int? = nil, remarks: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.reason = reason
@@ -4210,11 +4204,11 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
-            self.reason = try c.lenientRequired(.reason)
-            self.approvePassTime = try c.lenientRequired(.approvePassTime)
-            self.approveApplyTime = try c.lenientRequired(.approveApplyTime)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
+            self.reason = c.lenient(.reason)
+            self.approvePassTime = c.lenient(.approvePassTime)
+            self.approveApplyTime = c.lenient(.approveApplyTime)
             self.idempotentId = c.lenient(.idempotentId)
             self.correctProcessId = c.lenient(.correctProcessId)
             self.cancelProcessId = c.lenient(.cancelProcessId)
@@ -4260,14 +4254,14 @@ extension Attendance {
     }
 
     public struct UserApprovalCreateResponseUserApproval: Codable, Sendable {
-        public var userId: String
-        public var date: String
+        public var userId: String?
+        public var date: String?
         public var outs: [UserApprovalCreateResponseUserApprovalOut]?
         public var leaves: [UserApprovalCreateResponseUserApprovalLeave]?
         public var overtimeWorks: [UserApprovalCreateResponseUserApprovalOvertimeWork]?
         public var trips: [UserApprovalCreateResponseUserApprovalTrip]?
         public var timeZone: String?
-        public init(userId: String, date: String, outs: [UserApprovalCreateResponseUserApprovalOut]? = nil, leaves: [UserApprovalCreateResponseUserApprovalLeave]? = nil, overtimeWorks: [UserApprovalCreateResponseUserApprovalOvertimeWork]? = nil, trips: [UserApprovalCreateResponseUserApprovalTrip]? = nil, timeZone: String? = nil) {
+        public init(userId: String? = nil, date: String? = nil, outs: [UserApprovalCreateResponseUserApprovalOut]? = nil, leaves: [UserApprovalCreateResponseUserApprovalLeave]? = nil, overtimeWorks: [UserApprovalCreateResponseUserApprovalOvertimeWork]? = nil, trips: [UserApprovalCreateResponseUserApprovalTrip]? = nil, timeZone: String? = nil) {
             self.userId = userId
             self.date = date
             self.outs = outs
@@ -4287,8 +4281,8 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.date = try c.lenientRequired(.date)
+            self.userId = c.lenient(.userId)
+            self.date = c.lenient(.date)
             self.outs = c.lenient(.outs)
             self.leaves = c.lenient(.leaves)
             self.overtimeWorks = c.lenient(.overtimeWorks)
@@ -4299,21 +4293,21 @@ extension Attendance {
 
     public struct UserApprovalCreateResponseUserApprovalOut: Codable, Sendable {
         public var approvalId: String?
-        public var uniqId: String
-        public var unit: Int
-        public var interval: Int
-        public var startTime: String
-        public var endTime: String
-        public var i18nNames: I18nNames
-        public var defaultLocale: String
-        public var reason: String
+        public var uniqId: String?
+        public var unit: Int?
+        public var interval: Int?
+        public var startTime: String?
+        public var endTime: String?
+        public var i18nNames: I18nNames?
+        public var defaultLocale: String?
+        public var reason: String?
         public var approvePassTime: String?
         public var approveApplyTime: String?
         public var idempotentId: String?
         public var correctProcessId: [String]?
         public var cancelProcessId: [String]?
         public var processId: [String]?
-        public init(approvalId: String? = nil, uniqId: String, unit: Int, interval: Int, startTime: String, endTime: String, i18nNames: I18nNames, defaultLocale: String, reason: String, approvePassTime: String? = nil, approveApplyTime: String? = nil, idempotentId: String? = nil, correctProcessId: [String]? = nil, cancelProcessId: [String]? = nil, processId: [String]? = nil) {
+        public init(approvalId: String? = nil, uniqId: String? = nil, unit: Int? = nil, interval: Int? = nil, startTime: String? = nil, endTime: String? = nil, i18nNames: I18nNames? = nil, defaultLocale: String? = nil, reason: String? = nil, approvePassTime: String? = nil, approveApplyTime: String? = nil, idempotentId: String? = nil, correctProcessId: [String]? = nil, cancelProcessId: [String]? = nil, processId: [String]? = nil) {
             self.approvalId = approvalId
             self.uniqId = uniqId
             self.unit = unit
@@ -4350,14 +4344,14 @@ extension Attendance {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.approvalId = c.lenient(.approvalId)
-            self.uniqId = try c.lenientRequired(.uniqId)
-            self.unit = try c.lenientRequired(.unit)
-            self.interval = try c.lenientRequired(.interval)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
-            self.i18nNames = try c.lenientRequired(.i18nNames)
-            self.defaultLocale = try c.lenientRequired(.defaultLocale)
-            self.reason = try c.lenientRequired(.reason)
+            self.uniqId = c.lenient(.uniqId)
+            self.unit = c.lenient(.unit)
+            self.interval = c.lenient(.interval)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
+            self.i18nNames = c.lenient(.i18nNames)
+            self.defaultLocale = c.lenient(.defaultLocale)
+            self.reason = c.lenient(.reason)
             self.approvePassTime = c.lenient(.approvePassTime)
             self.approveApplyTime = c.lenient(.approveApplyTime)
             self.idempotentId = c.lenient(.idempotentId)
@@ -4370,18 +4364,18 @@ extension Attendance {
     public struct UserApprovalCreateResponseUserApprovalLeave: Codable, Sendable {
         public var approvalId: String?
         public var uniqId: String?
-        public var unit: Int
-        public var interval: Int
-        public var startTime: String
-        public var endTime: String
-        public var i18nNames: I18nNames
-        public var defaultLocale: DefaultLocale
-        public var reason: String
+        public var unit: Int?
+        public var interval: Int?
+        public var startTime: String?
+        public var endTime: String?
+        public var i18nNames: I18nNames?
+        public var defaultLocale: DefaultLocale?
+        public var reason: String?
         public var approvePassTime: String?
         public var approveApplyTime: String?
         public var idempotentId: String?
         public var leaveDetailRangeObjs: [LeaveDetailRangeObj]?
-        public init(approvalId: String? = nil, uniqId: String? = nil, unit: Int, interval: Int, startTime: String, endTime: String, i18nNames: I18nNames, defaultLocale: DefaultLocale, reason: String, approvePassTime: String? = nil, approveApplyTime: String? = nil, idempotentId: String? = nil, leaveDetailRangeObjs: [LeaveDetailRangeObj]? = nil) {
+        public init(approvalId: String? = nil, uniqId: String? = nil, unit: Int? = nil, interval: Int? = nil, startTime: String? = nil, endTime: String? = nil, i18nNames: I18nNames? = nil, defaultLocale: DefaultLocale? = nil, reason: String? = nil, approvePassTime: String? = nil, approveApplyTime: String? = nil, idempotentId: String? = nil, leaveDetailRangeObjs: [LeaveDetailRangeObj]? = nil) {
             self.approvalId = approvalId
             self.uniqId = uniqId
             self.unit = unit
@@ -4415,13 +4409,13 @@ extension Attendance {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.approvalId = c.lenient(.approvalId)
             self.uniqId = c.lenient(.uniqId)
-            self.unit = try c.lenientRequired(.unit)
-            self.interval = try c.lenientRequired(.interval)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
-            self.i18nNames = try c.lenientRequired(.i18nNames)
-            self.defaultLocale = try c.lenientRequired(.defaultLocale)
-            self.reason = try c.lenientRequired(.reason)
+            self.unit = c.lenient(.unit)
+            self.interval = c.lenient(.interval)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
+            self.i18nNames = c.lenient(.i18nNames)
+            self.defaultLocale = c.lenient(.defaultLocale)
+            self.reason = c.lenient(.reason)
             self.approvePassTime = c.lenient(.approvePassTime)
             self.approveApplyTime = c.lenient(.approveApplyTime)
             self.idempotentId = c.lenient(.idempotentId)
@@ -4431,18 +4425,18 @@ extension Attendance {
 
     public struct UserApprovalCreateResponseUserApprovalOvertimeWork: Codable, Sendable {
         public var approvalId: String?
-        public var duration: Double
-        public var unit: Int
-        public var category: Int
-        public var type: Int
-        public var startTime: String
-        public var endTime: String
+        public var duration: Double?
+        public var unit: Int?
+        public var category: Int?
+        public var type: Int?
+        public var startTime: String?
+        public var endTime: String?
         public var reason: String?
         public var idempotentId: String?
         public var correctProcessId: [String]?
         public var cancelProcessId: [String]?
         public var processId: [String]?
-        public init(approvalId: String? = nil, duration: Double, unit: Int, category: Int, type: Int, startTime: String, endTime: String, reason: String? = nil, idempotentId: String? = nil, correctProcessId: [String]? = nil, cancelProcessId: [String]? = nil, processId: [String]? = nil) {
+        public init(approvalId: String? = nil, duration: Double? = nil, unit: Int? = nil, category: Int? = nil, type: Int? = nil, startTime: String? = nil, endTime: String? = nil, reason: String? = nil, idempotentId: String? = nil, correctProcessId: [String]? = nil, cancelProcessId: [String]? = nil, processId: [String]? = nil) {
             self.approvalId = approvalId
             self.duration = duration
             self.unit = unit
@@ -4473,12 +4467,12 @@ extension Attendance {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.approvalId = c.lenient(.approvalId)
-            self.duration = try c.lenientRequired(.duration)
-            self.unit = try c.lenientRequired(.unit)
-            self.category = try c.lenientRequired(.category)
-            self.type = try c.lenientRequired(.type)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.duration = c.lenient(.duration)
+            self.unit = c.lenient(.unit)
+            self.category = c.lenient(.category)
+            self.type = c.lenient(.type)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
             self.reason = c.lenient(.reason)
             self.idempotentId = c.lenient(.idempotentId)
             self.correctProcessId = c.lenient(.correctProcessId)
@@ -4489,11 +4483,11 @@ extension Attendance {
 
     public struct UserApprovalCreateResponseUserApprovalTrip: Codable, Sendable {
         public var approvalId: String?
-        public var startTime: String
-        public var endTime: String
-        public var reason: String
-        public var approvePassTime: String
-        public var approveApplyTime: String
+        public var startTime: String?
+        public var endTime: String?
+        public var reason: String?
+        public var approvePassTime: String?
+        public var approveApplyTime: String?
         public var idempotentId: String?
         public var correctProcessId: [String]?
         public var cancelProcessId: [String]?
@@ -4503,7 +4497,7 @@ extension Attendance {
         public var transportation: [Int]?
         public var tripType: Int?
         public var remarks: String?
-        public init(approvalId: String? = nil, startTime: String, endTime: String, reason: String, approvePassTime: String, approveApplyTime: String, idempotentId: String? = nil, correctProcessId: [String]? = nil, cancelProcessId: [String]? = nil, processId: [String]? = nil, departure: Departure? = nil, destinations: [Departure]? = nil, transportation: [Int]? = nil, tripType: Int? = nil, remarks: String? = nil) {
+        public init(approvalId: String? = nil, startTime: String? = nil, endTime: String? = nil, reason: String? = nil, approvePassTime: String? = nil, approveApplyTime: String? = nil, idempotentId: String? = nil, correctProcessId: [String]? = nil, cancelProcessId: [String]? = nil, processId: [String]? = nil, departure: Departure? = nil, destinations: [Departure]? = nil, transportation: [Int]? = nil, tripType: Int? = nil, remarks: String? = nil) {
             self.approvalId = approvalId
             self.startTime = startTime
             self.endTime = endTime
@@ -4540,11 +4534,11 @@ extension Attendance {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.approvalId = c.lenient(.approvalId)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
-            self.reason = try c.lenientRequired(.reason)
-            self.approvePassTime = try c.lenientRequired(.approvePassTime)
-            self.approveApplyTime = try c.lenientRequired(.approveApplyTime)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
+            self.reason = c.lenient(.reason)
+            self.approvePassTime = c.lenient(.approvePassTime)
+            self.approveApplyTime = c.lenient(.approveApplyTime)
             self.idempotentId = c.lenient(.idempotentId)
             self.correctProcessId = c.lenient(.correctProcessId)
             self.cancelProcessId = c.lenient(.cancelProcessId)
@@ -4680,14 +4674,14 @@ extension Attendance {
     }
 
     public struct UserTaskResult: Codable, Sendable {
-        public var resultId: String
-        public var userId: String
-        public var employeeName: String
-        public var day: Int
-        public var groupId: String
-        public var shiftId: String
-        public var records: [UserTaskResultRecord]
-        public init(resultId: String, userId: String, employeeName: String, day: Int, groupId: String, shiftId: String, records: [UserTaskResultRecord]) {
+        public var resultId: String?
+        public var userId: String?
+        public var employeeName: String?
+        public var day: Int?
+        public var groupId: String?
+        public var shiftId: String?
+        public var records: [UserTaskResultRecord]?
+        public init(resultId: String? = nil, userId: String? = nil, employeeName: String? = nil, day: Int? = nil, groupId: String? = nil, shiftId: String? = nil, records: [UserTaskResultRecord]? = nil) {
             self.resultId = resultId
             self.userId = userId
             self.employeeName = employeeName
@@ -4707,29 +4701,29 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.resultId = try c.lenientRequired(.resultId)
-            self.userId = try c.lenientRequired(.userId)
-            self.employeeName = try c.lenientRequired(.employeeName)
-            self.day = try c.lenientRequired(.day)
-            self.groupId = try c.lenientRequired(.groupId)
-            self.shiftId = try c.lenientRequired(.shiftId)
-            self.records = try c.lenientRequired(.records)
+            self.resultId = c.lenient(.resultId)
+            self.userId = c.lenient(.userId)
+            self.employeeName = c.lenient(.employeeName)
+            self.day = c.lenient(.day)
+            self.groupId = c.lenient(.groupId)
+            self.shiftId = c.lenient(.shiftId)
+            self.records = c.lenient(.records)
         }
     }
 
     public struct UserTaskResultRecord: Codable, Sendable {
-        public var checkInRecordId: String
+        public var checkInRecordId: String?
         public var checkInRecord: FlowRecord?
-        public var checkOutRecordId: String
+        public var checkOutRecordId: String?
         public var checkOutRecord: FlowRecord?
-        public var checkInResult: CheckInResult
-        public var checkOutResult: CheckInResult
-        public var checkInResultSupplement: CheckInResultSupplement
-        public var checkOutResultSupplement: CheckInResultSupplement
+        public var checkInResult: CheckInResult?
+        public var checkOutResult: CheckInResult?
+        public var checkInResultSupplement: CheckInResultSupplement?
+        public var checkOutResultSupplement: CheckInResultSupplement?
         public var checkInShiftTime: String?
         public var checkOutShiftTime: String?
         public var taskShiftType: Int?
-        public init(checkInRecordId: String, checkInRecord: FlowRecord? = nil, checkOutRecordId: String, checkOutRecord: FlowRecord? = nil, checkInResult: CheckInResult, checkOutResult: CheckInResult, checkInResultSupplement: CheckInResultSupplement, checkOutResultSupplement: CheckInResultSupplement, checkInShiftTime: String? = nil, checkOutShiftTime: String? = nil, taskShiftType: Int? = nil) {
+        public init(checkInRecordId: String? = nil, checkInRecord: FlowRecord? = nil, checkOutRecordId: String? = nil, checkOutRecord: FlowRecord? = nil, checkInResult: CheckInResult? = nil, checkOutResult: CheckInResult? = nil, checkInResultSupplement: CheckInResultSupplement? = nil, checkOutResultSupplement: CheckInResultSupplement? = nil, checkInShiftTime: String? = nil, checkOutShiftTime: String? = nil, taskShiftType: Int? = nil) {
             self.checkInRecordId = checkInRecordId
             self.checkInRecord = checkInRecord
             self.checkOutRecordId = checkOutRecordId
@@ -4757,14 +4751,14 @@ extension Attendance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.checkInRecordId = try c.lenientRequired(.checkInRecordId)
+            self.checkInRecordId = c.lenient(.checkInRecordId)
             self.checkInRecord = c.lenient(.checkInRecord)
-            self.checkOutRecordId = try c.lenientRequired(.checkOutRecordId)
+            self.checkOutRecordId = c.lenient(.checkOutRecordId)
             self.checkOutRecord = c.lenient(.checkOutRecord)
-            self.checkInResult = try c.lenientRequired(.checkInResult)
-            self.checkOutResult = try c.lenientRequired(.checkOutResult)
-            self.checkInResultSupplement = try c.lenientRequired(.checkInResultSupplement)
-            self.checkOutResultSupplement = try c.lenientRequired(.checkOutResultSupplement)
+            self.checkInResult = c.lenient(.checkInResult)
+            self.checkOutResult = c.lenient(.checkOutResult)
+            self.checkInResultSupplement = c.lenient(.checkInResultSupplement)
+            self.checkOutResultSupplement = c.lenient(.checkOutResultSupplement)
             self.checkInShiftTime = c.lenient(.checkInShiftTime)
             self.checkOutShiftTime = c.lenient(.checkOutShiftTime)
             self.taskShiftType = c.lenient(.taskShiftType)

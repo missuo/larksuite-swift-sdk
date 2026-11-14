@@ -170,7 +170,7 @@ import LarkHelpdesk
 
     @Test("POST /open-apis/helpdesk/v1/events/subscribe") func v1_event_subscribe() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.helpdesk.v1.event.subscribe(body: Helpdesk.EventSubscribeBody(events: [Helpdesk.Event(type: "s", subtype: "s")]))
+        let resp = try await client.helpdesk.v1.event.subscribe(body: Helpdesk.EventSubscribeBody(events: [Helpdesk.Event()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
@@ -180,7 +180,7 @@ import LarkHelpdesk
 
     @Test("POST /open-apis/helpdesk/v1/events/unsubscribe") func v1_event_unsubscribe() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.helpdesk.v1.event.unsubscribe(body: Helpdesk.EventSubscribeBody(events: [Helpdesk.Event(type: "s", subtype: "s")]))
+        let resp = try await client.helpdesk.v1.event.unsubscribe(body: Helpdesk.EventSubscribeBody(events: [Helpdesk.Event()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")

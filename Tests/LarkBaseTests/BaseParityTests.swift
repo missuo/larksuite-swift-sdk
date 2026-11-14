@@ -21,7 +21,7 @@ import LarkBase
 
     @Test("POST /open-apis/base/v2/apps/:app_token/roles") func v2_appRole_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"role":{"role_name":"s","table_roles":[{"table_perm":1,"table_name":"s","table_id":"s","rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","perm":1,"other_perm":1,"condition_groups":[{"condition_type":1,"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and"}],"display_rec_rule_version":1},"other_rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","perm":1},"field_perm":{"k":1},"allow_add_record":true,"allow_delete_record":true,"view_perm":1,"view_rules":{"k":1},"field_action_rules":{"k":{"k":1}}}],"role_id":"s","block_roles":[{"block_id":"s","block_perm":1,"block_type":"dashboard"}],"base_rule":{"k":1}}}}"##)
-        let resp = try await client.base.v2.appRole.create(appToken: "s", body: Base.AppRoleCreateBody(roleName: "s", tableRoles: [Base.AppRoleCreateBodyTableRole(tablePerm: 1)]))
+        let resp = try await client.base.v2.appRole.create(appToken: "s", body: Base.AppRoleCreateBody(roleName: "s", tableRoles: [Base.AppRoleCreateBodyTableRole()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -32,7 +32,7 @@ import LarkBase
 
     @Test("PUT /open-apis/base/v2/apps/:app_token/roles/:role_id") func v2_appRole_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"role":{"role_name":"s","table_roles":[{"table_perm":1,"table_name":"s","table_id":"s","rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","perm":1,"other_perm":1,"condition_groups":[{"condition_type":1,"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and"}],"display_rec_rule_version":1},"other_rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","perm":1},"field_perm":{"k":1},"allow_add_record":true,"allow_delete_record":true,"view_perm":1,"view_rules":{"k":1},"field_action_rules":{"k":{"k":1}}}],"role_id":"s","block_roles":[{"block_id":"s","block_perm":1,"block_type":"dashboard"}],"base_rule":{"k":1}}}}"##)
-        let resp = try await client.base.v2.appRole.update(appToken: "s", roleId: "s", body: Base.AppRoleCreateBody(roleName: "s", tableRoles: [Base.AppRoleCreateBodyTableRole(tablePerm: 1)]))
+        let resp = try await client.base.v2.appRole.update(appToken: "s", roleId: "s", body: Base.AppRoleCreateBody(roleName: "s", tableRoles: [Base.AppRoleCreateBodyTableRole()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

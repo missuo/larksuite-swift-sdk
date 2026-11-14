@@ -83,8 +83,8 @@ extension Spark {
     }
 
     public struct AppTablePostTableRecordsResponse: Codable, Sendable {
-        public var recordIds: [String]
-        public init(recordIds: [String]) {
+        public var recordIds: [String]?
+        public init(recordIds: [String]? = nil) {
             self.recordIds = recordIds
         }
         enum CodingKeys: String, CodingKey {
@@ -92,7 +92,7 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.recordIds = try c.lenientRequired(.recordIds)
+            self.recordIds = c.lenient(.recordIds)
         }
     }
 
@@ -169,15 +169,15 @@ extension Spark {
     }
 
     public struct AppTableGetTableDetailResponse: Codable, Sendable {
-        public var name: String
-        public var description: String
-        public var columns: [Column]
+        public var name: String?
+        public var description: String?
+        public var columns: [Column]?
         public var indexes: [AppTableGetTableDetailResponseIndex]?
         public var constraints: [Constraint]?
         public var estimatedRowCount: Int?
         public var sizeBytes: Int?
         public var ddl: String?
-        public init(name: String, description: String, columns: [Column], indexes: [AppTableGetTableDetailResponseIndex]? = nil, constraints: [Constraint]? = nil, estimatedRowCount: Int? = nil, sizeBytes: Int? = nil, ddl: String? = nil) {
+        public init(name: String? = nil, description: String? = nil, columns: [Column]? = nil, indexes: [AppTableGetTableDetailResponseIndex]? = nil, constraints: [Constraint]? = nil, estimatedRowCount: Int? = nil, sizeBytes: Int? = nil, ddl: String? = nil) {
             self.name = name
             self.description = description
             self.columns = columns
@@ -199,9 +199,9 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.description = try c.lenientRequired(.description)
-            self.columns = try c.lenientRequired(.columns)
+            self.name = c.lenient(.name)
+            self.description = c.lenient(.description)
+            self.columns = c.lenient(.columns)
             self.indexes = c.lenient(.indexes)
             self.constraints = c.lenient(.constraints)
             self.estimatedRowCount = c.lenient(.estimatedRowCount)
@@ -211,16 +211,16 @@ extension Spark {
     }
 
     public struct Column: Codable, Sendable {
-        public var name: String
-        public var description: String
-        public var dataType: String
-        public var isPrimaryKey: Bool
-        public var isUnique: Bool
-        public var isAutoIncrement: Bool
-        public var isArray: Bool
-        public var isAllowNull: Bool
-        public var defaultValue: String
-        public init(name: String, description: String, dataType: String, isPrimaryKey: Bool, isUnique: Bool, isAutoIncrement: Bool, isArray: Bool, isAllowNull: Bool, defaultValue: String) {
+        public var name: String?
+        public var description: String?
+        public var dataType: String?
+        public var isPrimaryKey: Bool?
+        public var isUnique: Bool?
+        public var isAutoIncrement: Bool?
+        public var isArray: Bool?
+        public var isAllowNull: Bool?
+        public var defaultValue: String?
+        public init(name: String? = nil, description: String? = nil, dataType: String? = nil, isPrimaryKey: Bool? = nil, isUnique: Bool? = nil, isAutoIncrement: Bool? = nil, isArray: Bool? = nil, isAllowNull: Bool? = nil, defaultValue: String? = nil) {
             self.name = name
             self.description = description
             self.dataType = dataType
@@ -244,24 +244,24 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.description = try c.lenientRequired(.description)
-            self.dataType = try c.lenientRequired(.dataType)
-            self.isPrimaryKey = try c.lenientRequired(.isPrimaryKey)
-            self.isUnique = try c.lenientRequired(.isUnique)
-            self.isAutoIncrement = try c.lenientRequired(.isAutoIncrement)
-            self.isArray = try c.lenientRequired(.isArray)
-            self.isAllowNull = try c.lenientRequired(.isAllowNull)
-            self.defaultValue = try c.lenientRequired(.defaultValue)
+            self.name = c.lenient(.name)
+            self.description = c.lenient(.description)
+            self.dataType = c.lenient(.dataType)
+            self.isPrimaryKey = c.lenient(.isPrimaryKey)
+            self.isUnique = c.lenient(.isUnique)
+            self.isAutoIncrement = c.lenient(.isAutoIncrement)
+            self.isArray = c.lenient(.isArray)
+            self.isAllowNull = c.lenient(.isAllowNull)
+            self.defaultValue = c.lenient(.defaultValue)
         }
     }
 
     public struct AppTableGetTableDetailResponseIndex: Codable, Sendable {
-        public var name: String
+        public var name: String?
         public var columns: [String]?
-        public var type: String
-        public var definition: String
-        public init(name: String, columns: [String]? = nil, type: String, definition: String) {
+        public var type: String?
+        public var definition: String?
+        public init(name: String? = nil, columns: [String]? = nil, type: String? = nil, definition: String? = nil) {
             self.name = name
             self.columns = columns
             self.type = type
@@ -275,20 +275,20 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.columns = c.lenient(.columns)
-            self.type = try c.lenientRequired(.type)
-            self.definition = try c.lenientRequired(.definition)
+            self.type = c.lenient(.type)
+            self.definition = c.lenient(.definition)
         }
     }
 
     public struct Constraint: Codable, Sendable {
-        public var type: String
-        public var name: String
-        public var columns: [String]
+        public var type: String?
+        public var name: String?
+        public var columns: [String]?
         public var referencedTable: String?
         public var referencedColumns: [String]?
-        public init(type: String, name: String, columns: [String], referencedTable: String? = nil, referencedColumns: [String]? = nil) {
+        public init(type: String? = nil, name: String? = nil, columns: [String]? = nil, referencedTable: String? = nil, referencedColumns: [String]? = nil) {
             self.type = type
             self.name = name
             self.columns = columns
@@ -304,9 +304,9 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.name = try c.lenientRequired(.name)
-            self.columns = try c.lenientRequired(.columns)
+            self.type = c.lenient(.type)
+            self.name = c.lenient(.name)
+            self.columns = c.lenient(.columns)
             self.referencedTable = c.lenient(.referencedTable)
             self.referencedColumns = c.lenient(.referencedColumns)
         }
@@ -335,10 +335,10 @@ extension Spark {
     }
 
     public struct AppTableGetTableListResponse: Codable, Sendable {
-        public var hasMore: Bool
-        public var pageToken: String
-        public var items: [AppTable]
-        public init(hasMore: Bool, pageToken: String, items: [AppTable]) {
+        public var hasMore: Bool?
+        public var pageToken: String?
+        public var items: [AppTable]?
+        public init(hasMore: Bool? = nil, pageToken: String? = nil, items: [AppTable]? = nil) {
             self.hasMore = hasMore
             self.pageToken = pageToken
             self.items = items
@@ -350,21 +350,21 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.hasMore = try c.lenientRequired(.hasMore)
-            self.pageToken = try c.lenientRequired(.pageToken)
-            self.items = try c.lenientRequired(.items)
+            self.hasMore = c.lenient(.hasMore)
+            self.pageToken = c.lenient(.pageToken)
+            self.items = c.lenient(.items)
         }
     }
 
     public struct AppTable: Codable, Sendable {
-        public var name: String
-        public var description: String
-        public var columns: [Column]
+        public var name: String?
+        public var description: String?
+        public var columns: [Column]?
         public var indexes: [AppTableGetTableDetailResponseIndex]?
         public var constraints: [Constraint]?
         public var estimatedRowCount: Int?
         public var sizeBytes: Int?
-        public init(name: String, description: String, columns: [Column], indexes: [AppTableGetTableDetailResponseIndex]? = nil, constraints: [Constraint]? = nil, estimatedRowCount: Int? = nil, sizeBytes: Int? = nil) {
+        public init(name: String? = nil, description: String? = nil, columns: [Column]? = nil, indexes: [AppTableGetTableDetailResponseIndex]? = nil, constraints: [Constraint]? = nil, estimatedRowCount: Int? = nil, sizeBytes: Int? = nil) {
             self.name = name
             self.description = description
             self.columns = columns
@@ -384,9 +384,9 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.description = try c.lenientRequired(.description)
-            self.columns = try c.lenientRequired(.columns)
+            self.name = c.lenient(.name)
+            self.description = c.lenient(.description)
+            self.columns = c.lenient(.columns)
             self.indexes = c.lenient(.indexes)
             self.constraints = c.lenient(.constraints)
             self.estimatedRowCount = c.lenient(.estimatedRowCount)
@@ -433,11 +433,11 @@ extension Spark {
     }
 
     public struct AppTableGetTableRecordListResponse: Codable, Sendable {
-        public var hasMore: Bool
-        public var pageToken: String
-        public var total: Int
-        public var items: String
-        public init(hasMore: Bool, pageToken: String, total: Int, items: String) {
+        public var hasMore: Bool?
+        public var pageToken: String?
+        public var total: Int?
+        public var items: String?
+        public init(hasMore: Bool? = nil, pageToken: String? = nil, total: Int? = nil, items: String? = nil) {
             self.hasMore = hasMore
             self.pageToken = pageToken
             self.total = total
@@ -451,10 +451,10 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.hasMore = try c.lenientRequired(.hasMore)
-            self.pageToken = try c.lenientRequired(.pageToken)
-            self.total = try c.lenientRequired(.total)
-            self.items = try c.lenientRequired(.items)
+            self.hasMore = c.lenient(.hasMore)
+            self.pageToken = c.lenient(.pageToken)
+            self.total = c.lenient(.total)
+            self.items = c.lenient(.items)
         }
     }
 
@@ -473,11 +473,11 @@ extension Spark {
     }
 
     public struct AppEnumGetEnumDetailResponse: Codable, Sendable {
-        public var name: String
-        public var description: String
-        public var options: [String]
-        public var createdAt: String
-        public init(name: String, description: String, options: [String], createdAt: String) {
+        public var name: String?
+        public var description: String?
+        public var options: [String]?
+        public var createdAt: String?
+        public init(name: String? = nil, description: String? = nil, options: [String]? = nil, createdAt: String? = nil) {
             self.name = name
             self.description = description
             self.options = options
@@ -491,18 +491,18 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.description = try c.lenientRequired(.description)
-            self.options = try c.lenientRequired(.options)
-            self.createdAt = try c.lenientRequired(.createdAt)
+            self.name = c.lenient(.name)
+            self.description = c.lenient(.description)
+            self.options = c.lenient(.options)
+            self.createdAt = c.lenient(.createdAt)
         }
     }
 
     public struct AppEnumGetEnumListResponse: Codable, Sendable {
-        public var hasMore: Bool
-        public var pageToken: String
-        public var items: [AppEnum]
-        public init(hasMore: Bool, pageToken: String, items: [AppEnum]) {
+        public var hasMore: Bool?
+        public var pageToken: String?
+        public var items: [AppEnum]?
+        public init(hasMore: Bool? = nil, pageToken: String? = nil, items: [AppEnum]? = nil) {
             self.hasMore = hasMore
             self.pageToken = pageToken
             self.items = items
@@ -514,18 +514,18 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.hasMore = try c.lenientRequired(.hasMore)
-            self.pageToken = try c.lenientRequired(.pageToken)
-            self.items = try c.lenientRequired(.items)
+            self.hasMore = c.lenient(.hasMore)
+            self.pageToken = c.lenient(.pageToken)
+            self.items = c.lenient(.items)
         }
     }
 
     public struct AppEnum: Codable, Sendable {
-        public var name: String
-        public var description: String
-        public var options: [String]
-        public var createdAt: Int
-        public init(name: String, description: String, options: [String], createdAt: Int) {
+        public var name: String?
+        public var description: String?
+        public var options: [String]?
+        public var createdAt: Int?
+        public init(name: String? = nil, description: String? = nil, options: [String]? = nil, createdAt: Int? = nil) {
             self.name = name
             self.description = description
             self.options = options
@@ -539,10 +539,10 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.description = try c.lenientRequired(.description)
-            self.options = try c.lenientRequired(.options)
-            self.createdAt = try c.lenientRequired(.createdAt)
+            self.name = c.lenient(.name)
+            self.description = c.lenient(.description)
+            self.options = c.lenient(.options)
+            self.createdAt = c.lenient(.createdAt)
         }
     }
 
@@ -576,12 +576,12 @@ extension Spark {
     }
 
     public struct AppStorageUploadResponse: Codable, Sendable {
-        public var fileKey: String
-        public var fileUrl: String
-        public var fileName: String
-        public var fileSize: Int
-        public var mimeType: String
-        public init(fileKey: String, fileUrl: String, fileName: String, fileSize: Int, mimeType: String) {
+        public var fileKey: String?
+        public var fileUrl: String?
+        public var fileName: String?
+        public var fileSize: Int?
+        public var mimeType: String?
+        public init(fileKey: String? = nil, fileUrl: String? = nil, fileName: String? = nil, fileSize: Int? = nil, mimeType: String? = nil) {
             self.fileKey = fileKey
             self.fileUrl = fileUrl
             self.fileName = fileName
@@ -597,11 +597,11 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fileKey = try c.lenientRequired(.fileKey)
-            self.fileUrl = try c.lenientRequired(.fileUrl)
-            self.fileName = try c.lenientRequired(.fileName)
-            self.fileSize = try c.lenientRequired(.fileSize)
-            self.mimeType = try c.lenientRequired(.mimeType)
+            self.fileKey = c.lenient(.fileKey)
+            self.fileUrl = c.lenient(.fileUrl)
+            self.fileName = c.lenient(.fileName)
+            self.fileSize = c.lenient(.fileSize)
+            self.mimeType = c.lenient(.mimeType)
         }
     }
 
@@ -624,8 +624,8 @@ extension Spark {
     }
 
     public struct AppStorageDownloadResponse: Codable, Sendable {
-        public var contentType: String
-        public init(contentType: String) {
+        public var contentType: String?
+        public init(contentType: String? = nil) {
             self.contentType = contentType
         }
         enum CodingKeys: String, CodingKey {
@@ -633,7 +633,7 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.contentType = try c.lenientRequired(.contentType)
+            self.contentType = c.lenient(.contentType)
         }
     }
 
@@ -660,10 +660,10 @@ extension Spark {
     }
 
     public struct AppStorageUploadInitializeResponse: Codable, Sendable {
-        public var uploadId: String
-        public var chunkSize: Int
-        public var chunkNumbers: Int
-        public init(uploadId: String, chunkSize: Int, chunkNumbers: Int) {
+        public var uploadId: String?
+        public var chunkSize: Int?
+        public var chunkNumbers: Int?
+        public init(uploadId: String? = nil, chunkSize: Int? = nil, chunkNumbers: Int? = nil) {
             self.uploadId = uploadId
             self.chunkSize = chunkSize
             self.chunkNumbers = chunkNumbers
@@ -675,9 +675,9 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.uploadId = try c.lenientRequired(.uploadId)
-            self.chunkSize = try c.lenientRequired(.chunkSize)
-            self.chunkNumbers = try c.lenientRequired(.chunkNumbers)
+            self.uploadId = c.lenient(.uploadId)
+            self.chunkSize = c.lenient(.chunkSize)
+            self.chunkNumbers = c.lenient(.chunkNumbers)
         }
     }
 
@@ -918,8 +918,8 @@ extension Spark {
     }
 
     public struct AppSqlCommandsResponse: Codable, Sendable {
-        public var result: String
-        public init(result: String) {
+        public var result: String?
+        public init(result: String? = nil) {
             self.result = result
         }
         enum CodingKeys: String, CodingKey {
@@ -927,7 +927,7 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.result = try c.lenientRequired(.result)
+            self.result = c.lenient(.result)
         }
     }
 
@@ -1136,9 +1136,9 @@ extension Spark {
     }
 
     public struct DirectoryUser: Codable, Sendable {
-        public var sourceId: String
-        public var targetId: String
-        public init(sourceId: String, targetId: String) {
+        public var sourceId: String?
+        public var targetId: String?
+        public init(sourceId: String? = nil, targetId: String? = nil) {
             self.sourceId = sourceId
             self.targetId = targetId
         }
@@ -1148,8 +1148,8 @@ extension Spark {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.sourceId = try c.lenientRequired(.sourceId)
-            self.targetId = try c.lenientRequired(.targetId)
+            self.sourceId = c.lenient(.sourceId)
+            self.targetId = c.lenient(.targetId)
         }
     }
 }

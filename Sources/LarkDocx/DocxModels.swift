@@ -10,6 +10,8 @@ extension Docx {
 
     public typealias DocumentBlockChildrenBatchDeleteBody = ChatAnnouncementBlockChildrenBatchDeleteBody
 
+    public typealias DocumentBlockChildrenBatchDeleteResponse = DocumentBlockChildrenBatchDeleteQuery
+
     public typealias DocumentBlockChildrenCreateBody = ChatAnnouncementBlockChildrenCreateBody
 
     public typealias DocumentBlockChildrenGetResponse = ChatAnnouncementBlockChildrenGetResponse
@@ -113,10 +115,10 @@ extension Docx {
     }
 
     public struct Cover: Codable, Sendable {
-        public var token: String
+        public var token: String?
         public var offsetRatioX: Double?
         public var offsetRatioY: Double?
-        public init(token: String, offsetRatioX: Double? = nil, offsetRatioY: Double? = nil) {
+        public init(token: String? = nil, offsetRatioX: Double? = nil, offsetRatioY: Double? = nil) {
             self.token = token
             self.offsetRatioX = offsetRatioX
             self.offsetRatioY = offsetRatioY
@@ -128,7 +130,7 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
+            self.token = c.lenient(.token)
             self.offsetRatioX = c.lenient(.offsetRatioX)
             self.offsetRatioY = c.lenient(.offsetRatioY)
         }
@@ -255,7 +257,7 @@ extension Docx {
         public var blockId: String?
         public var parentId: String?
         public var children: [String]?
-        public var blockType: Int
+        public var blockType: Int?
         public var page: Page?
         public var text: Page?
         public var heading1: Page?
@@ -308,7 +310,7 @@ extension Docx {
         public var linkPreview: BlockLinkPreview?
         public var sourceSynced: SourceSynced?
         public var referenceSynced: ReferenceSynced?
-        public var subPageList: SubPageList?
+        public var subPageList: WikiCatalog?
         public var aiTemplate: JSONValue?
         public var referenceBase: ReferenceBase?
         public var project: Project?
@@ -317,7 +319,7 @@ extension Docx {
         public var vcSummaryTab: JSONValue?
         public var vcTranscriptTab: JSONValue?
         public var minutes: Minutes?
-        public init(blockId: String? = nil, parentId: String? = nil, children: [String]? = nil, blockType: Int, page: Page? = nil, text: Page? = nil, heading1: Page? = nil, heading2: Page? = nil, heading3: Page? = nil, heading4: Page? = nil, heading5: Page? = nil, heading6: Page? = nil, heading7: Page? = nil, heading8: Page? = nil, heading9: Page? = nil, bullet: Page? = nil, ordered: Page? = nil, code: Page? = nil, quote: Page? = nil, equation: Page? = nil, todo: Page? = nil, bitable: Bitable? = nil, callout: Callout? = nil, chatCard: ChatCard? = nil, diagram: Diagram? = nil, divider: JSONValue? = nil, file: BlockFile? = nil, grid: Grid? = nil, gridColumn: GridColumn? = nil, iframe: Iframe? = nil, image: Image? = nil, isv: Isv? = nil, addOns: AddOns? = nil, mindnote: Mindnote? = nil, sheet: Sheet? = nil, table: Table? = nil, tableCell: JSONValue? = nil, view: View? = nil, undefined: JSONValue? = nil, quoteContainer: JSONValue? = nil, task: BlockTask? = nil, okr: Okr? = nil, okrObjective: OkrObjective? = nil, okrKeyResult: OkrKeyResult? = nil, okrProgress: JSONValue? = nil, commentIds: [String]? = nil, jiraIssue: JiraIssue? = nil, wikiCatalog: WikiCatalog? = nil, board: Board? = nil, agenda: JSONValue? = nil, agendaItem: JSONValue? = nil, agendaItemTitle: AgendaItemTitle? = nil, agendaItemContent: JSONValue? = nil, linkPreview: BlockLinkPreview? = nil, sourceSynced: SourceSynced? = nil, referenceSynced: ReferenceSynced? = nil, subPageList: SubPageList? = nil, aiTemplate: JSONValue? = nil, referenceBase: ReferenceBase? = nil, project: Project? = nil, meetingNotesQa: JSONValue? = nil, vcTabs: JSONValue? = nil, vcSummaryTab: JSONValue? = nil, vcTranscriptTab: JSONValue? = nil, minutes: Minutes? = nil) {
+        public init(blockId: String? = nil, parentId: String? = nil, children: [String]? = nil, blockType: Int? = nil, page: Page? = nil, text: Page? = nil, heading1: Page? = nil, heading2: Page? = nil, heading3: Page? = nil, heading4: Page? = nil, heading5: Page? = nil, heading6: Page? = nil, heading7: Page? = nil, heading8: Page? = nil, heading9: Page? = nil, bullet: Page? = nil, ordered: Page? = nil, code: Page? = nil, quote: Page? = nil, equation: Page? = nil, todo: Page? = nil, bitable: Bitable? = nil, callout: Callout? = nil, chatCard: ChatCard? = nil, diagram: Diagram? = nil, divider: JSONValue? = nil, file: BlockFile? = nil, grid: Grid? = nil, gridColumn: GridColumn? = nil, iframe: Iframe? = nil, image: Image? = nil, isv: Isv? = nil, addOns: AddOns? = nil, mindnote: Mindnote? = nil, sheet: Sheet? = nil, table: Table? = nil, tableCell: JSONValue? = nil, view: View? = nil, undefined: JSONValue? = nil, quoteContainer: JSONValue? = nil, task: BlockTask? = nil, okr: Okr? = nil, okrObjective: OkrObjective? = nil, okrKeyResult: OkrKeyResult? = nil, okrProgress: JSONValue? = nil, commentIds: [String]? = nil, jiraIssue: JiraIssue? = nil, wikiCatalog: WikiCatalog? = nil, board: Board? = nil, agenda: JSONValue? = nil, agendaItem: JSONValue? = nil, agendaItemTitle: AgendaItemTitle? = nil, agendaItemContent: JSONValue? = nil, linkPreview: BlockLinkPreview? = nil, sourceSynced: SourceSynced? = nil, referenceSynced: ReferenceSynced? = nil, subPageList: WikiCatalog? = nil, aiTemplate: JSONValue? = nil, referenceBase: ReferenceBase? = nil, project: Project? = nil, meetingNotesQa: JSONValue? = nil, vcTabs: JSONValue? = nil, vcSummaryTab: JSONValue? = nil, vcTranscriptTab: JSONValue? = nil, minutes: Minutes? = nil) {
             self.blockId = blockId
             self.parentId = parentId
             self.children = children
@@ -456,7 +458,7 @@ extension Docx {
             self.blockId = c.lenient(.blockId)
             self.parentId = c.lenient(.parentId)
             self.children = c.lenient(.children)
-            self.blockType = try c.lenientRequired(.blockType)
+            self.blockType = c.lenient(.blockType)
             self.page = c.lenient(.page)
             self.text = c.lenient(.text)
             self.heading1 = c.lenient(.heading1)
@@ -523,8 +525,8 @@ extension Docx {
 
     public struct Page: Codable, Sendable {
         public var style: Style?
-        public var elements: [PageElement]
-        public init(style: Style? = nil, elements: [PageElement]) {
+        public var elements: [PageElement]?
+        public init(style: Style? = nil, elements: [PageElement]? = nil) {
             self.style = style
             self.elements = elements
         }
@@ -535,7 +537,7 @@ extension Docx {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.style = c.lenient(.style)
-            self.elements = try c.lenientRequired(.elements)
+            self.elements = c.lenient(.elements)
         }
     }
 
@@ -657,9 +659,9 @@ extension Docx {
     }
 
     public struct TextRun: Codable, Sendable {
-        public var content: String
+        public var content: String?
         public var textElementStyle: TextElementStyle?
-        public init(content: String, textElementStyle: TextElementStyle? = nil) {
+        public init(content: String? = nil, textElementStyle: TextElementStyle? = nil) {
             self.content = content
             self.textElementStyle = textElementStyle
         }
@@ -669,7 +671,7 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.content = try c.lenientRequired(.content)
+            self.content = c.lenient(.content)
             self.textElementStyle = c.lenient(.textElementStyle)
         }
     }
@@ -721,8 +723,8 @@ extension Docx {
     }
 
     public struct Link: Codable, Sendable {
-        public var url: String
-        public init(url: String) {
+        public var url: String?
+        public init(url: String? = nil) {
             self.url = url
         }
         enum CodingKeys: String, CodingKey {
@@ -730,14 +732,14 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.url = try c.lenientRequired(.url)
+            self.url = c.lenient(.url)
         }
     }
 
     public struct MentionUser: Codable, Sendable {
-        public var userId: String
+        public var userId: String?
         public var textElementStyle: TextElementStyle?
-        public init(userId: String, textElementStyle: TextElementStyle? = nil) {
+        public init(userId: String? = nil, textElementStyle: TextElementStyle? = nil) {
             self.userId = userId
             self.textElementStyle = textElementStyle
         }
@@ -747,19 +749,19 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
+            self.userId = c.lenient(.userId)
             self.textElementStyle = c.lenient(.textElementStyle)
         }
     }
 
     public struct MentionDoc: Codable, Sendable {
-        public var token: String
-        public var objType: Int
+        public var token: String?
+        public var objType: Int?
         public var url: String?
         public var title: String?
         public var textElementStyle: TextElementStyle?
         public var fallbackType: FallbackType?
-        public init(token: String, objType: Int, url: String? = nil, title: String? = nil, textElementStyle: TextElementStyle? = nil, fallbackType: FallbackType? = nil) {
+        public init(token: String? = nil, objType: Int? = nil, url: String? = nil, title: String? = nil, textElementStyle: TextElementStyle? = nil, fallbackType: FallbackType? = nil) {
             self.token = token
             self.objType = objType
             self.url = url
@@ -777,8 +779,8 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
-            self.objType = try c.lenientRequired(.objType)
+            self.token = c.lenient(.token)
+            self.objType = c.lenient(.objType)
             self.url = c.lenient(.url)
             self.title = c.lenient(.title)
             self.textElementStyle = c.lenient(.textElementStyle)
@@ -795,13 +797,13 @@ extension Docx {
     }
 
     public struct Reminder: Codable, Sendable {
-        public var createUserId: String
+        public var createUserId: String?
         public var isNotify: Bool?
         public var isWholeDay: Bool?
-        public var expireTime: String
-        public var notifyTime: String
+        public var expireTime: String?
+        public var notifyTime: String?
         public var textElementStyle: TextElementStyle?
-        public init(createUserId: String, isNotify: Bool? = nil, isWholeDay: Bool? = nil, expireTime: String, notifyTime: String, textElementStyle: TextElementStyle? = nil) {
+        public init(createUserId: String? = nil, isNotify: Bool? = nil, isWholeDay: Bool? = nil, expireTime: String? = nil, notifyTime: String? = nil, textElementStyle: TextElementStyle? = nil) {
             self.createUserId = createUserId
             self.isNotify = isNotify
             self.isWholeDay = isWholeDay
@@ -819,11 +821,11 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.createUserId = try c.lenientRequired(.createUserId)
+            self.createUserId = c.lenient(.createUserId)
             self.isNotify = c.lenient(.isNotify)
             self.isWholeDay = c.lenient(.isWholeDay)
-            self.expireTime = try c.lenientRequired(.expireTime)
-            self.notifyTime = try c.lenientRequired(.notifyTime)
+            self.expireTime = c.lenient(.expireTime)
+            self.notifyTime = c.lenient(.notifyTime)
             self.textElementStyle = c.lenient(.textElementStyle)
         }
     }
@@ -851,9 +853,9 @@ extension Docx {
     }
 
     public struct InlineBlock: Codable, Sendable {
-        public var blockId: String
+        public var blockId: String?
         public var textElementStyle: TextElementStyle?
-        public init(blockId: String, textElementStyle: TextElementStyle? = nil) {
+        public init(blockId: String? = nil, textElementStyle: TextElementStyle? = nil) {
             self.blockId = blockId
             self.textElementStyle = textElementStyle
         }
@@ -863,17 +865,17 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.blockId = try c.lenientRequired(.blockId)
+            self.blockId = c.lenient(.blockId)
             self.textElementStyle = c.lenient(.textElementStyle)
         }
     }
 
     public struct LinkPreview: Codable, Sendable {
         public var title: String?
-        public var url: String
-        public var urlType: UrlType
+        public var url: String?
+        public var urlType: UrlType?
         public var textElementStyle: TextElementStyle?
-        public init(title: String? = nil, url: String, urlType: UrlType, textElementStyle: TextElementStyle? = nil) {
+        public init(title: String? = nil, url: String? = nil, urlType: UrlType? = nil, textElementStyle: TextElementStyle? = nil) {
             self.title = title
             self.url = url
             self.urlType = urlType
@@ -888,8 +890,8 @@ extension Docx {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.title = c.lenient(.title)
-            self.url = try c.lenientRequired(.url)
-            self.urlType = try c.lenientRequired(.urlType)
+            self.url = c.lenient(.url)
+            self.urlType = c.lenient(.urlType)
             self.textElementStyle = c.lenient(.textElementStyle)
         }
     }
@@ -947,9 +949,9 @@ extension Docx {
     }
 
     public struct ChatCard: Codable, Sendable {
-        public var chatId: String
+        public var chatId: String?
         public var align: Int?
-        public init(chatId: String, align: Int? = nil) {
+        public init(chatId: String? = nil, align: Int? = nil) {
             self.chatId = chatId
             self.align = align
         }
@@ -959,7 +961,7 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.chatId = try c.lenientRequired(.chatId)
+            self.chatId = c.lenient(.chatId)
             self.align = c.lenient(.align)
         }
     }
@@ -1001,8 +1003,8 @@ extension Docx {
     }
 
     public struct Grid: Codable, Sendable {
-        public var columnSize: Int
-        public init(columnSize: Int) {
+        public var columnSize: Int?
+        public init(columnSize: Int? = nil) {
             self.columnSize = columnSize
         }
         enum CodingKeys: String, CodingKey {
@@ -1010,7 +1012,7 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.columnSize = try c.lenientRequired(.columnSize)
+            self.columnSize = c.lenient(.columnSize)
         }
     }
 
@@ -1029,8 +1031,8 @@ extension Docx {
     }
 
     public struct Iframe: Codable, Sendable {
-        public var component: Component
-        public init(component: Component) {
+        public var component: Component?
+        public init(component: Component? = nil) {
             self.component = component
         }
         enum CodingKeys: String, CodingKey {
@@ -1038,14 +1040,14 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.component = try c.lenientRequired(.component)
+            self.component = c.lenient(.component)
         }
     }
 
     public struct Component: Codable, Sendable {
         public var iframeType: Int?
-        public var url: String
-        public init(iframeType: Int? = nil, url: String) {
+        public var url: String?
+        public init(iframeType: Int? = nil, url: String? = nil) {
             self.iframeType = iframeType
             self.url = url
         }
@@ -1056,7 +1058,7 @@ extension Docx {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.iframeType = c.lenient(.iframeType)
-            self.url = try c.lenientRequired(.url)
+            self.url = c.lenient(.url)
         }
     }
 
@@ -1128,9 +1130,9 @@ extension Docx {
 
     public struct AddOns: Codable, Sendable {
         public var componentId: String?
-        public var componentTypeId: String
+        public var componentTypeId: String?
         public var record: String?
-        public init(componentId: String? = nil, componentTypeId: String, record: String? = nil) {
+        public init(componentId: String? = nil, componentTypeId: String? = nil, record: String? = nil) {
             self.componentId = componentId
             self.componentTypeId = componentTypeId
             self.record = record
@@ -1143,7 +1145,7 @@ extension Docx {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.componentId = c.lenient(.componentId)
-            self.componentTypeId = try c.lenientRequired(.componentTypeId)
+            self.componentTypeId = c.lenient(.componentTypeId)
             self.record = c.lenient(.record)
         }
     }
@@ -1186,8 +1188,8 @@ extension Docx {
 
     public struct Table: Codable, Sendable {
         public var cells: [String]?
-        public var property: TableProperty
-        public init(cells: [String]? = nil, property: TableProperty) {
+        public var property: TableProperty?
+        public init(cells: [String]? = nil, property: TableProperty? = nil) {
             self.cells = cells
             self.property = property
         }
@@ -1198,18 +1200,18 @@ extension Docx {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.cells = c.lenient(.cells)
-            self.property = try c.lenientRequired(.property)
+            self.property = c.lenient(.property)
         }
     }
 
     public struct TableProperty: Codable, Sendable {
-        public var rowSize: Int
-        public var columnSize: Int
+        public var rowSize: Int?
+        public var columnSize: Int?
         public var columnWidth: [Int]?
         public var mergeInfo: [MergeInfo]?
         public var headerRow: Bool?
         public var headerColumn: Bool?
-        public init(rowSize: Int, columnSize: Int, columnWidth: [Int]? = nil, mergeInfo: [MergeInfo]? = nil, headerRow: Bool? = nil, headerColumn: Bool? = nil) {
+        public init(rowSize: Int? = nil, columnSize: Int? = nil, columnWidth: [Int]? = nil, mergeInfo: [MergeInfo]? = nil, headerRow: Bool? = nil, headerColumn: Bool? = nil) {
             self.rowSize = rowSize
             self.columnSize = columnSize
             self.columnWidth = columnWidth
@@ -1227,8 +1229,8 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.rowSize = try c.lenientRequired(.rowSize)
-            self.columnSize = try c.lenientRequired(.columnSize)
+            self.rowSize = c.lenient(.rowSize)
+            self.columnSize = c.lenient(.columnSize)
             self.columnWidth = c.lenient(.columnWidth)
             self.mergeInfo = c.lenient(.mergeInfo)
             self.headerRow = c.lenient(.headerRow)
@@ -1581,9 +1583,9 @@ extension Docx {
     }
 
     public struct AgendaItemTitle: Codable, Sendable {
-        public var elements: [AgendaItemTitleElement]
+        public var elements: [AgendaItemTitleElement]?
         public var align: Int?
-        public init(elements: [AgendaItemTitleElement], align: Int? = nil) {
+        public init(elements: [AgendaItemTitleElement]? = nil, align: Int? = nil) {
             self.elements = elements
             self.align = align
         }
@@ -1593,7 +1595,7 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.elements = try c.lenientRequired(.elements)
+            self.elements = c.lenient(.elements)
             self.align = c.lenient(.align)
         }
     }
@@ -1641,9 +1643,9 @@ extension Docx {
     }
 
     public struct BlockLinkPreview: Codable, Sendable {
-        public var url: String
-        public var urlType: BlockLinkPreviewUrlType
-        public init(url: String, urlType: BlockLinkPreviewUrlType) {
+        public var url: String?
+        public var urlType: BlockLinkPreviewUrlType?
+        public init(url: String? = nil, urlType: BlockLinkPreviewUrlType? = nil) {
             self.url = url
             self.urlType = urlType
         }
@@ -1653,8 +1655,8 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.url = try c.lenientRequired(.url)
-            self.urlType = try c.lenientRequired(.urlType)
+            self.url = c.lenient(.url)
+            self.urlType = c.lenient(.urlType)
         }
     }
 
@@ -1702,25 +1704,11 @@ extension Docx {
         }
     }
 
-    public struct SubPageList: Codable, Sendable {
-        public var wikiToken: String
-        public init(wikiToken: String) {
-            self.wikiToken = wikiToken
-        }
-        enum CodingKeys: String, CodingKey {
-            case wikiToken = "wiki_token"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.wikiToken = try c.lenientRequired(.wikiToken)
-        }
-    }
-
     public struct ReferenceBase: Codable, Sendable {
-        public var token: String
-        public var viewId: String
+        public var token: String?
+        public var viewId: String?
         public var layoutMode: LayoutMode?
-        public init(token: String, viewId: String, layoutMode: LayoutMode? = nil) {
+        public init(token: String? = nil, viewId: String? = nil, layoutMode: LayoutMode? = nil) {
             self.token = token
             self.viewId = viewId
             self.layoutMode = layoutMode
@@ -1732,8 +1720,8 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
-            self.viewId = try c.lenientRequired(.viewId)
+            self.token = c.lenient(.token)
+            self.viewId = c.lenient(.viewId)
             self.layoutMode = c.lenient(.layoutMode)
         }
     }
@@ -1749,10 +1737,10 @@ extension Docx {
 
     public struct Project: Codable, Sendable {
         public var title: String?
-        public var url: String
-        public var subType: SubType
+        public var url: String?
+        public var subType: SubType?
         public var viewType: LayoutMode?
-        public init(title: String? = nil, url: String, subType: SubType, viewType: LayoutMode? = nil) {
+        public init(title: String? = nil, url: String? = nil, subType: SubType? = nil, viewType: LayoutMode? = nil) {
             self.title = title
             self.url = url
             self.subType = subType
@@ -1767,8 +1755,8 @@ extension Docx {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.title = c.lenient(.title)
-            self.url = try c.lenientRequired(.url)
-            self.subType = try c.lenientRequired(.subType)
+            self.url = c.lenient(.url)
+            self.subType = c.lenient(.subType)
             self.viewType = c.lenient(.viewType)
         }
     }
@@ -1784,8 +1772,8 @@ extension Docx {
 
     public struct Minutes: Codable, Sendable {
         public var token: String?
-        public var minutesId: String
-        public init(token: String? = nil, minutesId: String) {
+        public var minutesId: String?
+        public init(token: String? = nil, minutesId: String? = nil) {
             self.token = token
             self.minutesId = minutesId
         }
@@ -1796,14 +1784,14 @@ extension Docx {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.token = c.lenient(.token)
-            self.minutesId = try c.lenientRequired(.minutesId)
+            self.minutesId = c.lenient(.minutesId)
         }
     }
 
     public struct BlockIdToImageUrl: Codable, Sendable {
-        public var blockId: String
-        public var imageUrl: String
-        public init(blockId: String, imageUrl: String) {
+        public var blockId: String?
+        public var imageUrl: String?
+        public init(blockId: String? = nil, imageUrl: String? = nil) {
             self.blockId = blockId
             self.imageUrl = imageUrl
         }
@@ -1813,8 +1801,8 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.blockId = try c.lenientRequired(.blockId)
-            self.imageUrl = try c.lenientRequired(.imageUrl)
+            self.blockId = c.lenient(.blockId)
+            self.imageUrl = c.lenient(.imageUrl)
         }
     }
 
@@ -1906,7 +1894,7 @@ extension Docx {
         public var blockId: String?
         public var parentId: String?
         public var children: [String]?
-        public var blockType: Int
+        public var blockType: Int?
         public var page: ChatAnnouncementBlockChildrenPage?
         public var text: ChatAnnouncementBlockChildrenPage?
         public var heading1: ChatAnnouncementBlockChildrenPage?
@@ -1959,7 +1947,7 @@ extension Docx {
         public var linkPreview: ChatAnnouncementBlockChildrenLinkPreview?
         public var sourceSynced: ChatAnnouncementBlockChildrenSourceSynced?
         public var referenceSynced: ReferenceSynced?
-        public var subPageList: SubPageList?
+        public var subPageList: WikiCatalog?
         public var aiTemplate: JSONValue?
         public var referenceBase: ReferenceBase?
         public var project: Project?
@@ -1968,7 +1956,7 @@ extension Docx {
         public var vcSummaryTab: JSONValue?
         public var vcTranscriptTab: JSONValue?
         public var minutes: Minutes?
-        public init(blockId: String? = nil, parentId: String? = nil, children: [String]? = nil, blockType: Int, page: ChatAnnouncementBlockChildrenPage? = nil, text: ChatAnnouncementBlockChildrenPage? = nil, heading1: ChatAnnouncementBlockChildrenPage? = nil, heading2: ChatAnnouncementBlockChildrenPage? = nil, heading3: ChatAnnouncementBlockChildrenPage? = nil, heading4: ChatAnnouncementBlockChildrenPage? = nil, heading5: ChatAnnouncementBlockChildrenPage? = nil, heading6: ChatAnnouncementBlockChildrenPage? = nil, heading7: ChatAnnouncementBlockChildrenPage? = nil, heading8: ChatAnnouncementBlockChildrenPage? = nil, heading9: ChatAnnouncementBlockChildrenPage? = nil, bullet: ChatAnnouncementBlockChildrenPage? = nil, ordered: ChatAnnouncementBlockChildrenPage? = nil, code: ChatAnnouncementBlockChildrenPage? = nil, quote: ChatAnnouncementBlockChildrenPage? = nil, equation: ChatAnnouncementBlockChildrenPage? = nil, todo: ChatAnnouncementBlockChildrenPage? = nil, bitable: Mindnote? = nil, callout: Callout? = nil, chatCard: ChatCard? = nil, diagram: Diagram? = nil, divider: JSONValue? = nil, file: BlockFile? = nil, grid: Grid? = nil, gridColumn: GridColumn? = nil, iframe: Iframe? = nil, image: Image? = nil, isv: Isv? = nil, addOns: AddOns? = nil, mindnote: Mindnote? = nil, sheet: Mindnote? = nil, table: Table? = nil, tableCell: JSONValue? = nil, view: View? = nil, undefined: JSONValue? = nil, quoteContainer: JSONValue? = nil, task: BlockTask? = nil, okr: ChatAnnouncementBlockChildrenOkr? = nil, okrObjective: ChatAnnouncementBlockChildrenOkrObjective? = nil, okrKeyResult: ChatAnnouncementBlockChildrenOkrKeyResult? = nil, okrProgress: JSONValue? = nil, commentIds: [String]? = nil, jiraIssue: JiraIssue? = nil, wikiCatalog: WikiCatalog? = nil, board: Board? = nil, agenda: JSONValue? = nil, agendaItem: JSONValue? = nil, agendaItemTitle: ChatAnnouncementBlockChildrenAgendaItemTitle? = nil, agendaItemContent: JSONValue? = nil, linkPreview: ChatAnnouncementBlockChildrenLinkPreview? = nil, sourceSynced: ChatAnnouncementBlockChildrenSourceSynced? = nil, referenceSynced: ReferenceSynced? = nil, subPageList: SubPageList? = nil, aiTemplate: JSONValue? = nil, referenceBase: ReferenceBase? = nil, project: Project? = nil, meetingNotesQa: JSONValue? = nil, vcTabs: JSONValue? = nil, vcSummaryTab: JSONValue? = nil, vcTranscriptTab: JSONValue? = nil, minutes: Minutes? = nil) {
+        public init(blockId: String? = nil, parentId: String? = nil, children: [String]? = nil, blockType: Int? = nil, page: ChatAnnouncementBlockChildrenPage? = nil, text: ChatAnnouncementBlockChildrenPage? = nil, heading1: ChatAnnouncementBlockChildrenPage? = nil, heading2: ChatAnnouncementBlockChildrenPage? = nil, heading3: ChatAnnouncementBlockChildrenPage? = nil, heading4: ChatAnnouncementBlockChildrenPage? = nil, heading5: ChatAnnouncementBlockChildrenPage? = nil, heading6: ChatAnnouncementBlockChildrenPage? = nil, heading7: ChatAnnouncementBlockChildrenPage? = nil, heading8: ChatAnnouncementBlockChildrenPage? = nil, heading9: ChatAnnouncementBlockChildrenPage? = nil, bullet: ChatAnnouncementBlockChildrenPage? = nil, ordered: ChatAnnouncementBlockChildrenPage? = nil, code: ChatAnnouncementBlockChildrenPage? = nil, quote: ChatAnnouncementBlockChildrenPage? = nil, equation: ChatAnnouncementBlockChildrenPage? = nil, todo: ChatAnnouncementBlockChildrenPage? = nil, bitable: Mindnote? = nil, callout: Callout? = nil, chatCard: ChatCard? = nil, diagram: Diagram? = nil, divider: JSONValue? = nil, file: BlockFile? = nil, grid: Grid? = nil, gridColumn: GridColumn? = nil, iframe: Iframe? = nil, image: Image? = nil, isv: Isv? = nil, addOns: AddOns? = nil, mindnote: Mindnote? = nil, sheet: Mindnote? = nil, table: Table? = nil, tableCell: JSONValue? = nil, view: View? = nil, undefined: JSONValue? = nil, quoteContainer: JSONValue? = nil, task: BlockTask? = nil, okr: ChatAnnouncementBlockChildrenOkr? = nil, okrObjective: ChatAnnouncementBlockChildrenOkrObjective? = nil, okrKeyResult: ChatAnnouncementBlockChildrenOkrKeyResult? = nil, okrProgress: JSONValue? = nil, commentIds: [String]? = nil, jiraIssue: JiraIssue? = nil, wikiCatalog: WikiCatalog? = nil, board: Board? = nil, agenda: JSONValue? = nil, agendaItem: JSONValue? = nil, agendaItemTitle: ChatAnnouncementBlockChildrenAgendaItemTitle? = nil, agendaItemContent: JSONValue? = nil, linkPreview: ChatAnnouncementBlockChildrenLinkPreview? = nil, sourceSynced: ChatAnnouncementBlockChildrenSourceSynced? = nil, referenceSynced: ReferenceSynced? = nil, subPageList: WikiCatalog? = nil, aiTemplate: JSONValue? = nil, referenceBase: ReferenceBase? = nil, project: Project? = nil, meetingNotesQa: JSONValue? = nil, vcTabs: JSONValue? = nil, vcSummaryTab: JSONValue? = nil, vcTranscriptTab: JSONValue? = nil, minutes: Minutes? = nil) {
             self.blockId = blockId
             self.parentId = parentId
             self.children = children
@@ -2107,7 +2095,7 @@ extension Docx {
             self.blockId = c.lenient(.blockId)
             self.parentId = c.lenient(.parentId)
             self.children = c.lenient(.children)
-            self.blockType = try c.lenientRequired(.blockType)
+            self.blockType = c.lenient(.blockType)
             self.page = c.lenient(.page)
             self.text = c.lenient(.text)
             self.heading1 = c.lenient(.heading1)
@@ -2174,8 +2162,8 @@ extension Docx {
 
     public struct ChatAnnouncementBlockChildrenPage: Codable, Sendable {
         public var style: Style?
-        public var elements: [ChatAnnouncementBlockChildrenPageElement]
-        public init(style: Style? = nil, elements: [ChatAnnouncementBlockChildrenPageElement]) {
+        public var elements: [ChatAnnouncementBlockChildrenPageElement]?
+        public init(style: Style? = nil, elements: [ChatAnnouncementBlockChildrenPageElement]? = nil) {
             self.style = style
             self.elements = elements
         }
@@ -2186,7 +2174,7 @@ extension Docx {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.style = c.lenient(.style)
-            self.elements = try c.lenientRequired(.elements)
+            self.elements = c.lenient(.elements)
         }
     }
 
@@ -2237,12 +2225,12 @@ extension Docx {
     }
 
     public struct ChatAnnouncementBlockChildrenPageElementMentionDoc: Codable, Sendable {
-        public var token: String
-        public var objType: Int
+        public var token: String?
+        public var objType: Int?
         public var url: String?
         public var title: String?
         public var textElementStyle: TextElementStyle?
-        public init(token: String, objType: Int, url: String? = nil, title: String? = nil, textElementStyle: TextElementStyle? = nil) {
+        public init(token: String? = nil, objType: Int? = nil, url: String? = nil, title: String? = nil, textElementStyle: TextElementStyle? = nil) {
             self.token = token
             self.objType = objType
             self.url = url
@@ -2258,8 +2246,8 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
-            self.objType = try c.lenientRequired(.objType)
+            self.token = c.lenient(.token)
+            self.objType = c.lenient(.objType)
             self.url = c.lenient(.url)
             self.title = c.lenient(.title)
             self.textElementStyle = c.lenient(.textElementStyle)
@@ -2385,9 +2373,9 @@ extension Docx {
     }
 
     public struct ChatAnnouncementBlockChildrenAgendaItemTitle: Codable, Sendable {
-        public var elements: [ChatAnnouncementBlockChildrenAgendaItemTitleElement]
+        public var elements: [ChatAnnouncementBlockChildrenAgendaItemTitleElement]?
         public var align: Int?
-        public init(elements: [ChatAnnouncementBlockChildrenAgendaItemTitleElement], align: Int? = nil) {
+        public init(elements: [ChatAnnouncementBlockChildrenAgendaItemTitleElement]? = nil, align: Int? = nil) {
             self.elements = elements
             self.align = align
         }
@@ -2397,7 +2385,7 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.elements = try c.lenientRequired(.elements)
+            self.elements = c.lenient(.elements)
             self.align = c.lenient(.align)
         }
     }
@@ -2445,8 +2433,8 @@ extension Docx {
     }
 
     public struct ChatAnnouncementBlockChildrenLinkPreview: Codable, Sendable {
-        public var urlType: BlockLinkPreviewUrlType
-        public init(urlType: BlockLinkPreviewUrlType) {
+        public var urlType: BlockLinkPreviewUrlType?
+        public init(urlType: BlockLinkPreviewUrlType? = nil) {
             self.urlType = urlType
         }
         enum CodingKeys: String, CodingKey {
@@ -2454,7 +2442,7 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.urlType = try c.lenientRequired(.urlType)
+            self.urlType = c.lenient(.urlType)
         }
     }
 
@@ -2517,7 +2505,7 @@ extension Docx {
     }
 
     public struct Children: Codable, Sendable {
-        public var blockType: Int
+        public var blockType: Int?
         public var text: Text?
         public var heading1: Text?
         public var heading2: Text?
@@ -2555,13 +2543,13 @@ extension Docx {
         public var linkPreview: BlockLinkPreview?
         public var sourceSynced: ChildrenSourceSynced?
         public var referenceSynced: ReferenceSynced?
-        public var subPageList: SubPageList?
+        public var subPageList: WikiCatalog?
         public var aiTemplate: JSONValue?
         public var vcTabs: JSONValue?
         public var vcSummaryTab: JSONValue?
         public var vcTranscriptTab: JSONValue?
         public var minutes: Minutes?
-        public init(blockType: Int, text: Text? = nil, heading1: Text? = nil, heading2: Text? = nil, heading3: Text? = nil, heading4: Text? = nil, heading5: Text? = nil, heading6: Text? = nil, heading7: Text? = nil, heading8: Text? = nil, heading9: Text? = nil, bullet: Text? = nil, ordered: Text? = nil, code: Text? = nil, quote: Text? = nil, equation: Text? = nil, todo: Text? = nil, bitable: View? = nil, callout: ChildrenCallout? = nil, chatCard: ChatCard? = nil, divider: JSONValue? = nil, file: View? = nil, grid: Grid? = nil, iframe: Iframe? = nil, image: ChildrenImage? = nil, isv: JSONValue? = nil, addOns: AddOns? = nil, sheet: ChildrenSheet? = nil, table: ChildrenTable? = nil, quoteContainer: JSONValue? = nil, task: ChildrenTask? = nil, okr: ChildrenOkr? = nil, commentIds: [String]? = nil, wikiCatalog: WikiCatalog? = nil, board: ChildrenBoard? = nil, linkPreview: BlockLinkPreview? = nil, sourceSynced: ChildrenSourceSynced? = nil, referenceSynced: ReferenceSynced? = nil, subPageList: SubPageList? = nil, aiTemplate: JSONValue? = nil, vcTabs: JSONValue? = nil, vcSummaryTab: JSONValue? = nil, vcTranscriptTab: JSONValue? = nil, minutes: Minutes? = nil) {
+        public init(blockType: Int? = nil, text: Text? = nil, heading1: Text? = nil, heading2: Text? = nil, heading3: Text? = nil, heading4: Text? = nil, heading5: Text? = nil, heading6: Text? = nil, heading7: Text? = nil, heading8: Text? = nil, heading9: Text? = nil, bullet: Text? = nil, ordered: Text? = nil, code: Text? = nil, quote: Text? = nil, equation: Text? = nil, todo: Text? = nil, bitable: View? = nil, callout: ChildrenCallout? = nil, chatCard: ChatCard? = nil, divider: JSONValue? = nil, file: View? = nil, grid: Grid? = nil, iframe: Iframe? = nil, image: ChildrenImage? = nil, isv: JSONValue? = nil, addOns: AddOns? = nil, sheet: ChildrenSheet? = nil, table: ChildrenTable? = nil, quoteContainer: JSONValue? = nil, task: ChildrenTask? = nil, okr: ChildrenOkr? = nil, commentIds: [String]? = nil, wikiCatalog: WikiCatalog? = nil, board: ChildrenBoard? = nil, linkPreview: BlockLinkPreview? = nil, sourceSynced: ChildrenSourceSynced? = nil, referenceSynced: ReferenceSynced? = nil, subPageList: WikiCatalog? = nil, aiTemplate: JSONValue? = nil, vcTabs: JSONValue? = nil, vcSummaryTab: JSONValue? = nil, vcTranscriptTab: JSONValue? = nil, minutes: Minutes? = nil) {
             self.blockType = blockType
             self.text = text
             self.heading1 = heading1
@@ -2655,7 +2643,7 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.blockType = try c.lenientRequired(.blockType)
+            self.blockType = c.lenient(.blockType)
             self.text = c.lenient(.text)
             self.heading1 = c.lenient(.heading1)
             self.heading2 = c.lenient(.heading2)
@@ -2704,8 +2692,8 @@ extension Docx {
 
     public struct Text: Codable, Sendable {
         public var style: TextStyle?
-        public var elements: [TextElement]
-        public init(style: TextStyle? = nil, elements: [TextElement]) {
+        public var elements: [TextElement]?
+        public init(style: TextStyle? = nil, elements: [TextElement]? = nil) {
             self.style = style
             self.elements = elements
         }
@@ -2716,7 +2704,7 @@ extension Docx {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.style = c.lenient(.style)
-            self.elements = try c.lenientRequired(.elements)
+            self.elements = c.lenient(.elements)
         }
     }
 
@@ -2801,12 +2789,12 @@ extension Docx {
     }
 
     public struct TextElementReminder: Codable, Sendable {
-        public var createUserId: String
+        public var createUserId: String?
         public var isWholeDay: Bool?
-        public var expireTime: String
-        public var notifyTime: String
+        public var expireTime: String?
+        public var notifyTime: String?
         public var textElementStyle: TextElementStyle?
-        public init(createUserId: String, isWholeDay: Bool? = nil, expireTime: String, notifyTime: String, textElementStyle: TextElementStyle? = nil) {
+        public init(createUserId: String? = nil, isWholeDay: Bool? = nil, expireTime: String? = nil, notifyTime: String? = nil, textElementStyle: TextElementStyle? = nil) {
             self.createUserId = createUserId
             self.isWholeDay = isWholeDay
             self.expireTime = expireTime
@@ -2822,10 +2810,10 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.createUserId = try c.lenientRequired(.createUserId)
+            self.createUserId = c.lenient(.createUserId)
             self.isWholeDay = c.lenient(.isWholeDay)
-            self.expireTime = try c.lenientRequired(.expireTime)
-            self.notifyTime = try c.lenientRequired(.notifyTime)
+            self.expireTime = c.lenient(.expireTime)
+            self.notifyTime = c.lenient(.notifyTime)
             self.textElementStyle = c.lenient(.textElementStyle)
         }
     }
@@ -2893,8 +2881,8 @@ extension Docx {
     }
 
     public struct ChildrenTable: Codable, Sendable {
-        public var property: TableProperty
-        public init(property: TableProperty) {
+        public var property: TableProperty?
+        public init(property: TableProperty? = nil) {
             self.property = property
         }
         enum CodingKeys: String, CodingKey {
@@ -2902,7 +2890,7 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.property = try c.lenientRequired(.property)
+            self.property = c.lenient(.property)
         }
     }
 
@@ -3018,24 +3006,6 @@ extension Docx {
         }
     }
 
-    public struct DocumentBlockChildrenBatchDeleteResponse: Codable, Sendable {
-        public var documentRevisionId: Int?
-        public var clientToken: String
-        public init(documentRevisionId: Int? = nil, clientToken: String) {
-            self.documentRevisionId = documentRevisionId
-            self.clientToken = clientToken
-        }
-        enum CodingKeys: String, CodingKey {
-            case documentRevisionId = "document_revision_id"
-            case clientToken = "client_token"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.documentRevisionId = c.lenient(.documentRevisionId)
-            self.clientToken = try c.lenientRequired(.clientToken)
-        }
-    }
-
     public struct DocumentBlockChildrenCreateQuery: Codable, Sendable {
         public var documentRevisionId: Int?
         public var clientToken: String?
@@ -3061,8 +3031,8 @@ extension Docx {
     public struct DocumentBlockChildrenCreateResponse: Codable, Sendable {
         public var children: [Block]?
         public var documentRevisionId: Int?
-        public var clientToken: String
-        public init(children: [Block]? = nil, documentRevisionId: Int? = nil, clientToken: String) {
+        public var clientToken: String?
+        public init(children: [Block]? = nil, documentRevisionId: Int? = nil, clientToken: String? = nil) {
             self.children = children
             self.documentRevisionId = documentRevisionId
             self.clientToken = clientToken
@@ -3076,7 +3046,7 @@ extension Docx {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.children = c.lenient(.children)
             self.documentRevisionId = c.lenient(.documentRevisionId)
-            self.clientToken = try c.lenientRequired(.clientToken)
+            self.clientToken = c.lenient(.clientToken)
         }
     }
 
@@ -3222,11 +3192,11 @@ extension Docx {
         public var deleteGridColumn: InsertTableColumn?
         public var updateGridColumnWidthRatio: UpdateGridColumnWidthRatio?
         public var replaceImage: ReplaceImage?
-        public var replaceFile: ReplaceFile?
+        public var replaceFile: Mindnote?
         public var blockId: String?
         public var updateText: UpdateText?
         public var updateTask: BlockTask?
-        public init(updateTextElements: UpdateTextElements? = nil, updateTextStyle: UpdateTextStyle? = nil, updateTableProperty: UpdateTableProperty? = nil, insertTableRow: InsertTableRow? = nil, insertTableColumn: InsertTableColumn? = nil, deleteTableRows: DeleteTableRows? = nil, deleteTableColumns: DeleteTableColumns? = nil, mergeTableCells: MergeTableCells? = nil, unmergeTableCells: UnmergeTableCells? = nil, insertGridColumn: InsertTableColumn? = nil, deleteGridColumn: InsertTableColumn? = nil, updateGridColumnWidthRatio: UpdateGridColumnWidthRatio? = nil, replaceImage: ReplaceImage? = nil, replaceFile: ReplaceFile? = nil, blockId: String? = nil, updateText: UpdateText? = nil, updateTask: BlockTask? = nil) {
+        public init(updateTextElements: UpdateTextElements? = nil, updateTextStyle: UpdateTextStyle? = nil, updateTableProperty: UpdateTableProperty? = nil, insertTableRow: InsertTableRow? = nil, insertTableColumn: InsertTableColumn? = nil, deleteTableRows: DeleteTableRows? = nil, deleteTableColumns: DeleteTableColumns? = nil, mergeTableCells: MergeTableCells? = nil, unmergeTableCells: UnmergeTableCells? = nil, insertGridColumn: InsertTableColumn? = nil, deleteGridColumn: InsertTableColumn? = nil, updateGridColumnWidthRatio: UpdateGridColumnWidthRatio? = nil, replaceImage: ReplaceImage? = nil, replaceFile: Mindnote? = nil, blockId: String? = nil, updateText: UpdateText? = nil, updateTask: BlockTask? = nil) {
             self.updateTextElements = updateTextElements
             self.updateTextStyle = updateTextStyle
             self.updateTableProperty = updateTableProperty
@@ -3287,8 +3257,8 @@ extension Docx {
     }
 
     public struct UpdateTextElements: Codable, Sendable {
-        public var elements: [PageElement]
-        public init(elements: [PageElement]) {
+        public var elements: [PageElement]?
+        public init(elements: [PageElement]? = nil) {
             self.elements = elements
         }
         enum CodingKeys: String, CodingKey {
@@ -3296,14 +3266,14 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.elements = try c.lenientRequired(.elements)
+            self.elements = c.lenient(.elements)
         }
     }
 
     public struct UpdateTextStyle: Codable, Sendable {
-        public var style: Style
-        public var fields: [Int]
-        public init(style: Style, fields: [Int]) {
+        public var style: Style?
+        public var fields: [Int]?
+        public init(style: Style? = nil, fields: [Int]? = nil) {
             self.style = style
             self.fields = fields
         }
@@ -3313,8 +3283,8 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.style = try c.lenientRequired(.style)
-            self.fields = try c.lenientRequired(.fields)
+            self.style = c.lenient(.style)
+            self.fields = c.lenient(.fields)
         }
     }
 
@@ -3345,8 +3315,8 @@ extension Docx {
     }
 
     public struct InsertTableRow: Codable, Sendable {
-        public var rowIndex: Int
-        public init(rowIndex: Int) {
+        public var rowIndex: Int?
+        public init(rowIndex: Int? = nil) {
             self.rowIndex = rowIndex
         }
         enum CodingKeys: String, CodingKey {
@@ -3354,13 +3324,13 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.rowIndex = try c.lenientRequired(.rowIndex)
+            self.rowIndex = c.lenient(.rowIndex)
         }
     }
 
     public struct InsertTableColumn: Codable, Sendable {
-        public var columnIndex: Int
-        public init(columnIndex: Int) {
+        public var columnIndex: Int?
+        public init(columnIndex: Int? = nil) {
             self.columnIndex = columnIndex
         }
         enum CodingKeys: String, CodingKey {
@@ -3368,14 +3338,14 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.columnIndex = try c.lenientRequired(.columnIndex)
+            self.columnIndex = c.lenient(.columnIndex)
         }
     }
 
     public struct DeleteTableRows: Codable, Sendable {
-        public var rowStartIndex: Int
-        public var rowEndIndex: Int
-        public init(rowStartIndex: Int, rowEndIndex: Int) {
+        public var rowStartIndex: Int?
+        public var rowEndIndex: Int?
+        public init(rowStartIndex: Int? = nil, rowEndIndex: Int? = nil) {
             self.rowStartIndex = rowStartIndex
             self.rowEndIndex = rowEndIndex
         }
@@ -3385,15 +3355,15 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.rowStartIndex = try c.lenientRequired(.rowStartIndex)
-            self.rowEndIndex = try c.lenientRequired(.rowEndIndex)
+            self.rowStartIndex = c.lenient(.rowStartIndex)
+            self.rowEndIndex = c.lenient(.rowEndIndex)
         }
     }
 
     public struct DeleteTableColumns: Codable, Sendable {
-        public var columnStartIndex: Int
-        public var columnEndIndex: Int
-        public init(columnStartIndex: Int, columnEndIndex: Int) {
+        public var columnStartIndex: Int?
+        public var columnEndIndex: Int?
+        public init(columnStartIndex: Int? = nil, columnEndIndex: Int? = nil) {
             self.columnStartIndex = columnStartIndex
             self.columnEndIndex = columnEndIndex
         }
@@ -3403,17 +3373,17 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.columnStartIndex = try c.lenientRequired(.columnStartIndex)
-            self.columnEndIndex = try c.lenientRequired(.columnEndIndex)
+            self.columnStartIndex = c.lenient(.columnStartIndex)
+            self.columnEndIndex = c.lenient(.columnEndIndex)
         }
     }
 
     public struct MergeTableCells: Codable, Sendable {
-        public var rowStartIndex: Int
-        public var rowEndIndex: Int
-        public var columnStartIndex: Int
-        public var columnEndIndex: Int
-        public init(rowStartIndex: Int, rowEndIndex: Int, columnStartIndex: Int, columnEndIndex: Int) {
+        public var rowStartIndex: Int?
+        public var rowEndIndex: Int?
+        public var columnStartIndex: Int?
+        public var columnEndIndex: Int?
+        public init(rowStartIndex: Int? = nil, rowEndIndex: Int? = nil, columnStartIndex: Int? = nil, columnEndIndex: Int? = nil) {
             self.rowStartIndex = rowStartIndex
             self.rowEndIndex = rowEndIndex
             self.columnStartIndex = columnStartIndex
@@ -3427,17 +3397,17 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.rowStartIndex = try c.lenientRequired(.rowStartIndex)
-            self.rowEndIndex = try c.lenientRequired(.rowEndIndex)
-            self.columnStartIndex = try c.lenientRequired(.columnStartIndex)
-            self.columnEndIndex = try c.lenientRequired(.columnEndIndex)
+            self.rowStartIndex = c.lenient(.rowStartIndex)
+            self.rowEndIndex = c.lenient(.rowEndIndex)
+            self.columnStartIndex = c.lenient(.columnStartIndex)
+            self.columnEndIndex = c.lenient(.columnEndIndex)
         }
     }
 
     public struct UnmergeTableCells: Codable, Sendable {
-        public var rowIndex: Int
-        public var columnIndex: Int
-        public init(rowIndex: Int, columnIndex: Int) {
+        public var rowIndex: Int?
+        public var columnIndex: Int?
+        public init(rowIndex: Int? = nil, columnIndex: Int? = nil) {
             self.rowIndex = rowIndex
             self.columnIndex = columnIndex
         }
@@ -3447,14 +3417,14 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.rowIndex = try c.lenientRequired(.rowIndex)
-            self.columnIndex = try c.lenientRequired(.columnIndex)
+            self.rowIndex = c.lenient(.rowIndex)
+            self.columnIndex = c.lenient(.columnIndex)
         }
     }
 
     public struct UpdateGridColumnWidthRatio: Codable, Sendable {
-        public var widthRatios: [Int]
-        public init(widthRatios: [Int]) {
+        public var widthRatios: [Int]?
+        public init(widthRatios: [Int]? = nil) {
             self.widthRatios = widthRatios
         }
         enum CodingKeys: String, CodingKey {
@@ -3462,18 +3432,18 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.widthRatios = try c.lenientRequired(.widthRatios)
+            self.widthRatios = c.lenient(.widthRatios)
         }
     }
 
     public struct ReplaceImage: Codable, Sendable {
-        public var token: String
+        public var token: String?
         public var width: Int?
         public var height: Int?
         public var align: Int?
         public var caption: Caption?
         public var scale: Double?
-        public init(token: String, width: Int? = nil, height: Int? = nil, align: Int? = nil, caption: Caption? = nil, scale: Double? = nil) {
+        public init(token: String? = nil, width: Int? = nil, height: Int? = nil, align: Int? = nil, caption: Caption? = nil, scale: Double? = nil) {
             self.token = token
             self.width = width
             self.height = height
@@ -3491,7 +3461,7 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
+            self.token = c.lenient(.token)
             self.width = c.lenient(.width)
             self.height = c.lenient(.height)
             self.align = c.lenient(.align)
@@ -3500,25 +3470,11 @@ extension Docx {
         }
     }
 
-    public struct ReplaceFile: Codable, Sendable {
-        public var token: String
-        public init(token: String) {
-            self.token = token
-        }
-        enum CodingKeys: String, CodingKey {
-            case token
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
-        }
-    }
-
     public struct UpdateText: Codable, Sendable {
-        public var elements: [PageElement]
-        public var style: Style
-        public var fields: [Int]
-        public init(elements: [PageElement], style: Style, fields: [Int]) {
+        public var elements: [PageElement]?
+        public var style: Style?
+        public var fields: [Int]?
+        public init(elements: [PageElement]? = nil, style: Style? = nil, fields: [Int]? = nil) {
             self.elements = elements
             self.style = style
             self.fields = fields
@@ -3530,9 +3486,9 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.elements = try c.lenientRequired(.elements)
-            self.style = try c.lenientRequired(.style)
-            self.fields = try c.lenientRequired(.fields)
+            self.elements = c.lenient(.elements)
+            self.style = c.lenient(.style)
+            self.fields = c.lenient(.fields)
         }
     }
 
@@ -3633,8 +3589,8 @@ extension Docx {
     public struct DocumentBlockBatchUpdateResponse: Codable, Sendable {
         public var blocks: [Block]?
         public var documentRevisionId: Int?
-        public var clientToken: String
-        public init(blocks: [Block]? = nil, documentRevisionId: Int? = nil, clientToken: String) {
+        public var clientToken: String?
+        public init(blocks: [Block]? = nil, documentRevisionId: Int? = nil, clientToken: String? = nil) {
             self.blocks = blocks
             self.documentRevisionId = documentRevisionId
             self.clientToken = clientToken
@@ -3648,7 +3604,7 @@ extension Docx {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.blocks = c.lenient(.blocks)
             self.documentRevisionId = c.lenient(.documentRevisionId)
-            self.clientToken = try c.lenientRequired(.clientToken)
+            self.clientToken = c.lenient(.clientToken)
         }
     }
 
@@ -3684,10 +3640,10 @@ extension Docx {
         public var deleteGridColumn: InsertTableColumn?
         public var updateGridColumnWidthRatio: UpdateGridColumnWidthRatio?
         public var replaceImage: ReplaceImage?
-        public var replaceFile: ReplaceFile?
+        public var replaceFile: Mindnote?
         public var updateText: DocumentBlockPatchBodyUpdateText?
         public var updateTask: BlockTask?
-        public init(updateTextElements: DocumentBlockPatchBodyUpdateTextElements? = nil, updateTextStyle: DocumentBlockPatchBodyUpdateTextStyle? = nil, updateTableProperty: UpdateTableProperty? = nil, insertTableRow: InsertTableRow? = nil, insertTableColumn: InsertTableColumn? = nil, deleteTableRows: DeleteTableRows? = nil, deleteTableColumns: DeleteTableColumns? = nil, mergeTableCells: MergeTableCells? = nil, unmergeTableCells: UnmergeTableCells? = nil, insertGridColumn: InsertTableColumn? = nil, deleteGridColumn: InsertTableColumn? = nil, updateGridColumnWidthRatio: UpdateGridColumnWidthRatio? = nil, replaceImage: ReplaceImage? = nil, replaceFile: ReplaceFile? = nil, updateText: DocumentBlockPatchBodyUpdateText? = nil, updateTask: BlockTask? = nil) {
+        public init(updateTextElements: DocumentBlockPatchBodyUpdateTextElements? = nil, updateTextStyle: DocumentBlockPatchBodyUpdateTextStyle? = nil, updateTableProperty: UpdateTableProperty? = nil, insertTableRow: InsertTableRow? = nil, insertTableColumn: InsertTableColumn? = nil, deleteTableRows: DeleteTableRows? = nil, deleteTableColumns: DeleteTableColumns? = nil, mergeTableCells: MergeTableCells? = nil, unmergeTableCells: UnmergeTableCells? = nil, insertGridColumn: InsertTableColumn? = nil, deleteGridColumn: InsertTableColumn? = nil, updateGridColumnWidthRatio: UpdateGridColumnWidthRatio? = nil, replaceImage: ReplaceImage? = nil, replaceFile: Mindnote? = nil, updateText: DocumentBlockPatchBodyUpdateText? = nil, updateTask: BlockTask? = nil) {
             self.updateTextElements = updateTextElements
             self.updateTextStyle = updateTextStyle
             self.updateTableProperty = updateTableProperty
@@ -3745,8 +3701,8 @@ extension Docx {
     }
 
     public struct DocumentBlockPatchBodyUpdateTextElements: Codable, Sendable {
-        public var elements: [TextElement]
-        public init(elements: [TextElement]) {
+        public var elements: [TextElement]?
+        public init(elements: [TextElement]? = nil) {
             self.elements = elements
         }
         enum CodingKeys: String, CodingKey {
@@ -3754,14 +3710,14 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.elements = try c.lenientRequired(.elements)
+            self.elements = c.lenient(.elements)
         }
     }
 
     public struct DocumentBlockPatchBodyUpdateTextStyle: Codable, Sendable {
-        public var style: TextStyle
-        public var fields: [Int]
-        public init(style: TextStyle, fields: [Int]) {
+        public var style: TextStyle?
+        public var fields: [Int]?
+        public init(style: TextStyle? = nil, fields: [Int]? = nil) {
             self.style = style
             self.fields = fields
         }
@@ -3771,16 +3727,16 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.style = try c.lenientRequired(.style)
-            self.fields = try c.lenientRequired(.fields)
+            self.style = c.lenient(.style)
+            self.fields = c.lenient(.fields)
         }
     }
 
     public struct DocumentBlockPatchBodyUpdateText: Codable, Sendable {
-        public var elements: [TextElement]
-        public var style: TextStyle
-        public var fields: [Int]
-        public init(elements: [TextElement], style: TextStyle, fields: [Int]) {
+        public var elements: [TextElement]?
+        public var style: TextStyle?
+        public var fields: [Int]?
+        public init(elements: [TextElement]? = nil, style: TextStyle? = nil, fields: [Int]? = nil) {
             self.elements = elements
             self.style = style
             self.fields = fields
@@ -3792,17 +3748,17 @@ extension Docx {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.elements = try c.lenientRequired(.elements)
-            self.style = try c.lenientRequired(.style)
-            self.fields = try c.lenientRequired(.fields)
+            self.elements = c.lenient(.elements)
+            self.style = c.lenient(.style)
+            self.fields = c.lenient(.fields)
         }
     }
 
     public struct DocumentBlockPatchResponse: Codable, Sendable {
         public var block: Block?
         public var documentRevisionId: Int?
-        public var clientToken: String
-        public init(block: Block? = nil, documentRevisionId: Int? = nil, clientToken: String) {
+        public var clientToken: String?
+        public init(block: Block? = nil, documentRevisionId: Int? = nil, clientToken: String? = nil) {
             self.block = block
             self.documentRevisionId = documentRevisionId
             self.clientToken = clientToken
@@ -3816,7 +3772,7 @@ extension Docx {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.block = c.lenient(.block)
             self.documentRevisionId = c.lenient(.documentRevisionId)
-            self.clientToken = try c.lenientRequired(.clientToken)
+            self.clientToken = c.lenient(.clientToken)
         }
     }
 
@@ -3845,7 +3801,7 @@ extension Docx {
     public struct Descendant: Codable, Sendable {
         public var blockId: String?
         public var children: [String]?
-        public var blockType: Int
+        public var blockType: Int?
         public var text: Text?
         public var heading1: Text?
         public var heading2: Text?
@@ -3886,13 +3842,13 @@ extension Docx {
         public var linkPreview: BlockLinkPreview?
         public var sourceSynced: ChildrenSourceSynced?
         public var referenceSynced: ReferenceSynced?
-        public var subPageList: SubPageList?
+        public var subPageList: WikiCatalog?
         public var aiTemplate: JSONValue?
         public var vcTabs: JSONValue?
         public var vcSummaryTab: JSONValue?
         public var vcTranscriptTab: JSONValue?
         public var minutes: Minutes?
-        public init(blockId: String? = nil, children: [String]? = nil, blockType: Int, text: Text? = nil, heading1: Text? = nil, heading2: Text? = nil, heading3: Text? = nil, heading4: Text? = nil, heading5: Text? = nil, heading6: Text? = nil, heading7: Text? = nil, heading8: Text? = nil, heading9: Text? = nil, bullet: Text? = nil, ordered: Text? = nil, code: Text? = nil, quote: Text? = nil, equation: Text? = nil, todo: Text? = nil, bitable: View? = nil, callout: ChildrenCallout? = nil, chatCard: ChatCard? = nil, divider: JSONValue? = nil, file: View? = nil, grid: Grid? = nil, gridColumn: GridColumn? = nil, iframe: Iframe? = nil, image: ChildrenImage? = nil, isv: JSONValue? = nil, addOns: AddOns? = nil, sheet: ChildrenSheet? = nil, table: ChildrenTable? = nil, tableCell: JSONValue? = nil, view: JSONValue? = nil, quoteContainer: JSONValue? = nil, task: ChildrenTask? = nil, okr: ChildrenOkr? = nil, commentIds: [String]? = nil, wikiCatalog: WikiCatalog? = nil, board: ChildrenBoard? = nil, linkPreview: BlockLinkPreview? = nil, sourceSynced: ChildrenSourceSynced? = nil, referenceSynced: ReferenceSynced? = nil, subPageList: SubPageList? = nil, aiTemplate: JSONValue? = nil, vcTabs: JSONValue? = nil, vcSummaryTab: JSONValue? = nil, vcTranscriptTab: JSONValue? = nil, minutes: Minutes? = nil) {
+        public init(blockId: String? = nil, children: [String]? = nil, blockType: Int? = nil, text: Text? = nil, heading1: Text? = nil, heading2: Text? = nil, heading3: Text? = nil, heading4: Text? = nil, heading5: Text? = nil, heading6: Text? = nil, heading7: Text? = nil, heading8: Text? = nil, heading9: Text? = nil, bullet: Text? = nil, ordered: Text? = nil, code: Text? = nil, quote: Text? = nil, equation: Text? = nil, todo: Text? = nil, bitable: View? = nil, callout: ChildrenCallout? = nil, chatCard: ChatCard? = nil, divider: JSONValue? = nil, file: View? = nil, grid: Grid? = nil, gridColumn: GridColumn? = nil, iframe: Iframe? = nil, image: ChildrenImage? = nil, isv: JSONValue? = nil, addOns: AddOns? = nil, sheet: ChildrenSheet? = nil, table: ChildrenTable? = nil, tableCell: JSONValue? = nil, view: JSONValue? = nil, quoteContainer: JSONValue? = nil, task: ChildrenTask? = nil, okr: ChildrenOkr? = nil, commentIds: [String]? = nil, wikiCatalog: WikiCatalog? = nil, board: ChildrenBoard? = nil, linkPreview: BlockLinkPreview? = nil, sourceSynced: ChildrenSourceSynced? = nil, referenceSynced: ReferenceSynced? = nil, subPageList: WikiCatalog? = nil, aiTemplate: JSONValue? = nil, vcTabs: JSONValue? = nil, vcSummaryTab: JSONValue? = nil, vcTranscriptTab: JSONValue? = nil, minutes: Minutes? = nil) {
             self.blockId = blockId
             self.children = children
             self.blockType = blockType
@@ -3998,7 +3954,7 @@ extension Docx {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.blockId = c.lenient(.blockId)
             self.children = c.lenient(.children)
-            self.blockType = try c.lenientRequired(.blockType)
+            self.blockType = c.lenient(.blockType)
             self.text = c.lenient(.text)
             self.heading1 = c.lenient(.heading1)
             self.heading2 = c.lenient(.heading2)

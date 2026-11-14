@@ -42,7 +42,7 @@ import LarkSheets
 
     @Test("POST /open-apis/sheets/v3/spreadsheets/:spreadsheet_token/sheets/:sheet_id/replace") func v3_spreadsheetSheet_replace() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"replace_result":{"matched_cells":["s"],"matched_formula_cells":["s"],"rows_count":1}}}"##)
-        let resp = try await client.sheets.v3.spreadsheetSheet.replace(spreadsheetToken: "s", sheetId: "s", body: Sheets.SpreadsheetSheetReplaceBody(findCondition: Sheets.FindCondition(range: "s"), find: "s", replacement: "s"))
+        let resp = try await client.sheets.v3.spreadsheetSheet.replace(spreadsheetToken: "s", sheetId: "s", body: Sheets.SpreadsheetSheetReplaceBody(findCondition: Sheets.FindCondition(), find: "s", replacement: "s"))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -63,7 +63,7 @@ import LarkSheets
 
     @Test("POST /open-apis/sheets/v3/spreadsheets/:spreadsheet_token/sheets/:sheet_id/find") func v3_spreadsheetSheet_find() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"find_result":{"matched_cells":["s"],"matched_formula_cells":["s"],"rows_count":1}}}"##)
-        let resp = try await client.sheets.v3.spreadsheetSheet.find(spreadsheetToken: "s", sheetId: "s", body: Sheets.SpreadsheetSheetFindBody(findCondition: Sheets.FindCondition(range: "s"), find: "s"))
+        let resp = try await client.sheets.v3.spreadsheetSheet.find(spreadsheetToken: "s", sheetId: "s", body: Sheets.SpreadsheetSheetFindBody(findCondition: Sheets.FindCondition(), find: "s"))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -117,7 +117,7 @@ import LarkSheets
 
     @Test("POST /open-apis/sheets/v3/spreadsheets/:spreadsheet_token/sheets/:sheet_id/filter") func v3_spreadsheetSheetFilter_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.sheets.v3.spreadsheetSheetFilter.create(spreadsheetToken: "s", sheetId: "s", body: Sheets.SpreadsheetSheetFilterCreateBody(range: "s", col: "s", condition: Sheets.Condition(filterType: "s")))
+        let resp = try await client.sheets.v3.spreadsheetSheetFilter.create(spreadsheetToken: "s", sheetId: "s", body: Sheets.SpreadsheetSheetFilterCreateBody(range: "s", col: "s", condition: Sheets.Condition()))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
@@ -127,7 +127,7 @@ import LarkSheets
 
     @Test("PUT /open-apis/sheets/v3/spreadsheets/:spreadsheet_token/sheets/:sheet_id/filter") func v3_spreadsheetSheetFilter_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.sheets.v3.spreadsheetSheetFilter.update(spreadsheetToken: "s", sheetId: "s", body: Sheets.SpreadsheetSheetFilterUpdateBody(col: "s", condition: Sheets.Condition(filterType: "s")))
+        let resp = try await client.sheets.v3.spreadsheetSheetFilter.update(spreadsheetToken: "s", sheetId: "s", body: Sheets.SpreadsheetSheetFilterUpdateBody(col: "s", condition: Sheets.Condition()))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PUT")
@@ -234,7 +234,7 @@ import LarkSheets
 
     @Test("PUT /open-apis/sheets/v3/spreadsheets/:spreadsheet_token/sheets/:sheet_id/filter_views/:filter_view_id/conditions/:condition_id") func v3_spreadsheetSheetFilterViewCondition_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"condition":{"condition_id":"s","filter_type":"s","compare_type":"s","expected":["s"]}}}"##)
-        let resp = try await client.sheets.v3.spreadsheetSheetFilterViewCondition.update(spreadsheetToken: "s", sheetId: "s", filterViewId: "s", conditionId: "s", body: Sheets.SpreadsheetSheetFilterViewConditionUpdateBody())
+        let resp = try await client.sheets.v3.spreadsheetSheetFilterViewCondition.update(spreadsheetToken: "s", sheetId: "s", filterViewId: "s", conditionId: "s", body: Sheets.Condition())
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

@@ -40,6 +40,8 @@ extension APaaS {
 
     public typealias WorkspaceTableTableGetResponse = WorkspaceTable
 
+    public typealias WorkspaceSqlCommandsResponse = ApplicationFunctionInvokeResponse
+
     public typealias WorkspaceViewViewsGetQuery = WorkspaceTableRecordsGetQuery
 
     public typealias WorkspaceViewViewsGetResponse = WorkspaceTableRecordsGetResponse
@@ -131,8 +133,8 @@ extension APaaS {
     }
 
     public struct ApplicationObjectRecordQueryResponse: Codable, Sendable {
-        public var item: String
-        public init(item: String) {
+        public var item: String?
+        public init(item: String? = nil) {
             self.item = item
         }
         enum CodingKeys: String, CodingKey {
@@ -140,7 +142,7 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.item = try c.lenientRequired(.item)
+            self.item = c.lenient(.item)
         }
     }
 
@@ -173,10 +175,10 @@ extension APaaS {
     }
 
     public struct ApplicationObjectRecord: Codable, Sendable {
-        public var success: Bool
+        public var success: Bool?
         public var id: String?
         public var errors: [ApplicationObjectRecordError]?
-        public init(success: Bool, id: String? = nil, errors: [ApplicationObjectRecordError]? = nil) {
+        public init(success: Bool? = nil, id: String? = nil, errors: [ApplicationObjectRecordError]? = nil) {
             self.success = success
             self.id = id
             self.errors = errors
@@ -188,18 +190,18 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.success = try c.lenientRequired(.success)
+            self.success = c.lenient(.success)
             self.id = c.lenient(.id)
             self.errors = c.lenient(.errors)
         }
     }
 
     public struct ApplicationObjectRecordError: Codable, Sendable {
-        public var code: String
-        public var message: String
+        public var code: String?
+        public var message: String?
         public var subCode: String?
         public var fields: [String]?
-        public init(code: String, message: String, subCode: String? = nil, fields: [String]? = nil) {
+        public init(code: String? = nil, message: String? = nil, subCode: String? = nil, fields: [String]? = nil) {
             self.code = code
             self.message = message
             self.subCode = subCode
@@ -213,8 +215,8 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.code = try c.lenientRequired(.code)
-            self.message = try c.lenientRequired(.message)
+            self.code = c.lenient(.code)
+            self.message = c.lenient(.message)
             self.subCode = c.lenient(.subCode)
             self.fields = c.lenient(.fields)
         }
@@ -375,9 +377,9 @@ extension APaaS {
     }
 
     public struct OrderBy: Codable, Sendable {
-        public var field: String
-        public var direction: Direction
-        public init(field: String, direction: Direction) {
+        public var field: String?
+        public var direction: Direction?
+        public init(field: String? = nil, direction: Direction? = nil) {
             self.field = field
             self.direction = direction
         }
@@ -387,8 +389,8 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.field = try c.lenientRequired(.field)
-            self.direction = try c.lenientRequired(.direction)
+            self.field = c.lenient(.field)
+            self.direction = c.lenient(.direction)
         }
     }
 
@@ -396,13 +398,13 @@ extension APaaS {
     public struct Direction: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let aSC: Self = "ASC"
-        public static let dESC: Self = "DESC"
+        public static let asc: Self = "ASC"
+        public static let desc: Self = "DESC"
     }
 
     public struct GroupBy: Codable, Sendable {
-        public var field: String
-        public init(field: String) {
+        public var field: String?
+        public init(field: String? = nil) {
             self.field = field
         }
         enum CodingKeys: String, CodingKey {
@@ -410,16 +412,16 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.field = try c.lenientRequired(.field)
+            self.field = c.lenient(.field)
         }
     }
 
     public struct ApplicationObjectRecordBatchQueryResponse: Codable, Sendable {
-        public var items: String
+        public var items: String?
         public var total: Int?
         public var nextPageToken: String?
         public var hasMore: Bool?
-        public init(items: String, total: Int? = nil, nextPageToken: String? = nil, hasMore: Bool? = nil) {
+        public init(items: String? = nil, total: Int? = nil, nextPageToken: String? = nil, hasMore: Bool? = nil) {
             self.items = items
             self.total = total
             self.nextPageToken = nextPageToken
@@ -433,7 +435,7 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
             self.total = c.lenient(.total)
             self.nextPageToken = c.lenient(.nextPageToken)
             self.hasMore = c.lenient(.hasMore)
@@ -463,9 +465,9 @@ extension APaaS {
     }
 
     public struct ApplicationObjectOqlQueryResponse: Codable, Sendable {
-        public var columns: [String]
-        public var rows: String
-        public init(columns: [String], rows: String) {
+        public var columns: [String]?
+        public var rows: String?
+        public init(columns: [String]? = nil, rows: String? = nil) {
             self.columns = columns
             self.rows = rows
         }
@@ -475,8 +477,8 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.columns = try c.lenientRequired(.columns)
-            self.rows = try c.lenientRequired(.rows)
+            self.columns = c.lenient(.columns)
+            self.rows = c.lenient(.rows)
         }
     }
 
@@ -889,17 +891,17 @@ extension APaaS {
     }
 
     public struct ApplicationEnvironmentVariable: Codable, Sendable {
-        public var apiName: String
-        public var label: Label
-        public var description: String
-        public var value: String
+        public var apiName: String?
+        public var label: Label?
+        public var description: String?
+        public var value: String?
         public var isEncrypted: Bool?
         public var objectApiName: String?
         public var objectLabel: Label?
         public var createdAt: Int?
-        public var updatedAt: Int
+        public var updatedAt: Int?
         public var type: String?
-        public init(apiName: String, label: Label, description: String, value: String, isEncrypted: Bool? = nil, objectApiName: String? = nil, objectLabel: Label? = nil, createdAt: Int? = nil, updatedAt: Int, type: String? = nil) {
+        public init(apiName: String? = nil, label: Label? = nil, description: String? = nil, value: String? = nil, isEncrypted: Bool? = nil, objectApiName: String? = nil, objectLabel: Label? = nil, createdAt: Int? = nil, updatedAt: Int? = nil, type: String? = nil) {
             self.apiName = apiName
             self.label = label
             self.description = description
@@ -925,23 +927,23 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.apiName = try c.lenientRequired(.apiName)
-            self.label = try c.lenientRequired(.label)
-            self.description = try c.lenientRequired(.description)
-            self.value = try c.lenientRequired(.value)
+            self.apiName = c.lenient(.apiName)
+            self.label = c.lenient(.label)
+            self.description = c.lenient(.description)
+            self.value = c.lenient(.value)
             self.isEncrypted = c.lenient(.isEncrypted)
             self.objectApiName = c.lenient(.objectApiName)
             self.objectLabel = c.lenient(.objectLabel)
             self.createdAt = c.lenient(.createdAt)
-            self.updatedAt = try c.lenientRequired(.updatedAt)
+            self.updatedAt = c.lenient(.updatedAt)
             self.type = c.lenient(.type)
         }
     }
 
     public struct Label: Codable, Sendable {
-        public var zhCn: String
-        public var enUs: String
-        public init(zhCn: String, enUs: String) {
+        public var zhCn: String?
+        public var enUs: String?
+        public init(zhCn: String? = nil, enUs: String? = nil) {
             self.zhCn = zhCn
             self.enUs = enUs
         }
@@ -951,8 +953,8 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.zhCn = try c.lenientRequired(.zhCn)
-            self.enUs = try c.lenientRequired(.enUs)
+            self.zhCn = c.lenient(.zhCn)
+            self.enUs = c.lenient(.enUs)
         }
     }
 
@@ -994,8 +996,8 @@ extension APaaS {
 
     public struct ApplicationEnvironmentVariableQueryResponse: Codable, Sendable {
         public var items: [ApplicationEnvironmentVariable]?
-        public var total: Int
-        public init(items: [ApplicationEnvironmentVariable]? = nil, total: Int) {
+        public var total: Int?
+        public init(items: [ApplicationEnvironmentVariable]? = nil, total: Int? = nil) {
             self.items = items
             self.total = total
         }
@@ -1006,7 +1008,7 @@ extension APaaS {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.items = c.lenient(.items)
-            self.total = try c.lenientRequired(.total)
+            self.total = c.lenient(.total)
         }
     }
 
@@ -2289,8 +2291,8 @@ extension APaaS {
     }
 
     public struct WorkspaceTableRecordsBatchUpdateResponse: Codable, Sendable {
-        public var recordIds: [String]
-        public init(recordIds: [String]) {
+        public var recordIds: [String]?
+        public init(recordIds: [String]? = nil) {
             self.recordIds = recordIds
         }
         enum CodingKeys: String, CodingKey {
@@ -2298,7 +2300,7 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.recordIds = try c.lenientRequired(.recordIds)
+            self.recordIds = c.lenient(.recordIds)
         }
     }
 
@@ -2347,11 +2349,11 @@ extension APaaS {
     }
 
     public struct WorkspaceTableRecordsGetResponse: Codable, Sendable {
-        public var hasMore: Bool
-        public var pageToken: String
-        public var total: Int
-        public var items: String
-        public init(hasMore: Bool, pageToken: String, total: Int, items: String) {
+        public var hasMore: Bool?
+        public var pageToken: String?
+        public var total: Int?
+        public var items: String?
+        public init(hasMore: Bool? = nil, pageToken: String? = nil, total: Int? = nil, items: String? = nil) {
             self.hasMore = hasMore
             self.pageToken = pageToken
             self.total = total
@@ -2365,10 +2367,10 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.hasMore = try c.lenientRequired(.hasMore)
-            self.pageToken = try c.lenientRequired(.pageToken)
-            self.total = try c.lenientRequired(.total)
-            self.items = try c.lenientRequired(.items)
+            self.hasMore = c.lenient(.hasMore)
+            self.pageToken = c.lenient(.pageToken)
+            self.total = c.lenient(.total)
+            self.items = c.lenient(.items)
         }
     }
 
@@ -2409,10 +2411,10 @@ extension APaaS {
     }
 
     public struct WorkspaceTableListResponse: Codable, Sendable {
-        public var hasMore: Bool
-        public var pageToken: String
-        public var items: [WorkspaceTable]
-        public init(hasMore: Bool, pageToken: String, items: [WorkspaceTable]) {
+        public var hasMore: Bool?
+        public var pageToken: String?
+        public var items: [WorkspaceTable]?
+        public init(hasMore: Bool? = nil, pageToken: String? = nil, items: [WorkspaceTable]? = nil) {
             self.hasMore = hasMore
             self.pageToken = pageToken
             self.items = items
@@ -2424,17 +2426,17 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.hasMore = try c.lenientRequired(.hasMore)
-            self.pageToken = try c.lenientRequired(.pageToken)
-            self.items = try c.lenientRequired(.items)
+            self.hasMore = c.lenient(.hasMore)
+            self.pageToken = c.lenient(.pageToken)
+            self.items = c.lenient(.items)
         }
     }
 
     public struct WorkspaceTable: Codable, Sendable {
-        public var name: String
-        public var description: String
-        public var columns: [Column]
-        public init(name: String, description: String, columns: [Column]) {
+        public var name: String?
+        public var description: String?
+        public var columns: [Column]?
+        public init(name: String? = nil, description: String? = nil, columns: [Column]? = nil) {
             self.name = name
             self.description = description
             self.columns = columns
@@ -2446,23 +2448,23 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.description = try c.lenientRequired(.description)
-            self.columns = try c.lenientRequired(.columns)
+            self.name = c.lenient(.name)
+            self.description = c.lenient(.description)
+            self.columns = c.lenient(.columns)
         }
     }
 
     public struct Column: Codable, Sendable {
-        public var name: String
-        public var description: String
-        public var dataType: String
-        public var isPrimaryKey: Bool
-        public var isUnique: Bool
-        public var isAutoIncrement: Bool
-        public var isArray: Bool
-        public var isAllowNull: Bool
-        public var defaultValue: String
-        public init(name: String, description: String, dataType: String, isPrimaryKey: Bool, isUnique: Bool, isAutoIncrement: Bool, isArray: Bool, isAllowNull: Bool, defaultValue: String) {
+        public var name: String?
+        public var description: String?
+        public var dataType: String?
+        public var isPrimaryKey: Bool?
+        public var isUnique: Bool?
+        public var isAutoIncrement: Bool?
+        public var isArray: Bool?
+        public var isAllowNull: Bool?
+        public var defaultValue: String?
+        public init(name: String? = nil, description: String? = nil, dataType: String? = nil, isPrimaryKey: Bool? = nil, isUnique: Bool? = nil, isAutoIncrement: Bool? = nil, isArray: Bool? = nil, isAllowNull: Bool? = nil, defaultValue: String? = nil) {
             self.name = name
             self.description = description
             self.dataType = dataType
@@ -2486,15 +2488,15 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.description = try c.lenientRequired(.description)
-            self.dataType = try c.lenientRequired(.dataType)
-            self.isPrimaryKey = try c.lenientRequired(.isPrimaryKey)
-            self.isUnique = try c.lenientRequired(.isUnique)
-            self.isAutoIncrement = try c.lenientRequired(.isAutoIncrement)
-            self.isArray = try c.lenientRequired(.isArray)
-            self.isAllowNull = try c.lenientRequired(.isAllowNull)
-            self.defaultValue = try c.lenientRequired(.defaultValue)
+            self.name = c.lenient(.name)
+            self.description = c.lenient(.description)
+            self.dataType = c.lenient(.dataType)
+            self.isPrimaryKey = c.lenient(.isPrimaryKey)
+            self.isUnique = c.lenient(.isUnique)
+            self.isAutoIncrement = c.lenient(.isAutoIncrement)
+            self.isArray = c.lenient(.isArray)
+            self.isAllowNull = c.lenient(.isAllowNull)
+            self.defaultValue = c.lenient(.defaultValue)
         }
     }
 
@@ -2512,27 +2514,13 @@ extension APaaS {
         }
     }
 
-    public struct WorkspaceSqlCommandsResponse: Codable, Sendable {
-        public var result: String
-        public init(result: String) {
-            self.result = result
-        }
-        enum CodingKeys: String, CodingKey {
-            case result
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.result = try c.lenientRequired(.result)
-        }
-    }
-
     public struct WorkspaceEnumEnumGetResponse: Codable, Sendable {
-        public var name: String
-        public var description: String
-        public var options: [String]
-        public var createdAt: String
-        public var createdBy: CreatedBy
-        public init(name: String, description: String, options: [String], createdAt: String, createdBy: CreatedBy) {
+        public var name: String?
+        public var description: String?
+        public var options: [String]?
+        public var createdAt: String?
+        public var createdBy: CreatedBy?
+        public init(name: String? = nil, description: String? = nil, options: [String]? = nil, createdAt: String? = nil, createdBy: CreatedBy? = nil) {
             self.name = name
             self.description = description
             self.options = options
@@ -2548,11 +2536,11 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.description = try c.lenientRequired(.description)
-            self.options = try c.lenientRequired(.options)
-            self.createdAt = try c.lenientRequired(.createdAt)
-            self.createdBy = try c.lenientRequired(.createdBy)
+            self.name = c.lenient(.name)
+            self.description = c.lenient(.description)
+            self.options = c.lenient(.options)
+            self.createdAt = c.lenient(.createdAt)
+            self.createdBy = c.lenient(.createdBy)
         }
     }
 
@@ -2579,10 +2567,10 @@ extension APaaS {
     }
 
     public struct WorkspaceEnumListResponse: Codable, Sendable {
-        public var hasMore: Bool
-        public var pageToken: String
-        public var items: [WorkspaceEnum]
-        public init(hasMore: Bool, pageToken: String, items: [WorkspaceEnum]) {
+        public var hasMore: Bool?
+        public var pageToken: String?
+        public var items: [WorkspaceEnum]?
+        public init(hasMore: Bool? = nil, pageToken: String? = nil, items: [WorkspaceEnum]? = nil) {
             self.hasMore = hasMore
             self.pageToken = pageToken
             self.items = items
@@ -2594,19 +2582,19 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.hasMore = try c.lenientRequired(.hasMore)
-            self.pageToken = try c.lenientRequired(.pageToken)
-            self.items = try c.lenientRequired(.items)
+            self.hasMore = c.lenient(.hasMore)
+            self.pageToken = c.lenient(.pageToken)
+            self.items = c.lenient(.items)
         }
     }
 
     public struct WorkspaceEnum: Codable, Sendable {
-        public var name: String
-        public var description: String
-        public var options: [String]
-        public var createdAt: Int
+        public var name: String?
+        public var description: String?
+        public var options: [String]?
+        public var createdAt: Int?
         public var createdBy: CreatedBy?
-        public init(name: String, description: String, options: [String], createdAt: Int, createdBy: CreatedBy? = nil) {
+        public init(name: String? = nil, description: String? = nil, options: [String]? = nil, createdAt: Int? = nil, createdBy: CreatedBy? = nil) {
             self.name = name
             self.description = description
             self.options = options
@@ -2622,10 +2610,10 @@ extension APaaS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.description = try c.lenientRequired(.description)
-            self.options = try c.lenientRequired(.options)
-            self.createdAt = try c.lenientRequired(.createdAt)
+            self.name = c.lenient(.name)
+            self.description = c.lenient(.description)
+            self.options = c.lenient(.options)
+            self.createdAt = c.lenient(.createdAt)
             self.createdBy = c.lenient(.createdBy)
         }
     }

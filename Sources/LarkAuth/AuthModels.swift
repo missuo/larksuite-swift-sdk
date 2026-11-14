@@ -4,6 +4,8 @@ import Foundation
 import LarkCore
 
 extension Auth {
+    public typealias AppAccessTokenInternalResponse = AppAccessTokenCreateResponse
+
     public typealias TenantAccessTokenInternalBody = AppAccessTokenInternalBody
 
     public typealias TenantAccessTokenInternalResponse = TenantAccessTokenCreateResponse
@@ -34,8 +36,8 @@ extension Auth {
 
     public struct AppAccessTokenCreateResponse: Codable, Sendable {
         public var appAccessToken: String?
-        public var expire: Int
-        public init(appAccessToken: String? = nil, expire: Int) {
+        public var expire: Int?
+        public init(appAccessToken: String? = nil, expire: Int? = nil) {
             self.appAccessToken = appAccessToken
             self.expire = expire
         }
@@ -46,7 +48,7 @@ extension Auth {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.appAccessToken = c.lenient(.appAccessToken)
-            self.expire = try c.lenientRequired(.expire)
+            self.expire = c.lenient(.expire)
         }
     }
 
@@ -65,24 +67,6 @@ extension Auth {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.appId = try c.lenientRequired(.appId)
             self.appSecret = try c.lenientRequired(.appSecret)
-        }
-    }
-
-    public struct AppAccessTokenInternalResponse: Codable, Sendable {
-        public var appAccessToken: String?
-        public var expire: Int?
-        public init(appAccessToken: String? = nil, expire: Int? = nil) {
-            self.appAccessToken = appAccessToken
-            self.expire = expire
-        }
-        enum CodingKeys: String, CodingKey {
-            case appAccessToken = "app_access_token"
-            case expire
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.appAccessToken = c.lenient(.appAccessToken)
-            self.expire = c.lenient(.expire)
         }
     }
 
@@ -132,12 +116,12 @@ extension Auth {
         public var uuid: String?
         public var type: String?
         public var appId: String?
-        public var revokeTokenType: String
-        public var revokeReason: String
-        public var openId: String
-        public var unionId: String
+        public var revokeTokenType: String?
+        public var revokeReason: String?
+        public var openId: String?
+        public var unionId: String?
         public var userId: String?
-        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, revokeTokenType: String, revokeReason: String, openId: String, unionId: String, userId: String? = nil) {
+        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, revokeTokenType: String? = nil, revokeReason: String? = nil, openId: String? = nil, unionId: String? = nil, userId: String? = nil) {
             self.eventId = eventId
             self.token = token
             self.createTime = createTime
@@ -180,10 +164,10 @@ extension Auth {
             self.uuid = c.lenient(.uuid)
             self.type = c.lenient(.type)
             self.appId = c.lenient(.appId)
-            self.revokeTokenType = try c.lenientRequired(.revokeTokenType)
-            self.revokeReason = try c.lenientRequired(.revokeReason)
-            self.openId = try c.lenientRequired(.openId)
-            self.unionId = try c.lenientRequired(.unionId)
+            self.revokeTokenType = c.lenient(.revokeTokenType)
+            self.revokeReason = c.lenient(.revokeReason)
+            self.openId = c.lenient(.openId)
+            self.unionId = c.lenient(.unionId)
             self.userId = c.lenient(.userId)
         }
     }

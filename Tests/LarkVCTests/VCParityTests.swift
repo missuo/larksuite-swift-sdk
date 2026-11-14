@@ -10,7 +10,7 @@ import LarkVC
 @Suite struct VCParityTests {
     @Test("POST /open-apis/vc/v1/materials/upload_meta") func v1_material_uploadMeta() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"results":[{"file_token":"s","result":1}]}}"##)
-        let resp = try await client.vc.v1.material.uploadMeta(body: VC.MaterialUploadMetaBody(materials: [VC.Material(fileToken: "s", fileSize: 1, deviceType: 1, materialType: 1, materialSource: 1)]))
+        let resp = try await client.vc.v1.material.uploadMeta(body: VC.MaterialUploadMetaBody(materials: [VC.Material()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -63,7 +63,7 @@ import LarkVC
 
     @Test("PATCH /open-apis/vc/v1/meetings/:meeting_id/recording/set_permission") func v1_meetingRecording_setPermission() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.vc.v1.meetingRecording.setPermission(meetingId: "s", params: VC.MeetingRecordingSetPermissionQuery(), body: VC.MeetingRecordingSetPermissionBody(permissionObjects: [VC.PermissionObject(type: 1, permission: 1)]))
+        let resp = try await client.vc.v1.meetingRecording.setPermission(meetingId: "s", params: VC.MeetingRecordingSetPermissionQuery(), body: VC.MeetingRecordingSetPermissionBody(permissionObjects: [VC.PermissionObject()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
@@ -906,7 +906,7 @@ import LarkVC
 
     @Test("POST /open-apis/vc/v1/scope_config") func v1_scopeConfig_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.vc.v1.scopeConfig.create(params: VC.MeetingRecordingSetPermissionQuery(), body: VC.CurrentConfig(scopeType: 1, scopeId: "s"))
+        let resp = try await client.vc.v1.scopeConfig.create(params: VC.MeetingRecordingSetPermissionQuery(), body: VC.ScopeConfigCreateBody(scopeType: 1, scopeId: "s"))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
@@ -939,7 +939,7 @@ import LarkVC
 
     @Test("PATCH /open-apis/vc/v1/reserve_configs/:reserve_config_id/form") func v1_reserveConfigForm_patch() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.vc.v1.reserveConfigForm.patch(reserveConfigId: "s", params: VC.MeetingRecordingSetPermissionQuery(), body: VC.ReserveConfigFormPatchBody(scopeType: 1, reserveFormConfig: VC.ReserveFormConfig(reserveForm: true)))
+        let resp = try await client.vc.v1.reserveConfigForm.patch(reserveConfigId: "s", params: VC.MeetingRecordingSetPermissionQuery(), body: VC.ReserveConfigFormPatchBody(scopeType: 1, reserveFormConfig: VC.ReserveFormConfig()))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
@@ -983,7 +983,7 @@ import LarkVC
 
     @Test("PATCH /open-apis/vc/v1/reserve_configs/:reserve_config_id/disable_inform") func v1_reserveConfigDisableInform_patch() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.vc.v1.reserveConfigDisableInform.patch(reserveConfigId: "s", params: VC.MeetingRecordingSetPermissionQuery(), body: VC.ReserveConfigDisableInformPatchBody(scopeType: 1, disableInform: VC.DisableInform(ifInform: true)))
+        let resp = try await client.vc.v1.reserveConfigDisableInform.patch(reserveConfigId: "s", params: VC.MeetingRecordingSetPermissionQuery(), body: VC.ReserveConfigDisableInformPatchBody(scopeType: 1, disableInform: VC.DisableInform()))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")

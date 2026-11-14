@@ -72,7 +72,9 @@ extension IM.MessageReplyBody {
 extension IM.MessageReceiveV1Event {
     /// The plain text of a `text` message (mention placeholders such as `@_user_1` are kept).
     public var text: String? {
-        guard message.messageType == "text", let json = try? JSONValue(jsonString: message.content) else { return nil }
+        guard let message, message.messageType == "text", let content = message.content,
+            let json = try? JSONValue(jsonString: content)
+        else { return nil }
         return json["text"]?.stringValue
     }
 }

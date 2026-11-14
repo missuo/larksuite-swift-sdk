@@ -53,7 +53,7 @@ import LarkPersonalSettings
 
     @Test("PATCH /open-apis/personal_settings/v1/system_statuses/:system_status_id") func v1_systemStatus_patch() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"system_status":{"system_status_id":"s","title":"s","i18n_title":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"icon_key":"GeneralDoNotDisturb","color":"BLUE","priority":1,"sync_setting":{"is_open_by_default":true,"title":"s","i18n_title":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"explain":"s","i18n_explain":{"zh_cn":"s","en_us":"s","ja_jp":"s"}}}}}"##)
-        let resp = try await client.personalSettings.v1.systemStatus.patch(systemStatusId: "s", body: PersonalSettings.SystemStatusPatchBody(systemStatus: PersonalSettings.SystemStatusPatchBodySystemStatus(title: "s", iconKey: "GeneralDoNotDisturb"), updateFields: ["TITLE"]))
+        let resp = try await client.personalSettings.v1.systemStatus.patch(systemStatusId: "s", body: PersonalSettings.SystemStatusPatchBody(systemStatus: PersonalSettings.SystemStatusPatchBodySystemStatus(), updateFields: ["TITLE"]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -64,7 +64,7 @@ import LarkPersonalSettings
 
     @Test("POST /open-apis/personal_settings/v1/system_statuses/:system_status_id/batch_open") func v1_systemStatus_batchOpen() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"result_list":[{"user_id":"s","end_time":1,"result":"success_show"}]}}"##)
-        let resp = try await client.personalSettings.v1.systemStatus.batchOpen(systemStatusId: "s", params: PersonalSettings.SystemStatusBatchCloseQuery(), body: PersonalSettings.SystemStatusBatchOpenBody(userList: [PersonalSettings.UserList(userId: "s", endTime: 1)]))
+        let resp = try await client.personalSettings.v1.systemStatus.batchOpen(systemStatusId: "s", params: PersonalSettings.SystemStatusBatchCloseQuery(), body: PersonalSettings.SystemStatusBatchOpenBody(userList: [PersonalSettings.UserList()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

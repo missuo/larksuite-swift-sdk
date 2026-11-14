@@ -10,7 +10,7 @@ import LarkPayroll
 @Suite struct PayrollParityTests {
     @Test("POST /open-apis/payroll/v1/datasource_records/save") func v1_datasourceRecord_save() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"affect_counts":"s"}}"##)
-        let resp = try await client.payroll.v1.datasourceRecord.save(body: Payroll.DatasourceRecordSaveBody(sourceCode: "s", records: [Payroll.DatasourceRecordSaveBodyRecord(activeStatus: 1, fieldValues: [Payroll.FieldValue(fieldCode: "s", value: "s")])]))
+        let resp = try await client.payroll.v1.datasourceRecord.save(body: Payroll.DatasourceRecordSaveBody(sourceCode: "s", records: [Payroll.DatasourceRecordSaveBodyRecord()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

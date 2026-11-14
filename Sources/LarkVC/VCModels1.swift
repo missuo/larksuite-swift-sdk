@@ -94,7 +94,7 @@ extension VC {
 
     public typealias ScopeConfigCreateQuery = MeetingRecordingSetPermissionQuery
 
-    public typealias ScopeConfigCreateBody = CurrentConfig
+    public typealias ScopeConfigAccessCodeResponse = RoomConfigSetCheckboardAccessCodeResponse
 
     public typealias ReserveConfigFormPatchQuery = MeetingRecordingSetPermissionQuery
 
@@ -174,12 +174,12 @@ extension VC {
 
     public struct Material: Codable, Sendable {
         public var name: String?
-        public var fileToken: String
-        public var fileSize: Int
-        public var deviceType: Int
-        public var materialType: Int
-        public var materialSource: Int
-        public init(name: String? = nil, fileToken: String, fileSize: Int, deviceType: Int, materialType: Int, materialSource: Int) {
+        public var fileToken: String?
+        public var fileSize: Int?
+        public var deviceType: Int?
+        public var materialType: Int?
+        public var materialSource: Int?
+        public init(name: String? = nil, fileToken: String? = nil, fileSize: Int? = nil, deviceType: Int? = nil, materialType: Int? = nil, materialSource: Int? = nil) {
             self.name = name
             self.fileToken = fileToken
             self.fileSize = fileSize
@@ -198,11 +198,11 @@ extension VC {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.name = c.lenient(.name)
-            self.fileToken = try c.lenientRequired(.fileToken)
-            self.fileSize = try c.lenientRequired(.fileSize)
-            self.deviceType = try c.lenientRequired(.deviceType)
-            self.materialType = try c.lenientRequired(.materialType)
-            self.materialSource = try c.lenientRequired(.materialSource)
+            self.fileToken = c.lenient(.fileToken)
+            self.fileSize = c.lenient(.fileSize)
+            self.deviceType = c.lenient(.deviceType)
+            self.materialType = c.lenient(.materialType)
+            self.materialSource = c.lenient(.materialSource)
         }
     }
 
@@ -271,8 +271,8 @@ extension VC {
     }
 
     public struct MaterialPullMetaResponse: Codable, Sendable {
-        public var materials: [MaterialPullMetaResponseMaterial]
-        public init(materials: [MaterialPullMetaResponseMaterial]) {
+        public var materials: [MaterialPullMetaResponseMaterial]?
+        public init(materials: [MaterialPullMetaResponseMaterial]? = nil) {
             self.materials = materials
         }
         enum CodingKeys: String, CodingKey {
@@ -280,18 +280,18 @@ extension VC {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.materials = try c.lenientRequired(.materials)
+            self.materials = c.lenient(.materials)
         }
     }
 
     public struct MaterialPullMetaResponseMaterial: Codable, Sendable {
         public var name: String?
-        public var fileToken: String
-        public var fileSize: Int
-        public var deviceType: Int
-        public var materialType: Int
+        public var fileToken: String?
+        public var fileSize: Int?
+        public var deviceType: Int?
+        public var materialType: Int?
         public var reviewResult: Int?
-        public init(name: String? = nil, fileToken: String, fileSize: Int, deviceType: Int, materialType: Int, reviewResult: Int? = nil) {
+        public init(name: String? = nil, fileToken: String? = nil, fileSize: Int? = nil, deviceType: Int? = nil, materialType: Int? = nil, reviewResult: Int? = nil) {
             self.name = name
             self.fileToken = fileToken
             self.fileSize = fileSize
@@ -310,10 +310,10 @@ extension VC {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.name = c.lenient(.name)
-            self.fileToken = try c.lenientRequired(.fileToken)
-            self.fileSize = try c.lenientRequired(.fileSize)
-            self.deviceType = try c.lenientRequired(.deviceType)
-            self.materialType = try c.lenientRequired(.materialType)
+            self.fileToken = c.lenient(.fileToken)
+            self.fileSize = c.lenient(.fileSize)
+            self.deviceType = c.lenient(.deviceType)
+            self.materialType = c.lenient(.materialType)
             self.reviewResult = c.lenient(.reviewResult)
         }
     }
@@ -375,9 +375,9 @@ extension VC {
 
     public struct PermissionObject: Codable, Sendable {
         public var id: String?
-        public var type: Int
-        public var permission: Int
-        public init(id: String? = nil, type: Int, permission: Int) {
+        public var type: Int?
+        public var permission: Int?
+        public init(id: String? = nil, type: Int? = nil, permission: Int? = nil) {
             self.id = id
             self.type = type
             self.permission = permission
@@ -390,8 +390,8 @@ extension VC {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.type = try c.lenientRequired(.type)
-            self.permission = try c.lenientRequired(.permission)
+            self.type = c.lenient(.type)
+            self.permission = c.lenient(.permission)
         }
     }
 
@@ -674,7 +674,7 @@ extension VC {
     }
 
     public struct RoomStatus: Codable, Sendable {
-        public var status: Bool
+        public var status: Bool?
         public var scheduleStatus: Bool?
         public var disableStartTime: String?
         public var disableEndTime: String?
@@ -682,7 +682,7 @@ extension VC {
         public var contactIds: [String]?
         public var disableNotice: Bool?
         public var resumeNotice: Bool?
-        public init(status: Bool, scheduleStatus: Bool? = nil, disableStartTime: String? = nil, disableEndTime: String? = nil, disableReason: String? = nil, contactIds: [String]? = nil, disableNotice: Bool? = nil, resumeNotice: Bool? = nil) {
+        public init(status: Bool? = nil, scheduleStatus: Bool? = nil, disableStartTime: String? = nil, disableEndTime: String? = nil, disableReason: String? = nil, contactIds: [String]? = nil, disableNotice: Bool? = nil, resumeNotice: Bool? = nil) {
             self.status = status
             self.scheduleStatus = scheduleStatus
             self.disableStartTime = disableStartTime
@@ -704,7 +704,7 @@ extension VC {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.status = try c.lenientRequired(.status)
+            self.status = c.lenient(.status)
             self.scheduleStatus = c.lenient(.scheduleStatus)
             self.disableStartTime = c.lenient(.disableStartTime)
             self.disableEndTime = c.lenient(.disableEndTime)
@@ -784,14 +784,14 @@ extension VC {
     }
 
     public struct RoomConfigRoomStatus: Codable, Sendable {
-        public var status: Bool
+        public var status: Bool?
         public var disableStartTime: String?
         public var disableEndTime: String?
         public var disableReason: String?
         public var contactIds: [String]?
         public var disableNotice: Bool?
         public var resumeNotice: Bool?
-        public init(status: Bool, disableStartTime: String? = nil, disableEndTime: String? = nil, disableReason: String? = nil, contactIds: [String]? = nil, disableNotice: Bool? = nil, resumeNotice: Bool? = nil) {
+        public init(status: Bool? = nil, disableStartTime: String? = nil, disableEndTime: String? = nil, disableReason: String? = nil, contactIds: [String]? = nil, disableNotice: Bool? = nil, resumeNotice: Bool? = nil) {
             self.status = status
             self.disableStartTime = disableStartTime
             self.disableEndTime = disableEndTime
@@ -811,7 +811,7 @@ extension VC {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.status = try c.lenientRequired(.status)
+            self.status = c.lenient(.status)
             self.disableStartTime = c.lenient(.disableStartTime)
             self.disableEndTime = c.lenient(.disableEndTime)
             self.disableReason = c.lenient(.disableReason)
@@ -924,9 +924,9 @@ extension VC {
     }
 
     public struct ActionPermission: Codable, Sendable {
-        public var permission: Int
-        public var permissionCheckers: [PermissionChecker]
-        public init(permission: Int, permissionCheckers: [PermissionChecker]) {
+        public var permission: Int?
+        public var permissionCheckers: [PermissionChecker]?
+        public init(permission: Int? = nil, permissionCheckers: [PermissionChecker]? = nil) {
             self.permission = permission
             self.permissionCheckers = permissionCheckers
         }
@@ -936,16 +936,16 @@ extension VC {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.permission = try c.lenientRequired(.permission)
-            self.permissionCheckers = try c.lenientRequired(.permissionCheckers)
+            self.permission = c.lenient(.permission)
+            self.permissionCheckers = c.lenient(.permissionCheckers)
         }
     }
 
     public struct PermissionChecker: Codable, Sendable {
-        public var checkField: Int
-        public var checkMode: Int
-        public var checkList: [String]
-        public init(checkField: Int, checkMode: Int, checkList: [String]) {
+        public var checkField: Int?
+        public var checkMode: Int?
+        public var checkList: [String]?
+        public init(checkField: Int? = nil, checkMode: Int? = nil, checkList: [String]? = nil) {
             self.checkField = checkField
             self.checkMode = checkMode
             self.checkList = checkList
@@ -957,15 +957,15 @@ extension VC {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.checkField = try c.lenientRequired(.checkField)
-            self.checkMode = try c.lenientRequired(.checkMode)
-            self.checkList = try c.lenientRequired(.checkList)
+            self.checkField = c.lenient(.checkField)
+            self.checkMode = c.lenient(.checkMode)
+            self.checkList = c.lenient(.checkList)
         }
     }
 
     public struct CallSetting: Codable, Sendable {
-        public var callee: Callee
-        public init(callee: Callee) {
+        public var callee: Callee?
+        public init(callee: Callee? = nil) {
             self.callee = callee
         }
         enum CodingKeys: String, CodingKey {
@@ -973,15 +973,15 @@ extension VC {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.callee = try c.lenientRequired(.callee)
+            self.callee = c.lenient(.callee)
         }
     }
 
     public struct Callee: Codable, Sendable {
         public var id: String?
-        public var userType: Int
+        public var userType: Int?
         public var pstnSipInfo: PstnSipInfo?
-        public init(id: String? = nil, userType: Int, pstnSipInfo: PstnSipInfo? = nil) {
+        public init(id: String? = nil, userType: Int? = nil, pstnSipInfo: PstnSipInfo? = nil) {
             self.id = id
             self.userType = userType
             self.pstnSipInfo = pstnSipInfo
@@ -994,15 +994,15 @@ extension VC {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.userType = try c.lenientRequired(.userType)
+            self.userType = c.lenient(.userType)
             self.pstnSipInfo = c.lenient(.pstnSipInfo)
         }
     }
 
     public struct PstnSipInfo: Codable, Sendable {
         public var nickname: String?
-        public var mainAddress: String
-        public init(nickname: String? = nil, mainAddress: String) {
+        public var mainAddress: String?
+        public init(nickname: String? = nil, mainAddress: String? = nil) {
             self.nickname = nickname
             self.mainAddress = mainAddress
         }
@@ -1013,7 +1013,7 @@ extension VC {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.nickname = c.lenient(.nickname)
-            self.mainAddress = try c.lenientRequired(.mainAddress)
+            self.mainAddress = c.lenient(.mainAddress)
         }
     }
 
@@ -1547,25 +1547,25 @@ extension VC {
     public struct ScenarioContextObjectType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let dOC: Self = "DOC"
-        public static let uSER: Self = "USER"
-        public static let eMAIL: Self = "EMAIL"
-        public static let mESSAGE: Self = "MESSAGE"
-        public static let mESSAGECOLLECTION: Self = "MESSAGE_COLLECTION"
-        public static let tASK: Self = "TASK"
-        public static let sCHEDULE: Self = "SCHEDULE"
-        public static let mEETING: Self = "MEETING"
+        public static let doc: Self = "DOC"
+        public static let user: Self = "USER"
+        public static let email: Self = "EMAIL"
+        public static let message: Self = "MESSAGE"
+        public static let messageCollection: Self = "MESSAGE_COLLECTION"
+        public static let task: Self = "TASK"
+        public static let schedule: Self = "SCHEDULE"
+        public static let meeting: Self = "MEETING"
     }
 
     /// Open enumeration: unknown server values are preserved in `rawValue`.
     public struct Scenario: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let iM: Self = "IM"
+        public static let im: Self = "IM"
         public static let doc: Self = "Doc"
         public static let sheet: Self = "Sheet"
         public static let base: Self = "Base"
-        public static let vC: Self = "VC"
+        public static let vc: Self = "VC"
         public static let calendar: Self = "Calendar"
         public static let email: Self = "Email"
         public static let meego: Self = "Meego"
@@ -2545,11 +2545,11 @@ extension VC {
 
     public struct MeetingSearchResponse: Codable, Sendable {
         public var total: Int?
-        public var hasMore: Bool
+        public var hasMore: Bool?
         public var items: [MeetingSearchResponseItem]?
         public var pageToken: String?
         public var notice: String?
-        public init(total: Int? = nil, hasMore: Bool, items: [MeetingSearchResponseItem]? = nil, pageToken: String? = nil, notice: String? = nil) {
+        public init(total: Int? = nil, hasMore: Bool? = nil, items: [MeetingSearchResponseItem]? = nil, pageToken: String? = nil, notice: String? = nil) {
             self.total = total
             self.hasMore = hasMore
             self.items = items
@@ -2566,7 +2566,7 @@ extension VC {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.total = c.lenient(.total)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
             self.items = c.lenient(.items)
             self.pageToken = c.lenient(.pageToken)
             self.notice = c.lenient(.notice)
@@ -3033,11 +3033,11 @@ extension VC {
     public struct MyAiMmMediaParseBodyScenarioContextScenario: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let iM: Self = "IM"
+        public static let im: Self = "IM"
         public static let doc: Self = "Doc"
         public static let sheet: Self = "Sheet"
         public static let base: Self = "Base"
-        public static let vC: Self = "VC"
+        public static let vc: Self = "VC"
         public static let calendar: Self = "Calendar"
         public static let email: Self = "Email"
         public static let mediaView: Self = "MediaView"
@@ -3280,8 +3280,8 @@ extension VC {
     }
 
     public struct MyAiSipCreateEventCardResponsePresent: Codable, Sendable {
-        public var type: String
-        public var body: String
+        public var type: String?
+        public var body: String?
         public var operationType: String?
         public var interactable: Bool?
         public var operationUrl: String?
@@ -3289,7 +3289,7 @@ extension VC {
         public var callbackInfo: String?
         public var cardTemplateId: String?
         public var cardVariables: MyAiSipCreateEventCardResponsePresentCardVariables?
-        public init(type: String, body: String, operationType: String? = nil, interactable: Bool? = nil, operationUrl: String? = nil, callbackUrl: String? = nil, callbackInfo: String? = nil, cardTemplateId: String? = nil, cardVariables: MyAiSipCreateEventCardResponsePresentCardVariables? = nil) {
+        public init(type: String? = nil, body: String? = nil, operationType: String? = nil, interactable: Bool? = nil, operationUrl: String? = nil, callbackUrl: String? = nil, callbackInfo: String? = nil, cardTemplateId: String? = nil, cardVariables: MyAiSipCreateEventCardResponsePresentCardVariables? = nil) {
             self.type = type
             self.body = body
             self.operationType = operationType
@@ -3313,8 +3313,8 @@ extension VC {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.body = try c.lenientRequired(.body)
+            self.type = c.lenient(.type)
+            self.body = c.lenient(.body)
             self.operationType = c.lenient(.operationType)
             self.interactable = c.lenient(.interactable)
             self.operationUrl = c.lenient(.operationUrl)
@@ -3518,9 +3518,9 @@ extension VC {
     }
 
     public struct Action: Codable, Sendable {
-        public var value: ActionValue
-        public var tag: String
-        public init(value: ActionValue, tag: String) {
+        public var value: ActionValue?
+        public var tag: String?
+        public init(value: ActionValue? = nil, tag: String? = nil) {
             self.value = value
             self.tag = tag
         }
@@ -3530,15 +3530,15 @@ extension VC {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.value = try c.lenientRequired(.value)
-            self.tag = try c.lenientRequired(.tag)
+            self.value = c.lenient(.value)
+            self.tag = c.lenient(.tag)
         }
     }
 
     public struct ActionValue: Codable, Sendable {
-        public var body: String
-        public var handle: String
-        public init(body: String, handle: String) {
+        public var body: String?
+        public var handle: String?
+        public init(body: String? = nil, handle: String? = nil) {
             self.body = body
             self.handle = handle
         }
@@ -3548,8 +3548,8 @@ extension VC {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.body = try c.lenientRequired(.body)
-            self.handle = try c.lenientRequired(.handle)
+            self.body = c.lenient(.body)
+            self.handle = c.lenient(.handle)
         }
     }
 
@@ -3586,8 +3586,8 @@ extension VC {
     }
 
     public struct MyAiVcStartAnalysisResponseResult: Codable, Sendable {
-        public var reply: String
-        public init(reply: String) {
+        public var reply: String?
+        public init(reply: String? = nil) {
             self.reply = reply
         }
         enum CodingKeys: String, CodingKey {
@@ -3595,7 +3595,7 @@ extension VC {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.reply = try c.lenientRequired(.reply)
+            self.reply = c.lenient(.reply)
         }
     }
 
@@ -4124,8 +4124,8 @@ extension VC {
     }
 
     public struct Device: Codable, Sendable {
-        public var name: String
-        public init(name: String) {
+        public var name: String?
+        public init(name: String? = nil) {
             self.name = name
         }
         enum CodingKeys: String, CodingKey {
@@ -4133,7 +4133,7 @@ extension VC {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
         }
     }
 

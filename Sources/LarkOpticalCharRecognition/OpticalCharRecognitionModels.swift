@@ -19,8 +19,8 @@ extension OpticalCharRecognition {
     }
 
     public struct ImageBasicRecognizeResponse: Codable, Sendable {
-        public var textList: [String]
-        public init(textList: [String]) {
+        public var textList: [String]?
+        public init(textList: [String]? = nil) {
             self.textList = textList
         }
         enum CodingKeys: String, CodingKey {
@@ -28,7 +28,7 @@ extension OpticalCharRecognition {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.textList = try c.lenientRequired(.textList)
+            self.textList = c.lenient(.textList)
         }
     }
 }

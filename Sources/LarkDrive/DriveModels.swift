@@ -14,6 +14,8 @@ extension Drive {
 
     public typealias MetaBatchQueryQuery = FileCopyQuery
 
+    public typealias FileSubscriptionGetResponse = FileSubscriptionPatchResponse
+
     public typealias FileSubscriptionCreateResponse = FileSubscriptionPatchResponse
 
     public typealias FileVersionCreateQuery = FileCopyQuery
@@ -50,6 +52,8 @@ extension Drive {
 
     public typealias FileCommentReplyDeleteResponse = FileDeleteSubscribeResponse
 
+    public typealias FileCommentReplyCreateResponse = FileCommentCreateResponseReplyListReply
+
     public typealias FileCommentReplyUpdateQuery = FileCommentBatchQueryQuery
 
     public typealias FileCommentReplyUpdateResponse = FileDeleteSubscribeResponse
@@ -61,6 +65,8 @@ extension Drive {
     public typealias PermissionPublicGetResponse = PermissionPublicPatchResponse
 
     public typealias PermissionMemberCreateQuery = PermissionMemberBatchCreateQuery
+
+    public typealias PermissionMemberCreateBody = PermissionMemberUpdateResponseMember
 
     public typealias PermissionMemberCreateResponse = PermissionMemberUpdateResponse
 
@@ -215,9 +221,9 @@ extension Drive {
     }
 
     public struct FileCopyBodyExtra: Codable, Sendable {
-        public var key: String
-        public var value: String
-        public init(key: String, value: String) {
+        public var key: String?
+        public var value: String?
+        public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
         }
@@ -227,8 +233,8 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.key = try c.lenientRequired(.key)
-            self.value = try c.lenientRequired(.value)
+            self.key = c.lenient(.key)
+            self.value = c.lenient(.value)
         }
     }
 
@@ -247,16 +253,16 @@ extension Drive {
     }
 
     public struct File: Codable, Sendable {
-        public var token: String
-        public var name: String
-        public var type: String
+        public var token: String?
+        public var name: String?
+        public var type: String?
         public var parentToken: String?
         public var url: String?
         public var shortcutInfo: ShortcutInfo?
         public var createdTime: String?
         public var modifiedTime: String?
         public var ownerId: String?
-        public init(token: String, name: String, type: String, parentToken: String? = nil, url: String? = nil, shortcutInfo: ShortcutInfo? = nil, createdTime: String? = nil, modifiedTime: String? = nil, ownerId: String? = nil) {
+        public init(token: String? = nil, name: String? = nil, type: String? = nil, parentToken: String? = nil, url: String? = nil, shortcutInfo: ShortcutInfo? = nil, createdTime: String? = nil, modifiedTime: String? = nil, ownerId: String? = nil) {
             self.token = token
             self.name = name
             self.type = type
@@ -280,9 +286,9 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
-            self.name = try c.lenientRequired(.name)
-            self.type = try c.lenientRequired(.type)
+            self.token = c.lenient(.token)
+            self.name = c.lenient(.name)
+            self.type = c.lenient(.type)
             self.parentToken = c.lenient(.parentToken)
             self.url = c.lenient(.url)
             self.shortcutInfo = c.lenient(.shortcutInfo)
@@ -293,9 +299,9 @@ extension Drive {
     }
 
     public struct ShortcutInfo: Codable, Sendable {
-        public var targetType: String
-        public var targetToken: String
-        public init(targetType: String, targetToken: String) {
+        public var targetType: String?
+        public var targetToken: String?
+        public init(targetType: String? = nil, targetToken: String? = nil) {
             self.targetType = targetType
             self.targetToken = targetToken
         }
@@ -305,8 +311,8 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.targetType = try c.lenientRequired(.targetType)
-            self.targetToken = try c.lenientRequired(.targetToken)
+            self.targetType = c.lenient(.targetType)
+            self.targetToken = c.lenient(.targetToken)
         }
     }
 
@@ -329,9 +335,9 @@ extension Drive {
     }
 
     public struct ReferEntity: Codable, Sendable {
-        public var referToken: String
-        public var referType: FileCopyBodyType
-        public init(referToken: String, referType: FileCopyBodyType) {
+        public var referToken: String?
+        public var referType: FileCopyBodyType?
+        public init(referToken: String? = nil, referType: FileCopyBodyType? = nil) {
             self.referToken = referToken
             self.referType = referType
         }
@@ -341,8 +347,8 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.referToken = try c.lenientRequired(.referToken)
-            self.referType = try c.lenientRequired(.referType)
+            self.referToken = c.lenient(.referToken)
+            self.referType = c.lenient(.referType)
         }
     }
 
@@ -449,8 +455,8 @@ extension Drive {
     public struct Direction: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let aSC: Self = "ASC"
-        public static let dESC: Self = "DESC"
+        public static let asc: Self = "ASC"
+        public static let desc: Self = "DESC"
     }
 
     public struct FileListResponse: Codable, Sendable {
@@ -535,8 +541,8 @@ extension Drive {
     }
 
     public struct FileDeleteSubscribeResponse: Codable, Sendable {
-        public var data: String
-        public init(data: String) {
+        public var data: String?
+        public init(data: String? = nil) {
             self.data = data
         }
         enum CodingKeys: String, CodingKey {
@@ -544,7 +550,7 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.data = try c.lenientRequired(.data)
+            self.data = c.lenient(.data)
         }
     }
 
@@ -799,9 +805,9 @@ extension Drive {
     }
 
     public struct RequestDoc: Codable, Sendable {
-        public var docToken: String
-        public var docType: DocType
-        public init(docToken: String, docType: DocType) {
+        public var docToken: String?
+        public var docType: DocType?
+        public init(docToken: String? = nil, docType: DocType? = nil) {
             self.docToken = docToken
             self.docType = docType
         }
@@ -811,8 +817,8 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.docToken = try c.lenientRequired(.docToken)
-            self.docType = try c.lenientRequired(.docType)
+            self.docToken = c.lenient(.docToken)
+            self.docType = c.lenient(.docType)
         }
     }
 
@@ -833,9 +839,9 @@ extension Drive {
     }
 
     public struct MetaBatchQueryResponse: Codable, Sendable {
-        public var metas: [MetaBatchQueryResponseMeta]
+        public var metas: [MetaBatchQueryResponseMeta]?
         public var failedList: [FailedList]?
-        public init(metas: [MetaBatchQueryResponseMeta], failedList: [FailedList]? = nil) {
+        public init(metas: [MetaBatchQueryResponseMeta]? = nil, failedList: [FailedList]? = nil) {
             self.metas = metas
             self.failedList = failedList
         }
@@ -845,23 +851,23 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.metas = try c.lenientRequired(.metas)
+            self.metas = c.lenient(.metas)
             self.failedList = c.lenient(.failedList)
         }
     }
 
     public struct MetaBatchQueryResponseMeta: Codable, Sendable {
-        public var docToken: String
-        public var docType: String
-        public var title: String
-        public var ownerId: String
-        public var createTime: String
-        public var latestModifyUser: String
-        public var latestModifyTime: String
-        public var url: String
+        public var docToken: String?
+        public var docType: String?
+        public var title: String?
+        public var ownerId: String?
+        public var createTime: String?
+        public var latestModifyUser: String?
+        public var latestModifyTime: String?
+        public var url: String?
         public var secLabelName: String?
         public var requestDocInfo: RequestDoc?
-        public init(docToken: String, docType: String, title: String, ownerId: String, createTime: String, latestModifyUser: String, latestModifyTime: String, url: String, secLabelName: String? = nil, requestDocInfo: RequestDoc? = nil) {
+        public init(docToken: String? = nil, docType: String? = nil, title: String? = nil, ownerId: String? = nil, createTime: String? = nil, latestModifyUser: String? = nil, latestModifyTime: String? = nil, url: String? = nil, secLabelName: String? = nil, requestDocInfo: RequestDoc? = nil) {
             self.docToken = docToken
             self.docType = docType
             self.title = title
@@ -887,23 +893,23 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.docToken = try c.lenientRequired(.docToken)
-            self.docType = try c.lenientRequired(.docType)
-            self.title = try c.lenientRequired(.title)
-            self.ownerId = try c.lenientRequired(.ownerId)
-            self.createTime = try c.lenientRequired(.createTime)
-            self.latestModifyUser = try c.lenientRequired(.latestModifyUser)
-            self.latestModifyTime = try c.lenientRequired(.latestModifyTime)
-            self.url = try c.lenientRequired(.url)
+            self.docToken = c.lenient(.docToken)
+            self.docType = c.lenient(.docType)
+            self.title = c.lenient(.title)
+            self.ownerId = c.lenient(.ownerId)
+            self.createTime = c.lenient(.createTime)
+            self.latestModifyUser = c.lenient(.latestModifyUser)
+            self.latestModifyTime = c.lenient(.latestModifyTime)
+            self.url = c.lenient(.url)
             self.secLabelName = c.lenient(.secLabelName)
             self.requestDocInfo = c.lenient(.requestDocInfo)
         }
     }
 
     public struct FailedList: Codable, Sendable {
-        public var token: String
-        public var code: Int
-        public init(token: String, code: Int) {
+        public var token: String?
+        public var code: Int?
+        public init(token: String? = nil, code: Int? = nil) {
             self.token = token
             self.code = code
         }
@@ -913,8 +919,8 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
-            self.code = try c.lenientRequired(.code)
+            self.token = c.lenient(.token)
+            self.code = c.lenient(.code)
         }
     }
 
@@ -992,32 +998,6 @@ extension Drive {
         }
     }
 
-    public struct FileSubscriptionGetResponse: Codable, Sendable {
-        public var subscriptionId: String
-        public var subscriptionType: SubscriptionType?
-        public var isSubcribe: Bool?
-        public var fileType: FileSubscriptionPatchBodyFileType?
-        public init(subscriptionId: String, subscriptionType: SubscriptionType? = nil, isSubcribe: Bool? = nil, fileType: FileSubscriptionPatchBodyFileType? = nil) {
-            self.subscriptionId = subscriptionId
-            self.subscriptionType = subscriptionType
-            self.isSubcribe = isSubcribe
-            self.fileType = fileType
-        }
-        enum CodingKeys: String, CodingKey {
-            case subscriptionId = "subscription_id"
-            case subscriptionType = "subscription_type"
-            case isSubcribe = "is_subcribe"
-            case fileType = "file_type"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.subscriptionId = try c.lenientRequired(.subscriptionId)
-            self.subscriptionType = c.lenient(.subscriptionType)
-            self.isSubcribe = c.lenient(.isSubcribe)
-            self.fileType = c.lenient(.fileType)
-        }
-    }
-
     public struct FileSubscriptionCreateBody: Codable, Sendable {
         public var subscriptionId: String?
         public var subscriptionType: SubscriptionType
@@ -1073,15 +1053,15 @@ extension Drive {
     }
 
     public struct ExportTaskGetResponseResult: Codable, Sendable {
-        public var fileExtension: FileExtension
-        public var type: ExportTaskGetResponseResultType
+        public var fileExtension: FileExtension?
+        public var type: ExportTaskGetResponseResultType?
         public var fileName: String?
         public var fileToken: String?
         public var fileSize: Int?
         public var jobErrorMsg: String?
         public var jobStatus: Int?
         public var onlySchema: Bool?
-        public init(fileExtension: FileExtension, type: ExportTaskGetResponseResultType, fileName: String? = nil, fileToken: String? = nil, fileSize: Int? = nil, jobErrorMsg: String? = nil, jobStatus: Int? = nil, onlySchema: Bool? = nil) {
+        public init(fileExtension: FileExtension? = nil, type: ExportTaskGetResponseResultType? = nil, fileName: String? = nil, fileToken: String? = nil, fileSize: Int? = nil, jobErrorMsg: String? = nil, jobStatus: Int? = nil, onlySchema: Bool? = nil) {
             self.fileExtension = fileExtension
             self.type = type
             self.fileName = fileName
@@ -1103,8 +1083,8 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fileExtension = try c.lenientRequired(.fileExtension)
-            self.type = try c.lenientRequired(.type)
+            self.fileExtension = c.lenient(.fileExtension)
+            self.type = c.lenient(.type)
             self.fileName = c.lenient(.fileName)
             self.fileToken = c.lenient(.fileToken)
             self.fileSize = c.lenient(.fileSize)
@@ -1685,8 +1665,8 @@ extension Drive {
     }
 
     public struct ReplyList: Codable, Sendable {
-        public var replies: [Reply]
-        public init(replies: [Reply]) {
+        public var replies: [Reply]?
+        public init(replies: [Reply]? = nil) {
             self.replies = replies
         }
         enum CodingKeys: String, CodingKey {
@@ -1694,14 +1674,14 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.replies = try c.lenientRequired(.replies)
+            self.replies = c.lenient(.replies)
         }
     }
 
     public struct Reply: Codable, Sendable {
-        public var content: ReplyContent
+        public var content: ReplyContent?
         public var reactions: [Reaction]?
-        public init(content: ReplyContent, reactions: [Reaction]? = nil) {
+        public init(content: ReplyContent? = nil, reactions: [Reaction]? = nil) {
             self.content = content
             self.reactions = reactions
         }
@@ -1711,14 +1691,14 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.content = try c.lenientRequired(.content)
+            self.content = c.lenient(.content)
             self.reactions = c.lenient(.reactions)
         }
     }
 
     public struct ReplyContent: Codable, Sendable {
-        public var elements: [ReplyContentElement]
-        public init(elements: [ReplyContentElement]) {
+        public var elements: [ReplyContentElement]?
+        public init(elements: [ReplyContentElement]? = nil) {
             self.elements = elements
         }
         enum CodingKeys: String, CodingKey {
@@ -1726,16 +1706,16 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.elements = try c.lenientRequired(.elements)
+            self.elements = c.lenient(.elements)
         }
     }
 
     public struct ReplyContentElement: Codable, Sendable {
-        public var type: ReplyContentElementType
+        public var type: ReplyContentElementType?
         public var textRun: TextRun?
         public var docsLink: DocsLink?
         public var person: Person?
-        public init(type: ReplyContentElementType, textRun: TextRun? = nil, docsLink: DocsLink? = nil, person: Person? = nil) {
+        public init(type: ReplyContentElementType? = nil, textRun: TextRun? = nil, docsLink: DocsLink? = nil, person: Person? = nil) {
             self.type = type
             self.textRun = textRun
             self.docsLink = docsLink
@@ -1749,7 +1729,7 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.textRun = c.lenient(.textRun)
             self.docsLink = c.lenient(.docsLink)
             self.person = c.lenient(.person)
@@ -1766,8 +1746,8 @@ extension Drive {
     }
 
     public struct TextRun: Codable, Sendable {
-        public var text: String
-        public init(text: String) {
+        public var text: String?
+        public init(text: String? = nil) {
             self.text = text
         }
         enum CodingKeys: String, CodingKey {
@@ -1775,13 +1755,13 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.text = try c.lenientRequired(.text)
+            self.text = c.lenient(.text)
         }
     }
 
     public struct DocsLink: Codable, Sendable {
-        public var url: String
-        public init(url: String) {
+        public var url: String?
+        public init(url: String? = nil) {
             self.url = url
         }
         enum CodingKeys: String, CodingKey {
@@ -1789,13 +1769,13 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.url = try c.lenientRequired(.url)
+            self.url = c.lenient(.url)
         }
     }
 
     public struct Person: Codable, Sendable {
-        public var userId: String
-        public init(userId: String) {
+        public var userId: String?
+        public init(userId: String? = nil) {
             self.userId = userId
         }
         enum CodingKeys: String, CodingKey {
@@ -1803,15 +1783,15 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
+            self.userId = c.lenient(.userId)
         }
     }
 
     public struct Reaction: Codable, Sendable {
-        public var reactionKey: String
-        public var count: Int
+        public var reactionKey: String?
+        public var count: Int?
         public var aheadUsers: [String]?
-        public init(reactionKey: String, count: Int, aheadUsers: [String]? = nil) {
+        public init(reactionKey: String? = nil, count: Int? = nil, aheadUsers: [String]? = nil) {
             self.reactionKey = reactionKey
             self.count = count
             self.aheadUsers = aheadUsers
@@ -1823,8 +1803,8 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.reactionKey = try c.lenientRequired(.reactionKey)
-            self.count = try c.lenientRequired(.count)
+            self.reactionKey = c.lenient(.reactionKey)
+            self.count = c.lenient(.count)
             self.aheadUsers = c.lenient(.aheadUsers)
         }
     }
@@ -1888,8 +1868,8 @@ extension Drive {
     }
 
     public struct FileCommentCreateResponseReplyList: Codable, Sendable {
-        public var replies: [FileCommentCreateResponseReplyListReply]
-        public init(replies: [FileCommentCreateResponseReplyListReply]) {
+        public var replies: [FileCommentCreateResponseReplyListReply]?
+        public init(replies: [FileCommentCreateResponseReplyListReply]? = nil) {
             self.replies = replies
         }
         enum CodingKeys: String, CodingKey {
@@ -1897,19 +1877,19 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.replies = try c.lenientRequired(.replies)
+            self.replies = c.lenient(.replies)
         }
     }
 
     public struct FileCommentCreateResponseReplyListReply: Codable, Sendable {
-        public var content: ReplyContent
+        public var content: ReplyContent?
         public var replyId: String?
         public var userId: String?
         public var createTime: Int?
         public var updateTime: Int?
         public var extra: FileCommentCreateResponseReplyListReplyExtra?
         public var reactions: [Reaction]?
-        public init(content: ReplyContent, replyId: String? = nil, userId: String? = nil, createTime: Int? = nil, updateTime: Int? = nil, extra: FileCommentCreateResponseReplyListReplyExtra? = nil, reactions: [Reaction]? = nil) {
+        public init(content: ReplyContent? = nil, replyId: String? = nil, userId: String? = nil, createTime: Int? = nil, updateTime: Int? = nil, extra: FileCommentCreateResponseReplyListReplyExtra? = nil, reactions: [Reaction]? = nil) {
             self.content = content
             self.replyId = replyId
             self.userId = userId
@@ -1929,7 +1909,7 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.content = try c.lenientRequired(.content)
+            self.content = c.lenient(.content)
             self.replyId = c.lenient(.replyId)
             self.userId = c.lenient(.userId)
             self.createTime = c.lenient(.createTime)
@@ -2225,9 +2205,9 @@ extension Drive {
     }
 
     public struct TmpDownloadUrl: Codable, Sendable {
-        public var fileToken: String
-        public var tmpDownloadUrl: String
-        public init(fileToken: String, tmpDownloadUrl: String) {
+        public var fileToken: String?
+        public var tmpDownloadUrl: String?
+        public init(fileToken: String? = nil, tmpDownloadUrl: String? = nil) {
             self.fileToken = fileToken
             self.tmpDownloadUrl = tmpDownloadUrl
         }
@@ -2237,8 +2217,8 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fileToken = try c.lenientRequired(.fileToken)
-            self.tmpDownloadUrl = try c.lenientRequired(.tmpDownloadUrl)
+            self.fileToken = c.lenient(.fileToken)
+            self.tmpDownloadUrl = c.lenient(.tmpDownloadUrl)
         }
     }
 
@@ -2394,13 +2374,13 @@ extension Drive {
 
     public struct ImportTaskGetResponseResult: Codable, Sendable {
         public var ticket: String?
-        public var type: String
+        public var type: String?
         public var jobStatus: Int?
         public var jobErrorMsg: String?
         public var token: String?
         public var url: String?
         public var extra: [String]?
-        public init(ticket: String? = nil, type: String, jobStatus: Int? = nil, jobErrorMsg: String? = nil, token: String? = nil, url: String? = nil, extra: [String]? = nil) {
+        public init(ticket: String? = nil, type: String? = nil, jobStatus: Int? = nil, jobErrorMsg: String? = nil, token: String? = nil, url: String? = nil, extra: [String]? = nil) {
             self.ticket = ticket
             self.type = type
             self.jobStatus = jobStatus
@@ -2421,7 +2401,7 @@ extension Drive {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.ticket = c.lenient(.ticket)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.jobStatus = c.lenient(.jobStatus)
             self.jobErrorMsg = c.lenient(.jobErrorMsg)
             self.token = c.lenient(.token)
@@ -2465,9 +2445,9 @@ extension Drive {
     }
 
     public struct Point: Codable, Sendable {
-        public var mountType: Int
-        public var mountKey: String
-        public init(mountType: Int, mountKey: String) {
+        public var mountType: Int?
+        public var mountKey: String?
+        public init(mountType: Int? = nil, mountKey: String? = nil) {
             self.mountType = mountType
             self.mountKey = mountKey
         }
@@ -2477,8 +2457,8 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.mountType = try c.lenientRequired(.mountType)
-            self.mountKey = try c.lenientRequired(.mountKey)
+            self.mountType = c.lenient(.mountType)
+            self.mountKey = c.lenient(.mountKey)
         }
     }
 
@@ -2532,44 +2512,6 @@ extension Drive {
         }
     }
 
-    public struct FileCommentReplyCreateResponse: Codable, Sendable {
-        public var content: ReplyContent?
-        public var replyId: String?
-        public var userId: String?
-        public var createTime: Int?
-        public var updateTime: Int?
-        public var extra: FileCommentCreateResponseReplyListReplyExtra?
-        public var reactions: [Reaction]?
-        public init(content: ReplyContent? = nil, replyId: String? = nil, userId: String? = nil, createTime: Int? = nil, updateTime: Int? = nil, extra: FileCommentCreateResponseReplyListReplyExtra? = nil, reactions: [Reaction]? = nil) {
-            self.content = content
-            self.replyId = replyId
-            self.userId = userId
-            self.createTime = createTime
-            self.updateTime = updateTime
-            self.extra = extra
-            self.reactions = reactions
-        }
-        enum CodingKeys: String, CodingKey {
-            case content
-            case replyId = "reply_id"
-            case userId = "user_id"
-            case createTime = "create_time"
-            case updateTime = "update_time"
-            case extra
-            case reactions
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.content = c.lenient(.content)
-            self.replyId = c.lenient(.replyId)
-            self.userId = c.lenient(.userId)
-            self.createTime = c.lenient(.createTime)
-            self.updateTime = c.lenient(.updateTime)
-            self.extra = c.lenient(.extra)
-            self.reactions = c.lenient(.reactions)
-        }
-    }
-
     public struct FileCommentReplyUpdateBody: Codable, Sendable {
         public var content: ReplyContent
         public init(content: ReplyContent) {
@@ -2617,8 +2559,8 @@ extension Drive {
     public struct FileCommentReplyListResponse: Codable, Sendable {
         public var items: [FileCommentCreateResponseReplyListReply]?
         public var pageToken: String?
-        public var hasMore: Bool
-        public init(items: [FileCommentCreateResponseReplyListReply]? = nil, pageToken: String? = nil, hasMore: Bool) {
+        public var hasMore: Bool?
+        public init(items: [FileCommentCreateResponseReplyListReply]? = nil, pageToken: String? = nil, hasMore: Bool? = nil) {
             self.items = items
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -2632,7 +2574,7 @@ extension Drive {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.items = c.lenient(.items)
             self.pageToken = c.lenient(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
         }
     }
 
@@ -2809,15 +2751,15 @@ extension Drive {
     }
 
     public struct Member: Codable, Sendable {
-        public var memberType: MemberType
-        public var memberId: String
-        public var perm: Perm
+        public var memberType: MemberType?
+        public var memberId: String?
+        public var perm: Perm?
         public var permType: PermType?
         public var type: MemberType2?
         public var name: String?
         public var avatar: String?
         public var externalLabel: Bool?
-        public init(memberType: MemberType, memberId: String, perm: Perm, permType: PermType? = nil, type: MemberType2? = nil, name: String? = nil, avatar: String? = nil, externalLabel: Bool? = nil) {
+        public init(memberType: MemberType? = nil, memberId: String? = nil, perm: Perm? = nil, permType: PermType? = nil, type: MemberType2? = nil, name: String? = nil, avatar: String? = nil, externalLabel: Bool? = nil) {
             self.memberType = memberType
             self.memberId = memberId
             self.perm = perm
@@ -2839,9 +2781,9 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.memberType = try c.lenientRequired(.memberType)
-            self.memberId = try c.lenientRequired(.memberId)
-            self.perm = try c.lenientRequired(.perm)
+            self.memberType = c.lenient(.memberType)
+            self.memberId = c.lenient(.memberId)
+            self.perm = c.lenient(.perm)
             self.permType = c.lenient(.permType)
             self.type = c.lenient(.type)
             self.name = c.lenient(.name)
@@ -2984,12 +2926,12 @@ extension Drive {
     }
 
     public struct PermissionMemberUpdateResponseMember: Codable, Sendable {
-        public var memberType: MemberType
-        public var memberId: String
-        public var perm: Perm
+        public var memberType: MemberType?
+        public var memberId: String?
+        public var perm: Perm?
         public var permType: PermType?
         public var type: MemberType2?
-        public init(memberType: MemberType, memberId: String, perm: Perm, permType: PermType? = nil, type: MemberType2? = nil) {
+        public init(memberType: MemberType? = nil, memberId: String? = nil, perm: Perm? = nil, permType: PermType? = nil, type: MemberType2? = nil) {
             self.memberType = memberType
             self.memberId = memberId
             self.perm = perm
@@ -3005,9 +2947,9 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.memberType = try c.lenientRequired(.memberType)
-            self.memberId = try c.lenientRequired(.memberId)
-            self.perm = try c.lenientRequired(.perm)
+            self.memberType = c.lenient(.memberType)
+            self.memberId = c.lenient(.memberId)
+            self.perm = c.lenient(.perm)
             self.permType = c.lenient(.permType)
             self.type = c.lenient(.type)
         }
@@ -3154,8 +3096,8 @@ extension Drive {
     }
 
     public struct PermissionMemberAuthResponse: Codable, Sendable {
-        public var authResult: Bool
-        public init(authResult: Bool) {
+        public var authResult: Bool?
+        public init(authResult: Bool? = nil) {
             self.authResult = authResult
         }
         enum CodingKeys: String, CodingKey {
@@ -3163,37 +3105,7 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.authResult = try c.lenientRequired(.authResult)
-        }
-    }
-
-    public struct PermissionMemberCreateBody: Codable, Sendable {
-        public var memberType: MemberType?
-        public var memberId: String?
-        public var perm: Perm?
-        public var permType: PermType?
-        public var type: MemberType2?
-        public init(memberType: MemberType? = nil, memberId: String? = nil, perm: Perm? = nil, permType: PermType? = nil, type: MemberType2? = nil) {
-            self.memberType = memberType
-            self.memberId = memberId
-            self.perm = perm
-            self.permType = permType
-            self.type = type
-        }
-        enum CodingKeys: String, CodingKey {
-            case memberType = "member_type"
-            case memberId = "member_id"
-            case perm
-            case permType = "perm_type"
-            case type
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.memberType = c.lenient(.memberType)
-            self.memberId = c.lenient(.memberId)
-            self.perm = c.lenient(.perm)
-            self.permType = c.lenient(.permType)
-            self.type = c.lenient(.type)
+            self.authResult = c.lenient(.authResult)
         }
     }
 
@@ -3850,11 +3762,11 @@ extension Drive {
     }
 
     public struct ActionList: Codable, Sendable {
-        public var recordId: String
-        public var action: String
+        public var recordId: String?
+        public var action: String?
         public var beforeValue: [BeforeValue]?
         public var afterValue: [BeforeValue]?
-        public init(recordId: String, action: String, beforeValue: [BeforeValue]? = nil, afterValue: [BeforeValue]? = nil) {
+        public init(recordId: String? = nil, action: String? = nil, beforeValue: [BeforeValue]? = nil, afterValue: [BeforeValue]? = nil) {
             self.recordId = recordId
             self.action = action
             self.beforeValue = beforeValue
@@ -3868,18 +3780,18 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.recordId = try c.lenientRequired(.recordId)
-            self.action = try c.lenientRequired(.action)
+            self.recordId = c.lenient(.recordId)
+            self.action = c.lenient(.action)
             self.beforeValue = c.lenient(.beforeValue)
             self.afterValue = c.lenient(.afterValue)
         }
     }
 
     public struct BeforeValue: Codable, Sendable {
-        public var fieldId: String
-        public var fieldValue: String
+        public var fieldId: String?
+        public var fieldValue: String?
         public var fieldIdentityValue: FieldIdentityValue?
-        public init(fieldId: String, fieldValue: String, fieldIdentityValue: FieldIdentityValue? = nil) {
+        public init(fieldId: String? = nil, fieldValue: String? = nil, fieldIdentityValue: FieldIdentityValue? = nil) {
             self.fieldId = fieldId
             self.fieldValue = fieldValue
             self.fieldIdentityValue = fieldIdentityValue
@@ -3891,8 +3803,8 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldId = try c.lenientRequired(.fieldId)
-            self.fieldValue = try c.lenientRequired(.fieldValue)
+            self.fieldId = c.lenient(.fieldId)
+            self.fieldValue = c.lenient(.fieldValue)
             self.fieldIdentityValue = c.lenient(.fieldIdentityValue)
         }
     }
@@ -3912,11 +3824,11 @@ extension Drive {
     }
 
     public struct User: Codable, Sendable {
-        public var userId: OperatorId
-        public var name: String
-        public var enName: String
-        public var avatarUrl: String
-        public init(userId: OperatorId, name: String, enName: String, avatarUrl: String) {
+        public var userId: OperatorId?
+        public var name: String?
+        public var enName: String?
+        public var avatarUrl: String?
+        public init(userId: OperatorId? = nil, name: String? = nil, enName: String? = nil, avatarUrl: String? = nil) {
             self.userId = userId
             self.name = name
             self.enName = enName
@@ -3930,10 +3842,10 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.name = try c.lenientRequired(.name)
-            self.enName = try c.lenientRequired(.enName)
-            self.avatarUrl = try c.lenientRequired(.avatarUrl)
+            self.userId = c.lenient(.userId)
+            self.name = c.lenient(.name)
+            self.enName = c.lenient(.enName)
+            self.avatarUrl = c.lenient(.avatarUrl)
         }
     }
 
@@ -4016,11 +3928,11 @@ extension Drive {
     }
 
     public struct FileBitableFieldChangedV1EventActionList: Codable, Sendable {
-        public var action: String
-        public var fieldId: String
+        public var action: String?
+        public var fieldId: String?
         public var beforeValue: FileBitableFieldChangedV1EventActionListBeforeValue?
         public var afterValue: FileBitableFieldChangedV1EventActionListBeforeValue?
-        public init(action: String, fieldId: String, beforeValue: FileBitableFieldChangedV1EventActionListBeforeValue? = nil, afterValue: FileBitableFieldChangedV1EventActionListBeforeValue? = nil) {
+        public init(action: String? = nil, fieldId: String? = nil, beforeValue: FileBitableFieldChangedV1EventActionListBeforeValue? = nil, afterValue: FileBitableFieldChangedV1EventActionListBeforeValue? = nil) {
             self.action = action
             self.fieldId = fieldId
             self.beforeValue = beforeValue
@@ -4034,20 +3946,20 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.action = try c.lenientRequired(.action)
-            self.fieldId = try c.lenientRequired(.fieldId)
+            self.action = c.lenient(.action)
+            self.fieldId = c.lenient(.fieldId)
             self.beforeValue = c.lenient(.beforeValue)
             self.afterValue = c.lenient(.afterValue)
         }
     }
 
     public struct FileBitableFieldChangedV1EventActionListBeforeValue: Codable, Sendable {
-        public var id: String
-        public var name: String
-        public var type: Int
-        public var description: String
-        public var property: FileBitableFieldChangedV1EventActionListBeforeValueProperty
-        public init(id: String, name: String, type: Int, description: String, property: FileBitableFieldChangedV1EventActionListBeforeValueProperty) {
+        public var id: String?
+        public var name: String?
+        public var type: Int?
+        public var description: String?
+        public var property: FileBitableFieldChangedV1EventActionListBeforeValueProperty?
+        public init(id: String? = nil, name: String? = nil, type: Int? = nil, description: String? = nil, property: FileBitableFieldChangedV1EventActionListBeforeValueProperty? = nil) {
             self.id = id
             self.name = name
             self.type = type
@@ -4063,11 +3975,11 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.name = try c.lenientRequired(.name)
-            self.type = try c.lenientRequired(.type)
-            self.description = try c.lenientRequired(.description)
-            self.property = try c.lenientRequired(.property)
+            self.id = c.lenient(.id)
+            self.name = c.lenient(.name)
+            self.type = c.lenient(.type)
+            self.description = c.lenient(.description)
+            self.property = c.lenient(.property)
         }
     }
 
@@ -4130,9 +4042,9 @@ extension Drive {
     }
 
     public struct AutoSerial: Codable, Sendable {
-        public var type: String
+        public var type: String?
         public var options: [AutoSerialOption]?
-        public init(type: String, options: [AutoSerialOption]? = nil) {
+        public init(type: String? = nil, options: [AutoSerialOption]? = nil) {
             self.type = type
             self.options = options
         }
@@ -4142,15 +4054,15 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.options = c.lenient(.options)
         }
     }
 
     public struct AutoSerialOption: Codable, Sendable {
-        public var type: String
-        public var value: String
-        public init(type: String, value: String) {
+        public var type: String?
+        public var value: String?
+        public init(type: String? = nil, value: String? = nil) {
             self.type = type
             self.value = value
         }
@@ -4160,8 +4072,8 @@ extension Drive {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.value = try c.lenientRequired(.value)
+            self.type = c.lenient(.type)
+            self.value = c.lenient(.value)
         }
     }
 

@@ -6,6 +6,8 @@ import LarkCore
 extension CalendarAPI {
     public typealias ExchangeBindingCreateQuery = ExchangeBindingGetQuery
 
+    public typealias ExchangeBindingCreateResponse = ExchangeBindingGetResponse
+
     public typealias CalendarCreateResponse = CalendarSubscribeResponse
 
     public typealias CalendarPatchBody = CalendarCreateBody
@@ -128,38 +130,8 @@ extension CalendarAPI {
         }
     }
 
-    public struct ExchangeBindingCreateResponse: Codable, Sendable {
-        public var adminAccount: String?
-        public var exchangeAccount: String?
-        public var userId: String?
-        public var status: Status?
-        public var exchangeBindingId: String
-        public init(adminAccount: String? = nil, exchangeAccount: String? = nil, userId: String? = nil, status: Status? = nil, exchangeBindingId: String) {
-            self.adminAccount = adminAccount
-            self.exchangeAccount = exchangeAccount
-            self.userId = userId
-            self.status = status
-            self.exchangeBindingId = exchangeBindingId
-        }
-        enum CodingKeys: String, CodingKey {
-            case adminAccount = "admin_account"
-            case exchangeAccount = "exchange_account"
-            case userId = "user_id"
-            case status
-            case exchangeBindingId = "exchange_binding_id"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.adminAccount = c.lenient(.adminAccount)
-            self.exchangeAccount = c.lenient(.exchangeAccount)
-            self.userId = c.lenient(.userId)
-            self.status = c.lenient(.status)
-            self.exchangeBindingId = try c.lenientRequired(.exchangeBindingId)
-        }
-    }
-
     public struct CalendarGetResponse: Codable, Sendable {
-        public var calendarId: String
+        public var calendarId: String?
         public var summary: String?
         public var description: String?
         public var permissions: Permissions?
@@ -169,7 +141,7 @@ extension CalendarAPI {
         public var isDeleted: Bool?
         public var isThirdParty: Bool?
         public var role: Role?
-        public init(calendarId: String, summary: String? = nil, description: String? = nil, permissions: Permissions? = nil, color: Int? = nil, type: CalendarGetResponseType? = nil, summaryAlias: String? = nil, isDeleted: Bool? = nil, isThirdParty: Bool? = nil, role: Role? = nil) {
+        public init(calendarId: String? = nil, summary: String? = nil, description: String? = nil, permissions: Permissions? = nil, color: Int? = nil, type: CalendarGetResponseType? = nil, summaryAlias: String? = nil, isDeleted: Bool? = nil, isThirdParty: Bool? = nil, role: Role? = nil) {
             self.calendarId = calendarId
             self.summary = summary
             self.description = description
@@ -195,7 +167,7 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.calendarId = try c.lenientRequired(.calendarId)
+            self.calendarId = c.lenient(.calendarId)
             self.summary = c.lenient(.summary)
             self.description = c.lenient(.description)
             self.permissions = c.lenient(.permissions)
@@ -289,7 +261,7 @@ extension CalendarAPI {
     }
 
     public struct CalendarList: Codable, Sendable {
-        public var calendarId: String
+        public var calendarId: String?
         public var summary: String?
         public var description: String?
         public var permissions: Permissions?
@@ -299,7 +271,7 @@ extension CalendarAPI {
         public var isDeleted: Bool?
         public var isThirdParty: Bool?
         public var role: Role?
-        public init(calendarId: String, summary: String? = nil, description: String? = nil, permissions: Permissions? = nil, color: Int? = nil, type: CalendarGetResponseType? = nil, summaryAlias: String? = nil, isDeleted: Bool? = nil, isThirdParty: Bool? = nil, role: Role? = nil) {
+        public init(calendarId: String? = nil, summary: String? = nil, description: String? = nil, permissions: Permissions? = nil, color: Int? = nil, type: CalendarGetResponseType? = nil, summaryAlias: String? = nil, isDeleted: Bool? = nil, isThirdParty: Bool? = nil, role: Role? = nil) {
             self.calendarId = calendarId
             self.summary = summary
             self.description = description
@@ -325,7 +297,7 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.calendarId = try c.lenientRequired(.calendarId)
+            self.calendarId = c.lenient(.calendarId)
             self.summary = c.lenient(.summary)
             self.description = c.lenient(.description)
             self.permissions = c.lenient(.permissions)
@@ -569,10 +541,10 @@ extension CalendarAPI {
     }
 
     public struct Acl: Codable, Sendable {
-        public var aclId: String
-        public var role: Role
-        public var scope: Scope
-        public init(aclId: String, role: Role, scope: Scope) {
+        public var aclId: String?
+        public var role: Role?
+        public var scope: Scope?
+        public init(aclId: String? = nil, role: Role? = nil, scope: Scope? = nil) {
             self.aclId = aclId
             self.role = role
             self.scope = scope
@@ -584,16 +556,16 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.aclId = try c.lenientRequired(.aclId)
-            self.role = try c.lenientRequired(.role)
-            self.scope = try c.lenientRequired(.scope)
+            self.aclId = c.lenient(.aclId)
+            self.role = c.lenient(.role)
+            self.scope = c.lenient(.scope)
         }
     }
 
     public struct Scope: Codable, Sendable {
-        public var type: ScopeType
+        public var type: ScopeType?
         public var userId: String?
-        public init(type: ScopeType, userId: String? = nil) {
+        public init(type: ScopeType? = nil, userId: String? = nil) {
             self.type = type
             self.userId = userId
         }
@@ -603,7 +575,7 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.userId = c.lenient(.userId)
         }
     }
@@ -745,7 +717,7 @@ extension CalendarAPI {
     }
 
     public struct CalendarEvent: Codable, Sendable {
-        public var eventId: String
+        public var eventId: String?
         public var summary: String?
         public var description: String?
         public var startTime: StartTime?
@@ -755,7 +727,7 @@ extension CalendarAPI {
         public var appLink: String?
         public var location: Location?
         public var descriptionRich: String?
-        public init(eventId: String, summary: String? = nil, description: String? = nil, startTime: StartTime? = nil, endTime: StartTime? = nil, status: CalendarEventStatus? = nil, isException: Bool? = nil, appLink: String? = nil, location: Location? = nil, descriptionRich: String? = nil) {
+        public init(eventId: String? = nil, summary: String? = nil, description: String? = nil, startTime: StartTime? = nil, endTime: StartTime? = nil, status: CalendarEventStatus? = nil, isException: Bool? = nil, appLink: String? = nil, location: Location? = nil, descriptionRich: String? = nil) {
             self.eventId = eventId
             self.summary = summary
             self.description = description
@@ -781,7 +753,7 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.eventId = try c.lenientRequired(.eventId)
+            self.eventId = c.lenient(.eventId)
             self.summary = c.lenient(.summary)
             self.description = c.lenient(.description)
             self.startTime = c.lenient(.startTime)
@@ -888,7 +860,7 @@ extension CalendarAPI {
     }
 
     public struct CalendarEventInstanceViewResponseItem: Codable, Sendable {
-        public var eventId: String
+        public var eventId: String?
         public var summary: String?
         public var description: String?
         public var startTime: StartTime?
@@ -908,7 +880,7 @@ extension CalendarAPI {
         public var attendees: [Attendee]?
         public var selfRsvpStatus: AttendeeRsvpStatus?
         public var descriptionRich: String?
-        public init(eventId: String, summary: String? = nil, description: String? = nil, startTime: StartTime? = nil, endTime: StartTime? = nil, status: CalendarEventStatus? = nil, isException: Bool? = nil, appLink: String? = nil, organizerCalendarId: String? = nil, vchat: Vchat? = nil, visibility: Visibility? = nil, attendeeAbility: AttendeeAbility? = nil, freeBusyStatus: FreeBusyStatus? = nil, location: Location? = nil, color: Int? = nil, recurringEventId: String? = nil, eventOrganizer: EventOrganizer? = nil, attendees: [Attendee]? = nil, selfRsvpStatus: AttendeeRsvpStatus? = nil, descriptionRich: String? = nil) {
+        public init(eventId: String? = nil, summary: String? = nil, description: String? = nil, startTime: StartTime? = nil, endTime: StartTime? = nil, status: CalendarEventStatus? = nil, isException: Bool? = nil, appLink: String? = nil, organizerCalendarId: String? = nil, vchat: Vchat? = nil, visibility: Visibility? = nil, attendeeAbility: AttendeeAbility? = nil, freeBusyStatus: FreeBusyStatus? = nil, location: Location? = nil, color: Int? = nil, recurringEventId: String? = nil, eventOrganizer: EventOrganizer? = nil, attendees: [Attendee]? = nil, selfRsvpStatus: AttendeeRsvpStatus? = nil, descriptionRich: String? = nil) {
             self.eventId = eventId
             self.summary = summary
             self.description = description
@@ -954,7 +926,7 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.eventId = try c.lenientRequired(.eventId)
+            self.eventId = c.lenient(.eventId)
             self.summary = c.lenient(.summary)
             self.description = c.lenient(.description)
             self.startTime = c.lenient(.startTime)
@@ -1033,9 +1005,9 @@ extension CalendarAPI {
     }
 
     public struct VcInfo: Codable, Sendable {
-        public var uniqueId: String
-        public var meetingNo: String
-        public init(uniqueId: String, meetingNo: String) {
+        public var uniqueId: String?
+        public var meetingNo: String?
+        public init(uniqueId: String? = nil, meetingNo: String? = nil) {
             self.uniqueId = uniqueId
             self.meetingNo = meetingNo
         }
@@ -1045,8 +1017,8 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.uniqueId = try c.lenientRequired(.uniqueId)
-            self.meetingNo = try c.lenientRequired(.meetingNo)
+            self.uniqueId = c.lenient(.uniqueId)
+            self.meetingNo = c.lenient(.meetingNo)
         }
     }
 
@@ -1217,10 +1189,10 @@ extension CalendarAPI {
     }
 
     public struct ResourceCustomization: Codable, Sendable {
-        public var indexKey: String
+        public var indexKey: String?
         public var inputContent: String?
         public var options: [ResourceCustomizationOption]?
-        public init(indexKey: String, inputContent: String? = nil, options: [ResourceCustomizationOption]? = nil) {
+        public init(indexKey: String? = nil, inputContent: String? = nil, options: [ResourceCustomizationOption]? = nil) {
             self.indexKey = indexKey
             self.inputContent = inputContent
             self.options = options
@@ -1232,7 +1204,7 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.indexKey = try c.lenientRequired(.indexKey)
+            self.indexKey = c.lenient(.indexKey)
             self.inputContent = c.lenient(.inputContent)
             self.options = c.lenient(.options)
         }
@@ -1301,12 +1273,12 @@ extension CalendarAPI {
     }
 
     public struct Event: Codable, Sendable {
-        public var eventId: String
+        public var eventId: String?
         public var organizerCalendarId: String?
         public var summary: String?
         public var description: String?
-        public var startTime: StartTime
-        public var endTime: StartTime
+        public var startTime: StartTime?
+        public var endTime: StartTime?
         public var vchat: EventVchat?
         public var visibility: Visibility?
         public var attendeeAbility: AttendeeAbility?
@@ -1329,7 +1301,7 @@ extension CalendarAPI {
         public var source: String?
         public var selfRsvpStatus: AttendeeRsvpStatus?
         public var descriptionRich: String?
-        public init(eventId: String, organizerCalendarId: String? = nil, summary: String? = nil, description: String? = nil, startTime: StartTime, endTime: StartTime, vchat: EventVchat? = nil, visibility: Visibility? = nil, attendeeAbility: AttendeeAbility? = nil, freeBusyStatus: FreeBusyStatus? = nil, location: Location? = nil, color: Int? = nil, reminders: [Reminder]? = nil, recurrence: String? = nil, status: CalendarEventStatus? = nil, isException: Bool? = nil, recurringEventId: String? = nil, createTime: String? = nil, schemas: [Schema]? = nil, eventOrganizer: EventOrganizer? = nil, appLink: String? = nil, attendees: [EventAttendee]? = nil, hasMoreAttendee: Bool? = nil, attachments: [Attachment]? = nil, eventCheckIn: EventCheckIn? = nil, source: String? = nil, selfRsvpStatus: AttendeeRsvpStatus? = nil, descriptionRich: String? = nil) {
+        public init(eventId: String? = nil, organizerCalendarId: String? = nil, summary: String? = nil, description: String? = nil, startTime: StartTime? = nil, endTime: StartTime? = nil, vchat: EventVchat? = nil, visibility: Visibility? = nil, attendeeAbility: AttendeeAbility? = nil, freeBusyStatus: FreeBusyStatus? = nil, location: Location? = nil, color: Int? = nil, reminders: [Reminder]? = nil, recurrence: String? = nil, status: CalendarEventStatus? = nil, isException: Bool? = nil, recurringEventId: String? = nil, createTime: String? = nil, schemas: [Schema]? = nil, eventOrganizer: EventOrganizer? = nil, appLink: String? = nil, attendees: [EventAttendee]? = nil, hasMoreAttendee: Bool? = nil, attachments: [Attachment]? = nil, eventCheckIn: EventCheckIn? = nil, source: String? = nil, selfRsvpStatus: AttendeeRsvpStatus? = nil, descriptionRich: String? = nil) {
             self.eventId = eventId
             self.organizerCalendarId = organizerCalendarId
             self.summary = summary
@@ -1391,12 +1363,12 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.eventId = try c.lenientRequired(.eventId)
+            self.eventId = c.lenient(.eventId)
             self.organizerCalendarId = c.lenient(.organizerCalendarId)
             self.summary = c.lenient(.summary)
             self.description = c.lenient(.description)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
             self.vchat = c.lenient(.vchat)
             self.visibility = c.lenient(.visibility)
             self.attendeeAbility = c.lenient(.attendeeAbility)
@@ -1690,11 +1662,11 @@ extension CalendarAPI {
     }
 
     public struct EventCheckIn: Codable, Sendable {
-        public var enableCheckIn: Bool
+        public var enableCheckIn: Bool?
         public var checkInStartTime: CheckInStartTime?
         public var checkInEndTime: CheckInStartTime?
         public var needNotifyAttendees: Bool?
-        public init(enableCheckIn: Bool, checkInStartTime: CheckInStartTime? = nil, checkInEndTime: CheckInStartTime? = nil, needNotifyAttendees: Bool? = nil) {
+        public init(enableCheckIn: Bool? = nil, checkInStartTime: CheckInStartTime? = nil, checkInEndTime: CheckInStartTime? = nil, needNotifyAttendees: Bool? = nil) {
             self.enableCheckIn = enableCheckIn
             self.checkInStartTime = checkInStartTime
             self.checkInEndTime = checkInEndTime
@@ -1708,7 +1680,7 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.enableCheckIn = try c.lenientRequired(.enableCheckIn)
+            self.enableCheckIn = c.lenient(.enableCheckIn)
             self.checkInStartTime = c.lenient(.checkInStartTime)
             self.checkInEndTime = c.lenient(.checkInEndTime)
             self.needNotifyAttendees = c.lenient(.needNotifyAttendees)
@@ -1716,9 +1688,9 @@ extension CalendarAPI {
     }
 
     public struct CheckInStartTime: Codable, Sendable {
-        public var timeType: TimeType
-        public var duration: Int
-        public init(timeType: TimeType, duration: Int) {
+        public var timeType: TimeType?
+        public var duration: Int?
+        public init(timeType: TimeType? = nil, duration: Int? = nil) {
             self.timeType = timeType
             self.duration = duration
         }
@@ -1728,8 +1700,8 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.timeType = try c.lenientRequired(.timeType)
-            self.duration = try c.lenientRequired(.duration)
+            self.timeType = c.lenient(.timeType)
+            self.duration = c.lenient(.duration)
         }
     }
 
@@ -1809,12 +1781,12 @@ extension CalendarAPI {
     }
 
     public struct CalendarEventSearchResponseItem: Codable, Sendable {
-        public var eventId: String
+        public var eventId: String?
         public var organizerCalendarId: String?
         public var summary: String?
         public var description: String?
-        public var startTime: StartTime
-        public var endTime: StartTime
+        public var startTime: StartTime?
+        public var endTime: StartTime?
         public var visibility: Visibility?
         public var attendeeAbility: AttendeeAbility?
         public var freeBusyStatus: FreeBusyStatus?
@@ -1831,7 +1803,7 @@ extension CalendarAPI {
         public var source: String?
         public var selfRsvpStatus: AttendeeRsvpStatus?
         public var descriptionRich: String?
-        public init(eventId: String, organizerCalendarId: String? = nil, summary: String? = nil, description: String? = nil, startTime: StartTime, endTime: StartTime, visibility: Visibility? = nil, attendeeAbility: AttendeeAbility? = nil, freeBusyStatus: FreeBusyStatus? = nil, location: Location? = nil, color: Int? = nil, reminders: [Reminder]? = nil, recurrence: String? = nil, status: CalendarEventStatus? = nil, isException: Bool? = nil, recurringEventId: String? = nil, eventOrganizer: EventOrganizer? = nil, appLink: String? = nil, attachments: [CalendarEventSearchResponseItemAttachment]? = nil, source: String? = nil, selfRsvpStatus: AttendeeRsvpStatus? = nil, descriptionRich: String? = nil) {
+        public init(eventId: String? = nil, organizerCalendarId: String? = nil, summary: String? = nil, description: String? = nil, startTime: StartTime? = nil, endTime: StartTime? = nil, visibility: Visibility? = nil, attendeeAbility: AttendeeAbility? = nil, freeBusyStatus: FreeBusyStatus? = nil, location: Location? = nil, color: Int? = nil, reminders: [Reminder]? = nil, recurrence: String? = nil, status: CalendarEventStatus? = nil, isException: Bool? = nil, recurringEventId: String? = nil, eventOrganizer: EventOrganizer? = nil, appLink: String? = nil, attachments: [CalendarEventSearchResponseItemAttachment]? = nil, source: String? = nil, selfRsvpStatus: AttendeeRsvpStatus? = nil, descriptionRich: String? = nil) {
             self.eventId = eventId
             self.organizerCalendarId = organizerCalendarId
             self.summary = summary
@@ -1881,12 +1853,12 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.eventId = try c.lenientRequired(.eventId)
+            self.eventId = c.lenient(.eventId)
             self.organizerCalendarId = c.lenient(.organizerCalendarId)
             self.summary = c.lenient(.summary)
             self.description = c.lenient(.description)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
             self.visibility = c.lenient(.visibility)
             self.attendeeAbility = c.lenient(.attendeeAbility)
             self.freeBusyStatus = c.lenient(.freeBusyStatus)
@@ -2001,12 +1973,12 @@ extension CalendarAPI {
     }
 
     public struct CalendarEventListResponseItem: Codable, Sendable {
-        public var eventId: String
+        public var eventId: String?
         public var organizerCalendarId: String?
         public var summary: String?
         public var description: String?
-        public var startTime: StartTime
-        public var endTime: StartTime
+        public var startTime: StartTime?
+        public var endTime: StartTime?
         public var vchat: Vchat?
         public var visibility: Visibility?
         public var attendeeAbility: AttendeeAbility?
@@ -2026,7 +1998,7 @@ extension CalendarAPI {
         public var source: String?
         public var selfRsvpStatus: AttendeeRsvpStatus?
         public var descriptionRich: String?
-        public init(eventId: String, organizerCalendarId: String? = nil, summary: String? = nil, description: String? = nil, startTime: StartTime, endTime: StartTime, vchat: Vchat? = nil, visibility: Visibility? = nil, attendeeAbility: AttendeeAbility? = nil, freeBusyStatus: FreeBusyStatus? = nil, location: Location? = nil, color: Int? = nil, reminders: [Reminder]? = nil, recurrence: String? = nil, status: CalendarEventStatus? = nil, isException: Bool? = nil, recurringEventId: String? = nil, createTime: String? = nil, schemas: [Schema]? = nil, eventOrganizer: EventOrganizer? = nil, appLink: String? = nil, attachments: [Attachment]? = nil, source: String? = nil, selfRsvpStatus: AttendeeRsvpStatus? = nil, descriptionRich: String? = nil) {
+        public init(eventId: String? = nil, organizerCalendarId: String? = nil, summary: String? = nil, description: String? = nil, startTime: StartTime? = nil, endTime: StartTime? = nil, vchat: Vchat? = nil, visibility: Visibility? = nil, attendeeAbility: AttendeeAbility? = nil, freeBusyStatus: FreeBusyStatus? = nil, location: Location? = nil, color: Int? = nil, reminders: [Reminder]? = nil, recurrence: String? = nil, status: CalendarEventStatus? = nil, isException: Bool? = nil, recurringEventId: String? = nil, createTime: String? = nil, schemas: [Schema]? = nil, eventOrganizer: EventOrganizer? = nil, appLink: String? = nil, attachments: [Attachment]? = nil, source: String? = nil, selfRsvpStatus: AttendeeRsvpStatus? = nil, descriptionRich: String? = nil) {
             self.eventId = eventId
             self.organizerCalendarId = organizerCalendarId
             self.summary = summary
@@ -2082,12 +2054,12 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.eventId = try c.lenientRequired(.eventId)
+            self.eventId = c.lenient(.eventId)
             self.organizerCalendarId = c.lenient(.organizerCalendarId)
             self.summary = c.lenient(.summary)
             self.description = c.lenient(.description)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
             self.vchat = c.lenient(.vchat)
             self.visibility = c.lenient(.visibility)
             self.attendeeAbility = c.lenient(.attendeeAbility)
@@ -2239,12 +2211,12 @@ extension CalendarAPI {
     }
 
     public struct CalendarEventCreateResponseEvent: Codable, Sendable {
-        public var eventId: String
+        public var eventId: String?
         public var organizerCalendarId: String?
         public var summary: String?
         public var description: String?
-        public var startTime: StartTime
-        public var endTime: StartTime
+        public var startTime: StartTime?
+        public var endTime: StartTime?
         public var vchat: EventVchat?
         public var visibility: Visibility?
         public var attendeeAbility: AttendeeAbility?
@@ -2265,7 +2237,7 @@ extension CalendarAPI {
         public var source: String?
         public var selfRsvpStatus: AttendeeRsvpStatus?
         public var descriptionRich: String?
-        public init(eventId: String, organizerCalendarId: String? = nil, summary: String? = nil, description: String? = nil, startTime: StartTime, endTime: StartTime, vchat: EventVchat? = nil, visibility: Visibility? = nil, attendeeAbility: AttendeeAbility? = nil, freeBusyStatus: FreeBusyStatus? = nil, location: Location? = nil, color: Int? = nil, reminders: [Reminder]? = nil, recurrence: String? = nil, status: CalendarEventStatus? = nil, isException: Bool? = nil, recurringEventId: String? = nil, createTime: String? = nil, schemas: [Schema]? = nil, eventOrganizer: EventOrganizer? = nil, appLink: String? = nil, attachments: [CalendarEventSearchResponseItemAttachment]? = nil, eventCheckIn: EventCheckIn? = nil, source: String? = nil, selfRsvpStatus: AttendeeRsvpStatus? = nil, descriptionRich: String? = nil) {
+        public init(eventId: String? = nil, organizerCalendarId: String? = nil, summary: String? = nil, description: String? = nil, startTime: StartTime? = nil, endTime: StartTime? = nil, vchat: EventVchat? = nil, visibility: Visibility? = nil, attendeeAbility: AttendeeAbility? = nil, freeBusyStatus: FreeBusyStatus? = nil, location: Location? = nil, color: Int? = nil, reminders: [Reminder]? = nil, recurrence: String? = nil, status: CalendarEventStatus? = nil, isException: Bool? = nil, recurringEventId: String? = nil, createTime: String? = nil, schemas: [Schema]? = nil, eventOrganizer: EventOrganizer? = nil, appLink: String? = nil, attachments: [CalendarEventSearchResponseItemAttachment]? = nil, eventCheckIn: EventCheckIn? = nil, source: String? = nil, selfRsvpStatus: AttendeeRsvpStatus? = nil, descriptionRich: String? = nil) {
             self.eventId = eventId
             self.organizerCalendarId = organizerCalendarId
             self.summary = summary
@@ -2323,12 +2295,12 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.eventId = try c.lenientRequired(.eventId)
+            self.eventId = c.lenient(.eventId)
             self.organizerCalendarId = c.lenient(.organizerCalendarId)
             self.summary = c.lenient(.summary)
             self.description = c.lenient(.description)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
             self.vchat = c.lenient(.vchat)
             self.visibility = c.lenient(.visibility)
             self.attendeeAbility = c.lenient(.attendeeAbility)
@@ -2795,14 +2767,14 @@ extension CalendarAPI {
     }
 
     public struct TimeoffEventCreateResponse: Codable, Sendable {
-        public var timeoffEventId: String
-        public var userId: String
-        public var timezone: String
-        public var startTime: String
-        public var endTime: String
+        public var timeoffEventId: String?
+        public var userId: String?
+        public var timezone: String?
+        public var startTime: String?
+        public var endTime: String?
         public var title: String?
         public var description: String?
-        public init(timeoffEventId: String, userId: String, timezone: String, startTime: String, endTime: String, title: String? = nil, description: String? = nil) {
+        public init(timeoffEventId: String? = nil, userId: String? = nil, timezone: String? = nil, startTime: String? = nil, endTime: String? = nil, title: String? = nil, description: String? = nil) {
             self.timeoffEventId = timeoffEventId
             self.userId = userId
             self.timezone = timezone
@@ -2822,11 +2794,11 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.timeoffEventId = try c.lenientRequired(.timeoffEventId)
-            self.userId = try c.lenientRequired(.userId)
-            self.timezone = try c.lenientRequired(.timezone)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.timeoffEventId = c.lenient(.timeoffEventId)
+            self.userId = c.lenient(.userId)
+            self.timezone = c.lenient(.timezone)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
             self.title = c.lenient(.title)
             self.description = c.lenient(.description)
         }
@@ -2945,10 +2917,10 @@ extension CalendarAPI {
     }
 
     public struct FreebusyItem: Codable, Sendable {
-        public var startTime: String
-        public var endTime: String
+        public var startTime: String?
+        public var endTime: String?
         public var rsvpStatus: AttendeeRsvpStatus?
-        public init(startTime: String, endTime: String, rsvpStatus: AttendeeRsvpStatus? = nil) {
+        public init(startTime: String? = nil, endTime: String? = nil, rsvpStatus: AttendeeRsvpStatus? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.rsvpStatus = rsvpStatus
@@ -2960,8 +2932,8 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
             self.rsvpStatus = c.lenient(.rsvpStatus)
         }
     }
@@ -3216,11 +3188,11 @@ extension CalendarAPI {
         public var uuid: String?
         public var type: String?
         public var appId: String?
-        public var aclId: String
-        public var role: Role
-        public var scope: CalendarAclDeletedV4EventScope
+        public var aclId: String?
+        public var role: Role?
+        public var scope: CalendarAclDeletedV4EventScope?
         public var userIdList: [UserIdList]?
-        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, aclId: String, role: Role, scope: CalendarAclDeletedV4EventScope, userIdList: [UserIdList]? = nil) {
+        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, aclId: String? = nil, role: Role? = nil, scope: CalendarAclDeletedV4EventScope? = nil, userIdList: [UserIdList]? = nil) {
             self.eventId = eventId
             self.token = token
             self.createTime = createTime
@@ -3261,17 +3233,17 @@ extension CalendarAPI {
             self.uuid = c.lenient(.uuid)
             self.type = c.lenient(.type)
             self.appId = c.lenient(.appId)
-            self.aclId = try c.lenientRequired(.aclId)
-            self.role = try c.lenientRequired(.role)
-            self.scope = try c.lenientRequired(.scope)
+            self.aclId = c.lenient(.aclId)
+            self.role = c.lenient(.role)
+            self.scope = c.lenient(.scope)
             self.userIdList = c.lenient(.userIdList)
         }
     }
 
     public struct CalendarAclDeletedV4EventScope: Codable, Sendable {
-        public var type: ScopeType
+        public var type: ScopeType?
         public var userId: UserIdList?
-        public init(type: ScopeType, userId: UserIdList? = nil) {
+        public init(type: ScopeType? = nil, userId: UserIdList? = nil) {
             self.type = type
             self.userId = userId
         }
@@ -3281,7 +3253,7 @@ extension CalendarAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.userId = c.lenient(.userId)
         }
     }

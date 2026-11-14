@@ -32,8 +32,8 @@ import LarkApproval
   type, spell models as `LarkApproval.Approval.InstanceCreateBody`.
 - Many params are typealiases of a shared struct (`TaskApproveQuery`, `TaskRejectQuery`,
   `InstanceCancelQuery` are all `{ userIdType }`); `.init(...)` works the same.
-- Open enums have mechanical case names (`.pENDING`, `.aPPROVED`). Prefer string literals:
-  `instanceStatus: "PENDING"`, `t.status == "PENDING"`.
+- Open enums accept string literals and expose the known values as static members
+  (`.pending`, `.approved`): `instanceStatus: "PENDING"` and `t.status == .pending` both work.
 
 ## Approval definition (form + nodes)
 
@@ -41,13 +41,13 @@ import LarkApproval
 let def = try await client.approval.v4.approval.get(
     approvalCode: approvalCode, params: .init(locale: .zhCN, userIdType: .openId))
 if let d = def.data {
-    print(d.approvalName, d.status)
+    print(d.approvalName ?? "", d.status?.rawValue ?? "")
     // `form` is a JSON *string*: [{"id": "widget...", "name": "...", "type": "input", ...}]
-    let widgets = try JSONValue(jsonString: d.form)
+    let widgets = try JSONValue(jsonString: d.form ?? "[]")
     for w in widgets.arrayValue ?? [] {
         print(w["id"]?.stringValue ?? "", w["type"]?.stringValue ?? "", w["name"]?.stringValue ?? "")
     }
-    for n in d.nodeList { print(n.nodeId, n.customNodeId ?? "", n.name, n.needApprover) }
+    for n in d.nodeList ?? [] { print(n.nodeId ?? "", n.customNodeId ?? "", n.name ?? "", n.needApprover ?? false) }
 }
 ```
 
@@ -81,12 +81,12 @@ print(created.data?.instanceCode ?? "", created.data?.instanceLink ?? "")
 let inst = try await client.approval.v4.instance.get(
     instanceId: instanceCode, params: .init(locale: .enUS, userIdType: .openId))
 if let i = inst.data {
-    print(i.approvalName, i.status, i.serialNumber, i.openId)
-    for t in i.taskList where t.status == "PENDING" {
-        print("pending task", t.id, t.openId ?? t.userId, t.nodeName ?? "")
+    print(i.approvalName ?? "", i.status?.rawValue ?? "", i.serialNumber ?? "", i.openId ?? "")
+    for t in i.taskList ?? [] where t.status == .pending {
+        print("pending task", t.id ?? "", t.openId ?? t.userId ?? "", t.nodeName ?? "")
     }
-    for c in i.commentList { print(c.openId, c.comment) }
-    let values = try JSONValue(jsonString: i.form)   // submitted form, same widget shape
+    for c in i.commentList ?? [] { print(c.openId ?? "", c.comment ?? "") }
+    let values = try JSONValue(jsonString: i.form ?? "[]")   // submitted form, same widget shape
     print(values)
 }
 
@@ -95,7 +95,7 @@ let now = Int(Date().timeIntervalSince1970 * 1000)
 for try await page in client.approval.v4.instance.listWithIterator(params: .init(
     pageSize: 100, approvalCode: approvalCode, startTime: String(now - 7 * 86_400_000), endTime: String(now)))
 {
-    for code in page.instanceCodeList { print(code) }
+    for code in page.instanceCodeList ?? [] { print(code) }
 }
 
 // Search instances by applicant / status / title
@@ -117,9 +117,9 @@ for try await page in client.approval.v4.instance.queryWithIterator(
 for try await page in client.approval.v4.task.queryWithIterator(
     params: .init(pageSize: 50, userId: approverOpenId, topic: "1", userIdType: .openId))
 {
-    for t in page.tasks {
+    for t in page.tasks ?? [] {
         // processCode = instance code, definitionCode = approval code
-        print(t.taskId, t.title, t.processCode, t.definitionCode, t.status)
+        print(t.taskId ?? "", t.title ?? "", t.processCode ?? "", t.definitionCode ?? "", t.status?.rawValue ?? "")
     }
 }
 // Cross-user search: client.approval.v4.task.search(params:body:) with TaskSearchBody filters.
@@ -161,7 +161,7 @@ let comment = try await client.approval.v4.instanceComment.create(
 print(comment.data?.commentId ?? "")
 let list = try await client.approval.v4.instanceComment.list(
     instanceId: instanceCode, params: .init(userIdType: .openId, userId: commenterOpenId, pageSize: 50))
-for c in list.data?.comments ?? [] { print(c.commentator, c.content, c.createTime) }
+for c in list.data?.comments ?? [] { print(c.commentator ?? "", c.content ?? "", c.createTime ?? "") }
 ```
 
 ## Events

@@ -19,9 +19,9 @@ extension Verification {
     }
 
     public struct Verification: Codable, Sendable {
-        public var name: String
-        public var hasVerification: Bool
-        public init(name: String, hasVerification: Bool) {
+        public var name: String?
+        public var hasVerification: Bool?
+        public init(name: String? = nil, hasVerification: Bool? = nil) {
             self.name = name
             self.hasVerification = hasVerification
         }
@@ -31,8 +31,8 @@ extension Verification {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.hasVerification = try c.lenientRequired(.hasVerification)
+            self.name = c.lenient(.name)
+            self.hasVerification = c.lenient(.hasVerification)
         }
     }
 }

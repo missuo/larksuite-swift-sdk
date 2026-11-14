@@ -88,7 +88,7 @@ import LarkLingo
 
     @Test("DELETE /open-apis/lingo/v1/entities/:entity_id") func v1_entity_delete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.lingo.v1.entity.delete(entityId: "s", params: Lingo.EntityDeleteQuery())
+        let resp = try await client.lingo.v1.entity.delete(entityId: "s", params: Lingo.OuterInfo())
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "DELETE")
@@ -98,7 +98,7 @@ import LarkLingo
 
     @Test("POST /open-apis/lingo/v1/entities") func v1_entity_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"entity":{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1,"i18n_descs":[{"language":1,"description":"s","rich_text":"s"}]}}}"##)
-        let resp = try await client.lingo.v1.entity.create(params: Lingo.EntityCreateQuery(), body: Lingo.EntityCreateBody(mainKeys: [Lingo.MainKey(key: "s", displayStatus: Lingo.DisplayStatus(allowHighlight: true, allowSearch: true))]))
+        let resp = try await client.lingo.v1.entity.create(params: Lingo.EntityCreateQuery(), body: Lingo.EntityCreateBody(mainKeys: [Lingo.MainKey()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -109,7 +109,7 @@ import LarkLingo
 
     @Test("PUT /open-apis/lingo/v1/entities/:entity_id") func v1_entity_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"entity":{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1,"i18n_descs":[{"language":1,"description":"s","rich_text":"s"}]}}}"##)
-        let resp = try await client.lingo.v1.entity.update(entityId: "s", params: Lingo.EntityUpdateQuery(), body: Lingo.EntityCreateBody(mainKeys: [Lingo.MainKey(key: "s", displayStatus: Lingo.DisplayStatus(allowHighlight: true, allowSearch: true))]))
+        let resp = try await client.lingo.v1.entity.update(entityId: "s", params: Lingo.EntityUpdateQuery(), body: Lingo.EntityCreateBody(mainKeys: [Lingo.MainKey()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -142,7 +142,7 @@ import LarkLingo
 
     @Test("POST /open-apis/lingo/v1/drafts") func v1_draft_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"draft":{"draft_id":"s","entity":{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1,"i18n_descs":[{"language":1,"description":"s","rich_text":"s"}]}}}}"##)
-        let resp = try await client.lingo.v1.draft.create(params: Lingo.EntityCreateQuery(), body: Lingo.DraftCreateBody(mainKeys: [Lingo.MainKey(key: "s", displayStatus: Lingo.DisplayStatus(allowHighlight: true, allowSearch: true))]))
+        let resp = try await client.lingo.v1.draft.create(params: Lingo.EntityCreateQuery(), body: Lingo.DraftCreateBody(mainKeys: [Lingo.MainKey()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -153,7 +153,7 @@ import LarkLingo
 
     @Test("PUT /open-apis/lingo/v1/drafts/:draft_id") func v1_draft_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"draft":{"draft_id":"s","entity":{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1,"i18n_descs":[{"language":1,"description":"s","rich_text":"s"}]}}}}"##)
-        let resp = try await client.lingo.v1.draft.update(draftId: "s", params: Lingo.EntityUpdateQuery(), body: Lingo.DraftUpdateBody(mainKeys: [Lingo.MainKey(key: "s", displayStatus: Lingo.DisplayStatus(allowHighlight: true, allowSearch: true))]))
+        let resp = try await client.lingo.v1.draft.update(draftId: "s", params: Lingo.EntityUpdateQuery(), body: Lingo.DraftUpdateBody(mainKeys: [Lingo.MainKey()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

@@ -28,8 +28,8 @@ extension TrustParty {
     }
 
     public struct CollaborationTenantCollaborationUserGetResponse: Codable, Sendable {
-        public var targetUser: TargetUser
-        public init(targetUser: TargetUser) {
+        public var targetUser: TargetUser?
+        public init(targetUser: TargetUser? = nil) {
             self.targetUser = targetUser
         }
         enum CodingKeys: String, CodingKey {
@@ -37,7 +37,7 @@ extension TrustParty {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.targetUser = try c.lenientRequired(.targetUser)
+            self.targetUser = c.lenient(.targetUser)
         }
     }
 
@@ -45,7 +45,7 @@ extension TrustParty {
         public var openId: String?
         public var userId: String?
         public var unionId: String?
-        public var name: String
+        public var name: String?
         public var i18nName: I18nName?
         public var avatar: Avatar?
         public var mobile: String?
@@ -57,7 +57,7 @@ extension TrustParty {
         public var employeeNo: String?
         public var parentDepartmentIds: [ParentDepartmentIds]?
         public var leaderId: LeaderId?
-        public init(openId: String? = nil, userId: String? = nil, unionId: String? = nil, name: String, i18nName: I18nName? = nil, avatar: Avatar? = nil, mobile: String? = nil, status: TargetUserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, jobTitle: String? = nil, customAttrs: [CustomAttr]? = nil, employeeNo: String? = nil, parentDepartmentIds: [ParentDepartmentIds]? = nil, leaderId: LeaderId? = nil) {
+        public init(openId: String? = nil, userId: String? = nil, unionId: String? = nil, name: String? = nil, i18nName: I18nName? = nil, avatar: Avatar? = nil, mobile: String? = nil, status: TargetUserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, jobTitle: String? = nil, customAttrs: [CustomAttr]? = nil, employeeNo: String? = nil, parentDepartmentIds: [ParentDepartmentIds]? = nil, leaderId: LeaderId? = nil) {
             self.openId = openId
             self.userId = userId
             self.unionId = unionId
@@ -96,7 +96,7 @@ extension TrustParty {
             self.openId = c.lenient(.openId)
             self.userId = c.lenient(.userId)
             self.unionId = c.lenient(.unionId)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.i18nName = c.lenient(.i18nName)
             self.avatar = c.lenient(.avatar)
             self.mobile = c.lenient(.mobile)
@@ -250,9 +250,9 @@ extension TrustParty {
     }
 
     public struct GenericUser: Codable, Sendable {
-        public var id: String
-        public var type: Int
-        public init(id: String, type: Int) {
+        public var id: String?
+        public var type: Int?
+        public init(id: String? = nil, type: Int? = nil) {
             self.id = id
             self.type = type
         }
@@ -262,8 +262,8 @@ extension TrustParty {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.type = try c.lenientRequired(.type)
+            self.id = c.lenient(.id)
+            self.type = c.lenient(.type)
         }
     }
 
@@ -330,8 +330,8 @@ extension TrustParty {
     }
 
     public struct CollaborationTenantCollaborationDepartmentGetResponse: Codable, Sendable {
-        public var targetDepartment: TargetDepartment
-        public init(targetDepartment: TargetDepartment) {
+        public var targetDepartment: TargetDepartment?
+        public init(targetDepartment: TargetDepartment? = nil) {
             self.targetDepartment = targetDepartment
         }
         enum CodingKeys: String, CodingKey {
@@ -339,7 +339,7 @@ extension TrustParty {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.targetDepartment = try c.lenientRequired(.targetDepartment)
+            self.targetDepartment = c.lenient(.targetDepartment)
         }
     }
 
@@ -382,9 +382,9 @@ extension TrustParty {
     }
 
     public struct Leader: Codable, Sendable {
-        public var leaderType: Int
-        public var id: LeaderId
-        public init(leaderType: Int, id: LeaderId) {
+        public var leaderType: Int?
+        public var id: LeaderId?
+        public init(leaderType: Int? = nil, id: LeaderId? = nil) {
             self.leaderType = leaderType
             self.id = id
         }
@@ -394,8 +394,8 @@ extension TrustParty {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.leaderType = try c.lenientRequired(.leaderType)
-            self.id = try c.lenientRequired(.id)
+            self.leaderType = c.lenient(.leaderType)
+            self.id = c.lenient(.id)
         }
     }
 
@@ -568,7 +568,7 @@ extension TrustParty {
     }
 
     public struct CollaborationEntityList: Codable, Sendable {
-        public var collaborationEntityType: CollaborationEntityType
+        public var collaborationEntityType: CollaborationEntityType?
         public var departmentId: String?
         public var openDepartmentId: String?
         public var userId: String?
@@ -584,7 +584,7 @@ extension TrustParty {
         public var openGroupId: String?
         public var groupName: String?
         public var i18nGroupName: I18nName?
-        public init(collaborationEntityType: CollaborationEntityType, departmentId: String? = nil, openDepartmentId: String? = nil, userId: String? = nil, openUserId: String? = nil, unionUserId: String? = nil, departmentName: String? = nil, i18nDepartmentName: I18nName? = nil, departmentOrder: String? = nil, userName: String? = nil, i18nUserName: I18nName? = nil, userAvatar: Avatar? = nil, groupId: String? = nil, openGroupId: String? = nil, groupName: String? = nil, i18nGroupName: I18nName? = nil) {
+        public init(collaborationEntityType: CollaborationEntityType? = nil, departmentId: String? = nil, openDepartmentId: String? = nil, userId: String? = nil, openUserId: String? = nil, unionUserId: String? = nil, departmentName: String? = nil, i18nDepartmentName: I18nName? = nil, departmentOrder: String? = nil, userName: String? = nil, i18nUserName: I18nName? = nil, userAvatar: Avatar? = nil, groupId: String? = nil, openGroupId: String? = nil, groupName: String? = nil, i18nGroupName: I18nName? = nil) {
             self.collaborationEntityType = collaborationEntityType
             self.departmentId = departmentId
             self.openDepartmentId = openDepartmentId
@@ -622,7 +622,7 @@ extension TrustParty {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.collaborationEntityType = try c.lenientRequired(.collaborationEntityType)
+            self.collaborationEntityType = c.lenient(.collaborationEntityType)
             self.departmentId = c.lenient(.departmentId)
             self.openDepartmentId = c.lenient(.openDepartmentId)
             self.userId = c.lenient(.userId)

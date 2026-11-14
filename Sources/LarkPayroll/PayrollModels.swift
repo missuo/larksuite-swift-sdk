@@ -29,9 +29,9 @@ extension Payroll {
     }
 
     public struct DatasourceRecordSaveBodyRecord: Codable, Sendable {
-        public var activeStatus: Int
-        public var fieldValues: [FieldValue]
-        public init(activeStatus: Int, fieldValues: [FieldValue]) {
+        public var activeStatus: Int?
+        public var fieldValues: [FieldValue]?
+        public init(activeStatus: Int? = nil, fieldValues: [FieldValue]? = nil) {
             self.activeStatus = activeStatus
             self.fieldValues = fieldValues
         }
@@ -41,16 +41,16 @@ extension Payroll {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.activeStatus = try c.lenientRequired(.activeStatus)
-            self.fieldValues = try c.lenientRequired(.fieldValues)
+            self.activeStatus = c.lenient(.activeStatus)
+            self.fieldValues = c.lenient(.fieldValues)
         }
     }
 
     public struct FieldValue: Codable, Sendable {
-        public var fieldCode: String
-        public var value: String
+        public var fieldCode: String?
+        public var value: String?
         public var fieldType: Int?
-        public init(fieldCode: String, value: String, fieldType: Int? = nil) {
+        public init(fieldCode: String? = nil, value: String? = nil, fieldType: Int? = nil) {
             self.fieldCode = fieldCode
             self.value = value
             self.fieldType = fieldType
@@ -62,15 +62,15 @@ extension Payroll {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldCode = try c.lenientRequired(.fieldCode)
-            self.value = try c.lenientRequired(.value)
+            self.fieldCode = c.lenient(.fieldCode)
+            self.value = c.lenient(.value)
             self.fieldType = c.lenient(.fieldType)
         }
     }
 
     public struct DatasourceRecordSaveResponse: Codable, Sendable {
-        public var affectCounts: String
-        public init(affectCounts: String) {
+        public var affectCounts: String?
+        public init(affectCounts: String? = nil) {
             self.affectCounts = affectCounts
         }
         enum CodingKeys: String, CodingKey {
@@ -78,7 +78,7 @@ extension Payroll {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.affectCounts = try c.lenientRequired(.affectCounts)
+            self.affectCounts = c.lenient(.affectCounts)
         }
     }
 
@@ -123,10 +123,10 @@ extension Payroll {
     }
 
     public struct FieldFilter: Codable, Sendable {
-        public var fieldCode: String
+        public var fieldCode: String?
         public var fieldValues: [String]?
         public var `operator`: Int?
-        public init(fieldCode: String, fieldValues: [String]? = nil, `operator`: Int? = nil) {
+        public init(fieldCode: String? = nil, fieldValues: [String]? = nil, `operator`: Int? = nil) {
             self.fieldCode = fieldCode
             self.fieldValues = fieldValues
             self.operator = `operator`
@@ -138,7 +138,7 @@ extension Payroll {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldCode = try c.lenientRequired(.fieldCode)
+            self.fieldCode = c.lenient(.fieldCode)
             self.fieldValues = c.lenient(.fieldValues)
             self.operator = c.lenient(.`operator`)
         }
@@ -146,9 +146,9 @@ extension Payroll {
 
     public struct DatasourceRecordQueryResponse: Codable, Sendable {
         public var pageToken: String?
-        public var hasMore: Bool
-        public var records: [DatasourceRecordSaveBodyRecord]
-        public init(pageToken: String? = nil, hasMore: Bool, records: [DatasourceRecordSaveBodyRecord]) {
+        public var hasMore: Bool?
+        public var records: [DatasourceRecordSaveBodyRecord]?
+        public init(pageToken: String? = nil, hasMore: Bool? = nil, records: [DatasourceRecordSaveBodyRecord]? = nil) {
             self.pageToken = pageToken
             self.hasMore = hasMore
             self.records = records
@@ -161,8 +161,8 @@ extension Payroll {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.pageToken = c.lenient(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
-            self.records = try c.lenientRequired(.records)
+            self.hasMore = c.lenient(.hasMore)
+            self.records = c.lenient(.records)
         }
     }
 
@@ -652,9 +652,9 @@ extension Payroll {
 
     public struct DatasourceListResponse: Codable, Sendable {
         public var pageToken: String?
-        public var hasMore: Bool
-        public var datasources: [Datasource]
-        public init(pageToken: String? = nil, hasMore: Bool, datasources: [Datasource]) {
+        public var hasMore: Bool?
+        public var datasources: [Datasource]?
+        public init(pageToken: String? = nil, hasMore: Bool? = nil, datasources: [Datasource]? = nil) {
             self.pageToken = pageToken
             self.hasMore = hasMore
             self.datasources = datasources
@@ -667,19 +667,19 @@ extension Payroll {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.pageToken = c.lenient(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
-            self.datasources = try c.lenientRequired(.datasources)
+            self.hasMore = c.lenient(.hasMore)
+            self.datasources = c.lenient(.datasources)
         }
     }
 
     public struct Datasource: Codable, Sendable {
-        public var code: String
-        public var i18nNames: [AccountingItemName]
-        public var activeStatus: Int
-        public var fields: [DatasourceField]
+        public var code: String?
+        public var i18nNames: [AccountingItemName]?
+        public var activeStatus: Int?
+        public var fields: [DatasourceField]?
         public var i18nDescription: [AccountingItemName]?
         public var dataPeriodType: Int?
-        public init(code: String, i18nNames: [AccountingItemName], activeStatus: Int, fields: [DatasourceField], i18nDescription: [AccountingItemName]? = nil, dataPeriodType: Int? = nil) {
+        public init(code: String? = nil, i18nNames: [AccountingItemName]? = nil, activeStatus: Int? = nil, fields: [DatasourceField]? = nil, i18nDescription: [AccountingItemName]? = nil, dataPeriodType: Int? = nil) {
             self.code = code
             self.i18nNames = i18nNames
             self.activeStatus = activeStatus
@@ -697,23 +697,23 @@ extension Payroll {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.code = try c.lenientRequired(.code)
-            self.i18nNames = try c.lenientRequired(.i18nNames)
-            self.activeStatus = try c.lenientRequired(.activeStatus)
-            self.fields = try c.lenientRequired(.fields)
+            self.code = c.lenient(.code)
+            self.i18nNames = c.lenient(.i18nNames)
+            self.activeStatus = c.lenient(.activeStatus)
+            self.fields = c.lenient(.fields)
             self.i18nDescription = c.lenient(.i18nDescription)
             self.dataPeriodType = c.lenient(.dataPeriodType)
         }
     }
 
     public struct DatasourceField: Codable, Sendable {
-        public var code: String
-        public var i18nNames: [AccountingItemName]
-        public var fieldType: Int
-        public var activeStatus: Int
+        public var code: String?
+        public var i18nNames: [AccountingItemName]?
+        public var fieldType: Int?
+        public var activeStatus: Int?
         public var i18nDescription: [AccountingItemName]?
         public var decimalPlaces: Int?
-        public init(code: String, i18nNames: [AccountingItemName], fieldType: Int, activeStatus: Int, i18nDescription: [AccountingItemName]? = nil, decimalPlaces: Int? = nil) {
+        public init(code: String? = nil, i18nNames: [AccountingItemName]? = nil, fieldType: Int? = nil, activeStatus: Int? = nil, i18nDescription: [AccountingItemName]? = nil, decimalPlaces: Int? = nil) {
             self.code = code
             self.i18nNames = i18nNames
             self.fieldType = fieldType
@@ -731,10 +731,10 @@ extension Payroll {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.code = try c.lenientRequired(.code)
-            self.i18nNames = try c.lenientRequired(.i18nNames)
-            self.fieldType = try c.lenientRequired(.fieldType)
-            self.activeStatus = try c.lenientRequired(.activeStatus)
+            self.code = c.lenient(.code)
+            self.i18nNames = c.lenient(.i18nNames)
+            self.fieldType = c.lenient(.fieldType)
+            self.activeStatus = c.lenient(.activeStatus)
             self.i18nDescription = c.lenient(.i18nDescription)
             self.decimalPlaces = c.lenient(.decimalPlaces)
         }
@@ -1007,13 +1007,13 @@ extension Payroll {
     }
 
     public struct Paygroup: Codable, Sendable {
-        public var payGroupId: String
-        public var name: Name
-        public var code: String
-        public var status: Int
+        public var payGroupId: String?
+        public var name: Name?
+        public var code: String?
+        public var status: Int?
         public var countryRegion: CountryRegion?
         public var isGlobalRegion: Bool?
-        public init(payGroupId: String, name: Name, code: String, status: Int, countryRegion: CountryRegion? = nil, isGlobalRegion: Bool? = nil) {
+        public init(payGroupId: String? = nil, name: Name? = nil, code: String? = nil, status: Int? = nil, countryRegion: CountryRegion? = nil, isGlobalRegion: Bool? = nil) {
             self.payGroupId = payGroupId
             self.name = name
             self.code = code
@@ -1031,10 +1031,10 @@ extension Payroll {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.payGroupId = try c.lenientRequired(.payGroupId)
-            self.name = try c.lenientRequired(.name)
-            self.code = try c.lenientRequired(.code)
-            self.status = try c.lenientRequired(.status)
+            self.payGroupId = c.lenient(.payGroupId)
+            self.name = c.lenient(.name)
+            self.code = c.lenient(.code)
+            self.status = c.lenient(.status)
             self.countryRegion = c.lenient(.countryRegion)
             self.isGlobalRegion = c.lenient(.isGlobalRegion)
         }

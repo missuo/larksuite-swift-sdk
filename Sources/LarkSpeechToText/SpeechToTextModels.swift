@@ -41,10 +41,10 @@ extension SpeechToText {
     }
 
     public struct SpeechFileRecognizeBodyConfig: Codable, Sendable {
-        public var fileId: String
-        public var format: String
-        public var engineType: String
-        public init(fileId: String, format: String, engineType: String) {
+        public var fileId: String?
+        public var format: String?
+        public var engineType: String?
+        public init(fileId: String? = nil, format: String? = nil, engineType: String? = nil) {
             self.fileId = fileId
             self.format = format
             self.engineType = engineType
@@ -56,15 +56,15 @@ extension SpeechToText {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fileId = try c.lenientRequired(.fileId)
-            self.format = try c.lenientRequired(.format)
-            self.engineType = try c.lenientRequired(.engineType)
+            self.fileId = c.lenient(.fileId)
+            self.format = c.lenient(.format)
+            self.engineType = c.lenient(.engineType)
         }
     }
 
     public struct SpeechFileRecognizeResponse: Codable, Sendable {
-        public var recognitionText: String
-        public init(recognitionText: String) {
+        public var recognitionText: String?
+        public init(recognitionText: String? = nil) {
             self.recognitionText = recognitionText
         }
         enum CodingKeys: String, CodingKey {
@@ -72,7 +72,7 @@ extension SpeechToText {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.recognitionText = try c.lenientRequired(.recognitionText)
+            self.recognitionText = c.lenient(.recognitionText)
         }
     }
 
@@ -95,12 +95,12 @@ extension SpeechToText {
     }
 
     public struct SpeechStreamRecognizeBodyConfig: Codable, Sendable {
-        public var streamId: String
-        public var sequenceId: Int
-        public var action: Int
-        public var format: String
-        public var engineType: String
-        public init(streamId: String, sequenceId: Int, action: Int, format: String, engineType: String) {
+        public var streamId: String?
+        public var sequenceId: Int?
+        public var action: Int?
+        public var format: String?
+        public var engineType: String?
+        public init(streamId: String? = nil, sequenceId: Int? = nil, action: Int? = nil, format: String? = nil, engineType: String? = nil) {
             self.streamId = streamId
             self.sequenceId = sequenceId
             self.action = action
@@ -116,19 +116,19 @@ extension SpeechToText {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.streamId = try c.lenientRequired(.streamId)
-            self.sequenceId = try c.lenientRequired(.sequenceId)
-            self.action = try c.lenientRequired(.action)
-            self.format = try c.lenientRequired(.format)
-            self.engineType = try c.lenientRequired(.engineType)
+            self.streamId = c.lenient(.streamId)
+            self.sequenceId = c.lenient(.sequenceId)
+            self.action = c.lenient(.action)
+            self.format = c.lenient(.format)
+            self.engineType = c.lenient(.engineType)
         }
     }
 
     public struct SpeechStreamRecognizeResponse: Codable, Sendable {
-        public var streamId: String
-        public var sequenceId: Int
-        public var recognitionText: String
-        public init(streamId: String, sequenceId: Int, recognitionText: String) {
+        public var streamId: String?
+        public var sequenceId: Int?
+        public var recognitionText: String?
+        public init(streamId: String? = nil, sequenceId: Int? = nil, recognitionText: String? = nil) {
             self.streamId = streamId
             self.sequenceId = sequenceId
             self.recognitionText = recognitionText
@@ -140,9 +140,9 @@ extension SpeechToText {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.streamId = try c.lenientRequired(.streamId)
-            self.sequenceId = try c.lenientRequired(.sequenceId)
-            self.recognitionText = try c.lenientRequired(.recognitionText)
+            self.streamId = c.lenient(.streamId)
+            self.sequenceId = c.lenient(.sequenceId)
+            self.recognitionText = c.lenient(.recognitionText)
         }
     }
 }

@@ -977,10 +977,10 @@ extension Performance {
     }
 
     public struct ImportedMetric: Codable, Sendable {
-        public var revieweeUserId: String
-        public var metricId: String
-        public var fields: [ImportedMetricField]
-        public init(revieweeUserId: String, metricId: String, fields: [ImportedMetricField]) {
+        public var revieweeUserId: String?
+        public var metricId: String?
+        public var fields: [ImportedMetricField]?
+        public init(revieweeUserId: String? = nil, metricId: String? = nil, fields: [ImportedMetricField]? = nil) {
             self.revieweeUserId = revieweeUserId
             self.metricId = metricId
             self.fields = fields
@@ -992,17 +992,17 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.revieweeUserId = try c.lenientRequired(.revieweeUserId)
-            self.metricId = try c.lenientRequired(.metricId)
-            self.fields = try c.lenientRequired(.fields)
+            self.revieweeUserId = c.lenient(.revieweeUserId)
+            self.metricId = c.lenient(.metricId)
+            self.fields = c.lenient(.fields)
         }
     }
 
     public struct ImportedMetricField: Codable, Sendable {
-        public var fieldId: String
+        public var fieldId: String?
         public var fieldValue: String?
         public var fieldValuePerson: String?
-        public init(fieldId: String, fieldValue: String? = nil, fieldValuePerson: String? = nil) {
+        public init(fieldId: String? = nil, fieldValue: String? = nil, fieldValuePerson: String? = nil) {
             self.fieldId = fieldId
             self.fieldValue = fieldValue
             self.fieldValuePerson = fieldValuePerson
@@ -1014,7 +1014,7 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldId = try c.lenientRequired(.fieldId)
+            self.fieldId = c.lenient(.fieldId)
             self.fieldValue = c.lenient(.fieldValue)
             self.fieldValuePerson = c.lenient(.fieldValuePerson)
         }
@@ -1263,10 +1263,10 @@ extension Performance {
     }
 
     public struct TagBasedQuestion: Codable, Sendable {
-        public var questionId: String
+        public var questionId: String?
         public var name: DimensionName?
         public var tagItems: [TagItem]?
-        public init(questionId: String, name: DimensionName? = nil, tagItems: [TagItem]? = nil) {
+        public init(questionId: String? = nil, name: DimensionName? = nil, tagItems: [TagItem]? = nil) {
             self.questionId = questionId
             self.name = name
             self.tagItems = tagItems
@@ -1278,16 +1278,16 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.questionId = try c.lenientRequired(.questionId)
+            self.questionId = c.lenient(.questionId)
             self.name = c.lenient(.name)
             self.tagItems = c.lenient(.tagItems)
         }
     }
 
     public struct TagItem: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var name: DimensionName?
-        public init(id: String, name: DimensionName? = nil) {
+        public init(id: String? = nil, name: DimensionName? = nil) {
             self.id = id
             self.name = name
         }
@@ -1297,7 +1297,7 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.name = c.lenient(.name)
         }
     }
@@ -1339,11 +1339,11 @@ extension Performance {
     }
 
     public struct IndicatorQueryResponseIndicator: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var name: DimensionName?
         public var type: IndicatorQueryResponseIndicatorType?
         public var options: [IndicatorQueryResponseIndicatorOption]?
-        public init(id: String, name: DimensionName? = nil, type: IndicatorQueryResponseIndicatorType? = nil, options: [IndicatorQueryResponseIndicatorOption]? = nil) {
+        public init(id: String? = nil, name: DimensionName? = nil, type: IndicatorQueryResponseIndicatorType? = nil, options: [IndicatorQueryResponseIndicatorOption]? = nil) {
             self.id = id
             self.name = name
             self.type = type
@@ -1357,7 +1357,7 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.name = c.lenient(.name)
             self.type = c.lenient(.type)
             self.options = c.lenient(.options)
@@ -1376,10 +1376,10 @@ extension Performance {
     }
 
     public struct IndicatorQueryResponseIndicatorOption: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var name: DimensionName?
         public var lable: String?
-        public init(id: String, name: DimensionName? = nil, lable: String? = nil) {
+        public init(id: String? = nil, name: DimensionName? = nil, lable: String? = nil) {
             self.id = id
             self.name = name
             self.lable = lable
@@ -1391,7 +1391,7 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.name = c.lenient(.name)
             self.lable = c.lenient(.lable)
         }
@@ -1430,7 +1430,7 @@ extension Performance {
     }
 
     public struct ActivityQueryResponseActivity: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var name: DimensionName?
         public var description: DimensionName?
         public var semesterId: String?
@@ -1440,7 +1440,7 @@ extension Performance {
         public var modifyTime: String?
         public var createUserId: String?
         public var modifyUserId: String?
-        public init(id: String, name: DimensionName? = nil, description: DimensionName? = nil, semesterId: String? = nil, mode: Mode? = nil, progress: ActivityQueryResponseActivityProgress? = nil, createTime: String? = nil, modifyTime: String? = nil, createUserId: String? = nil, modifyUserId: String? = nil) {
+        public init(id: String? = nil, name: DimensionName? = nil, description: DimensionName? = nil, semesterId: String? = nil, mode: Mode? = nil, progress: ActivityQueryResponseActivityProgress? = nil, createTime: String? = nil, modifyTime: String? = nil, createUserId: String? = nil, modifyUserId: String? = nil) {
             self.id = id
             self.name = name
             self.description = description
@@ -1466,7 +1466,7 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.name = c.lenient(.name)
             self.description = c.lenient(.description)
             self.semesterId = c.lenient(.semesterId)
@@ -2021,7 +2021,7 @@ extension Performance {
     }
 
     public struct ReviewDataQueryResponseV2DataStageRecordUnitData: Codable, Sendable {
-        public var fieldId: String
+        public var fieldId: String?
         public var reviewerUserId: UserId?
         public var submitTime: String?
         public var indicatorId: String?
@@ -2039,7 +2039,7 @@ extension Performance {
         public var richtext: String?
         public var multiRichtexts: [String]?
         public var isPrincipalReviewItem: Bool?
-        public init(fieldId: String, reviewerUserId: UserId? = nil, submitTime: String? = nil, indicatorId: String? = nil, optionId: String? = nil, score: String? = nil, text: String? = nil, tagBasedQuestionId: String? = nil, tagTextItemData: [TagTextItemData]? = nil, perfCoefficientValue: String? = nil, subIndicatorData: [SubIndicatorData]? = nil, objectiveData: [ObjectiveData]? = nil, metricData: [MetricData]? = nil, leaderReviewDataSource: LeaderReviewDataSource? = nil, multiTexts: [String]? = nil, richtext: String? = nil, multiRichtexts: [String]? = nil, isPrincipalReviewItem: Bool? = nil) {
+        public init(fieldId: String? = nil, reviewerUserId: UserId? = nil, submitTime: String? = nil, indicatorId: String? = nil, optionId: String? = nil, score: String? = nil, text: String? = nil, tagBasedQuestionId: String? = nil, tagTextItemData: [TagTextItemData]? = nil, perfCoefficientValue: String? = nil, subIndicatorData: [SubIndicatorData]? = nil, objectiveData: [ObjectiveData]? = nil, metricData: [MetricData]? = nil, leaderReviewDataSource: LeaderReviewDataSource? = nil, multiTexts: [String]? = nil, richtext: String? = nil, multiRichtexts: [String]? = nil, isPrincipalReviewItem: Bool? = nil) {
             self.fieldId = fieldId
             self.reviewerUserId = reviewerUserId
             self.submitTime = submitTime
@@ -2081,7 +2081,7 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldId = try c.lenientRequired(.fieldId)
+            self.fieldId = c.lenient(.fieldId)
             self.reviewerUserId = c.lenient(.reviewerUserId)
             self.submitTime = c.lenient(.submitTime)
             self.indicatorId = c.lenient(.indicatorId)
@@ -2125,13 +2125,13 @@ extension Performance {
     }
 
     public struct SubIndicatorData: Codable, Sendable {
-        public var fieldId: String
+        public var fieldId: String?
         public var indicatorId: String?
         public var optionId: String?
         public var score: String?
         public var text: String?
         public var richtext: String?
-        public init(fieldId: String, indicatorId: String? = nil, optionId: String? = nil, score: String? = nil, text: String? = nil, richtext: String? = nil) {
+        public init(fieldId: String? = nil, indicatorId: String? = nil, optionId: String? = nil, score: String? = nil, text: String? = nil, richtext: String? = nil) {
             self.fieldId = fieldId
             self.indicatorId = indicatorId
             self.optionId = optionId
@@ -2149,7 +2149,7 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldId = try c.lenientRequired(.fieldId)
+            self.fieldId = c.lenient(.fieldId)
             self.indicatorId = c.lenient(.indicatorId)
             self.optionId = c.lenient(.optionId)
             self.score = c.lenient(.score)
@@ -2159,12 +2159,12 @@ extension Performance {
     }
 
     public struct ObjectiveData: Codable, Sendable {
-        public var objectiveId: String
+        public var objectiveId: String?
         public var score: String?
         public var text: String?
         public var keyresultData: [KeyresultData]?
         public var richtext: String?
-        public init(objectiveId: String, score: String? = nil, text: String? = nil, keyresultData: [KeyresultData]? = nil, richtext: String? = nil) {
+        public init(objectiveId: String? = nil, score: String? = nil, text: String? = nil, keyresultData: [KeyresultData]? = nil, richtext: String? = nil) {
             self.objectiveId = objectiveId
             self.score = score
             self.text = text
@@ -2180,7 +2180,7 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.objectiveId = try c.lenientRequired(.objectiveId)
+            self.objectiveId = c.lenient(.objectiveId)
             self.score = c.lenient(.score)
             self.text = c.lenient(.text)
             self.keyresultData = c.lenient(.keyresultData)
@@ -2189,11 +2189,11 @@ extension Performance {
     }
 
     public struct KeyresultData: Codable, Sendable {
-        public var keyresultId: String
+        public var keyresultId: String?
         public var score: String?
         public var text: String?
         public var richtext: String?
-        public init(keyresultId: String, score: String? = nil, text: String? = nil, richtext: String? = nil) {
+        public init(keyresultId: String? = nil, score: String? = nil, text: String? = nil, richtext: String? = nil) {
             self.keyresultId = keyresultId
             self.score = score
             self.text = text
@@ -2207,7 +2207,7 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.keyresultId = try c.lenientRequired(.keyresultId)
+            self.keyresultId = c.lenient(.keyresultId)
             self.score = c.lenient(.score)
             self.text = c.lenient(.text)
             self.richtext = c.lenient(.richtext)
@@ -2215,9 +2215,9 @@ extension Performance {
     }
 
     public struct MetricData: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var score: String?
-        public init(id: String, score: String? = nil) {
+        public init(id: String? = nil, score: String? = nil) {
             self.id = id
             self.score = score
         }
@@ -2227,7 +2227,7 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.score = c.lenient(.score)
         }
     }
@@ -2753,10 +2753,10 @@ extension Performance {
     public struct UserInfo: Codable, Sendable {
         public var userId: UserId?
         public var directLeaderUserId: UserId?
-        public var department: Department?
-        public var jobFamily: Department?
-        public var jobLevel: Department?
-        public init(userId: UserId? = nil, directLeaderUserId: UserId? = nil, department: Department? = nil, jobFamily: Department? = nil, jobLevel: Department? = nil) {
+        public var department: TagItem?
+        public var jobFamily: TagItem?
+        public var jobLevel: TagItem?
+        public init(userId: UserId? = nil, directLeaderUserId: UserId? = nil, department: TagItem? = nil, jobFamily: TagItem? = nil, jobLevel: TagItem? = nil) {
             self.userId = userId
             self.directLeaderUserId = directLeaderUserId
             self.department = department
@@ -2777,24 +2777,6 @@ extension Performance {
             self.department = c.lenient(.department)
             self.jobFamily = c.lenient(.jobFamily)
             self.jobLevel = c.lenient(.jobLevel)
-        }
-    }
-
-    public struct Department: Codable, Sendable {
-        public var id: String?
-        public var name: DimensionName?
-        public init(id: String? = nil, name: DimensionName? = nil) {
-            self.id = id
-            self.name = name
-        }
-        enum CodingKeys: String, CodingKey {
-            case id
-            case name
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = c.lenient(.id)
-            self.name = c.lenient(.name)
         }
     }
 
@@ -2869,12 +2851,12 @@ extension Performance {
     }
 
     public struct ReviewTemplateTemplate: Codable, Sendable {
-        public var templateId: String
+        public var templateId: String?
         public var name: DimensionName?
         public var stageType: String?
         public var reviewStageRole: String?
         public var reviewStageDataWriteMode: String?
-        public init(templateId: String, name: DimensionName? = nil, stageType: String? = nil, reviewStageRole: String? = nil, reviewStageDataWriteMode: String? = nil) {
+        public init(templateId: String? = nil, name: DimensionName? = nil, stageType: String? = nil, reviewStageRole: String? = nil, reviewStageDataWriteMode: String? = nil) {
             self.templateId = templateId
             self.name = name
             self.stageType = stageType
@@ -2890,7 +2872,7 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.templateId = try c.lenientRequired(.templateId)
+            self.templateId = c.lenient(.templateId)
             self.name = c.lenient(.name)
             self.stageType = c.lenient(.stageType)
             self.reviewStageRole = c.lenient(.reviewStageRole)
@@ -2899,10 +2881,10 @@ extension Performance {
     }
 
     public struct ReviewTemplateUnit: Codable, Sendable {
-        public var unitId: String
+        public var unitId: String?
         public var name: DimensionName?
         public var fields: [ReviewTemplateUnitField]?
-        public init(unitId: String, name: DimensionName? = nil, fields: [ReviewTemplateUnitField]? = nil) {
+        public init(unitId: String? = nil, name: DimensionName? = nil, fields: [ReviewTemplateUnitField]? = nil) {
             self.unitId = unitId
             self.name = name
             self.fields = fields
@@ -2914,14 +2896,14 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.unitId = try c.lenientRequired(.unitId)
+            self.unitId = c.lenient(.unitId)
             self.name = c.lenient(.name)
             self.fields = c.lenient(.fields)
         }
     }
 
     public struct ReviewTemplateUnitField: Codable, Sendable {
-        public var fieldId: String
+        public var fieldId: String?
         public var name: DimensionName?
         public var indicatorId: String?
         public var tagBasedQuestionId: String?
@@ -2929,7 +2911,7 @@ extension Performance {
         public var keyresultTextQustionTitle: DimensionName?
         public var parentFieldId: String?
         public var kpiTemplateId: String?
-        public init(fieldId: String, name: DimensionName? = nil, indicatorId: String? = nil, tagBasedQuestionId: String? = nil, objectiveTextQustionTitle: DimensionName? = nil, keyresultTextQustionTitle: DimensionName? = nil, parentFieldId: String? = nil, kpiTemplateId: String? = nil) {
+        public init(fieldId: String? = nil, name: DimensionName? = nil, indicatorId: String? = nil, tagBasedQuestionId: String? = nil, objectiveTextQustionTitle: DimensionName? = nil, keyresultTextQustionTitle: DimensionName? = nil, parentFieldId: String? = nil, kpiTemplateId: String? = nil) {
             self.fieldId = fieldId
             self.name = name
             self.indicatorId = indicatorId
@@ -2951,7 +2933,7 @@ extension Performance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldId = try c.lenientRequired(.fieldId)
+            self.fieldId = c.lenient(.fieldId)
             self.name = c.lenient(.name)
             self.indicatorId = c.lenient(.indicatorId)
             self.tagBasedQuestionId = c.lenient(.tagBasedQuestionId)
@@ -3059,11 +3041,11 @@ extension Performance {
     public struct AdditionalInformation: Codable, Sendable {
         public var itemId: String?
         public var externalId: String?
-        public var revieweeUserId: String
-        public var item: String
-        public var time: String
-        public var detailedDescription: String
-        public init(itemId: String? = nil, externalId: String? = nil, revieweeUserId: String, item: String, time: String, detailedDescription: String) {
+        public var revieweeUserId: String?
+        public var item: String?
+        public var time: String?
+        public var detailedDescription: String?
+        public init(itemId: String? = nil, externalId: String? = nil, revieweeUserId: String? = nil, item: String? = nil, time: String? = nil, detailedDescription: String? = nil) {
             self.itemId = itemId
             self.externalId = externalId
             self.revieweeUserId = revieweeUserId
@@ -3083,10 +3065,10 @@ extension Performance {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.itemId = c.lenient(.itemId)
             self.externalId = c.lenient(.externalId)
-            self.revieweeUserId = try c.lenientRequired(.revieweeUserId)
-            self.item = try c.lenientRequired(.item)
-            self.time = try c.lenientRequired(.time)
-            self.detailedDescription = try c.lenientRequired(.detailedDescription)
+            self.revieweeUserId = c.lenient(.revieweeUserId)
+            self.item = c.lenient(.item)
+            self.time = c.lenient(.time)
+            self.detailedDescription = c.lenient(.detailedDescription)
         }
     }
 

@@ -1225,16 +1225,16 @@ extension OKR {
     }
 
     public struct Alignment: Codable, Sendable {
-        public var id: String
-        public var createTime: String
-        public var updateTime: String
-        public var fromOwner: FromOwner
-        public var toOwner: FromOwner
-        public var fromEntityType: Int
-        public var fromEntityId: String
-        public var toEntityType: Int
-        public var toEntityId: String
-        public init(id: String, createTime: String, updateTime: String, fromOwner: FromOwner, toOwner: FromOwner, fromEntityType: Int, fromEntityId: String, toEntityType: Int, toEntityId: String) {
+        public var id: String?
+        public var createTime: String?
+        public var updateTime: String?
+        public var fromOwner: FromOwner?
+        public var toOwner: FromOwner?
+        public var fromEntityType: Int?
+        public var fromEntityId: String?
+        public var toEntityType: Int?
+        public var toEntityId: String?
+        public init(id: String? = nil, createTime: String? = nil, updateTime: String? = nil, fromOwner: FromOwner? = nil, toOwner: FromOwner? = nil, fromEntityType: Int? = nil, fromEntityId: String? = nil, toEntityType: Int? = nil, toEntityId: String? = nil) {
             self.id = id
             self.createTime = createTime
             self.updateTime = updateTime
@@ -1258,22 +1258,22 @@ extension OKR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.createTime = try c.lenientRequired(.createTime)
-            self.updateTime = try c.lenientRequired(.updateTime)
-            self.fromOwner = try c.lenientRequired(.fromOwner)
-            self.toOwner = try c.lenientRequired(.toOwner)
-            self.fromEntityType = try c.lenientRequired(.fromEntityType)
-            self.fromEntityId = try c.lenientRequired(.fromEntityId)
-            self.toEntityType = try c.lenientRequired(.toEntityType)
-            self.toEntityId = try c.lenientRequired(.toEntityId)
+            self.id = c.lenient(.id)
+            self.createTime = c.lenient(.createTime)
+            self.updateTime = c.lenient(.updateTime)
+            self.fromOwner = c.lenient(.fromOwner)
+            self.toOwner = c.lenient(.toOwner)
+            self.fromEntityType = c.lenient(.fromEntityType)
+            self.fromEntityId = c.lenient(.fromEntityId)
+            self.toEntityType = c.lenient(.toEntityType)
+            self.toEntityId = c.lenient(.toEntityId)
         }
     }
 
     public struct FromOwner: Codable, Sendable {
-        public var ownerType: OwnerType
+        public var ownerType: OwnerType?
         public var userId: String?
-        public init(ownerType: OwnerType, userId: String? = nil) {
+        public init(ownerType: OwnerType? = nil, userId: String? = nil) {
             self.ownerType = ownerType
             self.userId = userId
         }
@@ -1283,7 +1283,7 @@ extension OKR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.ownerType = try c.lenientRequired(.ownerType)
+            self.ownerType = c.lenient(.ownerType)
             self.userId = c.lenient(.userId)
         }
     }
@@ -1338,17 +1338,17 @@ extension OKR {
     }
 
     public struct OkrObjective: Codable, Sendable {
-        public var id: String
-        public var createTime: String
-        public var updateTime: String
-        public var owner: FromOwner
-        public var objectiveId: String
-        public var position: Int
+        public var id: String?
+        public var createTime: String?
+        public var updateTime: String?
+        public var owner: FromOwner?
+        public var objectiveId: String?
+        public var position: Int?
         public var content: OkrObjectiveContent?
         public var score: Double?
         public var weight: Double?
         public var deadline: String?
-        public init(id: String, createTime: String, updateTime: String, owner: FromOwner, objectiveId: String, position: Int, content: OkrObjectiveContent? = nil, score: Double? = nil, weight: Double? = nil, deadline: String? = nil) {
+        public init(id: String? = nil, createTime: String? = nil, updateTime: String? = nil, owner: FromOwner? = nil, objectiveId: String? = nil, position: Int? = nil, content: OkrObjectiveContent? = nil, score: Double? = nil, weight: Double? = nil, deadline: String? = nil) {
             self.id = id
             self.createTime = createTime
             self.updateTime = updateTime
@@ -1374,12 +1374,12 @@ extension OKR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.createTime = try c.lenientRequired(.createTime)
-            self.updateTime = try c.lenientRequired(.updateTime)
-            self.owner = try c.lenientRequired(.owner)
-            self.objectiveId = try c.lenientRequired(.objectiveId)
-            self.position = try c.lenientRequired(.position)
+            self.id = c.lenient(.id)
+            self.createTime = c.lenient(.createTime)
+            self.updateTime = c.lenient(.updateTime)
+            self.owner = c.lenient(.owner)
+            self.objectiveId = c.lenient(.objectiveId)
+            self.position = c.lenient(.position)
             self.content = c.lenient(.content)
             self.score = c.lenient(.score)
             self.weight = c.lenient(.weight)
@@ -1659,19 +1659,19 @@ extension OKR {
     }
 
     public struct Objective: Codable, Sendable {
-        public var id: String
-        public var createTime: String
-        public var updateTime: String
-        public var owner: FromOwner
-        public var cycleId: String
-        public var position: Int
+        public var id: String?
+        public var createTime: String?
+        public var updateTime: String?
+        public var owner: FromOwner?
+        public var cycleId: String?
+        public var position: Int?
         public var content: OkrObjectiveContent?
         public var score: Double?
         public var notes: OkrObjectiveContent?
         public var weight: Double?
         public var deadline: String?
         public var categoryId: String?
-        public init(id: String, createTime: String, updateTime: String, owner: FromOwner, cycleId: String, position: Int, content: OkrObjectiveContent? = nil, score: Double? = nil, notes: OkrObjectiveContent? = nil, weight: Double? = nil, deadline: String? = nil, categoryId: String? = nil) {
+        public init(id: String? = nil, createTime: String? = nil, updateTime: String? = nil, owner: FromOwner? = nil, cycleId: String? = nil, position: Int? = nil, content: OkrObjectiveContent? = nil, score: Double? = nil, notes: OkrObjectiveContent? = nil, weight: Double? = nil, deadline: String? = nil, categoryId: String? = nil) {
             self.id = id
             self.createTime = createTime
             self.updateTime = updateTime
@@ -1701,12 +1701,12 @@ extension OKR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.createTime = try c.lenientRequired(.createTime)
-            self.updateTime = try c.lenientRequired(.updateTime)
-            self.owner = try c.lenientRequired(.owner)
-            self.cycleId = try c.lenientRequired(.cycleId)
-            self.position = try c.lenientRequired(.position)
+            self.id = c.lenient(.id)
+            self.createTime = c.lenient(.createTime)
+            self.updateTime = c.lenient(.updateTime)
+            self.owner = c.lenient(.owner)
+            self.cycleId = c.lenient(.cycleId)
+            self.position = c.lenient(.position)
             self.content = c.lenient(.content)
             self.score = c.lenient(.score)
             self.notes = c.lenient(.notes)
@@ -1731,9 +1731,9 @@ extension OKR {
     }
 
     public struct KeyResultWeight: Codable, Sendable {
-        public var keyResultId: String
-        public var weight: Double
-        public init(keyResultId: String, weight: Double) {
+        public var keyResultId: String?
+        public var weight: Double?
+        public init(keyResultId: String? = nil, weight: Double? = nil) {
             self.keyResultId = keyResultId
             self.weight = weight
         }
@@ -1743,8 +1743,8 @@ extension OKR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.keyResultId = try c.lenientRequired(.keyResultId)
-            self.weight = try c.lenientRequired(.weight)
+            self.keyResultId = c.lenient(.keyResultId)
+            self.weight = c.lenient(.weight)
         }
     }
 
@@ -1929,14 +1929,14 @@ extension OKR {
     }
 
     public struct OkrCategory: Codable, Sendable {
-        public var id: String
-        public var createTime: String
-        public var updateTime: String
-        public var categoryType: CategoryType
-        public var enabled: Bool
-        public var color: Color
-        public var name: Name
-        public init(id: String, createTime: String, updateTime: String, categoryType: CategoryType, enabled: Bool, color: Color, name: Name) {
+        public var id: String?
+        public var createTime: String?
+        public var updateTime: String?
+        public var categoryType: CategoryType?
+        public var enabled: Bool?
+        public var color: Color?
+        public var name: Name?
+        public init(id: String? = nil, createTime: String? = nil, updateTime: String? = nil, categoryType: CategoryType? = nil, enabled: Bool? = nil, color: Color? = nil, name: Name? = nil) {
             self.id = id
             self.createTime = createTime
             self.updateTime = updateTime
@@ -1956,13 +1956,13 @@ extension OKR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.createTime = try c.lenientRequired(.createTime)
-            self.updateTime = try c.lenientRequired(.updateTime)
-            self.categoryType = try c.lenientRequired(.categoryType)
-            self.enabled = try c.lenientRequired(.enabled)
-            self.color = try c.lenientRequired(.color)
-            self.name = try c.lenientRequired(.name)
+            self.id = c.lenient(.id)
+            self.createTime = c.lenient(.createTime)
+            self.updateTime = c.lenient(.updateTime)
+            self.categoryType = c.lenient(.categoryType)
+            self.enabled = c.lenient(.enabled)
+            self.color = c.lenient(.color)
+            self.name = c.lenient(.name)
         }
     }
 
@@ -2057,16 +2057,16 @@ extension OKR {
     }
 
     public struct OkrCycle: Codable, Sendable {
-        public var id: String
-        public var createTime: String
-        public var updateTime: String
-        public var tenantCycleId: String
-        public var owner: FromOwner
-        public var startTime: String
-        public var endTime: String
+        public var id: String?
+        public var createTime: String?
+        public var updateTime: String?
+        public var tenantCycleId: String?
+        public var owner: FromOwner?
+        public var startTime: String?
+        public var endTime: String?
         public var cycleStatus: Int?
         public var score: Double?
-        public init(id: String, createTime: String, updateTime: String, tenantCycleId: String, owner: FromOwner, startTime: String, endTime: String, cycleStatus: Int? = nil, score: Double? = nil) {
+        public init(id: String? = nil, createTime: String? = nil, updateTime: String? = nil, tenantCycleId: String? = nil, owner: FromOwner? = nil, startTime: String? = nil, endTime: String? = nil, cycleStatus: Int? = nil, score: Double? = nil) {
             self.id = id
             self.createTime = createTime
             self.updateTime = updateTime
@@ -2090,13 +2090,13 @@ extension OKR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.createTime = try c.lenientRequired(.createTime)
-            self.updateTime = try c.lenientRequired(.updateTime)
-            self.tenantCycleId = try c.lenientRequired(.tenantCycleId)
-            self.owner = try c.lenientRequired(.owner)
-            self.startTime = try c.lenientRequired(.startTime)
-            self.endTime = try c.lenientRequired(.endTime)
+            self.id = c.lenient(.id)
+            self.createTime = c.lenient(.createTime)
+            self.updateTime = c.lenient(.updateTime)
+            self.tenantCycleId = c.lenient(.tenantCycleId)
+            self.owner = c.lenient(.owner)
+            self.startTime = c.lenient(.startTime)
+            self.endTime = c.lenient(.endTime)
             self.cycleStatus = c.lenient(.cycleStatus)
             self.score = c.lenient(.score)
         }
@@ -2117,9 +2117,9 @@ extension OKR {
     }
 
     public struct ObjectiveWeight: Codable, Sendable {
-        public var objectiveId: String
-        public var weight: Double
-        public init(objectiveId: String, weight: Double) {
+        public var objectiveId: String?
+        public var weight: Double?
+        public init(objectiveId: String? = nil, weight: Double? = nil) {
             self.objectiveId = objectiveId
             self.weight = weight
         }
@@ -2129,8 +2129,8 @@ extension OKR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.objectiveId = try c.lenientRequired(.objectiveId)
-            self.weight = try c.lenientRequired(.weight)
+            self.objectiveId = c.lenient(.objectiveId)
+            self.weight = c.lenient(.weight)
         }
     }
 
@@ -2247,20 +2247,20 @@ extension OKR {
     }
 
     public struct Indicator: Codable, Sendable {
-        public var id: String
-        public var createTime: String
-        public var updateTime: String
-        public var owner: FromOwner
-        public var entityType: Int
-        public var entityId: String
-        public var indicatorStatus: Int
-        public var statusCalculateType: Int
+        public var id: String?
+        public var createTime: String?
+        public var updateTime: String?
+        public var owner: FromOwner?
+        public var entityType: Int?
+        public var entityId: String?
+        public var indicatorStatus: Int?
+        public var statusCalculateType: Int?
         public var startValue: Double?
         public var targetValue: Double?
         public var currentValue: Double?
         public var currentValueCalculateType: Int?
         public var unit: Unit?
-        public init(id: String, createTime: String, updateTime: String, owner: FromOwner, entityType: Int, entityId: String, indicatorStatus: Int, statusCalculateType: Int, startValue: Double? = nil, targetValue: Double? = nil, currentValue: Double? = nil, currentValueCalculateType: Int? = nil, unit: Unit? = nil) {
+        public init(id: String? = nil, createTime: String? = nil, updateTime: String? = nil, owner: FromOwner? = nil, entityType: Int? = nil, entityId: String? = nil, indicatorStatus: Int? = nil, statusCalculateType: Int? = nil, startValue: Double? = nil, targetValue: Double? = nil, currentValue: Double? = nil, currentValueCalculateType: Int? = nil, unit: Unit? = nil) {
             self.id = id
             self.createTime = createTime
             self.updateTime = updateTime
@@ -2292,14 +2292,14 @@ extension OKR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.createTime = try c.lenientRequired(.createTime)
-            self.updateTime = try c.lenientRequired(.updateTime)
-            self.owner = try c.lenientRequired(.owner)
-            self.entityType = try c.lenientRequired(.entityType)
-            self.entityId = try c.lenientRequired(.entityId)
-            self.indicatorStatus = try c.lenientRequired(.indicatorStatus)
-            self.statusCalculateType = try c.lenientRequired(.statusCalculateType)
+            self.id = c.lenient(.id)
+            self.createTime = c.lenient(.createTime)
+            self.updateTime = c.lenient(.updateTime)
+            self.owner = c.lenient(.owner)
+            self.entityType = c.lenient(.entityType)
+            self.entityId = c.lenient(.entityId)
+            self.indicatorStatus = c.lenient(.indicatorStatus)
+            self.statusCalculateType = c.lenient(.statusCalculateType)
             self.startValue = c.lenient(.startValue)
             self.targetValue = c.lenient(.targetValue)
             self.currentValue = c.lenient(.currentValue)
@@ -2309,9 +2309,9 @@ extension OKR {
     }
 
     public struct Unit: Codable, Sendable {
-        public var unitType: Int
-        public var unitValue: String
-        public init(unitType: Int, unitValue: String) {
+        public var unitType: Int?
+        public var unitValue: String?
+        public init(unitType: Int? = nil, unitValue: String? = nil) {
             self.unitType = unitType
             self.unitValue = unitValue
         }
@@ -2321,8 +2321,8 @@ extension OKR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.unitType = try c.lenientRequired(.unitType)
-            self.unitValue = try c.lenientRequired(.unitValue)
+            self.unitType = c.lenient(.unitType)
+            self.unitValue = c.lenient(.unitValue)
         }
     }
 
@@ -2443,15 +2443,15 @@ extension OKR {
     }
 
     public struct OkrObjectiveProgress: Codable, Sendable {
-        public var id: String
-        public var createTime: String
-        public var updateTime: String
-        public var owner: FromOwner
-        public var entityType: Int
-        public var entityId: String
+        public var id: String?
+        public var createTime: String?
+        public var updateTime: String?
+        public var owner: FromOwner?
+        public var entityType: Int?
+        public var entityId: String?
         public var content: OkrObjectiveContent?
         public var progressRate: OkrObjectiveProgressProgressRate?
-        public init(id: String, createTime: String, updateTime: String, owner: FromOwner, entityType: Int, entityId: String, content: OkrObjectiveContent? = nil, progressRate: OkrObjectiveProgressProgressRate? = nil) {
+        public init(id: String? = nil, createTime: String? = nil, updateTime: String? = nil, owner: FromOwner? = nil, entityType: Int? = nil, entityId: String? = nil, content: OkrObjectiveContent? = nil, progressRate: OkrObjectiveProgressProgressRate? = nil) {
             self.id = id
             self.createTime = createTime
             self.updateTime = updateTime
@@ -2473,12 +2473,12 @@ extension OKR {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.createTime = try c.lenientRequired(.createTime)
-            self.updateTime = try c.lenientRequired(.updateTime)
-            self.owner = try c.lenientRequired(.owner)
-            self.entityType = try c.lenientRequired(.entityType)
-            self.entityId = try c.lenientRequired(.entityId)
+            self.id = c.lenient(.id)
+            self.createTime = c.lenient(.createTime)
+            self.updateTime = c.lenient(.updateTime)
+            self.owner = c.lenient(.owner)
+            self.entityType = c.lenient(.entityType)
+            self.entityId = c.lenient(.entityId)
             self.content = c.lenient(.content)
             self.progressRate = c.lenient(.progressRate)
         }

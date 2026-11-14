@@ -48,9 +48,9 @@ import LarkIM
     @Test func dispatcherSnippetBuilds() async throws {
         let dispatcher = EventDispatcher(logLevel: .fatal)
             .register(.imMessageReceiveV1) { e, _ in
-                let m = e.message
+                guard let m = e.message else { return nil }
                 _ = (m.messageId, m.chatId, m.chatType, m.messageType, m.content, m.mentions, m.rootId, m.parentId)
-                _ = (e.sender.senderId?.openId, e.text)
+                _ = (e.sender?.senderId?.openId, e.text)
                 return nil
             }
             .register(.imChatMemberBotAddedV1) { e, _ in

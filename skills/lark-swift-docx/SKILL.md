@@ -63,8 +63,8 @@ print(raw.data?.content ?? "")          // the whole document as plain text
 for try await page in client.docx.v1.documentBlock.listWithIterator(documentId: documentId, params: .init(pageSize: 500)) {
     for block in page.items ?? [] {
         let body = block.text ?? block.heading1 ?? block.bullet
-        let text = body?.elements.compactMap { $0.textRun?.content }.joined() ?? ""
-        print(block.blockId ?? "", block.blockType, block.parentId ?? "", text)
+        let text = body?.elements?.compactMap { $0.textRun?.content }.joined() ?? ""
+        print(block.blockId ?? "", block.blockType ?? 0, block.parentId ?? "", text)
     }
 }
 
@@ -130,7 +130,7 @@ let converted = try await client.docx.v1.document.convert(
     body: .init(contentType: .markdown, content: "# Title\n\n- a\n- b\n\n| x | y |\n|---|---|\n| 1 | 2 |"))
 let blocks = converted.data?.blocks ?? []
 var descendants = try JSONDecoder().decode([Docx.Descendant].self, from: JSONEncoder().encode(blocks))
-for i in descendants.indices { descendants[i].table?.property.mergeInfo = nil }
+for i in descendants.indices { descendants[i].table?.property?.mergeInfo = nil }
 _ = try await client.docx.v1.documentBlockDescendant.create(
     documentId: documentId, blockId: documentId,
     body: .init(childrenId: converted.data?.firstLevelBlockIds ?? [], descendants: descendants))

@@ -43,7 +43,7 @@ import LarkDrive
 
     @Test("POST /open-apis/drive/v1/files/create_shortcut") func v1_file_createShortcut() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"succ_shortcut_node":{"token":"s","name":"s","type":"s","parent_token":"s","url":"s","shortcut_info":{"target_type":"s","target_token":"s"},"created_time":"s","modified_time":"s","owner_id":"s"}}}"##)
-        let resp = try await client.drive.v1.file.createShortcut(params: Drive.FileCopyQuery(), body: Drive.FileCreateShortcutBody(parentToken: "s", referEntity: Drive.ReferEntity(referToken: "s", referType: "file")))
+        let resp = try await client.drive.v1.file.createShortcut(params: Drive.FileCopyQuery(), body: Drive.FileCreateShortcutBody(parentToken: "s", referEntity: Drive.ReferEntity()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -186,7 +186,7 @@ import LarkDrive
 
     @Test("POST /open-apis/drive/v1/metas/batch_query") func v1_meta_batchQuery() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"metas":[{"doc_token":"s","doc_type":"s","title":"s","owner_id":"s","create_time":"s","latest_modify_user":"s","latest_modify_time":"s","url":"s","sec_label_name":"s","request_doc_info":{"doc_token":"s","doc_type":"doc"}}],"failed_list":[{"token":"s","code":1}]}}"##)
-        let resp = try await client.drive.v1.meta.batchQuery(params: Drive.FileCopyQuery(), body: Drive.MetaBatchQueryBody(requestDocs: [Drive.RequestDoc(docToken: "s", docType: "doc")]))
+        let resp = try await client.drive.v1.meta.batchQuery(params: Drive.FileCopyQuery(), body: Drive.MetaBatchQueryBody(requestDocs: [Drive.RequestDoc()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -513,7 +513,7 @@ import LarkDrive
 
     @Test("POST /open-apis/drive/v1/import_tasks") func v1_importTask_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"ticket":"s"}}"##)
-        let resp = try await client.drive.v1.importTask.create(body: Drive.ImportTaskCreateBody(fileExtension: "s", fileToken: "s", type: "s", point: Drive.Point(mountType: 1, mountKey: "s")))
+        let resp = try await client.drive.v1.importTask.create(body: Drive.ImportTaskCreateBody(fileExtension: "s", fileToken: "s", type: "s", point: Drive.Point()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -569,7 +569,7 @@ import LarkDrive
 
     @Test("POST /open-apis/drive/v1/files/:file_token/comments/:comment_id/replies") func v1_fileCommentReply_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"content":{"elements":[{"type":"text_run","text_run":{"text":"s"},"docs_link":{"url":"s"},"person":{"user_id":"s"}}]},"reply_id":"s","user_id":"s","create_time":1,"update_time":1,"extra":{"image_list":["s"]},"reactions":[{"reaction_key":"s","count":1,"ahead_users":["s"]}]}}"##)
-        let resp = try await client.drive.v1.fileCommentReply.create(fileToken: "s", commentId: "s", params: Drive.FileCommentReplyCreateQuery(fileType: "doc"), body: Drive.FileCommentReplyCreateBody(content: Drive.ReplyContent(elements: [Drive.ReplyContentElement(type: "text_run")])))
+        let resp = try await client.drive.v1.fileCommentReply.create(fileToken: "s", commentId: "s", params: Drive.FileCommentReplyCreateQuery(fileType: "doc"), body: Drive.FileCommentReplyCreateBody(content: Drive.ReplyContent()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -581,7 +581,7 @@ import LarkDrive
 
     @Test("PUT /open-apis/drive/v1/files/:file_token/comments/:comment_id/replies/:reply_id") func v1_fileCommentReply_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"data":"s"}}"##)
-        let resp = try await client.drive.v1.fileCommentReply.update(fileToken: "s", commentId: "s", replyId: "s", params: Drive.FileCommentBatchQueryQuery(fileType: "doc"), body: Drive.FileCommentReplyUpdateBody(content: Drive.ReplyContent(elements: [Drive.ReplyContentElement(type: "text_run")])))
+        let resp = try await client.drive.v1.fileCommentReply.update(fileToken: "s", commentId: "s", replyId: "s", params: Drive.FileCommentBatchQueryQuery(fileType: "doc"), body: Drive.FileCommentReplyUpdateBody(content: Drive.ReplyContent()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -629,7 +629,7 @@ import LarkDrive
 
     @Test("POST /open-apis/drive/v1/permissions/:token/members/batch_create") func v1_permissionMember_batchCreate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"members":[{"member_type":"email","member_id":"s","perm":"view","perm_type":"container","type":"user","name":"s","avatar":"s","external_label":true}]}}"##)
-        let resp = try await client.drive.v1.permissionMember.batchCreate(token: "s", params: Drive.PermissionMemberBatchCreateQuery(type: "doc"), body: Drive.PermissionMemberBatchCreateBody(members: [Drive.Member(memberType: "email", memberId: "s", perm: "view")]))
+        let resp = try await client.drive.v1.permissionMember.batchCreate(token: "s", params: Drive.PermissionMemberBatchCreateQuery(type: "doc"), body: Drive.PermissionMemberBatchCreateBody(members: [Drive.Member()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -687,7 +687,7 @@ import LarkDrive
 
     @Test("POST /open-apis/drive/v1/permissions/:token/members") func v1_permissionMember_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"member":{"member_type":"email","member_id":"s","perm":"view","perm_type":"container","type":"user"}}}"##)
-        let resp = try await client.drive.v1.permissionMember.create(token: "s", params: Drive.PermissionMemberBatchCreateQuery(type: "doc"), body: Drive.PermissionMemberCreateBody())
+        let resp = try await client.drive.v1.permissionMember.create(token: "s", params: Drive.PermissionMemberBatchCreateQuery(type: "doc"), body: Drive.PermissionMemberUpdateResponseMember())
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

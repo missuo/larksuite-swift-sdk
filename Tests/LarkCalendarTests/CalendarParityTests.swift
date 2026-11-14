@@ -222,7 +222,7 @@ import LarkCalendar
 
     @Test("POST /open-apis/calendar/v4/calendars/:calendar_id/acls") func v4_calendarAcl_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"acl_id":"s","role":"unknown","scope":{"type":"user","user_id":"s"}}}"##)
-        let resp = try await client.calendar.v4.calendarAcl.create(calendarId: "s", params: CalendarAPI.ExchangeBindingGetQuery(), body: CalendarAPI.CalendarAclCreateBody(role: "unknown", scope: CalendarAPI.Scope(type: "user")))
+        let resp = try await client.calendar.v4.calendarAcl.create(calendarId: "s", params: CalendarAPI.ExchangeBindingGetQuery(), body: CalendarAPI.CalendarAclCreateBody(role: "unknown", scope: CalendarAPI.Scope()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

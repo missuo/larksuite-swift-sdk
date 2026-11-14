@@ -8,8 +8,6 @@ extension ACS {
 
     public typealias UserFaceUpdateQuery = UserPatchQuery
 
-    public typealias RuleExternalCreateResponse = RuleExternalDeleteQuery
-
     public typealias VisitorDeleteQuery = UserPatchQuery
 
     public typealias VisitorCreateQuery = UserPatchQuery
@@ -125,8 +123,8 @@ extension ACS {
     public struct AccessType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let fA: Self = "FA"
-        public static let qRCode: Self = "QRCode"
+        public static let fa: Self = "FA"
+        public static let qrCode: Self = "QRCode"
         public static let card: Self = "Card"
         public static let fp: Self = "Fp"
     }
@@ -407,8 +405,8 @@ extension ACS {
     }
 
     public struct RuleExternalGetResponse: Codable, Sendable {
-        public var rules: [Rule]
-        public init(rules: [Rule]) {
+        public var rules: [Rule]?
+        public init(rules: [Rule]? = nil) {
             self.rules = rules
         }
         enum CodingKeys: String, CodingKey {
@@ -416,7 +414,7 @@ extension ACS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.rules = try c.lenientRequired(.rules)
+            self.rules = c.lenient(.rules)
         }
     }
 
@@ -489,12 +487,12 @@ extension ACS {
     }
 
     public struct RuleUser: Codable, Sendable {
-        public var userType: Int
+        public var userType: Int?
         public var userId: String?
         public var userName: String?
         public var phoneNum: String?
         public var departmentId: String?
-        public init(userType: Int, userId: String? = nil, userName: String? = nil, phoneNum: String? = nil, departmentId: String? = nil) {
+        public init(userType: Int? = nil, userId: String? = nil, userName: String? = nil, phoneNum: String? = nil, departmentId: String? = nil) {
             self.userType = userType
             self.userId = userId
             self.userName = userName
@@ -510,7 +508,7 @@ extension ACS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userType = try c.lenientRequired(.userType)
+            self.userType = c.lenient(.userType)
             self.userId = c.lenient(.userId)
             self.userName = c.lenient(.userName)
             self.phoneNum = c.lenient(.phoneNum)
@@ -541,9 +539,9 @@ extension ACS {
     }
 
     public struct ValidDay: Codable, Sendable {
-        public var startDay: Int
-        public var endDay: Int
-        public init(startDay: Int, endDay: Int) {
+        public var startDay: Int?
+        public var endDay: Int?
+        public init(startDay: Int? = nil, endDay: Int? = nil) {
             self.startDay = startDay
             self.endDay = endDay
         }
@@ -553,15 +551,15 @@ extension ACS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.startDay = try c.lenientRequired(.startDay)
-            self.endDay = try c.lenientRequired(.endDay)
+            self.startDay = c.lenient(.startDay)
+            self.endDay = c.lenient(.endDay)
         }
     }
 
     public struct DayTime: Codable, Sendable {
-        public var startHhmm: Int
-        public var endHhmm: Int
-        public init(startHhmm: Int, endHhmm: Int) {
+        public var startHhmm: Int?
+        public var endHhmm: Int?
+        public init(startHhmm: Int? = nil, endHhmm: Int? = nil) {
             self.startHhmm = startHhmm
             self.endHhmm = endHhmm
         }
@@ -571,8 +569,8 @@ extension ACS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.startHhmm = try c.lenientRequired(.startHhmm)
-            self.endHhmm = try c.lenientRequired(.endHhmm)
+            self.startHhmm = c.lenient(.startHhmm)
+            self.endHhmm = c.lenient(.endHhmm)
         }
     }
 
@@ -640,6 +638,20 @@ extension ACS {
         }
     }
 
+    public struct RuleExternalCreateResponse: Codable, Sendable {
+        public var ruleId: String?
+        public init(ruleId: String? = nil) {
+            self.ruleId = ruleId
+        }
+        enum CodingKeys: String, CodingKey {
+            case ruleId = "rule_id"
+        }
+        public init(from decoder: any Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            self.ruleId = c.lenient(.ruleId)
+        }
+    }
+
     public struct VisitorCreateBody: Codable, Sendable {
         public var user: RuleUser
         public init(user: RuleUser) {
@@ -655,8 +667,8 @@ extension ACS {
     }
 
     public struct VisitorCreateResponse: Codable, Sendable {
-        public var visitorId: String
-        public init(visitorId: String) {
+        public var visitorId: String?
+        public init(visitorId: String? = nil) {
             self.visitorId = visitorId
         }
         enum CodingKeys: String, CodingKey {
@@ -664,7 +676,7 @@ extension ACS {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.visitorId = try c.lenientRequired(.visitorId)
+            self.visitorId = c.lenient(.visitorId)
         }
     }
 

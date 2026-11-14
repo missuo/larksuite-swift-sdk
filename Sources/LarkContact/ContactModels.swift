@@ -164,8 +164,8 @@ extension Contact {
     }
 
     public struct GroupGetResponse: Codable, Sendable {
-        public var group: Group
-        public init(group: Group) {
+        public var group: Group?
+        public init(group: Group? = nil) {
             self.group = group
         }
         enum CodingKeys: String, CodingKey {
@@ -173,13 +173,13 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.group = try c.lenientRequired(.group)
+            self.group = c.lenient(.group)
         }
     }
 
     public struct Group: Codable, Sendable {
-        public var id: String
-        public var name: String
+        public var id: String?
+        public var name: String?
         public var description: String?
         public var memberUserCount: Int?
         public var memberDepartmentCount: Int?
@@ -187,7 +187,7 @@ extension Contact {
         public var dynamicGroupRule: DynamicGroupRule?
         public var visibleScope: VisibleScope?
         public var departmentScopeList: [String]?
-        public init(id: String, name: String, description: String? = nil, memberUserCount: Int? = nil, memberDepartmentCount: Int? = nil, type: Int? = nil, dynamicGroupRule: DynamicGroupRule? = nil, visibleScope: VisibleScope? = nil, departmentScopeList: [String]? = nil) {
+        public init(id: String? = nil, name: String? = nil, description: String? = nil, memberUserCount: Int? = nil, memberDepartmentCount: Int? = nil, type: Int? = nil, dynamicGroupRule: DynamicGroupRule? = nil, visibleScope: VisibleScope? = nil, departmentScopeList: [String]? = nil) {
             self.id = id
             self.name = name
             self.description = description
@@ -211,8 +211,8 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.name = try c.lenientRequired(.name)
+            self.id = c.lenient(.id)
+            self.name = c.lenient(.name)
             self.description = c.lenient(.description)
             self.memberUserCount = c.lenient(.memberUserCount)
             self.memberDepartmentCount = c.lenient(.memberDepartmentCount)
@@ -352,10 +352,10 @@ extension Contact {
     }
 
     public struct GroupSimplelistResponse: Codable, Sendable {
-        public var grouplist: [Grouplist]
-        public var pageToken: String
-        public var hasMore: Bool
-        public init(grouplist: [Grouplist], pageToken: String, hasMore: Bool) {
+        public var grouplist: [Grouplist]?
+        public var pageToken: String?
+        public var hasMore: Bool?
+        public init(grouplist: [Grouplist]? = nil, pageToken: String? = nil, hasMore: Bool? = nil) {
             self.grouplist = grouplist
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -367,22 +367,22 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.grouplist = try c.lenientRequired(.grouplist)
-            self.pageToken = try c.lenientRequired(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.grouplist = c.lenient(.grouplist)
+            self.pageToken = c.lenient(.pageToken)
+            self.hasMore = c.lenient(.hasMore)
         }
     }
 
     public struct Grouplist: Codable, Sendable {
-        public var id: String
-        public var name: String
+        public var id: String?
+        public var name: String?
         public var description: String?
         public var memberUserCount: Int?
         public var memberDepartmentCount: Int?
         public var type: Int?
         public var departmentScopeList: [String]?
         public var groupId: String?
-        public init(id: String, name: String, description: String? = nil, memberUserCount: Int? = nil, memberDepartmentCount: Int? = nil, type: Int? = nil, departmentScopeList: [String]? = nil, groupId: String? = nil) {
+        public init(id: String? = nil, name: String? = nil, description: String? = nil, memberUserCount: Int? = nil, memberDepartmentCount: Int? = nil, type: Int? = nil, departmentScopeList: [String]? = nil, groupId: String? = nil) {
             self.id = id
             self.name = name
             self.description = description
@@ -404,8 +404,8 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.name = try c.lenientRequired(.name)
+            self.id = c.lenient(.id)
+            self.name = c.lenient(.name)
             self.description = c.lenient(.description)
             self.memberUserCount = c.lenient(.memberUserCount)
             self.memberDepartmentCount = c.lenient(.memberDepartmentCount)
@@ -476,8 +476,8 @@ extension Contact {
     }
 
     public struct GroupCreateResponse: Codable, Sendable {
-        public var groupId: String
-        public init(groupId: String) {
+        public var groupId: String?
+        public init(groupId: String? = nil) {
             self.groupId = groupId
         }
         enum CodingKeys: String, CodingKey {
@@ -485,7 +485,7 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.groupId = try c.lenientRequired(.groupId)
+            self.groupId = c.lenient(.groupId)
         }
     }
 
@@ -556,10 +556,10 @@ extension Contact {
     }
 
     public struct UnitListResponse: Codable, Sendable {
-        public var unitlist: [Unitlist]
-        public var hasMore: Bool
-        public var pageToken: String
-        public init(unitlist: [Unitlist], hasMore: Bool, pageToken: String) {
+        public var unitlist: [Unitlist]?
+        public var hasMore: Bool?
+        public var pageToken: String?
+        public init(unitlist: [Unitlist]? = nil, hasMore: Bool? = nil, pageToken: String? = nil) {
             self.unitlist = unitlist
             self.hasMore = hasMore
             self.pageToken = pageToken
@@ -571,17 +571,17 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.unitlist = try c.lenientRequired(.unitlist)
-            self.hasMore = try c.lenientRequired(.hasMore)
-            self.pageToken = try c.lenientRequired(.pageToken)
+            self.unitlist = c.lenient(.unitlist)
+            self.hasMore = c.lenient(.hasMore)
+            self.pageToken = c.lenient(.pageToken)
         }
     }
 
     public struct Unitlist: Codable, Sendable {
-        public var unitId: String
-        public var name: String
-        public var unitType: String
-        public init(unitId: String, name: String, unitType: String) {
+        public var unitId: String?
+        public var name: String?
+        public var unitType: String?
+        public init(unitId: String? = nil, name: String? = nil, unitType: String? = nil) {
             self.unitId = unitId
             self.name = name
             self.unitType = unitType
@@ -593,9 +593,9 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.unitId = try c.lenientRequired(.unitId)
-            self.name = try c.lenientRequired(.name)
-            self.unitType = try c.lenientRequired(.unitType)
+            self.unitId = c.lenient(.unitId)
+            self.name = c.lenient(.name)
+            self.unitType = c.lenient(.unitType)
         }
     }
 
@@ -626,10 +626,10 @@ extension Contact {
     }
 
     public struct UnitListDepartmentResponse: Codable, Sendable {
-        public var departmentlist: [Departmentlist]
-        public var hasMore: Bool
-        public var pageToken: String
-        public init(departmentlist: [Departmentlist], hasMore: Bool, pageToken: String) {
+        public var departmentlist: [Departmentlist]?
+        public var hasMore: Bool?
+        public var pageToken: String?
+        public init(departmentlist: [Departmentlist]? = nil, hasMore: Bool? = nil, pageToken: String? = nil) {
             self.departmentlist = departmentlist
             self.hasMore = hasMore
             self.pageToken = pageToken
@@ -641,16 +641,16 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.departmentlist = try c.lenientRequired(.departmentlist)
-            self.hasMore = try c.lenientRequired(.hasMore)
-            self.pageToken = try c.lenientRequired(.pageToken)
+            self.departmentlist = c.lenient(.departmentlist)
+            self.hasMore = c.lenient(.hasMore)
+            self.pageToken = c.lenient(.pageToken)
         }
     }
 
     public struct Departmentlist: Codable, Sendable {
-        public var unitId: String
-        public var departmentId: String
-        public init(unitId: String, departmentId: String) {
+        public var unitId: String?
+        public var departmentId: String?
+        public init(unitId: String? = nil, departmentId: String? = nil) {
             self.unitId = unitId
             self.departmentId = departmentId
         }
@@ -660,14 +660,14 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.unitId = try c.lenientRequired(.unitId)
-            self.departmentId = try c.lenientRequired(.departmentId)
+            self.unitId = c.lenient(.unitId)
+            self.departmentId = c.lenient(.departmentId)
         }
     }
 
     public struct UnitGetResponse: Codable, Sendable {
-        public var unit: Unitlist
-        public init(unit: Unitlist) {
+        public var unit: Unitlist?
+        public init(unit: Unitlist? = nil) {
             self.unit = unit
         }
         enum CodingKeys: String, CodingKey {
@@ -675,7 +675,7 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.unit = try c.lenientRequired(.unit)
+            self.unit = c.lenient(.unit)
         }
     }
 
@@ -738,8 +738,8 @@ extension Contact {
     }
 
     public struct UnitCreateResponse: Codable, Sendable {
-        public var unitId: String
-        public init(unitId: String) {
+        public var unitId: String?
+        public init(unitId: String? = nil) {
             self.unitId = unitId
         }
         enum CodingKeys: String, CodingKey {
@@ -747,7 +747,7 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.unitId = try c.lenientRequired(.unitId)
+            self.unitId = c.lenient(.unitId)
         }
     }
 
@@ -796,10 +796,10 @@ extension Contact {
     }
 
     public struct GroupMemberSimplelistResponse: Codable, Sendable {
-        public var memberlist: [Memberlist]
-        public var pageToken: String
-        public var hasMore: Bool
-        public init(memberlist: [Memberlist], pageToken: String, hasMore: Bool) {
+        public var memberlist: [Memberlist]?
+        public var pageToken: String?
+        public var hasMore: Bool?
+        public init(memberlist: [Memberlist]? = nil, pageToken: String? = nil, hasMore: Bool? = nil) {
             self.memberlist = memberlist
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -811,17 +811,17 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.memberlist = try c.lenientRequired(.memberlist)
-            self.pageToken = try c.lenientRequired(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.memberlist = c.lenient(.memberlist)
+            self.pageToken = c.lenient(.pageToken)
+            self.hasMore = c.lenient(.hasMore)
         }
     }
 
     public struct Memberlist: Codable, Sendable {
-        public var memberId: String
-        public var memberType: String
+        public var memberId: String?
+        public var memberType: String?
         public var memberIdType: String?
-        public init(memberId: String, memberType: String, memberIdType: String? = nil) {
+        public init(memberId: String? = nil, memberType: String? = nil, memberIdType: String? = nil) {
             self.memberId = memberId
             self.memberType = memberType
             self.memberIdType = memberIdType
@@ -833,8 +833,8 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.memberId = try c.lenientRequired(.memberId)
-            self.memberType = try c.lenientRequired(.memberType)
+            self.memberId = c.lenient(.memberId)
+            self.memberType = c.lenient(.memberType)
             self.memberIdType = c.lenient(.memberIdType)
         }
     }
@@ -933,9 +933,9 @@ extension Contact {
     }
 
     public struct GroupMemberBatchAddResponseResult: Codable, Sendable {
-        public var memberId: String
-        public var code: Int
-        public init(memberId: String, code: Int) {
+        public var memberId: String?
+        public var code: Int?
+        public init(memberId: String? = nil, code: Int? = nil) {
             self.memberId = memberId
             self.code = code
         }
@@ -945,8 +945,8 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.memberId = try c.lenientRequired(.memberId)
-            self.code = try c.lenientRequired(.code)
+            self.memberId = c.lenient(.memberId)
+            self.code = c.lenient(.code)
         }
     }
 
@@ -1045,9 +1045,9 @@ extension Contact {
     }
 
     public struct Department: Codable, Sendable {
-        public var name: String
+        public var name: String?
         public var i18nName: I18nName?
-        public var parentDepartmentId: String
+        public var parentDepartmentId: String?
         public var departmentId: String?
         public var openDepartmentId: String?
         public var leaderUserId: String?
@@ -1060,7 +1060,7 @@ extension Contact {
         public var groupChatEmployeeTypes: [Int]?
         public var departmentHrbps: [String]?
         public var primaryMemberCount: Int?
-        public init(name: String, i18nName: I18nName? = nil, parentDepartmentId: String, departmentId: String? = nil, openDepartmentId: String? = nil, leaderUserId: String? = nil, chatId: String? = nil, order: String? = nil, unitIds: [String]? = nil, memberCount: Int? = nil, status: DepartmentStatus? = nil, leaders: [Leader]? = nil, groupChatEmployeeTypes: [Int]? = nil, departmentHrbps: [String]? = nil, primaryMemberCount: Int? = nil) {
+        public init(name: String? = nil, i18nName: I18nName? = nil, parentDepartmentId: String? = nil, departmentId: String? = nil, openDepartmentId: String? = nil, leaderUserId: String? = nil, chatId: String? = nil, order: String? = nil, unitIds: [String]? = nil, memberCount: Int? = nil, status: DepartmentStatus? = nil, leaders: [Leader]? = nil, groupChatEmployeeTypes: [Int]? = nil, departmentHrbps: [String]? = nil, primaryMemberCount: Int? = nil) {
             self.name = name
             self.i18nName = i18nName
             self.parentDepartmentId = parentDepartmentId
@@ -1096,9 +1096,9 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.i18nName = c.lenient(.i18nName)
-            self.parentDepartmentId = try c.lenientRequired(.parentDepartmentId)
+            self.parentDepartmentId = c.lenient(.parentDepartmentId)
             self.departmentId = c.lenient(.departmentId)
             self.openDepartmentId = c.lenient(.openDepartmentId)
             self.leaderUserId = c.lenient(.leaderUserId)
@@ -1151,9 +1151,9 @@ extension Contact {
     }
 
     public struct Leader: Codable, Sendable {
-        public var leaderType: Int
-        public var leaderID: String
-        public init(leaderType: Int, leaderID: String) {
+        public var leaderType: Int?
+        public var leaderID: String?
+        public init(leaderType: Int? = nil, leaderID: String? = nil) {
             self.leaderType = leaderType
             self.leaderID = leaderID
         }
@@ -1163,8 +1163,8 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.leaderType = try c.lenientRequired(.leaderType)
-            self.leaderID = try c.lenientRequired(.leaderID)
+            self.leaderType = c.lenient(.leaderType)
+            self.leaderID = c.lenient(.leaderID)
         }
     }
 
@@ -1275,8 +1275,8 @@ extension Contact {
     public struct DepartmentSearchResponse: Codable, Sendable {
         public var items: [Department]?
         public var pageToken: String?
-        public var hasMore: Bool
-        public init(items: [Department]? = nil, pageToken: String? = nil, hasMore: Bool) {
+        public var hasMore: Bool?
+        public init(items: [Department]? = nil, pageToken: String? = nil, hasMore: Bool? = nil) {
             self.items = items
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -1290,7 +1290,7 @@ extension Contact {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.items = c.lenient(.items)
             self.pageToken = c.lenient(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
         }
     }
 
@@ -1411,9 +1411,9 @@ extension Contact {
     }
 
     public struct DepartmentUpdateResponseDepartment: Codable, Sendable {
-        public var name: String
+        public var name: String?
         public var i18nName: I18nName?
-        public var parentDepartmentId: String
+        public var parentDepartmentId: String?
         public var departmentId: String?
         public var openDepartmentId: String?
         public var leaderUserId: String?
@@ -1425,7 +1425,7 @@ extension Contact {
         public var leaders: [Leader]?
         public var groupChatEmployeeTypes: [Int]?
         public var primaryMemberCount: Int?
-        public init(name: String, i18nName: I18nName? = nil, parentDepartmentId: String, departmentId: String? = nil, openDepartmentId: String? = nil, leaderUserId: String? = nil, chatId: String? = nil, order: String? = nil, unitIds: [String]? = nil, memberCount: Int? = nil, status: DepartmentStatus? = nil, leaders: [Leader]? = nil, groupChatEmployeeTypes: [Int]? = nil, primaryMemberCount: Int? = nil) {
+        public init(name: String? = nil, i18nName: I18nName? = nil, parentDepartmentId: String? = nil, departmentId: String? = nil, openDepartmentId: String? = nil, leaderUserId: String? = nil, chatId: String? = nil, order: String? = nil, unitIds: [String]? = nil, memberCount: Int? = nil, status: DepartmentStatus? = nil, leaders: [Leader]? = nil, groupChatEmployeeTypes: [Int]? = nil, primaryMemberCount: Int? = nil) {
             self.name = name
             self.i18nName = i18nName
             self.parentDepartmentId = parentDepartmentId
@@ -1459,9 +1459,9 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.i18nName = c.lenient(.i18nName)
-            self.parentDepartmentId = try c.lenientRequired(.parentDepartmentId)
+            self.parentDepartmentId = c.lenient(.parentDepartmentId)
             self.departmentId = c.lenient(.departmentId)
             self.openDepartmentId = c.lenient(.openDepartmentId)
             self.leaderUserId = c.lenient(.leaderUserId)
@@ -1973,10 +1973,10 @@ extension Contact {
     }
 
     public struct UserResurrectBodyDepartment: Codable, Sendable {
-        public var departmentId: String
+        public var departmentId: String?
         public var userOrder: Int?
         public var departmentOrder: Int?
-        public init(departmentId: String, userOrder: Int? = nil, departmentOrder: Int? = nil) {
+        public init(departmentId: String? = nil, userOrder: Int? = nil, departmentOrder: Int? = nil) {
             self.departmentId = departmentId
             self.userOrder = userOrder
             self.departmentOrder = departmentOrder
@@ -1988,7 +1988,7 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.departmentId = try c.lenientRequired(.departmentId)
+            self.departmentId = c.lenient(.departmentId)
             self.userOrder = c.lenient(.userOrder)
             self.departmentOrder = c.lenient(.departmentOrder)
         }
@@ -2050,11 +2050,11 @@ extension Contact {
         public var unionId: String?
         public var userId: String?
         public var openId: String?
-        public var name: String
+        public var name: String?
         public var enName: String?
         public var nickname: String?
         public var email: String?
-        public var mobile: String
+        public var mobile: String?
         public var mobileVisible: Bool?
         public var gender: Int?
         public var avatar: Avatar?
@@ -2081,7 +2081,7 @@ extension Contact {
         public var assignInfo: [AssignInfo]?
         public var departmentPath: [DepartmentPath]?
         public var dottedLineLeaderUserIds: [String]?
-        public init(unionId: String? = nil, userId: String? = nil, openId: String? = nil, name: String, enName: String? = nil, nickname: String? = nil, email: String? = nil, mobile: String, mobileVisible: Bool? = nil, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, isTenantManager: Bool? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, orders: [Order]? = nil, customAttrs: [CustomAttr]? = nil, enterpriseEmail: String? = nil, timeZone: String? = nil, description: String? = nil, jobTitle: String? = nil, geo: String? = nil, jobLevelId: String? = nil, jobFamilyId: String? = nil, assignInfo: [AssignInfo]? = nil, departmentPath: [DepartmentPath]? = nil, dottedLineLeaderUserIds: [String]? = nil) {
+        public init(unionId: String? = nil, userId: String? = nil, openId: String? = nil, name: String? = nil, enName: String? = nil, nickname: String? = nil, email: String? = nil, mobile: String? = nil, mobileVisible: Bool? = nil, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, isTenantManager: Bool? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, orders: [Order]? = nil, customAttrs: [CustomAttr]? = nil, enterpriseEmail: String? = nil, timeZone: String? = nil, description: String? = nil, jobTitle: String? = nil, geo: String? = nil, jobLevelId: String? = nil, jobFamilyId: String? = nil, assignInfo: [AssignInfo]? = nil, departmentPath: [DepartmentPath]? = nil, dottedLineLeaderUserIds: [String]? = nil) {
             self.unionId = unionId
             self.userId = userId
             self.openId = openId
@@ -2158,11 +2158,11 @@ extension Contact {
             self.unionId = c.lenient(.unionId)
             self.userId = c.lenient(.userId)
             self.openId = c.lenient(.openId)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.enName = c.lenient(.enName)
             self.nickname = c.lenient(.nickname)
             self.email = c.lenient(.email)
-            self.mobile = try c.lenientRequired(.mobile)
+            self.mobile = c.lenient(.mobile)
             self.mobileVisible = c.lenient(.mobileVisible)
             self.gender = c.lenient(.gender)
             self.avatar = c.lenient(.avatar)
@@ -2369,9 +2369,9 @@ extension Contact {
     }
 
     public struct GenericUser: Codable, Sendable {
-        public var id: String
-        public var type: Int
-        public init(id: String, type: Int) {
+        public var id: String?
+        public var type: Int?
+        public init(id: String? = nil, type: Int? = nil) {
             self.id = id
             self.type = type
         }
@@ -2381,8 +2381,8 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.type = try c.lenientRequired(.type)
+            self.id = c.lenient(.id)
+            self.type = c.lenient(.type)
         }
     }
 
@@ -2479,8 +2479,8 @@ extension Contact {
     }
 
     public struct UserGetResponse: Codable, Sendable {
-        public var user: UserGetResponseUser?
-        public init(user: UserGetResponseUser? = nil) {
+        public var user: User?
+        public init(user: User? = nil) {
             self.user = user
         }
         enum CodingKeys: String, CodingKey {
@@ -2489,152 +2489,6 @@ extension Contact {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.user = c.lenient(.user)
-        }
-    }
-
-    public struct UserGetResponseUser: Codable, Sendable {
-        public var unionId: String?
-        public var userId: String?
-        public var openId: String?
-        public var name: String?
-        public var enName: String?
-        public var nickname: String?
-        public var email: String?
-        public var mobile: String?
-        public var mobileVisible: Bool?
-        public var gender: Int?
-        public var avatar: Avatar?
-        public var status: UserStatus?
-        public var departmentIds: [String]?
-        public var leaderUserId: String?
-        public var city: String?
-        public var country: String?
-        public var workStation: String?
-        public var joinTime: Int?
-        public var isTenantManager: Bool?
-        public var employeeNo: String?
-        public var employeeType: Int?
-        public var positions: [Position]?
-        public var orders: [Order]?
-        public var customAttrs: [CustomAttr]?
-        public var enterpriseEmail: String?
-        public var timeZone: String?
-        public var description: String?
-        public var jobTitle: String?
-        public var geo: String?
-        public var jobLevelId: String?
-        public var jobFamilyId: String?
-        public var assignInfo: [AssignInfo]?
-        public var departmentPath: [DepartmentPath]?
-        public var dottedLineLeaderUserIds: [String]?
-        public init(unionId: String? = nil, userId: String? = nil, openId: String? = nil, name: String? = nil, enName: String? = nil, nickname: String? = nil, email: String? = nil, mobile: String? = nil, mobileVisible: Bool? = nil, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, isTenantManager: Bool? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, orders: [Order]? = nil, customAttrs: [CustomAttr]? = nil, enterpriseEmail: String? = nil, timeZone: String? = nil, description: String? = nil, jobTitle: String? = nil, geo: String? = nil, jobLevelId: String? = nil, jobFamilyId: String? = nil, assignInfo: [AssignInfo]? = nil, departmentPath: [DepartmentPath]? = nil, dottedLineLeaderUserIds: [String]? = nil) {
-            self.unionId = unionId
-            self.userId = userId
-            self.openId = openId
-            self.name = name
-            self.enName = enName
-            self.nickname = nickname
-            self.email = email
-            self.mobile = mobile
-            self.mobileVisible = mobileVisible
-            self.gender = gender
-            self.avatar = avatar
-            self.status = status
-            self.departmentIds = departmentIds
-            self.leaderUserId = leaderUserId
-            self.city = city
-            self.country = country
-            self.workStation = workStation
-            self.joinTime = joinTime
-            self.isTenantManager = isTenantManager
-            self.employeeNo = employeeNo
-            self.employeeType = employeeType
-            self.positions = positions
-            self.orders = orders
-            self.customAttrs = customAttrs
-            self.enterpriseEmail = enterpriseEmail
-            self.timeZone = timeZone
-            self.description = description
-            self.jobTitle = jobTitle
-            self.geo = geo
-            self.jobLevelId = jobLevelId
-            self.jobFamilyId = jobFamilyId
-            self.assignInfo = assignInfo
-            self.departmentPath = departmentPath
-            self.dottedLineLeaderUserIds = dottedLineLeaderUserIds
-        }
-        enum CodingKeys: String, CodingKey {
-            case unionId = "union_id"
-            case userId = "user_id"
-            case openId = "open_id"
-            case name
-            case enName = "en_name"
-            case nickname
-            case email
-            case mobile
-            case mobileVisible = "mobile_visible"
-            case gender
-            case avatar
-            case status
-            case departmentIds = "department_ids"
-            case leaderUserId = "leader_user_id"
-            case city
-            case country
-            case workStation = "work_station"
-            case joinTime = "join_time"
-            case isTenantManager = "is_tenant_manager"
-            case employeeNo = "employee_no"
-            case employeeType = "employee_type"
-            case positions
-            case orders
-            case customAttrs = "custom_attrs"
-            case enterpriseEmail = "enterprise_email"
-            case timeZone = "time_zone"
-            case description
-            case jobTitle = "job_title"
-            case geo
-            case jobLevelId = "job_level_id"
-            case jobFamilyId = "job_family_id"
-            case assignInfo = "assign_info"
-            case departmentPath = "department_path"
-            case dottedLineLeaderUserIds = "dotted_line_leader_user_ids"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.unionId = c.lenient(.unionId)
-            self.userId = c.lenient(.userId)
-            self.openId = c.lenient(.openId)
-            self.name = c.lenient(.name)
-            self.enName = c.lenient(.enName)
-            self.nickname = c.lenient(.nickname)
-            self.email = c.lenient(.email)
-            self.mobile = c.lenient(.mobile)
-            self.mobileVisible = c.lenient(.mobileVisible)
-            self.gender = c.lenient(.gender)
-            self.avatar = c.lenient(.avatar)
-            self.status = c.lenient(.status)
-            self.departmentIds = c.lenient(.departmentIds)
-            self.leaderUserId = c.lenient(.leaderUserId)
-            self.city = c.lenient(.city)
-            self.country = c.lenient(.country)
-            self.workStation = c.lenient(.workStation)
-            self.joinTime = c.lenient(.joinTime)
-            self.isTenantManager = c.lenient(.isTenantManager)
-            self.employeeNo = c.lenient(.employeeNo)
-            self.employeeType = c.lenient(.employeeType)
-            self.positions = c.lenient(.positions)
-            self.orders = c.lenient(.orders)
-            self.customAttrs = c.lenient(.customAttrs)
-            self.enterpriseEmail = c.lenient(.enterpriseEmail)
-            self.timeZone = c.lenient(.timeZone)
-            self.description = c.lenient(.description)
-            self.jobTitle = c.lenient(.jobTitle)
-            self.geo = c.lenient(.geo)
-            self.jobLevelId = c.lenient(.jobLevelId)
-            self.jobFamilyId = c.lenient(.jobFamilyId)
-            self.assignInfo = c.lenient(.assignInfo)
-            self.departmentPath = c.lenient(.departmentPath)
-            self.dottedLineLeaderUserIds = c.lenient(.dottedLineLeaderUserIds)
         }
     }
 
@@ -2761,9 +2615,9 @@ extension Contact {
     }
 
     public struct EmailAcceptor: Codable, Sendable {
-        public var processingType: ProcessingType
+        public var processingType: ProcessingType?
         public var acceptorUserId: String?
-        public init(processingType: ProcessingType, acceptorUserId: String? = nil) {
+        public init(processingType: ProcessingType? = nil, acceptorUserId: String? = nil) {
             self.processingType = processingType
             self.acceptorUserId = acceptorUserId
         }
@@ -2773,7 +2627,7 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.processingType = try c.lenientRequired(.processingType)
+            self.processingType = c.lenient(.processingType)
             self.acceptorUserId = c.lenient(.acceptorUserId)
         }
     }
@@ -2843,11 +2697,11 @@ extension Contact {
         public var unionId: String?
         public var userId: String?
         public var openId: String?
-        public var name: String
+        public var name: String?
         public var enName: String?
         public var nickname: String?
         public var email: String?
-        public var mobile: String
+        public var mobile: String?
         public var mobileVisible: Bool?
         public var gender: Int?
         public var avatar: Avatar?
@@ -2877,7 +2731,7 @@ extension Contact {
         public var jobFamilyId: String?
         public var departmentPath: [DepartmentPath]?
         public var dottedLineLeaderUserIds: [String]?
-        public init(unionId: String? = nil, userId: String? = nil, openId: String? = nil, name: String, enName: String? = nil, nickname: String? = nil, email: String? = nil, mobile: String, mobileVisible: Bool? = nil, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, isTenantManager: Bool? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, orders: [Order]? = nil, customAttrs: [UserFindByDepartmentResponseItemCustomAttr]? = nil, enterpriseEmail: String? = nil, idpType: String? = nil, timeZone: String? = nil, description: String? = nil, jobTitle: String? = nil, needSendNotification: Bool? = nil, notificationOption: NotificationOption? = nil, isFrozen: Bool? = nil, geo: String? = nil, jobLevelId: String? = nil, jobFamilyId: String? = nil, departmentPath: [DepartmentPath]? = nil, dottedLineLeaderUserIds: [String]? = nil) {
+        public init(unionId: String? = nil, userId: String? = nil, openId: String? = nil, name: String? = nil, enName: String? = nil, nickname: String? = nil, email: String? = nil, mobile: String? = nil, mobileVisible: Bool? = nil, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, isTenantManager: Bool? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, orders: [Order]? = nil, customAttrs: [UserFindByDepartmentResponseItemCustomAttr]? = nil, enterpriseEmail: String? = nil, idpType: String? = nil, timeZone: String? = nil, description: String? = nil, jobTitle: String? = nil, needSendNotification: Bool? = nil, notificationOption: NotificationOption? = nil, isFrozen: Bool? = nil, geo: String? = nil, jobLevelId: String? = nil, jobFamilyId: String? = nil, departmentPath: [DepartmentPath]? = nil, dottedLineLeaderUserIds: [String]? = nil) {
             self.unionId = unionId
             self.userId = userId
             self.openId = openId
@@ -2960,11 +2814,11 @@ extension Contact {
             self.unionId = c.lenient(.unionId)
             self.userId = c.lenient(.userId)
             self.openId = c.lenient(.openId)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.enName = c.lenient(.enName)
             self.nickname = c.lenient(.nickname)
             self.email = c.lenient(.email)
-            self.mobile = try c.lenientRequired(.mobile)
+            self.mobile = c.lenient(.mobile)
             self.mobileVisible = c.lenient(.mobileVisible)
             self.gender = c.lenient(.gender)
             self.avatar = c.lenient(.avatar)
@@ -3276,11 +3130,11 @@ extension Contact {
         public var unionId: String?
         public var userId: String?
         public var openId: String?
-        public var name: String
+        public var name: String?
         public var enName: String?
         public var nickname: String?
         public var email: String?
-        public var mobile: String
+        public var mobile: String?
         public var mobileVisible: Bool?
         public var gender: Int?
         public var avatar: Avatar?
@@ -3308,7 +3162,7 @@ extension Contact {
         public var geo: String?
         public var departmentPath: [DepartmentPath]?
         public var dottedLineLeaderUserIds: [String]?
-        public init(unionId: String? = nil, userId: String? = nil, openId: String? = nil, name: String, enName: String? = nil, nickname: String? = nil, email: String? = nil, mobile: String, mobileVisible: Bool? = nil, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, isTenantManager: Bool? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, orders: [Order]? = nil, customAttrs: [UserFindByDepartmentResponseItemCustomAttr]? = nil, enterpriseEmail: String? = nil, idpType: String? = nil, timeZone: String? = nil, description: String? = nil, jobTitle: String? = nil, needSendNotification: Bool? = nil, notificationOption: NotificationOption? = nil, isFrozen: Bool? = nil, geo: String? = nil, departmentPath: [DepartmentPath]? = nil, dottedLineLeaderUserIds: [String]? = nil) {
+        public init(unionId: String? = nil, userId: String? = nil, openId: String? = nil, name: String? = nil, enName: String? = nil, nickname: String? = nil, email: String? = nil, mobile: String? = nil, mobileVisible: Bool? = nil, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, isTenantManager: Bool? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, orders: [Order]? = nil, customAttrs: [UserFindByDepartmentResponseItemCustomAttr]? = nil, enterpriseEmail: String? = nil, idpType: String? = nil, timeZone: String? = nil, description: String? = nil, jobTitle: String? = nil, needSendNotification: Bool? = nil, notificationOption: NotificationOption? = nil, isFrozen: Bool? = nil, geo: String? = nil, departmentPath: [DepartmentPath]? = nil, dottedLineLeaderUserIds: [String]? = nil) {
             self.unionId = unionId
             self.userId = userId
             self.openId = openId
@@ -3387,11 +3241,11 @@ extension Contact {
             self.unionId = c.lenient(.unionId)
             self.userId = c.lenient(.userId)
             self.openId = c.lenient(.openId)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.enName = c.lenient(.enName)
             self.nickname = c.lenient(.nickname)
             self.email = c.lenient(.email)
-            self.mobile = try c.lenientRequired(.mobile)
+            self.mobile = c.lenient(.mobile)
             self.mobileVisible = c.lenient(.mobileVisible)
             self.gender = c.lenient(.gender)
             self.avatar = c.lenient(.avatar)
@@ -3794,11 +3648,11 @@ extension Contact {
         public var unionId: String?
         public var userId: String?
         public var openId: String?
-        public var name: String
+        public var name: String?
         public var enName: String?
         public var nickname: String?
         public var email: String?
-        public var mobile: String
+        public var mobile: String?
         public var mobileVisible: Bool?
         public var gender: Int?
         public var avatar: Avatar?
@@ -3830,7 +3684,7 @@ extension Contact {
         public var assignInfo: [AssignInfo]?
         public var departmentPath: [DepartmentPath]?
         public var dottedLineLeaderUserIds: [String]?
-        public init(unionId: String? = nil, userId: String? = nil, openId: String? = nil, name: String, enName: String? = nil, nickname: String? = nil, email: String? = nil, mobile: String, mobileVisible: Bool? = nil, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, isTenantManager: Bool? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, orders: [Order]? = nil, customAttrs: [UserFindByDepartmentResponseItemCustomAttr]? = nil, enterpriseEmail: String? = nil, idpType: String? = nil, timeZone: String? = nil, description: String? = nil, jobTitle: String? = nil, needSendNotification: Bool? = nil, notificationOption: NotificationOption? = nil, isFrozen: Bool? = nil, geo: String? = nil, jobLevelId: String? = nil, jobFamilyId: String? = nil, subscriptionIds: [String]? = nil, assignInfo: [AssignInfo]? = nil, departmentPath: [DepartmentPath]? = nil, dottedLineLeaderUserIds: [String]? = nil) {
+        public init(unionId: String? = nil, userId: String? = nil, openId: String? = nil, name: String? = nil, enName: String? = nil, nickname: String? = nil, email: String? = nil, mobile: String? = nil, mobileVisible: Bool? = nil, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, isTenantManager: Bool? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, orders: [Order]? = nil, customAttrs: [UserFindByDepartmentResponseItemCustomAttr]? = nil, enterpriseEmail: String? = nil, idpType: String? = nil, timeZone: String? = nil, description: String? = nil, jobTitle: String? = nil, needSendNotification: Bool? = nil, notificationOption: NotificationOption? = nil, isFrozen: Bool? = nil, geo: String? = nil, jobLevelId: String? = nil, jobFamilyId: String? = nil, subscriptionIds: [String]? = nil, assignInfo: [AssignInfo]? = nil, departmentPath: [DepartmentPath]? = nil, dottedLineLeaderUserIds: [String]? = nil) {
             self.unionId = unionId
             self.userId = userId
             self.openId = openId
@@ -3917,11 +3771,11 @@ extension Contact {
             self.unionId = c.lenient(.unionId)
             self.userId = c.lenient(.userId)
             self.openId = c.lenient(.openId)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.enName = c.lenient(.enName)
             self.nickname = c.lenient(.nickname)
             self.email = c.lenient(.email)
-            self.mobile = try c.lenientRequired(.mobile)
+            self.mobile = c.lenient(.mobile)
             self.mobileVisible = c.lenient(.mobileVisible)
             self.gender = c.lenient(.gender)
             self.avatar = c.lenient(.avatar)
@@ -3999,11 +3853,11 @@ extension Contact {
     public struct EmployeeTypeEnum: Codable, Sendable {
         public var enumId: String?
         public var enumValue: String?
-        public var content: String
-        public var enumType: Int
-        public var enumStatus: Int
+        public var content: String?
+        public var enumType: Int?
+        public var enumStatus: Int?
         public var i18nContent: [JobLevelCreateBodyI18nName]?
-        public init(enumId: String? = nil, enumValue: String? = nil, content: String, enumType: Int, enumStatus: Int, i18nContent: [JobLevelCreateBodyI18nName]? = nil) {
+        public init(enumId: String? = nil, enumValue: String? = nil, content: String? = nil, enumType: Int? = nil, enumStatus: Int? = nil, i18nContent: [JobLevelCreateBodyI18nName]? = nil) {
             self.enumId = enumId
             self.enumValue = enumValue
             self.content = content
@@ -4023,9 +3877,9 @@ extension Contact {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.enumId = c.lenient(.enumId)
             self.enumValue = c.lenient(.enumValue)
-            self.content = try c.lenientRequired(.content)
-            self.enumType = try c.lenientRequired(.enumType)
-            self.enumStatus = try c.lenientRequired(.enumStatus)
+            self.content = c.lenient(.content)
+            self.enumType = c.lenient(.enumType)
+            self.enumStatus = c.lenient(.enumStatus)
             self.i18nContent = c.lenient(.i18nContent)
         }
     }
@@ -4144,9 +3998,9 @@ extension Contact {
     }
 
     public struct FunctionalRoleMemberBatchDeleteResponseResult: Codable, Sendable {
-        public var userId: String
-        public var reason: Int
-        public init(userId: String, reason: Int) {
+        public var userId: String?
+        public var reason: Int?
+        public init(userId: String? = nil, reason: Int? = nil) {
             self.userId = userId
             self.reason = reason
         }
@@ -4156,8 +4010,8 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.reason = try c.lenientRequired(.reason)
+            self.userId = c.lenient(.userId)
+            self.reason = c.lenient(.reason)
         }
     }
 
@@ -4270,8 +4124,8 @@ extension Contact {
     }
 
     public struct FunctionalRoleCreateResponse: Codable, Sendable {
-        public var roleId: String
-        public init(roleId: String) {
+        public var roleId: String?
+        public init(roleId: String? = nil) {
             self.roleId = roleId
         }
         enum CodingKeys: String, CodingKey {
@@ -4279,7 +4133,7 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.roleId = try c.lenientRequired(.roleId)
+            self.roleId = c.lenient(.roleId)
         }
     }
 
@@ -4486,11 +4340,11 @@ extension Contact {
     }
 
     public struct CustomAttrListResponseItem: Codable, Sendable {
-        public var id: String
-        public var type: String
+        public var id: String?
+        public var type: String?
         public var options: Options?
         public var i18nName: [JobLevelCreateBodyI18nName]?
-        public init(id: String, type: String, options: Options? = nil, i18nName: [JobLevelCreateBodyI18nName]? = nil) {
+        public init(id: String? = nil, type: String? = nil, options: Options? = nil, i18nName: [JobLevelCreateBodyI18nName]? = nil) {
             self.id = id
             self.type = type
             self.options = options
@@ -4504,8 +4358,8 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.type = try c.lenientRequired(.type)
+            self.id = c.lenient(.id)
+            self.type = c.lenient(.type)
             self.options = c.lenient(.options)
             self.i18nName = c.lenient(.i18nName)
         }
@@ -4513,9 +4367,9 @@ extension Contact {
 
     public struct Options: Codable, Sendable {
         public var defaultOptionId: String?
-        public var optionType: OptionType
-        public var options: [OptionsOption]
-        public init(defaultOptionId: String? = nil, optionType: OptionType, options: [OptionsOption]) {
+        public var optionType: OptionType?
+        public var options: [OptionsOption]?
+        public init(defaultOptionId: String? = nil, optionType: OptionType? = nil, options: [OptionsOption]? = nil) {
             self.defaultOptionId = defaultOptionId
             self.optionType = optionType
             self.options = options
@@ -4528,8 +4382,8 @@ extension Contact {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.defaultOptionId = c.lenient(.defaultOptionId)
-            self.optionType = try c.lenientRequired(.optionType)
-            self.options = try c.lenientRequired(.options)
+            self.optionType = c.lenient(.optionType)
+            self.options = c.lenient(.options)
         }
     }
 
@@ -4537,15 +4391,15 @@ extension Contact {
     public struct OptionType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let tEXT: Self = "TEXT"
-        public static let pICTURE: Self = "PICTURE"
+        public static let text: Self = "TEXT"
+        public static let picture: Self = "PICTURE"
     }
 
     public struct OptionsOption: Codable, Sendable {
-        public var id: String
-        public var value: String
+        public var id: String?
+        public var value: String?
         public var name: String?
-        public init(id: String, value: String, name: String? = nil) {
+        public init(id: String? = nil, value: String? = nil, name: String? = nil) {
             self.id = id
             self.value = value
             self.name = name
@@ -4557,8 +4411,8 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.value = try c.lenientRequired(.value)
+            self.id = c.lenient(.id)
+            self.value = c.lenient(.value)
             self.name = c.lenient(.name)
         }
     }
@@ -4618,8 +4472,8 @@ extension Contact {
     }
 
     public struct DepartmentUpdatedV3EventObject: Codable, Sendable {
-        public var name: String
-        public var parentDepartmentId: String
+        public var name: String?
+        public var parentDepartmentId: String?
         public var departmentId: String?
         public var openDepartmentId: String?
         public var leaderUserId: String?
@@ -4629,7 +4483,7 @@ extension Contact {
         public var status: DepartmentStatus?
         public var leaders: [Leader]?
         public var departmentHrbps: [DepartmentHrbp]?
-        public init(name: String, parentDepartmentId: String, departmentId: String? = nil, openDepartmentId: String? = nil, leaderUserId: String? = nil, chatId: String? = nil, order: Int? = nil, unitIds: [String]? = nil, status: DepartmentStatus? = nil, leaders: [Leader]? = nil, departmentHrbps: [DepartmentHrbp]? = nil) {
+        public init(name: String? = nil, parentDepartmentId: String? = nil, departmentId: String? = nil, openDepartmentId: String? = nil, leaderUserId: String? = nil, chatId: String? = nil, order: Int? = nil, unitIds: [String]? = nil, status: DepartmentStatus? = nil, leaders: [Leader]? = nil, departmentHrbps: [DepartmentHrbp]? = nil) {
             self.name = name
             self.parentDepartmentId = parentDepartmentId
             self.departmentId = departmentId
@@ -4657,8 +4511,8 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.parentDepartmentId = try c.lenientRequired(.parentDepartmentId)
+            self.name = c.lenient(.name)
+            self.parentDepartmentId = c.lenient(.parentDepartmentId)
             self.departmentId = c.lenient(.departmentId)
             self.openDepartmentId = c.lenient(.openDepartmentId)
             self.leaderUserId = c.lenient(.leaderUserId)
@@ -4895,13 +4749,13 @@ extension Contact {
         public var openId: String?
         public var unionId: String?
         public var userId: String?
-        public var name: String
+        public var name: String?
         public var enName: String?
         public var nickname: String?
         public var email: String?
         public var enterpriseEmail: String?
         public var jobTitle: String?
-        public var mobile: String
+        public var mobile: String?
         public var mobileVisible: Bool?
         public var gender: Int?
         public var avatar: Avatar?
@@ -4922,7 +4776,7 @@ extension Contact {
         public var jobLevelId: String?
         public var jobFamilyId: String?
         public var dottedLineLeaderUserIds: [String]?
-        public init(openId: String? = nil, unionId: String? = nil, userId: String? = nil, name: String, enName: String? = nil, nickname: String? = nil, email: String? = nil, enterpriseEmail: String? = nil, jobTitle: String? = nil, mobile: String, mobileVisible: Bool? = nil, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, isTenantManager: Bool? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, orders: [Order]? = nil, timeZone: String? = nil, customAttrs: [UserFindByDepartmentResponseItemCustomAttr]? = nil, jobLevelId: String? = nil, jobFamilyId: String? = nil, dottedLineLeaderUserIds: [String]? = nil) {
+        public init(openId: String? = nil, unionId: String? = nil, userId: String? = nil, name: String? = nil, enName: String? = nil, nickname: String? = nil, email: String? = nil, enterpriseEmail: String? = nil, jobTitle: String? = nil, mobile: String? = nil, mobileVisible: Bool? = nil, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, departmentIds: [String]? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, isTenantManager: Bool? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, orders: [Order]? = nil, timeZone: String? = nil, customAttrs: [UserFindByDepartmentResponseItemCustomAttr]? = nil, jobLevelId: String? = nil, jobFamilyId: String? = nil, dottedLineLeaderUserIds: [String]? = nil) {
             self.openId = openId
             self.unionId = unionId
             self.userId = userId
@@ -4991,13 +4845,13 @@ extension Contact {
             self.openId = c.lenient(.openId)
             self.unionId = c.lenient(.unionId)
             self.userId = c.lenient(.userId)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.enName = c.lenient(.enName)
             self.nickname = c.lenient(.nickname)
             self.email = c.lenient(.email)
             self.enterpriseEmail = c.lenient(.enterpriseEmail)
             self.jobTitle = c.lenient(.jobTitle)
-            self.mobile = try c.lenientRequired(.mobile)
+            self.mobile = c.lenient(.mobile)
             self.mobileVisible = c.lenient(.mobileVisible)
             self.gender = c.lenient(.gender)
             self.avatar = c.lenient(.avatar)
@@ -5377,11 +5231,11 @@ extension Contact {
         public var unionId: String?
         public var userId: String?
         public var openId: String?
-        public var name: String
+        public var name: String?
         public var enName: String?
         public var nickname: String?
         public var email: String?
-        public var mobile: String
+        public var mobile: String?
         public var gender: Int?
         public var avatar: Avatar?
         public var status: UserStatus?
@@ -5407,7 +5261,7 @@ extension Contact {
         public var assignInfo: [AssignInfo]?
         public var departmentPath: [DepartmentPath]?
         public var dottedLineLeaderUserIds: [String]?
-        public init(unionId: String? = nil, userId: String? = nil, openId: String? = nil, name: String, enName: String? = nil, nickname: String? = nil, email: String? = nil, mobile: String, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, customAttrs: [UserFindByDepartmentResponseItemCustomAttr]? = nil, enterpriseEmail: String? = nil, description: String? = nil, jobTitle: String? = nil, needSendNotification: Bool? = nil, notificationOption: NotificationOption? = nil, isFrozen: Bool? = nil, geo: String? = nil, jobLevelId: String? = nil, jobFamilyId: String? = nil, subscriptionIds: [String]? = nil, assignInfo: [AssignInfo]? = nil, departmentPath: [DepartmentPath]? = nil, dottedLineLeaderUserIds: [String]? = nil) {
+        public init(unionId: String? = nil, userId: String? = nil, openId: String? = nil, name: String? = nil, enName: String? = nil, nickname: String? = nil, email: String? = nil, mobile: String? = nil, gender: Int? = nil, avatar: Avatar? = nil, status: UserStatus? = nil, leaderUserId: String? = nil, city: String? = nil, country: String? = nil, workStation: String? = nil, joinTime: Int? = nil, employeeNo: String? = nil, employeeType: Int? = nil, positions: [Position]? = nil, customAttrs: [UserFindByDepartmentResponseItemCustomAttr]? = nil, enterpriseEmail: String? = nil, description: String? = nil, jobTitle: String? = nil, needSendNotification: Bool? = nil, notificationOption: NotificationOption? = nil, isFrozen: Bool? = nil, geo: String? = nil, jobLevelId: String? = nil, jobFamilyId: String? = nil, subscriptionIds: [String]? = nil, assignInfo: [AssignInfo]? = nil, departmentPath: [DepartmentPath]? = nil, dottedLineLeaderUserIds: [String]? = nil) {
             self.unionId = unionId
             self.userId = userId
             self.openId = openId
@@ -5482,11 +5336,11 @@ extension Contact {
             self.unionId = c.lenient(.unionId)
             self.userId = c.lenient(.userId)
             self.openId = c.lenient(.openId)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.enName = c.lenient(.enName)
             self.nickname = c.lenient(.nickname)
             self.email = c.lenient(.email)
-            self.mobile = try c.lenientRequired(.mobile)
+            self.mobile = c.lenient(.mobile)
             self.gender = c.lenient(.gender)
             self.avatar = c.lenient(.avatar)
             self.status = c.lenient(.status)
@@ -5516,12 +5370,12 @@ extension Contact {
     }
 
     public struct UserGroup: Codable, Sendable {
-        public var userGroupId: String
-        public var name: String
-        public var type: Int
+        public var userGroupId: String?
+        public var name: String?
+        public var type: Int?
         public var memberCount: Int?
         public var status: Int?
-        public init(userGroupId: String, name: String, type: Int, memberCount: Int? = nil, status: Int? = nil) {
+        public init(userGroupId: String? = nil, name: String? = nil, type: Int? = nil, memberCount: Int? = nil, status: Int? = nil) {
             self.userGroupId = userGroupId
             self.name = name
             self.type = type
@@ -5537,9 +5391,9 @@ extension Contact {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userGroupId = try c.lenientRequired(.userGroupId)
-            self.name = try c.lenientRequired(.name)
-            self.type = try c.lenientRequired(.type)
+            self.userGroupId = c.lenient(.userGroupId)
+            self.name = c.lenient(.name)
+            self.type = c.lenient(.type)
             self.memberCount = c.lenient(.memberCount)
             self.status = c.lenient(.status)
         }

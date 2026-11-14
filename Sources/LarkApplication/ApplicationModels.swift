@@ -74,13 +74,13 @@ extension Application {
     }
 
     public struct AppList: Codable, Sendable {
-        public var appId: String
-        public var appName: String
-        public var description: String
-        public var appType: AppType
-        public var avatarUrl: String
-        public var openMethods: [OpenMethod]
-        public init(appId: String, appName: String, description: String, appType: AppType, avatarUrl: String, openMethods: [OpenMethod]) {
+        public var appId: String?
+        public var appName: String?
+        public var description: String?
+        public var appType: AppType?
+        public var avatarUrl: String?
+        public var openMethods: [OpenMethod]?
+        public init(appId: String? = nil, appName: String? = nil, description: String? = nil, appType: AppType? = nil, avatarUrl: String? = nil, openMethods: [OpenMethod]? = nil) {
             self.appId = appId
             self.appName = appName
             self.description = description
@@ -98,12 +98,12 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.appId = try c.lenientRequired(.appId)
-            self.appName = try c.lenientRequired(.appName)
-            self.description = try c.lenientRequired(.description)
-            self.appType = try c.lenientRequired(.appType)
-            self.avatarUrl = try c.lenientRequired(.avatarUrl)
-            self.openMethods = try c.lenientRequired(.openMethods)
+            self.appId = c.lenient(.appId)
+            self.appName = c.lenient(.appName)
+            self.description = c.lenient(.description)
+            self.appType = c.lenient(.appType)
+            self.avatarUrl = c.lenient(.avatarUrl)
+            self.openMethods = c.lenient(.openMethods)
         }
     }
 
@@ -281,9 +281,9 @@ extension Application {
     }
 
     public struct ApplicationAppUsage: Codable, Sendable {
-        public var metricName: String
-        public var metricValue: Int
-        public init(metricName: String, metricValue: Int) {
+        public var metricName: String?
+        public var metricValue: Int?
+        public init(metricName: String? = nil, metricValue: Int? = nil) {
             self.metricName = metricName
             self.metricValue = metricValue
         }
@@ -293,8 +293,8 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.metricName = try c.lenientRequired(.metricName)
-            self.metricValue = try c.lenientRequired(.metricValue)
+            self.metricName = c.lenient(.metricName)
+            self.metricValue = c.lenient(.metricValue)
         }
     }
 
@@ -455,9 +455,9 @@ extension Application {
 
     public struct ApplicationFeedbackListResponse: Codable, Sendable {
         public var feedbackList: [FeedbackList]?
-        public var hasMore: Bool
+        public var hasMore: Bool?
         public var pageToken: String?
-        public init(feedbackList: [FeedbackList]? = nil, hasMore: Bool, pageToken: String? = nil) {
+        public init(feedbackList: [FeedbackList]? = nil, hasMore: Bool? = nil, pageToken: String? = nil) {
             self.feedbackList = feedbackList
             self.hasMore = hasMore
             self.pageToken = pageToken
@@ -470,29 +470,29 @@ extension Application {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.feedbackList = c.lenient(.feedbackList)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
             self.pageToken = c.lenient(.pageToken)
         }
     }
 
     public struct FeedbackList: Codable, Sendable {
-        public var feedbackId: String
-        public var appId: String
-        public var feedbackTime: String
+        public var feedbackId: String?
+        public var appId: String?
+        public var feedbackTime: String?
         public var tenantName: String?
-        public var feedbackType: Int
-        public var status: Int
+        public var feedbackType: Int?
+        public var status: Int?
         public var faultType: [Int]?
         public var faultTime: String?
         public var source: Int?
         public var contact: String?
         public var updateTime: String?
-        public var description: String
+        public var description: String?
         public var userId: String?
         public var operatorId: String?
         public var images: [String]?
         public var feedbackPath: String?
-        public init(feedbackId: String, appId: String, feedbackTime: String, tenantName: String? = nil, feedbackType: Int, status: Int, faultType: [Int]? = nil, faultTime: String? = nil, source: Int? = nil, contact: String? = nil, updateTime: String? = nil, description: String, userId: String? = nil, operatorId: String? = nil, images: [String]? = nil, feedbackPath: String? = nil) {
+        public init(feedbackId: String? = nil, appId: String? = nil, feedbackTime: String? = nil, tenantName: String? = nil, feedbackType: Int? = nil, status: Int? = nil, faultType: [Int]? = nil, faultTime: String? = nil, source: Int? = nil, contact: String? = nil, updateTime: String? = nil, description: String? = nil, userId: String? = nil, operatorId: String? = nil, images: [String]? = nil, feedbackPath: String? = nil) {
             self.feedbackId = feedbackId
             self.appId = appId
             self.feedbackTime = feedbackTime
@@ -530,18 +530,18 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.feedbackId = try c.lenientRequired(.feedbackId)
-            self.appId = try c.lenientRequired(.appId)
-            self.feedbackTime = try c.lenientRequired(.feedbackTime)
+            self.feedbackId = c.lenient(.feedbackId)
+            self.appId = c.lenient(.appId)
+            self.feedbackTime = c.lenient(.feedbackTime)
             self.tenantName = c.lenient(.tenantName)
-            self.feedbackType = try c.lenientRequired(.feedbackType)
-            self.status = try c.lenientRequired(.status)
+            self.feedbackType = c.lenient(.feedbackType)
+            self.status = c.lenient(.status)
             self.faultType = c.lenient(.faultType)
             self.faultTime = c.lenient(.faultTime)
             self.source = c.lenient(.source)
             self.contact = c.lenient(.contact)
             self.updateTime = c.lenient(.updateTime)
-            self.description = try c.lenientRequired(.description)
+            self.description = c.lenient(.description)
             self.userId = c.lenient(.userId)
             self.operatorId = c.lenient(.operatorId)
             self.images = c.lenient(.images)
@@ -940,7 +940,7 @@ extension Application {
     }
 
     public struct ApplicationListResponseAppList: Codable, Sendable {
-        public var appId: String
+        public var appId: String?
         public var creatorId: String?
         public var status: Int?
         public var sceneType: Int?
@@ -967,7 +967,7 @@ extension Application {
         public var security: Security?
         public var allowRefreshToken: Bool?
         public var callbackInfo: CallbackInfo?
-        public init(appId: String, creatorId: String? = nil, status: Int? = nil, sceneType: Int? = nil, paymentType: Int? = nil, createSource: CreateSource? = nil, redirectUrls: [String]? = nil, onlineVersionId: String? = nil, unauditVersionId: String? = nil, appName: String? = nil, avatarUrl: String? = nil, description: String? = nil, scopes: [Scope]? = nil, backHomeUrl: String? = nil, i18n: [ApplicationListResponseAppListI18n]? = nil, primaryLanguage: Language? = nil, commonCategories: [String]? = nil, owner: Owner? = nil, mobileDefaultAbility: MobileDefaultAbility? = nil, pcDefaultAbility: MobileDefaultAbility? = nil, secret: String? = nil, event: Event? = nil, callback: Callback? = nil, encryption: Encryption? = nil, security: Security? = nil, allowRefreshToken: Bool? = nil, callbackInfo: CallbackInfo? = nil) {
+        public init(appId: String? = nil, creatorId: String? = nil, status: Int? = nil, sceneType: Int? = nil, paymentType: Int? = nil, createSource: CreateSource? = nil, redirectUrls: [String]? = nil, onlineVersionId: String? = nil, unauditVersionId: String? = nil, appName: String? = nil, avatarUrl: String? = nil, description: String? = nil, scopes: [Scope]? = nil, backHomeUrl: String? = nil, i18n: [ApplicationListResponseAppListI18n]? = nil, primaryLanguage: Language? = nil, commonCategories: [String]? = nil, owner: Owner? = nil, mobileDefaultAbility: MobileDefaultAbility? = nil, pcDefaultAbility: MobileDefaultAbility? = nil, secret: String? = nil, event: Event? = nil, callback: Callback? = nil, encryption: Encryption? = nil, security: Security? = nil, allowRefreshToken: Bool? = nil, callbackInfo: CallbackInfo? = nil) {
             self.appId = appId
             self.creatorId = creatorId
             self.status = status
@@ -1027,7 +1027,7 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.appId = try c.lenientRequired(.appId)
+            self.appId = c.lenient(.appId)
             self.creatorId = c.lenient(.creatorId)
             self.status = c.lenient(.status)
             self.sceneType = c.lenient(.sceneType)
@@ -1070,11 +1070,11 @@ extension Application {
     }
 
     public struct Scope: Codable, Sendable {
-        public var scope: String
+        public var scope: String?
         public var description: String?
         public var level: Int?
         public var tokenTypes: [TokenTypes]?
-        public init(scope: String, description: String? = nil, level: Int? = nil, tokenTypes: [TokenTypes]? = nil) {
+        public init(scope: String? = nil, description: String? = nil, level: Int? = nil, tokenTypes: [TokenTypes]? = nil) {
             self.scope = scope
             self.description = description
             self.level = level
@@ -1088,7 +1088,7 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.scope = try c.lenientRequired(.scope)
+            self.scope = c.lenient(.scope)
             self.description = c.lenient(.description)
             self.level = c.lenient(.level)
             self.tokenTypes = c.lenient(.tokenTypes)
@@ -1104,11 +1104,11 @@ extension Application {
     }
 
     public struct ApplicationListResponseAppListI18n: Codable, Sendable {
-        public var i18nKey: I18nKey
+        public var i18nKey: I18nKey?
         public var name: String?
         public var description: String?
         public var helpUse: String?
-        public init(i18nKey: I18nKey, name: String? = nil, description: String? = nil, helpUse: String? = nil) {
+        public init(i18nKey: I18nKey? = nil, name: String? = nil, description: String? = nil, helpUse: String? = nil) {
             self.i18nKey = i18nKey
             self.name = name
             self.description = description
@@ -1122,7 +1122,7 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.i18nKey = try c.lenientRequired(.i18nKey)
+            self.i18nKey = c.lenient(.i18nKey)
             self.name = c.lenient(.name)
             self.description = c.lenient(.description)
             self.helpUse = c.lenient(.helpUse)
@@ -1152,14 +1152,14 @@ extension Application {
     }
 
     public struct Owner: Codable, Sendable {
-        public var type: Int
+        public var type: Int?
         public var ownerId: String?
         public var name: String?
         public var helpDesk: String?
         public var email: String?
         public var phone: String?
         public var customerServiceAccount: String?
-        public init(type: Int, ownerId: String? = nil, name: String? = nil, helpDesk: String? = nil, email: String? = nil, phone: String? = nil, customerServiceAccount: String? = nil) {
+        public init(type: Int? = nil, ownerId: String? = nil, name: String? = nil, helpDesk: String? = nil, email: String? = nil, phone: String? = nil, customerServiceAccount: String? = nil) {
             self.type = type
             self.ownerId = ownerId
             self.name = name
@@ -1179,7 +1179,7 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.ownerId = c.lenient(.ownerId)
             self.name = c.lenient(.name)
             self.helpDesk = c.lenient(.helpDesk)
@@ -1439,10 +1439,10 @@ extension Application {
     }
 
     public struct ApplicationUnderauditlistResponse: Codable, Sendable {
-        public var items: [ApplicationListResponseAppList]
-        public var hasMore: Bool
+        public var items: [ApplicationListResponseAppList]?
+        public var hasMore: Bool?
         public var pageToken: String?
-        public init(items: [ApplicationListResponseAppList], hasMore: Bool, pageToken: String? = nil) {
+        public init(items: [ApplicationListResponseAppList]? = nil, hasMore: Bool? = nil, pageToken: String? = nil) {
             self.items = items
             self.hasMore = hasMore
             self.pageToken = pageToken
@@ -1454,8 +1454,8 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.items = c.lenient(.items)
+            self.hasMore = c.lenient(.hasMore)
             self.pageToken = c.lenient(.pageToken)
         }
     }
@@ -1543,9 +1543,9 @@ extension Application {
     }
 
     public struct AppVersion: Codable, Sendable {
-        public var appId: String
+        public var appId: String?
         public var version: String?
-        public var versionId: String
+        public var versionId: String?
         public var appName: String?
         public var avatarUrl: String?
         public var description: String?
@@ -1560,7 +1560,7 @@ extension Application {
         public var ability: AppVersionAbility?
         public var remark: Remark?
         public var eventInfos: [EventInfo]?
-        public init(appId: String, version: String? = nil, versionId: String, appName: String? = nil, avatarUrl: String? = nil, description: String? = nil, scopes: [Scope]? = nil, backHomeUrl: String? = nil, i18n: [ApplicationListResponseAppListI18n]? = nil, commonCategories: [String]? = nil, events: [String]? = nil, status: Int? = nil, createTime: String? = nil, publishTime: String? = nil, ability: AppVersionAbility? = nil, remark: Remark? = nil, eventInfos: [EventInfo]? = nil) {
+        public init(appId: String? = nil, version: String? = nil, versionId: String? = nil, appName: String? = nil, avatarUrl: String? = nil, description: String? = nil, scopes: [Scope]? = nil, backHomeUrl: String? = nil, i18n: [ApplicationListResponseAppListI18n]? = nil, commonCategories: [String]? = nil, events: [String]? = nil, status: Int? = nil, createTime: String? = nil, publishTime: String? = nil, ability: AppVersionAbility? = nil, remark: Remark? = nil, eventInfos: [EventInfo]? = nil) {
             self.appId = appId
             self.version = version
             self.versionId = versionId
@@ -1600,9 +1600,9 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.appId = try c.lenientRequired(.appId)
+            self.appId = c.lenient(.appId)
             self.version = c.lenient(.version)
-            self.versionId = try c.lenientRequired(.versionId)
+            self.versionId = c.lenient(.versionId)
             self.appName = c.lenient(.appName)
             self.avatarUrl = c.lenient(.avatarUrl)
             self.description = c.lenient(.description)
@@ -1897,11 +1897,11 @@ extension Application {
     }
 
     public struct CloudDocI18n: Codable, Sendable {
-        public var i18nKey: Language
+        public var i18nKey: Language?
         public var name: String?
         public var readDescription: String?
         public var writeDescription: String?
-        public init(i18nKey: Language, name: String? = nil, readDescription: String? = nil, writeDescription: String? = nil) {
+        public init(i18nKey: Language? = nil, name: String? = nil, readDescription: String? = nil, writeDescription: String? = nil) {
             self.i18nKey = i18nKey
             self.name = name
             self.readDescription = readDescription
@@ -1915,7 +1915,7 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.i18nKey = try c.lenientRequired(.i18nKey)
+            self.i18nKey = c.lenient(.i18nKey)
             self.name = c.lenient(.name)
             self.readDescription = c.lenient(.readDescription)
             self.writeDescription = c.lenient(.writeDescription)
@@ -2395,9 +2395,9 @@ extension Application {
     }
 
     public struct Collaborator: Codable, Sendable {
-        public var type: CollaboratorType
-        public var userId: String
-        public init(type: CollaboratorType, userId: String) {
+        public var type: CollaboratorType?
+        public var userId: String?
+        public init(type: CollaboratorType? = nil, userId: String? = nil) {
             self.type = type
             self.userId = userId
         }
@@ -2407,8 +2407,8 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.userId = try c.lenientRequired(.userId)
+            self.type = c.lenient(.type)
+            self.userId = c.lenient(.userId)
         }
     }
 
@@ -2496,10 +2496,10 @@ extension Application {
     }
 
     public struct ScopeListResponseScope: Codable, Sendable {
-        public var scopeName: String
-        public var grantStatus: Int
+        public var scopeName: String?
+        public var grantStatus: Int?
         public var scopeType: TokenTypes?
-        public init(scopeName: String, grantStatus: Int, scopeType: TokenTypes? = nil) {
+        public init(scopeName: String? = nil, grantStatus: Int? = nil, scopeType: TokenTypes? = nil) {
             self.scopeName = scopeName
             self.grantStatus = grantStatus
             self.scopeType = scopeType
@@ -2511,8 +2511,8 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.scopeName = try c.lenientRequired(.scopeName)
-            self.grantStatus = try c.lenientRequired(.grantStatus)
+            self.scopeName = c.lenient(.scopeName)
+            self.grantStatus = c.lenient(.grantStatus)
             self.scopeType = c.lenient(.scopeType)
         }
     }
@@ -2739,9 +2739,9 @@ extension Application {
     }
 
     public struct AddScope: Codable, Sendable {
-        public var scopeName: String
-        public var tokenType: TokenTypes
-        public init(scopeName: String, tokenType: TokenTypes) {
+        public var scopeName: String?
+        public var tokenType: TokenTypes?
+        public init(scopeName: String? = nil, tokenType: TokenTypes? = nil) {
             self.scopeName = scopeName
             self.tokenType = tokenType
         }
@@ -2751,17 +2751,17 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.scopeName = try c.lenientRequired(.scopeName)
-            self.tokenType = try c.lenientRequired(.tokenType)
+            self.scopeName = c.lenient(.scopeName)
+            self.tokenType = c.lenient(.tokenType)
         }
     }
 
     public struct ApplicationConfigPatchBodyEvent: Codable, Sendable {
-        public var subscriptionType: CallbackType
+        public var subscriptionType: CallbackType?
         public var requestUrl: String?
         public var addEvents: [String]?
         public var removeEvents: [String]?
-        public init(subscriptionType: CallbackType, requestUrl: String? = nil, addEvents: [String]? = nil, removeEvents: [String]? = nil) {
+        public init(subscriptionType: CallbackType? = nil, requestUrl: String? = nil, addEvents: [String]? = nil, removeEvents: [String]? = nil) {
             self.subscriptionType = subscriptionType
             self.requestUrl = requestUrl
             self.addEvents = addEvents
@@ -2775,7 +2775,7 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.subscriptionType = try c.lenientRequired(.subscriptionType)
+            self.subscriptionType = c.lenient(.subscriptionType)
             self.requestUrl = c.lenient(.requestUrl)
             self.addEvents = c.lenient(.addEvents)
             self.removeEvents = c.lenient(.removeEvents)
@@ -2805,9 +2805,9 @@ extension Application {
     }
 
     public struct ApplicationConfigPatchBodyVisibility: Codable, Sendable {
-        public var isVisibleToAll: Bool
+        public var isVisibleToAll: Bool?
         public var visibleList: ApplicationConfigPatchBodyVisibilityVisibleList?
-        public init(isVisibleToAll: Bool, visibleList: ApplicationConfigPatchBodyVisibilityVisibleList? = nil) {
+        public init(isVisibleToAll: Bool? = nil, visibleList: ApplicationConfigPatchBodyVisibilityVisibleList? = nil) {
             self.isVisibleToAll = isVisibleToAll
             self.visibleList = visibleList
         }
@@ -2817,7 +2817,7 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.isVisibleToAll = try c.lenientRequired(.isVisibleToAll)
+            self.isVisibleToAll = c.lenient(.isVisibleToAll)
             self.visibleList = c.lenient(.visibleList)
         }
     }
@@ -2841,9 +2841,9 @@ extension Application {
     }
 
     public struct Contacts: Codable, Sendable {
-        public var contactsRangeType: ContactsScopeType
+        public var contactsRangeType: ContactsScopeType?
         public var visibleList: ApplicationConfigPatchBodyVisibilityVisibleList?
-        public init(contactsRangeType: ContactsScopeType, visibleList: ApplicationConfigPatchBodyVisibilityVisibleList? = nil) {
+        public init(contactsRangeType: ContactsScopeType? = nil, visibleList: ApplicationConfigPatchBodyVisibilityVisibleList? = nil) {
             self.contactsRangeType = contactsRangeType
             self.visibleList = visibleList
         }
@@ -2853,17 +2853,17 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.contactsRangeType = try c.lenientRequired(.contactsRangeType)
+            self.contactsRangeType = c.lenient(.contactsRangeType)
             self.visibleList = c.lenient(.visibleList)
         }
     }
 
     public struct ApplicationConfigPatchBodyCallback: Codable, Sendable {
-        public var callbackType: CallbackType
+        public var callbackType: CallbackType?
         public var requestUrl: String?
         public var addCallbacks: [String]?
         public var removeCallbacks: [String]?
-        public init(callbackType: CallbackType, requestUrl: String? = nil, addCallbacks: [String]? = nil, removeCallbacks: [String]? = nil) {
+        public init(callbackType: CallbackType? = nil, requestUrl: String? = nil, addCallbacks: [String]? = nil, removeCallbacks: [String]? = nil) {
             self.callbackType = callbackType
             self.requestUrl = requestUrl
             self.addCallbacks = addCallbacks
@@ -2877,7 +2877,7 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.callbackType = try c.lenientRequired(.callbackType)
+            self.callbackType = c.lenient(.callbackType)
             self.requestUrl = c.lenient(.requestUrl)
             self.addCallbacks = c.lenient(.addCallbacks)
             self.removeCallbacks = c.lenient(.removeCallbacks)
@@ -2903,11 +2903,11 @@ extension Application {
     }
 
     public struct ApplicationAbilityPatchBodyWebApp: Codable, Sendable {
-        public var enable: Bool
+        public var enable: Bool?
         public var pcUrl: String?
         public var pcNewPageOpenMode: PcNewPageOpenMode?
         public var mobileUrl: String?
-        public init(enable: Bool, pcUrl: String? = nil, pcNewPageOpenMode: PcNewPageOpenMode? = nil, mobileUrl: String? = nil) {
+        public init(enable: Bool? = nil, pcUrl: String? = nil, pcNewPageOpenMode: PcNewPageOpenMode? = nil, mobileUrl: String? = nil) {
             self.enable = enable
             self.pcUrl = pcUrl
             self.pcNewPageOpenMode = pcNewPageOpenMode
@@ -2921,7 +2921,7 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.enable = try c.lenientRequired(.enable)
+            self.enable = c.lenient(.enable)
             self.pcUrl = c.lenient(.pcUrl)
             self.pcNewPageOpenMode = c.lenient(.pcNewPageOpenMode)
             self.mobileUrl = c.lenient(.mobileUrl)
@@ -2937,14 +2937,14 @@ extension Application {
     }
 
     public struct ApplicationAbilityPatchBodyBot: Codable, Sendable {
-        public var enable: Bool
+        public var enable: Bool?
         public var messageCardCallbackUrl: String?
         public var i18ns: [ApplicationAbilityPatchBodyBotI18n]?
         public var botMenuEnable: Bool?
         public var botMenus: [BotMenus]?
         public var botMenuDisplayStrategy: Int?
         public var allowInvitedToGroupByOtherAppSwitchOpen: Bool?
-        public init(enable: Bool, messageCardCallbackUrl: String? = nil, i18ns: [ApplicationAbilityPatchBodyBotI18n]? = nil, botMenuEnable: Bool? = nil, botMenus: [BotMenus]? = nil, botMenuDisplayStrategy: Int? = nil, allowInvitedToGroupByOtherAppSwitchOpen: Bool? = nil) {
+        public init(enable: Bool? = nil, messageCardCallbackUrl: String? = nil, i18ns: [ApplicationAbilityPatchBodyBotI18n]? = nil, botMenuEnable: Bool? = nil, botMenus: [BotMenus]? = nil, botMenuDisplayStrategy: Int? = nil, allowInvitedToGroupByOtherAppSwitchOpen: Bool? = nil) {
             self.enable = enable
             self.messageCardCallbackUrl = messageCardCallbackUrl
             self.i18ns = i18ns
@@ -2964,7 +2964,7 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.enable = try c.lenientRequired(.enable)
+            self.enable = c.lenient(.enable)
             self.messageCardCallbackUrl = c.lenient(.messageCardCallbackUrl)
             self.i18ns = c.lenient(.i18ns)
             self.botMenuEnable = c.lenient(.botMenuEnable)
@@ -2975,9 +2975,9 @@ extension Application {
     }
 
     public struct ApplicationAbilityPatchBodyBotI18n: Codable, Sendable {
-        public var i18nKey: I18nKey
-        public var getStartedDesc: String
-        public init(i18nKey: I18nKey, getStartedDesc: String) {
+        public var i18nKey: I18nKey?
+        public var getStartedDesc: String?
+        public init(i18nKey: I18nKey? = nil, getStartedDesc: String? = nil) {
             self.i18nKey = i18nKey
             self.getStartedDesc = getStartedDesc
         }
@@ -2987,8 +2987,8 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.i18nKey = try c.lenientRequired(.i18nKey)
-            self.getStartedDesc = try c.lenientRequired(.getStartedDesc)
+            self.i18nKey = c.lenient(.i18nKey)
+            self.getStartedDesc = c.lenient(.getStartedDesc)
         }
     }
 
@@ -3595,9 +3595,9 @@ extension Application {
     }
 
     public struct OnlineVersion: Codable, Sendable {
-        public var appId: String
+        public var appId: String?
         public var version: String?
-        public var versionId: String
+        public var versionId: String?
         public var appName: String?
         public var avatarUrl: String?
         public var description: String?
@@ -3611,7 +3611,7 @@ extension Application {
         public var publishTime: String?
         public var ability: AppVersionAbility?
         public var remark: OnlineVersionRemark?
-        public init(appId: String, version: String? = nil, versionId: String, appName: String? = nil, avatarUrl: String? = nil, description: String? = nil, scopes: [Scope]? = nil, backHomeUrl: String? = nil, i18n: [ApplicationListResponseAppListI18n]? = nil, commonCategories: [String]? = nil, events: [String]? = nil, status: Int? = nil, createTime: String? = nil, publishTime: String? = nil, ability: AppVersionAbility? = nil, remark: OnlineVersionRemark? = nil) {
+        public init(appId: String? = nil, version: String? = nil, versionId: String? = nil, appName: String? = nil, avatarUrl: String? = nil, description: String? = nil, scopes: [Scope]? = nil, backHomeUrl: String? = nil, i18n: [ApplicationListResponseAppListI18n]? = nil, commonCategories: [String]? = nil, events: [String]? = nil, status: Int? = nil, createTime: String? = nil, publishTime: String? = nil, ability: AppVersionAbility? = nil, remark: OnlineVersionRemark? = nil) {
             self.appId = appId
             self.version = version
             self.versionId = versionId
@@ -3649,9 +3649,9 @@ extension Application {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.appId = try c.lenientRequired(.appId)
+            self.appId = c.lenient(.appId)
             self.version = c.lenient(.version)
-            self.versionId = try c.lenientRequired(.versionId)
+            self.versionId = c.lenient(.versionId)
             self.appName = c.lenient(.appName)
             self.avatarUrl = c.lenient(.avatarUrl)
             self.description = c.lenient(.description)

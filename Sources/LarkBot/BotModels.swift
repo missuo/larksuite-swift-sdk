@@ -72,11 +72,11 @@ extension Bot {
     }
 
     public struct BotSearchResponse: Codable, Sendable {
-        public var items: [Bot]
-        public var hasMore: Bool
+        public var items: [Bot]?
+        public var hasMore: Bool?
         public var pageToken: String?
         public var notice: String?
-        public init(items: [Bot], hasMore: Bool, pageToken: String? = nil, notice: String? = nil) {
+        public init(items: [Bot]? = nil, hasMore: Bool? = nil, pageToken: String? = nil, notice: String? = nil) {
             self.items = items
             self.hasMore = hasMore
             self.pageToken = pageToken
@@ -90,18 +90,18 @@ extension Bot {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.items = c.lenient(.items)
+            self.hasMore = c.lenient(.hasMore)
             self.pageToken = c.lenient(.pageToken)
             self.notice = c.lenient(.notice)
         }
     }
 
     public struct Bot: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var displayInfo: String?
         public var metaData: MetaData?
-        public init(id: String, displayInfo: String? = nil, metaData: MetaData? = nil) {
+        public init(id: String? = nil, displayInfo: String? = nil, metaData: MetaData? = nil) {
             self.id = id
             self.displayInfo = displayInfo
             self.metaData = metaData
@@ -113,7 +113,7 @@ extension Bot {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.displayInfo = c.lenient(.displayInfo)
             self.metaData = c.lenient(.metaData)
         }

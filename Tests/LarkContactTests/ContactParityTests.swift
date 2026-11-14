@@ -191,7 +191,7 @@ import LarkContact
 
     @Test("POST /open-apis/contact/v3/group/:group_id/member/batch_remove") func v3_groupMember_batchRemove() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.contact.v3.groupMember.batchRemove(groupId: "s", body: Contact.GroupMemberBatchRemoveBody(members: [Contact.Memberlist(memberId: "s", memberType: "s")]))
+        let resp = try await client.contact.v3.groupMember.batchRemove(groupId: "s", body: Contact.GroupMemberBatchRemoveBody(members: [Contact.Memberlist()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")

@@ -4,240 +4,6 @@ import Foundation
 import LarkCore
 
 extension Hire {
-    public struct InterviewGetByTalentQuery: Codable, Sendable {
-        public var talentId: String
-        public var userIdType: TalentCombinedCreateQueryUserIdType?
-        public var jobLevelIdType: JobLevelIdType?
-        public init(talentId: String, userIdType: TalentCombinedCreateQueryUserIdType? = nil, jobLevelIdType: JobLevelIdType? = nil) {
-            self.talentId = talentId
-            self.userIdType = userIdType
-            self.jobLevelIdType = jobLevelIdType
-        }
-        enum CodingKeys: String, CodingKey {
-            case talentId = "talent_id"
-            case userIdType = "user_id_type"
-            case jobLevelIdType = "job_level_id_type"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.talentId = try c.lenientRequired(.talentId)
-            self.userIdType = c.lenient(.userIdType)
-            self.jobLevelIdType = c.lenient(.jobLevelIdType)
-        }
-    }
-
-    public struct InterviewGetByTalentResponse: Codable, Sendable {
-        public var items: [InterviewGetByTalentResponseItem]?
-        public init(items: [InterviewGetByTalentResponseItem]? = nil) {
-            self.items = items
-        }
-        enum CodingKeys: String, CodingKey {
-            case items
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = c.lenient(.items)
-        }
-    }
-
-    public struct InterviewGetByTalentResponseItem: Codable, Sendable {
-        public var applicationId: String?
-        public var interviewList: [InterviewList]?
-        public init(applicationId: String? = nil, interviewList: [InterviewList]? = nil) {
-            self.applicationId = applicationId
-            self.interviewList = interviewList
-        }
-        enum CodingKeys: String, CodingKey {
-            case applicationId = "application_id"
-            case interviewList = "interview_list"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.applicationId = c.lenient(.applicationId)
-            self.interviewList = c.lenient(.interviewList)
-        }
-    }
-
-    public struct InterviewList: Codable, Sendable {
-        public var id: String?
-        public var beginTime: Int?
-        public var endTime: Int?
-        public var round: Int?
-        public var interviewRecordList: [InterviewListInterviewRecordList]?
-        public var feedbackSubmitTime: Int?
-        public var stageId: String?
-        public var applicationId: String?
-        public var stage: JobRecruitmentType?
-        public var creator: JobRecruitmentType?
-        public var bizCreateTime: Int?
-        public var bizModifyTime: Int?
-        public var interviewRoundSummary: Int?
-        public var interviewArrangementId: String?
-        public var interviewType: Int?
-        public var talentTimeZone: District?
-        public var contactUser: JobRecruitmentType?
-        public var contactMobile: String?
-        public var remark: String?
-        public var address: Address?
-        public var videoType: Int?
-        public var arrangementStatus: Int?
-        public var arrangementType: Int?
-        public var arrangementAppointmentKind: Int?
-        public var meetingRoomList: [MeetingRoomList]?
-        public var interviewRoundType: JobRecruitmentType?
-        public init(id: String? = nil, beginTime: Int? = nil, endTime: Int? = nil, round: Int? = nil, interviewRecordList: [InterviewListInterviewRecordList]? = nil, feedbackSubmitTime: Int? = nil, stageId: String? = nil, applicationId: String? = nil, stage: JobRecruitmentType? = nil, creator: JobRecruitmentType? = nil, bizCreateTime: Int? = nil, bizModifyTime: Int? = nil, interviewRoundSummary: Int? = nil, interviewArrangementId: String? = nil, interviewType: Int? = nil, talentTimeZone: District? = nil, contactUser: JobRecruitmentType? = nil, contactMobile: String? = nil, remark: String? = nil, address: Address? = nil, videoType: Int? = nil, arrangementStatus: Int? = nil, arrangementType: Int? = nil, arrangementAppointmentKind: Int? = nil, meetingRoomList: [MeetingRoomList]? = nil, interviewRoundType: JobRecruitmentType? = nil) {
-            self.id = id
-            self.beginTime = beginTime
-            self.endTime = endTime
-            self.round = round
-            self.interviewRecordList = interviewRecordList
-            self.feedbackSubmitTime = feedbackSubmitTime
-            self.stageId = stageId
-            self.applicationId = applicationId
-            self.stage = stage
-            self.creator = creator
-            self.bizCreateTime = bizCreateTime
-            self.bizModifyTime = bizModifyTime
-            self.interviewRoundSummary = interviewRoundSummary
-            self.interviewArrangementId = interviewArrangementId
-            self.interviewType = interviewType
-            self.talentTimeZone = talentTimeZone
-            self.contactUser = contactUser
-            self.contactMobile = contactMobile
-            self.remark = remark
-            self.address = address
-            self.videoType = videoType
-            self.arrangementStatus = arrangementStatus
-            self.arrangementType = arrangementType
-            self.arrangementAppointmentKind = arrangementAppointmentKind
-            self.meetingRoomList = meetingRoomList
-            self.interviewRoundType = interviewRoundType
-        }
-        enum CodingKeys: String, CodingKey {
-            case id
-            case beginTime = "begin_time"
-            case endTime = "end_time"
-            case round
-            case interviewRecordList = "interview_record_list"
-            case feedbackSubmitTime = "feedback_submit_time"
-            case stageId = "stage_id"
-            case applicationId = "application_id"
-            case stage
-            case creator
-            case bizCreateTime = "biz_create_time"
-            case bizModifyTime = "biz_modify_time"
-            case interviewRoundSummary = "interview_round_summary"
-            case interviewArrangementId = "interview_arrangement_id"
-            case interviewType = "interview_type"
-            case talentTimeZone = "talent_time_zone"
-            case contactUser = "contact_user"
-            case contactMobile = "contact_mobile"
-            case remark
-            case address
-            case videoType = "video_type"
-            case arrangementStatus = "arrangement_status"
-            case arrangementType = "arrangement_type"
-            case arrangementAppointmentKind = "arrangement_appointment_kind"
-            case meetingRoomList = "meeting_room_list"
-            case interviewRoundType = "interview_round_type"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = c.lenient(.id)
-            self.beginTime = c.lenient(.beginTime)
-            self.endTime = c.lenient(.endTime)
-            self.round = c.lenient(.round)
-            self.interviewRecordList = c.lenient(.interviewRecordList)
-            self.feedbackSubmitTime = c.lenient(.feedbackSubmitTime)
-            self.stageId = c.lenient(.stageId)
-            self.applicationId = c.lenient(.applicationId)
-            self.stage = c.lenient(.stage)
-            self.creator = c.lenient(.creator)
-            self.bizCreateTime = c.lenient(.bizCreateTime)
-            self.bizModifyTime = c.lenient(.bizModifyTime)
-            self.interviewRoundSummary = c.lenient(.interviewRoundSummary)
-            self.interviewArrangementId = c.lenient(.interviewArrangementId)
-            self.interviewType = c.lenient(.interviewType)
-            self.talentTimeZone = c.lenient(.talentTimeZone)
-            self.contactUser = c.lenient(.contactUser)
-            self.contactMobile = c.lenient(.contactMobile)
-            self.remark = c.lenient(.remark)
-            self.address = c.lenient(.address)
-            self.videoType = c.lenient(.videoType)
-            self.arrangementStatus = c.lenient(.arrangementStatus)
-            self.arrangementType = c.lenient(.arrangementType)
-            self.arrangementAppointmentKind = c.lenient(.arrangementAppointmentKind)
-            self.meetingRoomList = c.lenient(.meetingRoomList)
-            self.interviewRoundType = c.lenient(.interviewRoundType)
-        }
-    }
-
-    public struct InterviewListInterviewRecordList: Codable, Sendable {
-        public var id: String?
-        public var userId: String?
-        public var content: String?
-        public var minJobLevelId: String?
-        public var maxJobLevelId: String?
-        public var commitStatus: Int?
-        public var conclusion: Int?
-        public var interviewScore: InterviewScore?
-        public var assessmentScore: AssessmentScore?
-        public var questionList: [QuestionList]?
-        public var codeQuestionList: [QuestionList]?
-        public var interviewer: JobRecruitmentType?
-        public var imageList: [ImageList]?
-        public var dimensionAssessmentList: [DimensionAssessmentList]?
-        public init(id: String? = nil, userId: String? = nil, content: String? = nil, minJobLevelId: String? = nil, maxJobLevelId: String? = nil, commitStatus: Int? = nil, conclusion: Int? = nil, interviewScore: InterviewScore? = nil, assessmentScore: AssessmentScore? = nil, questionList: [QuestionList]? = nil, codeQuestionList: [QuestionList]? = nil, interviewer: JobRecruitmentType? = nil, imageList: [ImageList]? = nil, dimensionAssessmentList: [DimensionAssessmentList]? = nil) {
-            self.id = id
-            self.userId = userId
-            self.content = content
-            self.minJobLevelId = minJobLevelId
-            self.maxJobLevelId = maxJobLevelId
-            self.commitStatus = commitStatus
-            self.conclusion = conclusion
-            self.interviewScore = interviewScore
-            self.assessmentScore = assessmentScore
-            self.questionList = questionList
-            self.codeQuestionList = codeQuestionList
-            self.interviewer = interviewer
-            self.imageList = imageList
-            self.dimensionAssessmentList = dimensionAssessmentList
-        }
-        enum CodingKeys: String, CodingKey {
-            case id
-            case userId = "user_id"
-            case content
-            case minJobLevelId = "min_job_level_id"
-            case maxJobLevelId = "max_job_level_id"
-            case commitStatus = "commit_status"
-            case conclusion
-            case interviewScore = "interview_score"
-            case assessmentScore = "assessment_score"
-            case questionList = "question_list"
-            case codeQuestionList = "code_question_list"
-            case interviewer
-            case imageList = "image_list"
-            case dimensionAssessmentList = "dimension_assessment_list"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = c.lenient(.id)
-            self.userId = c.lenient(.userId)
-            self.content = c.lenient(.content)
-            self.minJobLevelId = c.lenient(.minJobLevelId)
-            self.maxJobLevelId = c.lenient(.maxJobLevelId)
-            self.commitStatus = c.lenient(.commitStatus)
-            self.conclusion = c.lenient(.conclusion)
-            self.interviewScore = c.lenient(.interviewScore)
-            self.assessmentScore = c.lenient(.assessmentScore)
-            self.questionList = c.lenient(.questionList)
-            self.codeQuestionList = c.lenient(.codeQuestionList)
-            self.interviewer = c.lenient(.interviewer)
-            self.imageList = c.lenient(.imageList)
-            self.dimensionAssessmentList = c.lenient(.dimensionAssessmentList)
-        }
-    }
-
     public struct InterviewListQuery: Codable, Sendable {
         public var pageSize: Int?
         public var pageToken: String?
@@ -331,11 +97,11 @@ extension Hire {
     }
 
     public struct Account: Codable, Sendable {
-        public var accountId: String
+        public var accountId: String?
         public var assets: Assets?
         public var status: Int?
         public var referrer: Referrer?
-        public init(accountId: String, assets: Assets? = nil, status: Int? = nil, referrer: Referrer? = nil) {
+        public init(accountId: String? = nil, assets: Assets? = nil, status: Int? = nil, referrer: Referrer? = nil) {
             self.accountId = accountId
             self.assets = assets
             self.status = status
@@ -349,7 +115,7 @@ extension Hire {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.accountId = try c.lenientRequired(.accountId)
+            self.accountId = c.lenient(.accountId)
             self.assets = c.lenient(.assets)
             self.status = c.lenient(.status)
             self.referrer = c.lenient(.referrer)
@@ -357,9 +123,9 @@ extension Hire {
     }
 
     public struct Assets: Codable, Sendable {
-        public var confirmedBonus: ConfirmedBonus?
-        public var paidBonus: ConfirmedBonus?
-        public init(confirmedBonus: ConfirmedBonus? = nil, paidBonus: ConfirmedBonus? = nil) {
+        public var confirmedBonus: Bonus?
+        public var paidBonus: Bonus?
+        public init(confirmedBonus: Bonus? = nil, paidBonus: Bonus? = nil) {
             self.confirmedBonus = confirmedBonus
             self.paidBonus = paidBonus
         }
@@ -371,32 +137,6 @@ extension Hire {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.confirmedBonus = c.lenient(.confirmedBonus)
             self.paidBonus = c.lenient(.paidBonus)
-        }
-    }
-
-    public struct ConfirmedBonus: Codable, Sendable {
-        public var bonusType: Int?
-        public var pointBonus: Int?
-        public var cash: Cash?
-        public var cashBonus: [Cash]?
-        public init(bonusType: Int? = nil, pointBonus: Int? = nil, cash: Cash? = nil, cashBonus: [Cash]? = nil) {
-            self.bonusType = bonusType
-            self.pointBonus = pointBonus
-            self.cash = cash
-            self.cashBonus = cashBonus
-        }
-        enum CodingKeys: String, CodingKey {
-            case bonusType = "bonus_type"
-            case pointBonus = "point_bonus"
-            case cash
-            case cashBonus = "cash_bonus"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.bonusType = c.lenient(.bonusType)
-            self.pointBonus = c.lenient(.pointBonus)
-            self.cash = c.lenient(.cash)
-            self.cashBonus = c.lenient(.cashBonus)
         }
     }
 
@@ -447,8 +187,8 @@ extension Hire {
     public struct ReferralAccountWithdrawResponse: Codable, Sendable {
         public var externalOrderId: String?
         public var transTime: String?
-        public var withdrawalDetails: ConfirmedBonus?
-        public init(externalOrderId: String? = nil, transTime: String? = nil, withdrawalDetails: ConfirmedBonus? = nil) {
+        public var withdrawalDetails: Bonus?
+        public init(externalOrderId: String? = nil, transTime: String? = nil, withdrawalDetails: Bonus? = nil) {
             self.externalOrderId = externalOrderId
             self.transTime = transTime
             self.withdrawalDetails = withdrawalDetails
@@ -489,9 +229,9 @@ extension Hire {
     }
 
     public struct TradeDetail: Codable, Sendable {
-        public var accountId: String
-        public var totalRechargeRewardInfo: ConfirmedBonus?
-        public init(accountId: String, totalRechargeRewardInfo: ConfirmedBonus? = nil) {
+        public var accountId: String?
+        public var totalRechargeRewardInfo: Bonus?
+        public init(accountId: String? = nil, totalRechargeRewardInfo: Bonus? = nil) {
             self.accountId = accountId
             self.totalRechargeRewardInfo = totalRechargeRewardInfo
         }
@@ -501,7 +241,7 @@ extension Hire {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.accountId = try c.lenientRequired(.accountId)
+            self.accountId = c.lenient(.accountId)
             self.totalRechargeRewardInfo = c.lenient(.totalRechargeRewardInfo)
         }
     }
@@ -633,11 +373,11 @@ extension Hire {
     }
 
     public struct ReferralAccountGetAccountAssetsResponseAccount: Codable, Sendable {
-        public var accountId: String
+        public var accountId: String?
         public var assets: ReferralAccountGetAccountAssetsResponseAccountAssets?
         public var status: Int?
         public var referrer: Referrer?
-        public init(accountId: String, assets: ReferralAccountGetAccountAssetsResponseAccountAssets? = nil, status: Int? = nil, referrer: Referrer? = nil) {
+        public init(accountId: String? = nil, assets: ReferralAccountGetAccountAssetsResponseAccountAssets? = nil, status: Int? = nil, referrer: Referrer? = nil) {
             self.accountId = accountId
             self.assets = assets
             self.status = status
@@ -651,7 +391,7 @@ extension Hire {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.accountId = try c.lenientRequired(.accountId)
+            self.accountId = c.lenient(.accountId)
             self.assets = c.lenient(.assets)
             self.status = c.lenient(.status)
             self.referrer = c.lenient(.referrer)
@@ -660,8 +400,8 @@ extension Hire {
 
     public struct ReferralAccountGetAccountAssetsResponseAccountAssets: Codable, Sendable {
         public var confirmedBonus: TotalWithdrawRewardInfo?
-        public var paidBonus: ConfirmedBonus?
-        public init(confirmedBonus: TotalWithdrawRewardInfo? = nil, paidBonus: ConfirmedBonus? = nil) {
+        public var paidBonus: Bonus?
+        public init(confirmedBonus: TotalWithdrawRewardInfo? = nil, paidBonus: Bonus? = nil) {
             self.confirmedBonus = confirmedBonus
             self.paidBonus = paidBonus
         }
@@ -1007,8 +747,8 @@ extension Hire {
     }
 
     public struct AttachmentPreviewResponse: Codable, Sendable {
-        public var url: String
-        public init(url: String) {
+        public var url: String?
+        public init(url: String? = nil) {
             self.url = url
         }
         enum CodingKeys: String, CodingKey {
@@ -1016,7 +756,7 @@ extension Hire {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.url = try c.lenientRequired(.url)
+            self.url = c.lenient(.url)
         }
     }
 
@@ -1150,10 +890,10 @@ extension Hire {
         public var userId: String?
         public var name: String?
         public var email: String?
-        public var externalId: String
+        public var externalId: String?
         public var mobile: String?
         public var mobileCountryCode: String?
-        public init(userId: String? = nil, name: String? = nil, email: String? = nil, externalId: String, mobile: String? = nil, mobileCountryCode: String? = nil) {
+        public init(userId: String? = nil, name: String? = nil, email: String? = nil, externalId: String? = nil, mobile: String? = nil, mobileCountryCode: String? = nil) {
             self.userId = userId
             self.name = name
             self.email = email
@@ -1174,7 +914,7 @@ extension Hire {
             self.userId = c.lenient(.userId)
             self.name = c.lenient(.name)
             self.email = c.lenient(.email)
-            self.externalId = try c.lenientRequired(.externalId)
+            self.externalId = c.lenient(.externalId)
             self.mobile = c.lenient(.mobile)
             self.mobileCountryCode = c.lenient(.mobileCountryCode)
         }
@@ -1321,10 +1061,10 @@ extension Hire {
     }
 
     public struct PackageList: Codable, Sendable {
-        public var id: String
-        public var name: String
+        public var id: String?
+        public var name: String?
         public var description: String?
-        public init(id: String, name: String, description: String? = nil) {
+        public init(id: String? = nil, name: String? = nil, description: String? = nil) {
             self.id = id
             self.name = name
             self.description = description
@@ -1336,8 +1076,8 @@ extension Hire {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.name = try c.lenientRequired(.name)
+            self.id = c.lenient(.id)
+            self.name = c.lenient(.name)
             self.description = c.lenient(.description)
         }
     }
@@ -1639,10 +1379,10 @@ extension Hire {
     }
 
     public struct ModuleListObjectListConfig: Codable, Sendable {
-        public var options: [ModuleListObjectListConfigOption]?
+        public var options: [Ability]?
         public var formula: Formula?
         public var objectDisplayConfig: ObjectDisplayConfig?
-        public init(options: [ModuleListObjectListConfigOption]? = nil, formula: Formula? = nil, objectDisplayConfig: ObjectDisplayConfig? = nil) {
+        public init(options: [Ability]? = nil, formula: Formula? = nil, objectDisplayConfig: ObjectDisplayConfig? = nil) {
             self.options = options
             self.formula = formula
             self.objectDisplayConfig = objectDisplayConfig
@@ -1657,28 +1397,6 @@ extension Hire {
             self.options = c.lenient(.options)
             self.formula = c.lenient(.formula)
             self.objectDisplayConfig = c.lenient(.objectDisplayConfig)
-        }
-    }
-
-    public struct ModuleListObjectListConfigOption: Codable, Sendable {
-        public var id: String?
-        public var name: Name?
-        public var description: Name?
-        public init(id: String? = nil, name: Name? = nil, description: Name? = nil) {
-            self.id = id
-            self.name = name
-            self.description = description
-        }
-        enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case description
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = c.lenient(.id)
-            self.name = c.lenient(.name)
-            self.description = c.lenient(.description)
         }
     }
 
@@ -2120,13 +1838,13 @@ extension Hire {
 
     public struct ExternalInterview: Codable, Sendable {
         public var externalId: String?
-        public var externalApplicationId: String
+        public var externalApplicationId: String?
         public var id: String?
         public var participateStatus: Int?
         public var beginTime: Int?
         public var endTime: Int?
         public var interviewAssessments: [ExternalInterviewAssessmentCreateResponseExternalInterviewAssessment]?
-        public init(externalId: String? = nil, externalApplicationId: String, id: String? = nil, participateStatus: Int? = nil, beginTime: Int? = nil, endTime: Int? = nil, interviewAssessments: [ExternalInterviewAssessmentCreateResponseExternalInterviewAssessment]? = nil) {
+        public init(externalId: String? = nil, externalApplicationId: String? = nil, id: String? = nil, participateStatus: Int? = nil, beginTime: Int? = nil, endTime: Int? = nil, interviewAssessments: [ExternalInterviewAssessmentCreateResponseExternalInterviewAssessment]? = nil) {
             self.externalId = externalId
             self.externalApplicationId = externalApplicationId
             self.id = id
@@ -2147,7 +1865,7 @@ extension Hire {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.externalId = c.lenient(.externalId)
-            self.externalApplicationId = try c.lenientRequired(.externalApplicationId)
+            self.externalApplicationId = c.lenient(.externalApplicationId)
             self.id = c.lenient(.id)
             self.participateStatus = c.lenient(.participateStatus)
             self.beginTime = c.lenient(.beginTime)
@@ -2289,13 +2007,13 @@ extension Hire {
     public struct ExternalBackgroundCheck: Codable, Sendable {
         public var id: String?
         public var externalId: String?
-        public var externalApplicationId: String
+        public var externalApplicationId: String?
         public var date: Int?
         public var name: String?
         public var result: String?
         public var attachmentIdList: [String]?
         public var attachmentList: [ExternalBackgroundCheckAttachmentList]?
-        public init(id: String? = nil, externalId: String? = nil, externalApplicationId: String, date: Int? = nil, name: String? = nil, result: String? = nil, attachmentIdList: [String]? = nil, attachmentList: [ExternalBackgroundCheckAttachmentList]? = nil) {
+        public init(id: String? = nil, externalId: String? = nil, externalApplicationId: String? = nil, date: Int? = nil, name: String? = nil, result: String? = nil, attachmentIdList: [String]? = nil, attachmentList: [ExternalBackgroundCheckAttachmentList]? = nil) {
             self.id = id
             self.externalId = externalId
             self.externalApplicationId = externalApplicationId
@@ -2319,7 +2037,7 @@ extension Hire {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
             self.externalId = c.lenient(.externalId)
-            self.externalApplicationId = try c.lenientRequired(.externalApplicationId)
+            self.externalApplicationId = c.lenient(.externalApplicationId)
             self.date = c.lenient(.date)
             self.name = c.lenient(.name)
             self.result = c.lenient(.result)
@@ -2539,14 +2257,14 @@ extension Hire {
     public struct ExternalOffer: Codable, Sendable {
         public var id: String?
         public var externalId: String?
-        public var externalApplicationId: String
+        public var externalApplicationId: String?
         public var bizCreateTime: String?
         public var owner: String?
         public var creator: String?
         public var offerStatus: String?
         public var attachmentIdList: [String]?
         public var attachmentList: [ExternalBackgroundCheckAttachmentList]?
-        public init(id: String? = nil, externalId: String? = nil, externalApplicationId: String, bizCreateTime: String? = nil, owner: String? = nil, creator: String? = nil, offerStatus: String? = nil, attachmentIdList: [String]? = nil, attachmentList: [ExternalBackgroundCheckAttachmentList]? = nil) {
+        public init(id: String? = nil, externalId: String? = nil, externalApplicationId: String? = nil, bizCreateTime: String? = nil, owner: String? = nil, creator: String? = nil, offerStatus: String? = nil, attachmentIdList: [String]? = nil, attachmentList: [ExternalBackgroundCheckAttachmentList]? = nil) {
             self.id = id
             self.externalId = externalId
             self.externalApplicationId = externalApplicationId
@@ -2572,7 +2290,7 @@ extension Hire {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
             self.externalId = c.lenient(.externalId)
-            self.externalApplicationId = try c.lenientRequired(.externalApplicationId)
+            self.externalApplicationId = c.lenient(.externalApplicationId)
             self.bizCreateTime = c.lenient(.bizCreateTime)
             self.owner = c.lenient(.owner)
             self.creator = c.lenient(.creator)
@@ -3957,10 +3675,10 @@ extension Hire {
         public var scoreDimensionConfig: ScoreDimensionConfig?
         public var optionItems: [OptionItem]?
         public var displayNotEvident: Bool?
-        public var abilityList: [ModuleListObjectListConfigOption]?
+        public var abilityList: [Ability]?
         public var relatedDimensionConfig: RelatedDimensionConfig?
         public var dimensionAbilityArgs: [DimensionAbilityArg]?
-        public init(id: String? = nil, name: Name? = nil, description: Name? = nil, type: Int? = nil, enabled: Bool? = nil, sequence: Int? = nil, isRequired: Bool? = nil, weight: Double? = nil, scoreDimensionConfig: ScoreDimensionConfig? = nil, optionItems: [OptionItem]? = nil, displayNotEvident: Bool? = nil, abilityList: [ModuleListObjectListConfigOption]? = nil, relatedDimensionConfig: RelatedDimensionConfig? = nil, dimensionAbilityArgs: [DimensionAbilityArg]? = nil) {
+        public init(id: String? = nil, name: Name? = nil, description: Name? = nil, type: Int? = nil, enabled: Bool? = nil, sequence: Int? = nil, isRequired: Bool? = nil, weight: Double? = nil, scoreDimensionConfig: ScoreDimensionConfig? = nil, optionItems: [OptionItem]? = nil, displayNotEvident: Bool? = nil, abilityList: [Ability]? = nil, relatedDimensionConfig: RelatedDimensionConfig? = nil, dimensionAbilityArgs: [DimensionAbilityArg]? = nil) {
             self.id = id
             self.name = name
             self.description = description
@@ -4614,7 +4332,7 @@ extension Hire {
     }
 
     public struct TalentGetResponseV2BasicInfo: Codable, Sendable {
-        public var name: String
+        public var name: String?
         public var mobileNumber: String?
         public var mobileCode: String?
         public var email: String?
@@ -4635,7 +4353,7 @@ extension Hire {
         public var updateTime: String?
         public var createTime: String?
         public var confidential: Int?
-        public init(name: String, mobileNumber: String? = nil, mobileCode: String? = nil, email: String? = nil, experienceYears: Int? = nil, age: Int? = nil, nationalityCode: String? = nil, gender: Int? = nil, currentLocationCode: String? = nil, hometownLocationCode: String? = nil, preferredLocationCodeList: [String]? = nil, homeAddress: String? = nil, identificationType: Int? = nil, identificationNumber: String? = nil, birthday: Int? = nil, maritalStatus: Int? = nil, customizedDataList: [TalentGetResponseV2BasicInfoCustomizedDataList]? = nil, hukouLocationCode: String? = nil, updateTime: String? = nil, createTime: String? = nil, confidential: Int? = nil) {
+        public init(name: String? = nil, mobileNumber: String? = nil, mobileCode: String? = nil, email: String? = nil, experienceYears: Int? = nil, age: Int? = nil, nationalityCode: String? = nil, gender: Int? = nil, currentLocationCode: String? = nil, hometownLocationCode: String? = nil, preferredLocationCodeList: [String]? = nil, homeAddress: String? = nil, identificationType: Int? = nil, identificationNumber: String? = nil, birthday: Int? = nil, maritalStatus: Int? = nil, customizedDataList: [TalentGetResponseV2BasicInfoCustomizedDataList]? = nil, hukouLocationCode: String? = nil, updateTime: String? = nil, createTime: String? = nil, confidential: Int? = nil) {
             self.name = name
             self.mobileNumber = mobileNumber
             self.mobileCode = mobileCode
@@ -4683,7 +4401,7 @@ extension Hire {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.mobileNumber = c.lenient(.mobileNumber)
             self.mobileCode = c.lenient(.mobileCode)
             self.email = c.lenient(.email)
@@ -5277,10 +4995,10 @@ extension Hire {
         public var commitStatus: Int?
         public var submitTime: String?
         public var recordScore: RecordScore?
-        public var interviewer: InterviewRecordListResponseV2ItemInterviewer?
+        public var interviewer: JobRecruitmentType?
         public var attachments: [InterviewRecordListResponseV2ItemAttachment]?
         public var moduleAssessments: [InterviewRecordListResponseV2ItemModuleAssessment]?
-        public init(id: String? = nil, feedbackFormId: String? = nil, commitStatus: Int? = nil, submitTime: String? = nil, recordScore: RecordScore? = nil, interviewer: InterviewRecordListResponseV2ItemInterviewer? = nil, attachments: [InterviewRecordListResponseV2ItemAttachment]? = nil, moduleAssessments: [InterviewRecordListResponseV2ItemModuleAssessment]? = nil) {
+        public init(id: String? = nil, feedbackFormId: String? = nil, commitStatus: Int? = nil, submitTime: String? = nil, recordScore: RecordScore? = nil, interviewer: JobRecruitmentType? = nil, attachments: [InterviewRecordListResponseV2ItemAttachment]? = nil, moduleAssessments: [InterviewRecordListResponseV2ItemModuleAssessment]? = nil) {
             self.id = id
             self.feedbackFormId = feedbackFormId
             self.commitStatus = commitStatus
@@ -5310,24 +5028,6 @@ extension Hire {
             self.interviewer = c.lenient(.interviewer)
             self.attachments = c.lenient(.attachments)
             self.moduleAssessments = c.lenient(.moduleAssessments)
-        }
-    }
-
-    public struct InterviewRecordListResponseV2ItemInterviewer: Codable, Sendable {
-        public var id: String
-        public var name: Name?
-        public init(id: String, name: Name? = nil) {
-            self.id = id
-            self.name = name
-        }
-        enum CodingKeys: String, CodingKey {
-            case id
-            case name
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.name = c.lenient(.name)
         }
     }
 

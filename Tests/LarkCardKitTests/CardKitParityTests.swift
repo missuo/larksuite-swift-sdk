@@ -31,7 +31,7 @@ import LarkCardKit
 
     @Test("PUT /open-apis/cardkit/v1/cards/:card_id") func v1_card_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.cardkit.v1.card.update(cardId: "s", body: CardKit.CardUpdateBody(card: CardKit.Card(type: "card_json", data: "s"), sequence: 1))
+        let resp = try await client.cardkit.v1.card.update(cardId: "s", body: CardKit.CardUpdateBody(card: CardKit.Card(), sequence: 1))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PUT")

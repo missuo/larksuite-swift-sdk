@@ -6,6 +6,8 @@ import LarkCore
 extension Lingo {
     public typealias EntitySearchResponse = EntityListResponse
 
+    public typealias EntityDeleteQuery = OuterInfo
+
     public typealias EntityCreateResponse = EntityGetResponse
 
     public typealias EntityUpdateBody = EntityCreateBody
@@ -163,7 +165,7 @@ extension Lingo {
 
     public struct EntityGetResponseEntity: Codable, Sendable {
         public var id: String?
-        public var mainKeys: [MainKey]
+        public var mainKeys: [MainKey]?
         public var fullNames: [MainKey]?
         public var aliases: [MainKey]?
         public var description: String?
@@ -177,7 +179,7 @@ extension Lingo {
         public var richText: String?
         public var source: Int?
         public var i18nDescs: [I18nDesc]?
-        public init(id: String? = nil, mainKeys: [MainKey], fullNames: [MainKey]? = nil, aliases: [MainKey]? = nil, description: String? = nil, creator: String? = nil, createTime: String? = nil, updater: String? = nil, updateTime: String? = nil, relatedMeta: RelatedMeta? = nil, statistics: Statistics? = nil, outerInfo: OuterInfo? = nil, richText: String? = nil, source: Int? = nil, i18nDescs: [I18nDesc]? = nil) {
+        public init(id: String? = nil, mainKeys: [MainKey]? = nil, fullNames: [MainKey]? = nil, aliases: [MainKey]? = nil, description: String? = nil, creator: String? = nil, createTime: String? = nil, updater: String? = nil, updateTime: String? = nil, relatedMeta: RelatedMeta? = nil, statistics: Statistics? = nil, outerInfo: OuterInfo? = nil, richText: String? = nil, source: Int? = nil, i18nDescs: [I18nDesc]? = nil) {
             self.id = id
             self.mainKeys = mainKeys
             self.fullNames = fullNames
@@ -214,7 +216,7 @@ extension Lingo {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.mainKeys = try c.lenientRequired(.mainKeys)
+            self.mainKeys = c.lenient(.mainKeys)
             self.fullNames = c.lenient(.fullNames)
             self.aliases = c.lenient(.aliases)
             self.description = c.lenient(.description)
@@ -232,9 +234,9 @@ extension Lingo {
     }
 
     public struct MainKey: Codable, Sendable {
-        public var key: String
-        public var displayStatus: DisplayStatus
-        public init(key: String, displayStatus: DisplayStatus) {
+        public var key: String?
+        public var displayStatus: DisplayStatus?
+        public init(key: String? = nil, displayStatus: DisplayStatus? = nil) {
             self.key = key
             self.displayStatus = displayStatus
         }
@@ -244,15 +246,15 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.key = try c.lenientRequired(.key)
-            self.displayStatus = try c.lenientRequired(.displayStatus)
+            self.key = c.lenient(.key)
+            self.displayStatus = c.lenient(.displayStatus)
         }
     }
 
     public struct DisplayStatus: Codable, Sendable {
-        public var allowHighlight: Bool
-        public var allowSearch: Bool
-        public init(allowHighlight: Bool, allowSearch: Bool) {
+        public var allowHighlight: Bool?
+        public var allowSearch: Bool?
+        public init(allowHighlight: Bool? = nil, allowSearch: Bool? = nil) {
             self.allowHighlight = allowHighlight
             self.allowSearch = allowSearch
         }
@@ -262,8 +264,8 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.allowHighlight = try c.lenientRequired(.allowHighlight)
-            self.allowSearch = try c.lenientRequired(.allowSearch)
+            self.allowHighlight = c.lenient(.allowHighlight)
+            self.allowSearch = c.lenient(.allowSearch)
         }
     }
 
@@ -310,10 +312,10 @@ extension Lingo {
     }
 
     public struct User: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var title: String?
         public var url: String?
-        public init(id: String, title: String? = nil, url: String? = nil) {
+        public init(id: String? = nil, title: String? = nil, url: String? = nil) {
             self.id = id
             self.title = title
             self.url = url
@@ -325,7 +327,7 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.title = c.lenient(.title)
             self.url = c.lenient(.url)
         }
@@ -364,9 +366,9 @@ extension Lingo {
     }
 
     public struct Classification: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var fatherId: String?
-        public init(id: String, fatherId: String? = nil) {
+        public init(id: String? = nil, fatherId: String? = nil) {
             self.id = id
             self.fatherId = fatherId
         }
@@ -376,14 +378,14 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.fatherId = c.lenient(.fatherId)
         }
     }
 
     public struct Image: Codable, Sendable {
-        public var token: String
-        public init(token: String) {
+        public var token: String?
+        public init(token: String? = nil) {
             self.token = token
         }
         enum CodingKeys: String, CodingKey {
@@ -391,14 +393,14 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
+            self.token = c.lenient(.token)
         }
     }
 
     public struct Statistics: Codable, Sendable {
-        public var likeCount: Int
-        public var dislikeCount: Int
-        public init(likeCount: Int, dislikeCount: Int) {
+        public var likeCount: Int?
+        public var dislikeCount: Int?
+        public init(likeCount: Int? = nil, dislikeCount: Int? = nil) {
             self.likeCount = likeCount
             self.dislikeCount = dislikeCount
         }
@@ -408,15 +410,15 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.likeCount = try c.lenientRequired(.likeCount)
-            self.dislikeCount = try c.lenientRequired(.dislikeCount)
+            self.likeCount = c.lenient(.likeCount)
+            self.dislikeCount = c.lenient(.dislikeCount)
         }
     }
 
     public struct OuterInfo: Codable, Sendable {
-        public var provider: String
-        public var outerId: String
-        public init(provider: String, outerId: String) {
+        public var provider: String?
+        public var outerId: String?
+        public init(provider: String? = nil, outerId: String? = nil) {
             self.provider = provider
             self.outerId = outerId
         }
@@ -426,16 +428,16 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.provider = try c.lenientRequired(.provider)
-            self.outerId = try c.lenientRequired(.outerId)
+            self.provider = c.lenient(.provider)
+            self.outerId = c.lenient(.outerId)
         }
     }
 
     public struct I18nDesc: Codable, Sendable {
-        public var language: Int
+        public var language: Int?
         public var description: String?
         public var richText: String?
-        public init(language: Int, description: String? = nil, richText: String? = nil) {
+        public init(language: Int? = nil, description: String? = nil, richText: String? = nil) {
             self.language = language
             self.description = description
             self.richText = richText
@@ -447,7 +449,7 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.language = try c.lenientRequired(.language)
+            self.language = c.lenient(.language)
             self.description = c.lenient(.description)
             self.richText = c.lenient(.richText)
         }
@@ -482,10 +484,10 @@ extension Lingo {
     }
 
     public struct Phrase: Codable, Sendable {
-        public var name: String
-        public var entityIds: [String]
-        public var span: Span
-        public init(name: String, entityIds: [String], span: Span) {
+        public var name: String?
+        public var entityIds: [String]?
+        public var span: Span?
+        public init(name: String? = nil, entityIds: [String]? = nil, span: Span? = nil) {
             self.name = name
             self.entityIds = entityIds
             self.span = span
@@ -497,16 +499,16 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.entityIds = try c.lenientRequired(.entityIds)
-            self.span = try c.lenientRequired(.span)
+            self.name = c.lenient(.name)
+            self.entityIds = c.lenient(.entityIds)
+            self.span = c.lenient(.span)
         }
     }
 
     public struct Span: Codable, Sendable {
-        public var start: Int
-        public var end: Int
-        public init(start: Int, end: Int) {
+        public var start: Int?
+        public var end: Int?
+        public init(start: Int? = nil, end: Int? = nil) {
             self.start = start
             self.end = end
         }
@@ -516,8 +518,8 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.start = try c.lenientRequired(.start)
-            self.end = try c.lenientRequired(.end)
+            self.start = c.lenient(.start)
+            self.end = c.lenient(.end)
         }
     }
 
@@ -643,24 +645,6 @@ extension Lingo {
         }
     }
 
-    public struct EntityDeleteQuery: Codable, Sendable {
-        public var provider: String?
-        public var outerId: String?
-        public init(provider: String? = nil, outerId: String? = nil) {
-            self.provider = provider
-            self.outerId = outerId
-        }
-        enum CodingKeys: String, CodingKey {
-            case provider
-            case outerId = "outer_id"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.provider = c.lenient(.provider)
-            self.outerId = c.lenient(.outerId)
-        }
-    }
-
     public struct EntityCreateQuery: Codable, Sendable {
         public var repoId: String?
         public var userIdType: UserIdType?
@@ -723,14 +707,14 @@ extension Lingo {
 
     public struct EntityCreateBodyRelatedMeta: Codable, Sendable {
         public var users: [EntityCreateBodyRelatedMetaUser]?
-        public var chats: [Chat]?
+        public var chats: [Abbreviation]?
         public var docs: [Doc]?
-        public var oncalls: [Chat]?
+        public var oncalls: [Abbreviation]?
         public var links: [Doc]?
         public var abbreviations: [Abbreviation]?
         public var classifications: [Classification]?
         public var images: [Image]?
-        public init(users: [EntityCreateBodyRelatedMetaUser]? = nil, chats: [Chat]? = nil, docs: [Doc]? = nil, oncalls: [Chat]? = nil, links: [Doc]? = nil, abbreviations: [Abbreviation]? = nil, classifications: [Classification]? = nil, images: [Image]? = nil) {
+        public init(users: [EntityCreateBodyRelatedMetaUser]? = nil, chats: [Abbreviation]? = nil, docs: [Doc]? = nil, oncalls: [Abbreviation]? = nil, links: [Doc]? = nil, abbreviations: [Abbreviation]? = nil, classifications: [Classification]? = nil, images: [Image]? = nil) {
             self.users = users
             self.chats = chats
             self.docs = docs
@@ -764,9 +748,9 @@ extension Lingo {
     }
 
     public struct EntityCreateBodyRelatedMetaUser: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var title: String?
-        public init(id: String, title: String? = nil) {
+        public init(id: String? = nil, title: String? = nil) {
             self.id = id
             self.title = title
         }
@@ -776,22 +760,8 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.title = c.lenient(.title)
-        }
-    }
-
-    public struct Chat: Codable, Sendable {
-        public var id: String
-        public init(id: String) {
-            self.id = id
-        }
-        enum CodingKeys: String, CodingKey {
-            case id
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
         }
     }
 
@@ -824,9 +794,9 @@ extension Lingo {
     }
 
     public struct Repo: Codable, Sendable {
-        public var id: String
-        public var name: String
-        public init(id: String, name: String) {
+        public var id: String?
+        public var name: String?
+        public init(id: String? = nil, name: String? = nil) {
             self.id = id
             self.name = name
         }
@@ -836,8 +806,8 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.name = try c.lenientRequired(.name)
+            self.id = c.lenient(.id)
+            self.name = c.lenient(.name)
         }
     }
 
@@ -886,11 +856,11 @@ extension Lingo {
     }
 
     public struct ClassificationListResponseItem: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var name: String?
         public var fatherId: String?
         public var i18nNames: [I18nName]?
-        public init(id: String, name: String? = nil, fatherId: String? = nil, i18nNames: [I18nName]? = nil) {
+        public init(id: String? = nil, name: String? = nil, fatherId: String? = nil, i18nNames: [I18nName]? = nil) {
             self.id = id
             self.name = name
             self.fatherId = fatherId
@@ -904,7 +874,7 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.name = c.lenient(.name)
             self.fatherId = c.lenient(.fatherId)
             self.i18nNames = c.lenient(.i18nNames)
@@ -912,9 +882,9 @@ extension Lingo {
     }
 
     public struct I18nName: Codable, Sendable {
-        public var language: Int
-        public var name: String
-        public init(language: Int, name: String) {
+        public var language: Int?
+        public var name: String?
+        public init(language: Int? = nil, name: String? = nil) {
             self.language = language
             self.name = name
         }
@@ -924,8 +894,8 @@ extension Lingo {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.language = try c.lenientRequired(.language)
-            self.name = try c.lenientRequired(.name)
+            self.language = c.lenient(.language)
+            self.name = c.lenient(.name)
         }
     }
 

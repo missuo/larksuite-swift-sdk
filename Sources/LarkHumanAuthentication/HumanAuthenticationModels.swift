@@ -54,8 +54,8 @@ extension HumanAuthentication {
     }
 
     public struct IdentityCreateResponse: Codable, Sendable {
-        public var verifyUid: String
-        public init(verifyUid: String) {
+        public var verifyUid: String?
+        public init(verifyUid: String? = nil) {
             self.verifyUid = verifyUid
         }
         enum CodingKeys: String, CodingKey {
@@ -63,7 +63,7 @@ extension HumanAuthentication {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.verifyUid = try c.lenientRequired(.verifyUid)
+            self.verifyUid = c.lenient(.verifyUid)
         }
     }
 }

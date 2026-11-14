@@ -137,7 +137,7 @@ import LarkIM
         let received = AsyncStream<(String, String)>.makeStream()
         let dispatcher = EventDispatcher(logLevel: .fatal)
             .register(.imMessageReceiveV1) { e, _ in
-                received.continuation.yield((e.message.messageId, e.sender.senderId?.openId ?? ""))
+                received.continuation.yield((e.message?.messageId ?? "", e.sender?.senderId?.openId ?? ""))
                 return nil
             }
             .register(.cardActionTrigger) { e, _ in

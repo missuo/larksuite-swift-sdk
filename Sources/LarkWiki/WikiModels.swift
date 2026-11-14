@@ -4,9 +4,13 @@ import Foundation
 import LarkCore
 
 extension Wiki {
-    public typealias SpaceNodeCreateResponse = SpaceNodeMoveResponse
+    public typealias SpaceNodeMoveResponse = SpaceNodeCopyResponse
 
-    public typealias SpaceGetNodeResponse = SpaceNodeMoveResponse
+    public typealias SpaceNodeCreateResponse = SpaceNodeCopyResponse
+
+    public typealias SpaceMemberCreateResponse = SpaceMemberDeleteResponse
+
+    public typealias SpaceGetNodeResponse = SpaceNodeCopyResponse
 
     public typealias SpaceGetResponse = SpaceCreateResponse
 
@@ -51,10 +55,10 @@ extension Wiki {
     }
 
     public struct NodeSearchResponse: Codable, Sendable {
-        public var items: [Node]
+        public var items: [Node]?
         public var pageToken: String?
-        public var hasMore: Bool
-        public init(items: [Node], pageToken: String? = nil, hasMore: Bool) {
+        public var hasMore: Bool?
+        public init(items: [Node]? = nil, pageToken: String? = nil, hasMore: Bool? = nil) {
             self.items = items
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -66,26 +70,26 @@ extension Wiki {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
             self.pageToken = c.lenient(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
         }
     }
 
     public struct Node: Codable, Sendable {
-        public var nodeId: String
-        public var spaceId: String
-        public var objType: Int
-        public var title: String
+        public var nodeId: String?
+        public var spaceId: String?
+        public var objType: Int?
+        public var title: String?
         public var url: String?
         public var icon: String?
-        public var objToken: String
+        public var objToken: String?
         public var createTime: String?
         public var updateTime: String?
         public var deleteTime: String?
-        public var childNum: Int
-        public var version: Int
-        public init(nodeId: String, spaceId: String, objType: Int, title: String, url: String? = nil, icon: String? = nil, objToken: String, createTime: String? = nil, updateTime: String? = nil, deleteTime: String? = nil, childNum: Int, version: Int) {
+        public var childNum: Int?
+        public var version: Int?
+        public init(nodeId: String? = nil, spaceId: String? = nil, objType: Int? = nil, title: String? = nil, url: String? = nil, icon: String? = nil, objToken: String? = nil, createTime: String? = nil, updateTime: String? = nil, deleteTime: String? = nil, childNum: Int? = nil, version: Int? = nil) {
             self.nodeId = nodeId
             self.spaceId = spaceId
             self.objType = objType
@@ -115,18 +119,18 @@ extension Wiki {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.nodeId = try c.lenientRequired(.nodeId)
-            self.spaceId = try c.lenientRequired(.spaceId)
-            self.objType = try c.lenientRequired(.objType)
-            self.title = try c.lenientRequired(.title)
+            self.nodeId = c.lenient(.nodeId)
+            self.spaceId = c.lenient(.spaceId)
+            self.objType = c.lenient(.objType)
+            self.title = c.lenient(.title)
             self.url = c.lenient(.url)
             self.icon = c.lenient(.icon)
-            self.objToken = try c.lenientRequired(.objToken)
+            self.objToken = c.lenient(.objToken)
             self.createTime = c.lenient(.createTime)
             self.updateTime = c.lenient(.updateTime)
             self.deleteTime = c.lenient(.deleteTime)
-            self.childNum = try c.lenientRequired(.childNum)
-            self.version = try c.lenientRequired(.version)
+            self.childNum = c.lenient(.childNum)
+            self.version = c.lenient(.version)
         }
     }
 
@@ -311,9 +315,9 @@ extension Wiki {
         public var spaceId: String?
         public var nodeToken: String?
         public var objToken: String?
-        public var objType: ObjType
+        public var objType: ObjType?
         public var parentNodeToken: String?
-        public var nodeType: NodeType
+        public var nodeType: NodeType?
         public var originNodeToken: String?
         public var originSpaceId: String?
         public var hasChild: Bool?
@@ -325,7 +329,7 @@ extension Wiki {
         public var owner: String?
         public var nodeCreator: String?
         public var url: String?
-        public init(spaceId: String? = nil, nodeToken: String? = nil, objToken: String? = nil, objType: ObjType, parentNodeToken: String? = nil, nodeType: NodeType, originNodeToken: String? = nil, originSpaceId: String? = nil, hasChild: Bool? = nil, title: String? = nil, objCreateTime: String? = nil, objEditTime: String? = nil, nodeCreateTime: String? = nil, creator: String? = nil, owner: String? = nil, nodeCreator: String? = nil, url: String? = nil) {
+        public init(spaceId: String? = nil, nodeToken: String? = nil, objToken: String? = nil, objType: ObjType? = nil, parentNodeToken: String? = nil, nodeType: NodeType? = nil, originNodeToken: String? = nil, originSpaceId: String? = nil, hasChild: Bool? = nil, title: String? = nil, objCreateTime: String? = nil, objEditTime: String? = nil, nodeCreateTime: String? = nil, creator: String? = nil, owner: String? = nil, nodeCreator: String? = nil, url: String? = nil) {
             self.spaceId = spaceId
             self.nodeToken = nodeToken
             self.objToken = objToken
@@ -368,9 +372,9 @@ extension Wiki {
             self.spaceId = c.lenient(.spaceId)
             self.nodeToken = c.lenient(.nodeToken)
             self.objToken = c.lenient(.objToken)
-            self.objType = try c.lenientRequired(.objType)
+            self.objType = c.lenient(.objType)
             self.parentNodeToken = c.lenient(.parentNodeToken)
-            self.nodeType = try c.lenientRequired(.nodeType)
+            self.nodeType = c.lenient(.nodeType)
             self.originNodeToken = c.lenient(.originNodeToken)
             self.originSpaceId = c.lenient(.originSpaceId)
             self.hasChild = c.lenient(.hasChild)
@@ -416,8 +420,8 @@ extension Wiki {
     }
 
     public struct SpaceNodeCopyResponse: Codable, Sendable {
-        public var node: SpaceNode
-        public init(node: SpaceNode) {
+        public var node: SpaceNode?
+        public init(node: SpaceNode? = nil) {
             self.node = node
         }
         enum CodingKeys: String, CodingKey {
@@ -425,7 +429,7 @@ extension Wiki {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.node = try c.lenientRequired(.node)
+            self.node = c.lenient(.node)
         }
     }
 
@@ -444,20 +448,6 @@ extension Wiki {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.targetParentToken = c.lenient(.targetParentToken)
             self.targetSpaceId = c.lenient(.targetSpaceId)
-        }
-    }
-
-    public struct SpaceNodeMoveResponse: Codable, Sendable {
-        public var node: SpaceNode?
-        public init(node: SpaceNode? = nil) {
-            self.node = node
-        }
-        enum CodingKeys: String, CodingKey {
-            case node
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.node = c.lenient(.node)
         }
     }
 
@@ -527,8 +517,8 @@ extension Wiki {
     }
 
     public struct SpaceMemberDeleteResponse: Codable, Sendable {
-        public var member: Member
-        public init(member: Member) {
+        public var member: Member?
+        public init(member: Member? = nil) {
             self.member = member
         }
         enum CodingKeys: String, CodingKey {
@@ -536,17 +526,17 @@ extension Wiki {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.member = try c.lenientRequired(.member)
+            self.member = c.lenient(.member)
         }
     }
 
     public struct Member: Codable, Sendable {
-        public var memberType: String
-        public var memberId: String
-        public var memberRole: String
+        public var memberType: String?
+        public var memberId: String?
+        public var memberRole: String?
         public var type: SpaceMemberDeleteBodyType?
         public var memberPerm: String?
-        public init(memberType: String, memberId: String, memberRole: String, type: SpaceMemberDeleteBodyType? = nil, memberPerm: String? = nil) {
+        public init(memberType: String? = nil, memberId: String? = nil, memberRole: String? = nil, type: SpaceMemberDeleteBodyType? = nil, memberPerm: String? = nil) {
             self.memberType = memberType
             self.memberId = memberId
             self.memberRole = memberRole
@@ -562,9 +552,9 @@ extension Wiki {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.memberType = try c.lenientRequired(.memberType)
-            self.memberId = try c.lenientRequired(.memberId)
-            self.memberRole = try c.lenientRequired(.memberRole)
+            self.memberType = c.lenient(.memberType)
+            self.memberId = c.lenient(.memberId)
+            self.memberRole = c.lenient(.memberRole)
             self.type = c.lenient(.type)
             self.memberPerm = c.lenient(.memberPerm)
         }
@@ -607,20 +597,6 @@ extension Wiki {
             self.memberId = try c.lenientRequired(.memberId)
             self.memberRole = try c.lenientRequired(.memberRole)
             self.memberPerm = c.lenient(.memberPerm)
-        }
-    }
-
-    public struct SpaceMemberCreateResponse: Codable, Sendable {
-        public var member: Member?
-        public init(member: Member? = nil) {
-            self.member = member
-        }
-        enum CodingKeys: String, CodingKey {
-            case member
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.member = c.lenient(.member)
         }
     }
 
@@ -897,8 +873,8 @@ extension Wiki {
     }
 
     public struct TaskGetResponse: Codable, Sendable {
-        public var task: TaskGetResponseTask
-        public init(task: TaskGetResponseTask) {
+        public var task: TaskGetResponseTask?
+        public init(task: TaskGetResponseTask? = nil) {
             self.task = task
         }
         enum CodingKeys: String, CodingKey {
@@ -906,17 +882,17 @@ extension Wiki {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.task = try c.lenientRequired(.task)
+            self.task = c.lenient(.task)
         }
     }
 
     public struct TaskGetResponseTask: Codable, Sendable {
-        public var taskId: String
+        public var taskId: String?
         public var moveResult: [MoveResult]?
         public var deleteSpaceResult: DeleteSpaceResult?
         public var simpleTaskResult: DeleteSpaceResult?
         public var moveWikiToDocsResult: MoveWikiToDocsResult?
-        public init(taskId: String, moveResult: [MoveResult]? = nil, deleteSpaceResult: DeleteSpaceResult? = nil, simpleTaskResult: DeleteSpaceResult? = nil, moveWikiToDocsResult: MoveWikiToDocsResult? = nil) {
+        public init(taskId: String? = nil, moveResult: [MoveResult]? = nil, deleteSpaceResult: DeleteSpaceResult? = nil, simpleTaskResult: DeleteSpaceResult? = nil, moveWikiToDocsResult: MoveWikiToDocsResult? = nil) {
             self.taskId = taskId
             self.moveResult = moveResult
             self.deleteSpaceResult = deleteSpaceResult
@@ -932,7 +908,7 @@ extension Wiki {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.taskId = try c.lenientRequired(.taskId)
+            self.taskId = c.lenient(.taskId)
             self.moveResult = c.lenient(.moveResult)
             self.deleteSpaceResult = c.lenient(.deleteSpaceResult)
             self.simpleTaskResult = c.lenient(.simpleTaskResult)
@@ -941,10 +917,10 @@ extension Wiki {
     }
 
     public struct MoveResult: Codable, Sendable {
-        public var node: SpaceNode
-        public var status: Int
-        public var statusMsg: String
-        public init(node: SpaceNode, status: Int, statusMsg: String) {
+        public var node: SpaceNode?
+        public var status: Int?
+        public var statusMsg: String?
+        public init(node: SpaceNode? = nil, status: Int? = nil, statusMsg: String? = nil) {
             self.node = node
             self.status = status
             self.statusMsg = statusMsg
@@ -956,9 +932,9 @@ extension Wiki {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.node = try c.lenientRequired(.node)
-            self.status = try c.lenientRequired(.status)
-            self.statusMsg = try c.lenientRequired(.statusMsg)
+            self.node = c.lenient(.node)
+            self.status = c.lenient(.status)
+            self.statusMsg = c.lenient(.statusMsg)
         }
     }
 

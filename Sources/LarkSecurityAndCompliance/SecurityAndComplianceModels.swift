@@ -69,13 +69,13 @@ extension SecurityAndCompliance {
     }
 
     public struct OpenapiLog: Codable, Sendable {
-        public var id: String
-        public var apiKey: String
+        public var id: String?
+        public var apiKey: String?
         public var eventTime: Int?
         public var appId: String?
         public var ip: String?
         public var logDetail: LogDetail?
-        public init(id: String, apiKey: String, eventTime: Int? = nil, appId: String? = nil, ip: String? = nil, logDetail: LogDetail? = nil) {
+        public init(id: String? = nil, apiKey: String? = nil, eventTime: Int? = nil, appId: String? = nil, ip: String? = nil, logDetail: LogDetail? = nil) {
             self.id = id
             self.apiKey = apiKey
             self.eventTime = eventTime
@@ -93,8 +93,8 @@ extension SecurityAndCompliance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.apiKey = try c.lenientRequired(.apiKey)
+            self.id = c.lenient(.id)
+            self.apiKey = c.lenient(.apiKey)
             self.eventTime = c.lenient(.eventTime)
             self.appId = c.lenient(.appId)
             self.ip = c.lenient(.ip)
@@ -287,8 +287,8 @@ extension SecurityAndCompliance {
     }
 
     public struct Tenant: Codable, Sendable {
-        public var availableGeoLocations: [String]
-        public init(availableGeoLocations: [String]) {
+        public var availableGeoLocations: [String]?
+        public init(availableGeoLocations: [String]? = nil) {
             self.availableGeoLocations = availableGeoLocations
         }
         enum CodingKeys: String, CodingKey {
@@ -296,7 +296,7 @@ extension SecurityAndCompliance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.availableGeoLocations = try c.lenientRequired(.availableGeoLocations)
+            self.availableGeoLocations = c.lenient(.availableGeoLocations)
         }
     }
 
@@ -469,12 +469,12 @@ extension SecurityAndCompliance {
     }
 
     public struct DeviceRecord: Codable, Sendable {
-        public var deviceRecordId: String
-        public var version: String
+        public var deviceRecordId: String?
+        public var version: String?
         public var currentUserId: String?
         public var deviceName: String?
         public var model: String?
-        public var deviceSystem: Int
+        public var deviceSystem: Int?
         public var serialNumber: String?
         public var diskSerialNumber: String?
         public var uuid: String?
@@ -482,10 +482,10 @@ extension SecurityAndCompliance {
         public var androidId: String?
         public var idfv: String?
         public var aaid: String?
-        public var deviceOwnership: Int
-        public var deviceStatus: Int
-        public var certificationLevel: Int
-        public var deviceTerminalType: Int
+        public var deviceOwnership: Int?
+        public var deviceStatus: Int?
+        public var certificationLevel: Int?
+        public var deviceTerminalType: Int?
         public var latestUserId: String?
         public var dids: [String]?
         public var isManaged: Bool?
@@ -500,7 +500,7 @@ extension SecurityAndCompliance {
         public var certVerifiedAtUnix: String?
         public var certSerialNumber: String?
         public var certIssuer: String?
-        public init(deviceRecordId: String, version: String, currentUserId: String? = nil, deviceName: String? = nil, model: String? = nil, deviceSystem: Int, serialNumber: String? = nil, diskSerialNumber: String? = nil, uuid: String? = nil, macAddress: String? = nil, androidId: String? = nil, idfv: String? = nil, aaid: String? = nil, deviceOwnership: Int, deviceStatus: Int, certificationLevel: Int, deviceTerminalType: Int, latestUserId: String? = nil, dids: [String]? = nil, isManaged: Bool? = nil, mdmDeviceId: String? = nil, mdmProviderName: String? = nil, lsaInfo: String? = nil, deviceEnvInfo: String? = nil, createdAt: Int? = nil, updatedAt: Int? = nil, isPublic: Bool? = nil, source: Int? = nil, certVerifiedAtUnix: String? = nil, certSerialNumber: String? = nil, certIssuer: String? = nil) {
+        public init(deviceRecordId: String? = nil, version: String? = nil, currentUserId: String? = nil, deviceName: String? = nil, model: String? = nil, deviceSystem: Int? = nil, serialNumber: String? = nil, diskSerialNumber: String? = nil, uuid: String? = nil, macAddress: String? = nil, androidId: String? = nil, idfv: String? = nil, aaid: String? = nil, deviceOwnership: Int? = nil, deviceStatus: Int? = nil, certificationLevel: Int? = nil, deviceTerminalType: Int? = nil, latestUserId: String? = nil, dids: [String]? = nil, isManaged: Bool? = nil, mdmDeviceId: String? = nil, mdmProviderName: String? = nil, lsaInfo: String? = nil, deviceEnvInfo: String? = nil, createdAt: Int? = nil, updatedAt: Int? = nil, isPublic: Bool? = nil, source: Int? = nil, certVerifiedAtUnix: String? = nil, certSerialNumber: String? = nil, certIssuer: String? = nil) {
             self.deviceRecordId = deviceRecordId
             self.version = version
             self.currentUserId = currentUserId
@@ -568,12 +568,12 @@ extension SecurityAndCompliance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.deviceRecordId = try c.lenientRequired(.deviceRecordId)
-            self.version = try c.lenientRequired(.version)
+            self.deviceRecordId = c.lenient(.deviceRecordId)
+            self.version = c.lenient(.version)
             self.currentUserId = c.lenient(.currentUserId)
             self.deviceName = c.lenient(.deviceName)
             self.model = c.lenient(.model)
-            self.deviceSystem = try c.lenientRequired(.deviceSystem)
+            self.deviceSystem = c.lenient(.deviceSystem)
             self.serialNumber = c.lenient(.serialNumber)
             self.diskSerialNumber = c.lenient(.diskSerialNumber)
             self.uuid = c.lenient(.uuid)
@@ -581,10 +581,10 @@ extension SecurityAndCompliance {
             self.androidId = c.lenient(.androidId)
             self.idfv = c.lenient(.idfv)
             self.aaid = c.lenient(.aaid)
-            self.deviceOwnership = try c.lenientRequired(.deviceOwnership)
-            self.deviceStatus = try c.lenientRequired(.deviceStatus)
-            self.certificationLevel = try c.lenientRequired(.certificationLevel)
-            self.deviceTerminalType = try c.lenientRequired(.deviceTerminalType)
+            self.deviceOwnership = c.lenient(.deviceOwnership)
+            self.deviceStatus = c.lenient(.deviceStatus)
+            self.certificationLevel = c.lenient(.certificationLevel)
+            self.deviceTerminalType = c.lenient(.deviceTerminalType)
             self.latestUserId = c.lenient(.latestUserId)
             self.dids = c.lenient(.dids)
             self.isManaged = c.lenient(.isManaged)
@@ -726,9 +726,9 @@ extension SecurityAndCompliance {
 
     public struct DeviceRecordListResponse: Codable, Sendable {
         public var items: [DeviceRecord]?
-        public var pageToken: String
-        public var hasMore: Bool
-        public init(items: [DeviceRecord]? = nil, pageToken: String, hasMore: Bool) {
+        public var pageToken: String?
+        public var hasMore: Bool?
+        public init(items: [DeviceRecord]? = nil, pageToken: String? = nil, hasMore: Bool? = nil) {
             self.items = items
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -741,8 +741,8 @@ extension SecurityAndCompliance {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.items = c.lenient(.items)
-            self.pageToken = try c.lenientRequired(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.pageToken = c.lenient(.pageToken)
+            self.hasMore = c.lenient(.hasMore)
         }
     }
 
@@ -756,14 +756,14 @@ extension SecurityAndCompliance {
         public var uuid: String?
         public var type: String?
         public var appId: String?
-        public var deviceApplyRecordId: String
+        public var deviceApplyRecordId: String?
         public var deviceRecord: DeviceApplyRecordDeviceApplyEventV2EventDeviceRecord?
-        public var applyTime: String
-        public var applyStatus: Int
+        public var applyTime: String?
+        public var applyStatus: Int?
         public var `operator`: CurrentUserId?
-        public var applyDeviceOwnership: Int
+        public var applyDeviceOwnership: Int?
         public var applyReason: String?
-        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, deviceApplyRecordId: String, deviceRecord: DeviceApplyRecordDeviceApplyEventV2EventDeviceRecord? = nil, applyTime: String, applyStatus: Int, `operator`: CurrentUserId? = nil, applyDeviceOwnership: Int, applyReason: String? = nil) {
+        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, deviceApplyRecordId: String? = nil, deviceRecord: DeviceApplyRecordDeviceApplyEventV2EventDeviceRecord? = nil, applyTime: String? = nil, applyStatus: Int? = nil, `operator`: CurrentUserId? = nil, applyDeviceOwnership: Int? = nil, applyReason: String? = nil) {
             self.eventId = eventId
             self.token = token
             self.createTime = createTime
@@ -810,23 +810,23 @@ extension SecurityAndCompliance {
             self.uuid = c.lenient(.uuid)
             self.type = c.lenient(.type)
             self.appId = c.lenient(.appId)
-            self.deviceApplyRecordId = try c.lenientRequired(.deviceApplyRecordId)
+            self.deviceApplyRecordId = c.lenient(.deviceApplyRecordId)
             self.deviceRecord = c.lenient(.deviceRecord)
-            self.applyTime = try c.lenientRequired(.applyTime)
-            self.applyStatus = try c.lenientRequired(.applyStatus)
+            self.applyTime = c.lenient(.applyTime)
+            self.applyStatus = c.lenient(.applyStatus)
             self.operator = c.lenient(.`operator`)
-            self.applyDeviceOwnership = try c.lenientRequired(.applyDeviceOwnership)
+            self.applyDeviceOwnership = c.lenient(.applyDeviceOwnership)
             self.applyReason = c.lenient(.applyReason)
         }
     }
 
     public struct DeviceApplyRecordDeviceApplyEventV2EventDeviceRecord: Codable, Sendable {
-        public var deviceRecordId: String
-        public var version: String
+        public var deviceRecordId: String?
+        public var version: String?
         public var currentUserId: CurrentUserId?
         public var deviceName: String?
         public var model: String?
-        public var deviceSystem: Int
+        public var deviceSystem: Int?
         public var serialNumber: String?
         public var diskSerialNumber: String?
         public var uuid: String?
@@ -834,17 +834,17 @@ extension SecurityAndCompliance {
         public var androidId: String?
         public var idfv: String?
         public var aaid: String?
-        public var deviceOwnership: Int
-        public var deviceStatus: Int
-        public var certificationLevel: Int
-        public var deviceTerminalType: Int
+        public var deviceOwnership: Int?
+        public var deviceStatus: Int?
+        public var certificationLevel: Int?
+        public var deviceTerminalType: Int?
         public var isManaged: Bool?
         public var mdmDeviceId: String?
         public var mdmProviderName: String?
         public var deviceEnvDetectStatus: Int?
         public var isPublic: Bool?
         public var source: Int?
-        public init(deviceRecordId: String, version: String, currentUserId: CurrentUserId? = nil, deviceName: String? = nil, model: String? = nil, deviceSystem: Int, serialNumber: String? = nil, diskSerialNumber: String? = nil, uuid: String? = nil, macAddress: String? = nil, androidId: String? = nil, idfv: String? = nil, aaid: String? = nil, deviceOwnership: Int, deviceStatus: Int, certificationLevel: Int, deviceTerminalType: Int, isManaged: Bool? = nil, mdmDeviceId: String? = nil, mdmProviderName: String? = nil, deviceEnvDetectStatus: Int? = nil, isPublic: Bool? = nil, source: Int? = nil) {
+        public init(deviceRecordId: String? = nil, version: String? = nil, currentUserId: CurrentUserId? = nil, deviceName: String? = nil, model: String? = nil, deviceSystem: Int? = nil, serialNumber: String? = nil, diskSerialNumber: String? = nil, uuid: String? = nil, macAddress: String? = nil, androidId: String? = nil, idfv: String? = nil, aaid: String? = nil, deviceOwnership: Int? = nil, deviceStatus: Int? = nil, certificationLevel: Int? = nil, deviceTerminalType: Int? = nil, isManaged: Bool? = nil, mdmDeviceId: String? = nil, mdmProviderName: String? = nil, deviceEnvDetectStatus: Int? = nil, isPublic: Bool? = nil, source: Int? = nil) {
             self.deviceRecordId = deviceRecordId
             self.version = version
             self.currentUserId = currentUserId
@@ -896,12 +896,12 @@ extension SecurityAndCompliance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.deviceRecordId = try c.lenientRequired(.deviceRecordId)
-            self.version = try c.lenientRequired(.version)
+            self.deviceRecordId = c.lenient(.deviceRecordId)
+            self.version = c.lenient(.version)
             self.currentUserId = c.lenient(.currentUserId)
             self.deviceName = c.lenient(.deviceName)
             self.model = c.lenient(.model)
-            self.deviceSystem = try c.lenientRequired(.deviceSystem)
+            self.deviceSystem = c.lenient(.deviceSystem)
             self.serialNumber = c.lenient(.serialNumber)
             self.diskSerialNumber = c.lenient(.diskSerialNumber)
             self.uuid = c.lenient(.uuid)
@@ -909,10 +909,10 @@ extension SecurityAndCompliance {
             self.androidId = c.lenient(.androidId)
             self.idfv = c.lenient(.idfv)
             self.aaid = c.lenient(.aaid)
-            self.deviceOwnership = try c.lenientRequired(.deviceOwnership)
-            self.deviceStatus = try c.lenientRequired(.deviceStatus)
-            self.certificationLevel = try c.lenientRequired(.certificationLevel)
-            self.deviceTerminalType = try c.lenientRequired(.deviceTerminalType)
+            self.deviceOwnership = c.lenient(.deviceOwnership)
+            self.deviceStatus = c.lenient(.deviceStatus)
+            self.certificationLevel = c.lenient(.certificationLevel)
+            self.deviceTerminalType = c.lenient(.deviceTerminalType)
             self.isManaged = c.lenient(.isManaged)
             self.mdmDeviceId = c.lenient(.mdmDeviceId)
             self.mdmProviderName = c.lenient(.mdmProviderName)
@@ -1011,12 +1011,12 @@ extension SecurityAndCompliance {
     }
 
     public struct Before: Codable, Sendable {
-        public var deviceRecordId: String
-        public var version: String
+        public var deviceRecordId: String?
+        public var version: String?
         public var currentUserId: CurrentUserId?
         public var deviceName: String?
         public var model: String?
-        public var deviceSystem: Int
+        public var deviceSystem: Int?
         public var serialNumber: String?
         public var diskSerialNumber: String?
         public var uuid: String?
@@ -1024,16 +1024,16 @@ extension SecurityAndCompliance {
         public var androidId: String?
         public var idfv: String?
         public var aaid: String?
-        public var deviceOwnership: Int
-        public var deviceStatus: Int
-        public var certificationLevel: Int
-        public var deviceTerminalType: Int
+        public var deviceOwnership: Int?
+        public var deviceStatus: Int?
+        public var certificationLevel: Int?
+        public var deviceTerminalType: Int?
         public var isManaged: Bool?
         public var mdmDeviceId: String?
         public var mdmProviderName: String?
         public var deviceEnvDetectStatus: Int?
         public var isPublic: Bool?
-        public init(deviceRecordId: String, version: String, currentUserId: CurrentUserId? = nil, deviceName: String? = nil, model: String? = nil, deviceSystem: Int, serialNumber: String? = nil, diskSerialNumber: String? = nil, uuid: String? = nil, macAddress: String? = nil, androidId: String? = nil, idfv: String? = nil, aaid: String? = nil, deviceOwnership: Int, deviceStatus: Int, certificationLevel: Int, deviceTerminalType: Int, isManaged: Bool? = nil, mdmDeviceId: String? = nil, mdmProviderName: String? = nil, deviceEnvDetectStatus: Int? = nil, isPublic: Bool? = nil) {
+        public init(deviceRecordId: String? = nil, version: String? = nil, currentUserId: CurrentUserId? = nil, deviceName: String? = nil, model: String? = nil, deviceSystem: Int? = nil, serialNumber: String? = nil, diskSerialNumber: String? = nil, uuid: String? = nil, macAddress: String? = nil, androidId: String? = nil, idfv: String? = nil, aaid: String? = nil, deviceOwnership: Int? = nil, deviceStatus: Int? = nil, certificationLevel: Int? = nil, deviceTerminalType: Int? = nil, isManaged: Bool? = nil, mdmDeviceId: String? = nil, mdmProviderName: String? = nil, deviceEnvDetectStatus: Int? = nil, isPublic: Bool? = nil) {
             self.deviceRecordId = deviceRecordId
             self.version = version
             self.currentUserId = currentUserId
@@ -1083,12 +1083,12 @@ extension SecurityAndCompliance {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.deviceRecordId = try c.lenientRequired(.deviceRecordId)
-            self.version = try c.lenientRequired(.version)
+            self.deviceRecordId = c.lenient(.deviceRecordId)
+            self.version = c.lenient(.version)
             self.currentUserId = c.lenient(.currentUserId)
             self.deviceName = c.lenient(.deviceName)
             self.model = c.lenient(.model)
-            self.deviceSystem = try c.lenientRequired(.deviceSystem)
+            self.deviceSystem = c.lenient(.deviceSystem)
             self.serialNumber = c.lenient(.serialNumber)
             self.diskSerialNumber = c.lenient(.diskSerialNumber)
             self.uuid = c.lenient(.uuid)
@@ -1096,10 +1096,10 @@ extension SecurityAndCompliance {
             self.androidId = c.lenient(.androidId)
             self.idfv = c.lenient(.idfv)
             self.aaid = c.lenient(.aaid)
-            self.deviceOwnership = try c.lenientRequired(.deviceOwnership)
-            self.deviceStatus = try c.lenientRequired(.deviceStatus)
-            self.certificationLevel = try c.lenientRequired(.certificationLevel)
-            self.deviceTerminalType = try c.lenientRequired(.deviceTerminalType)
+            self.deviceOwnership = c.lenient(.deviceOwnership)
+            self.deviceStatus = c.lenient(.deviceStatus)
+            self.certificationLevel = c.lenient(.certificationLevel)
+            self.deviceTerminalType = c.lenient(.deviceTerminalType)
             self.isManaged = c.lenient(.isManaged)
             self.mdmDeviceId = c.lenient(.mdmDeviceId)
             self.mdmProviderName = c.lenient(.mdmProviderName)

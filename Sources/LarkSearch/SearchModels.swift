@@ -8,8 +8,6 @@ extension Search {
 
     public typealias DataSourcePatchResponse = DataSourceGetResponse
 
-    public typealias SchemaCreateBody = Schema
-
     public typealias SchemaCreateResponse = SchemaGetResponse
 
     public typealias SchemaPatchResponse = SchemaGetResponse
@@ -34,7 +32,7 @@ extension Search {
 
     public struct DataSource: Codable, Sendable {
         public var id: String?
-        public var name: String
+        public var name: String?
         public var state: Int?
         public var description: String?
         public var createTime: String?
@@ -50,7 +48,7 @@ extension Search {
         public var connectType: Int?
         public var connectorParam: ConnectorParam?
         public var enableAnswer: Bool?
-        public init(id: String? = nil, name: String, state: Int? = nil, description: String? = nil, createTime: String? = nil, updateTime: String? = nil, isExceedQuota: Bool? = nil, iconUrl: String? = nil, template: String? = nil, searchableFields: [String]? = nil, i18nName: I18nName? = nil, i18nDescription: I18nName? = nil, schemaId: String? = nil, appId: String? = nil, connectType: Int? = nil, connectorParam: ConnectorParam? = nil, enableAnswer: Bool? = nil) {
+        public init(id: String? = nil, name: String? = nil, state: Int? = nil, description: String? = nil, createTime: String? = nil, updateTime: String? = nil, isExceedQuota: Bool? = nil, iconUrl: String? = nil, template: String? = nil, searchableFields: [String]? = nil, i18nName: I18nName? = nil, i18nDescription: I18nName? = nil, schemaId: String? = nil, appId: String? = nil, connectType: Int? = nil, connectorParam: ConnectorParam? = nil, enableAnswer: Bool? = nil) {
             self.id = id
             self.name = name
             self.state = state
@@ -91,7 +89,7 @@ extension Search {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.state = c.lenient(.state)
             self.description = c.lenient(.description)
             self.createTime = c.lenient(.createTime)
@@ -437,10 +435,10 @@ extension Search {
     }
 
     public struct Schema: Codable, Sendable {
-        public var properties: [SchemaProperty]
-        public var display: Display
-        public var schemaId: String
-        public init(properties: [SchemaProperty], display: Display, schemaId: String) {
+        public var properties: [SchemaProperty]?
+        public var display: Display?
+        public var schemaId: String?
+        public init(properties: [SchemaProperty]? = nil, display: Display? = nil, schemaId: String? = nil) {
             self.properties = properties
             self.display = display
             self.schemaId = schemaId
@@ -452,15 +450,15 @@ extension Search {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.properties = try c.lenientRequired(.properties)
-            self.display = try c.lenientRequired(.display)
-            self.schemaId = try c.lenientRequired(.schemaId)
+            self.properties = c.lenient(.properties)
+            self.display = c.lenient(.display)
+            self.schemaId = c.lenient(.schemaId)
         }
     }
 
     public struct SchemaProperty: Codable, Sendable {
-        public var name: String
-        public var type: SchemaPropertyType
+        public var name: String?
+        public var type: SchemaPropertyType?
         public var isSearchable: Bool?
         public var isSortable: Bool?
         public var isReturnable: Bool?
@@ -471,7 +469,7 @@ extension Search {
         public var filterOptions: FilterOptions?
         public var answerOption: AnswerOption?
         public var desc: String?
-        public init(name: String, type: SchemaPropertyType, isSearchable: Bool? = nil, isSortable: Bool? = nil, isReturnable: Bool? = nil, sortOptions: SortOptions? = nil, typeDefinitions: TypeDefinitions? = nil, searchOptions: SearchOptions? = nil, isFilterable: Bool? = nil, filterOptions: FilterOptions? = nil, answerOption: AnswerOption? = nil, desc: String? = nil) {
+        public init(name: String? = nil, type: SchemaPropertyType? = nil, isSearchable: Bool? = nil, isSortable: Bool? = nil, isReturnable: Bool? = nil, sortOptions: SortOptions? = nil, typeDefinitions: TypeDefinitions? = nil, searchOptions: SearchOptions? = nil, isFilterable: Bool? = nil, filterOptions: FilterOptions? = nil, answerOption: AnswerOption? = nil, desc: String? = nil) {
             self.name = name
             self.type = type
             self.isSearchable = isSearchable
@@ -501,8 +499,8 @@ extension Search {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.type = try c.lenientRequired(.type)
+            self.name = c.lenient(.name)
+            self.type = c.lenient(.type)
             self.isSearchable = c.lenient(.isSearchable)
             self.isSortable = c.lenient(.isSortable)
             self.isReturnable = c.lenient(.isReturnable)
@@ -574,10 +572,10 @@ extension Search {
     }
 
     public struct Tag: Codable, Sendable {
-        public var name: String
-        public var color: Color
-        public var text: String
-        public init(name: String, color: Color, text: String) {
+        public var name: String?
+        public var color: Color?
+        public var text: String?
+        public init(name: String? = nil, color: Color? = nil, text: String? = nil) {
             self.name = name
             self.color = color
             self.text = text
@@ -589,9 +587,9 @@ extension Search {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.color = try c.lenientRequired(.color)
-            self.text = try c.lenientRequired(.text)
+            self.name = c.lenient(.name)
+            self.color = c.lenient(.color)
+            self.text = c.lenient(.text)
         }
     }
 
@@ -607,8 +605,8 @@ extension Search {
     }
 
     public struct UserIds: Codable, Sendable {
-        public var idType: UserIdType
-        public init(idType: UserIdType) {
+        public var idType: UserIdType?
+        public init(idType: UserIdType? = nil) {
             self.idType = idType
         }
         enum CodingKeys: String, CodingKey {
@@ -616,7 +614,7 @@ extension Search {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.idType = try c.lenientRequired(.idType)
+            self.idType = c.lenient(.idType)
         }
     }
 
@@ -651,7 +649,7 @@ extension Search {
     }
 
     public struct FilterOptions: Codable, Sendable {
-        public var displayName: String
+        public var displayName: String?
         public var i18nDisplayName: I18nName?
         public var optionMode: OptionMode?
         public var associatedSmartFilter: AssociatedSmartFilter?
@@ -659,7 +657,7 @@ extension Search {
         public var predefineEnumValues: [PredefineEnumValue]?
         public var enableClientFilter: Bool?
         public var referenceDatasourceId: String?
-        public init(displayName: String, i18nDisplayName: I18nName? = nil, optionMode: OptionMode? = nil, associatedSmartFilter: AssociatedSmartFilter? = nil, filterType: FilterType? = nil, predefineEnumValues: [PredefineEnumValue]? = nil, enableClientFilter: Bool? = nil, referenceDatasourceId: String? = nil) {
+        public init(displayName: String? = nil, i18nDisplayName: I18nName? = nil, optionMode: OptionMode? = nil, associatedSmartFilter: AssociatedSmartFilter? = nil, filterType: FilterType? = nil, predefineEnumValues: [PredefineEnumValue]? = nil, enableClientFilter: Bool? = nil, referenceDatasourceId: String? = nil) {
             self.displayName = displayName
             self.i18nDisplayName = i18nDisplayName
             self.optionMode = optionMode
@@ -681,7 +679,7 @@ extension Search {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.displayName = try c.lenientRequired(.displayName)
+            self.displayName = c.lenient(.displayName)
             self.i18nDisplayName = c.lenient(.i18nDisplayName)
             self.optionMode = c.lenient(.optionMode)
             self.associatedSmartFilter = c.lenient(.associatedSmartFilter)
@@ -719,9 +717,9 @@ extension Search {
     }
 
     public struct PredefineEnumValue: Codable, Sendable {
-        public var name: String
-        public var text: String
-        public init(name: String, text: String) {
+        public var name: String?
+        public var text: String?
+        public init(name: String? = nil, text: String? = nil) {
             self.name = name
             self.text = text
         }
@@ -731,8 +729,8 @@ extension Search {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.text = try c.lenientRequired(.text)
+            self.name = c.lenient(.name)
+            self.text = c.lenient(.text)
         }
     }
 
@@ -755,9 +753,9 @@ extension Search {
     }
 
     public struct Display: Codable, Sendable {
-        public var cardKey: CardKey
+        public var cardKey: CardKey?
         public var fieldsMapping: [FieldsMapping]?
-        public init(cardKey: CardKey, fieldsMapping: [FieldsMapping]? = nil) {
+        public init(cardKey: CardKey? = nil, fieldsMapping: [FieldsMapping]? = nil) {
             self.cardKey = cardKey
             self.fieldsMapping = fieldsMapping
         }
@@ -767,7 +765,7 @@ extension Search {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.cardKey = try c.lenientRequired(.cardKey)
+            self.cardKey = c.lenient(.cardKey)
             self.fieldsMapping = c.lenient(.fieldsMapping)
         }
     }
@@ -780,9 +778,9 @@ extension Search {
     }
 
     public struct FieldsMapping: Codable, Sendable {
-        public var displayField: String
-        public var dataField: String
-        public init(displayField: String, dataField: String) {
+        public var displayField: String?
+        public var dataField: String?
+        public init(displayField: String? = nil, dataField: String? = nil) {
             self.displayField = displayField
             self.dataField = dataField
         }
@@ -792,8 +790,8 @@ extension Search {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.displayField = try c.lenientRequired(.displayField)
-            self.dataField = try c.lenientRequired(.dataField)
+            self.displayField = c.lenient(.displayField)
+            self.dataField = c.lenient(.dataField)
         }
     }
 
@@ -808,6 +806,28 @@ extension Search {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.validateOnly = c.lenient(.validateOnly)
+        }
+    }
+
+    public struct SchemaCreateBody: Codable, Sendable {
+        public var properties: [SchemaProperty]
+        public var display: Display
+        public var schemaId: String
+        public init(properties: [SchemaProperty], display: Display, schemaId: String) {
+            self.properties = properties
+            self.display = display
+            self.schemaId = schemaId
+        }
+        enum CodingKeys: String, CodingKey {
+            case properties
+            case display
+            case schemaId = "schema_id"
+        }
+        public init(from decoder: any Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            self.properties = try c.lenientRequired(.properties)
+            self.display = try c.lenientRequired(.display)
+            self.schemaId = try c.lenientRequired(.schemaId)
         }
     }
 
@@ -830,10 +850,10 @@ extension Search {
     }
 
     public struct SchemaPatchBodyProperty: Codable, Sendable {
-        public var name: String
+        public var name: String?
         public var desc: String?
         public var answerOption: AnswerOption?
-        public init(name: String, desc: String? = nil, answerOption: AnswerOption? = nil) {
+        public init(name: String? = nil, desc: String? = nil, answerOption: AnswerOption? = nil) {
             self.name = name
             self.desc = desc
             self.answerOption = answerOption
@@ -845,7 +865,7 @@ extension Search {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.desc = c.lenient(.desc)
             self.answerOption = c.lenient(.answerOption)
         }
@@ -927,12 +947,12 @@ extension Search {
     }
 
     public struct Metadata: Codable, Sendable {
-        public var title: String
-        public var sourceUrl: String
+        public var title: String?
+        public var sourceUrl: String?
         public var createTime: Int?
         public var updateTime: Int?
         public var sourceUrlMobile: String?
-        public init(title: String, sourceUrl: String, createTime: Int? = nil, updateTime: Int? = nil, sourceUrlMobile: String? = nil) {
+        public init(title: String? = nil, sourceUrl: String? = nil, createTime: Int? = nil, updateTime: Int? = nil, sourceUrlMobile: String? = nil) {
             self.title = title
             self.sourceUrl = sourceUrl
             self.createTime = createTime
@@ -948,8 +968,8 @@ extension Search {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.title = try c.lenientRequired(.title)
-            self.sourceUrl = try c.lenientRequired(.sourceUrl)
+            self.title = c.lenient(.title)
+            self.sourceUrl = c.lenient(.sourceUrl)
             self.createTime = c.lenient(.createTime)
             self.updateTime = c.lenient(.updateTime)
             self.sourceUrlMobile = c.lenient(.sourceUrlMobile)
@@ -983,8 +1003,8 @@ extension Search {
     }
 
     public struct DataSourceItemGetResponse: Codable, Sendable {
-        public var item: DataSourceItem
-        public init(item: DataSourceItem) {
+        public var item: DataSourceItem?
+        public init(item: DataSourceItem? = nil) {
             self.item = item
         }
         enum CodingKeys: String, CodingKey {
@@ -992,17 +1012,17 @@ extension Search {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.item = try c.lenientRequired(.item)
+            self.item = c.lenient(.item)
         }
     }
 
     public struct DataSourceItem: Codable, Sendable {
-        public var id: String
-        public var acl: [Acl]
-        public var metadata: Metadata
-        public var structuredData: String
+        public var id: String?
+        public var acl: [Acl]?
+        public var metadata: Metadata?
+        public var structuredData: String?
         public var content: DataSourceItemCreateBodyContent?
-        public init(id: String, acl: [Acl], metadata: Metadata, structuredData: String, content: DataSourceItemCreateBodyContent? = nil) {
+        public init(id: String? = nil, acl: [Acl]? = nil, metadata: Metadata? = nil, structuredData: String? = nil, content: DataSourceItemCreateBodyContent? = nil) {
             self.id = id
             self.acl = acl
             self.metadata = metadata
@@ -1018,10 +1038,10 @@ extension Search {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.acl = try c.lenientRequired(.acl)
-            self.metadata = try c.lenientRequired(.metadata)
-            self.structuredData = try c.lenientRequired(.structuredData)
+            self.id = c.lenient(.id)
+            self.acl = c.lenient(.acl)
+            self.metadata = c.lenient(.metadata)
+            self.structuredData = c.lenient(.structuredData)
             self.content = c.lenient(.content)
         }
     }
@@ -1136,17 +1156,17 @@ extension Search {
     public struct DocTypes: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let dOC: Self = "DOC"
-        public static let sHEET: Self = "SHEET"
-        public static let bITABLE: Self = "BITABLE"
-        public static let mINDNOTE: Self = "MINDNOTE"
-        public static let fILE: Self = "FILE"
-        public static let wIKI: Self = "WIKI"
-        public static let dOCX: Self = "DOCX"
-        public static let fOLDER: Self = "FOLDER"
-        public static let cATALOG: Self = "CATALOG"
-        public static let sLIDES: Self = "SLIDES"
-        public static let sHORTCUT: Self = "SHORTCUT"
+        public static let doc: Self = "DOC"
+        public static let sheet: Self = "SHEET"
+        public static let bitable: Self = "BITABLE"
+        public static let mindnote: Self = "MINDNOTE"
+        public static let file: Self = "FILE"
+        public static let wiki: Self = "WIKI"
+        public static let docx: Self = "DOCX"
+        public static let folder: Self = "FOLDER"
+        public static let catalog: Self = "CATALOG"
+        public static let slides: Self = "SLIDES"
+        public static let shortcut: Self = "SHORTCUT"
     }
 
     public struct OpenTime: Codable, Sendable {
@@ -1171,14 +1191,14 @@ extension Search {
     public struct SortType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let dEFAULTTYPE: Self = "DEFAULT_TYPE"
-        public static let oPENTIME: Self = "OPEN_TIME"
-        public static let eDITTIME: Self = "EDIT_TIME"
-        public static let eDITTIMEASC: Self = "EDIT_TIME_ASC"
-        public static let eNTITYCREATETIMEASC: Self = "ENTITY_CREATE_TIME_ASC"
-        public static let eNTITYCREATETIMEDESC: Self = "ENTITY_CREATE_TIME_DESC"
-        public static let cREATETIME: Self = "CREATE_TIME"
-        public static let cREATETIMEASC: Self = "CREATE_TIME_ASC"
+        public static let defaultType: Self = "DEFAULT_TYPE"
+        public static let openTime: Self = "OPEN_TIME"
+        public static let editTime: Self = "EDIT_TIME"
+        public static let editTimeAsc: Self = "EDIT_TIME_ASC"
+        public static let entityCreateTimeAsc: Self = "ENTITY_CREATE_TIME_ASC"
+        public static let entityCreateTimeDesc: Self = "ENTITY_CREATE_TIME_DESC"
+        public static let createTime: Self = "CREATE_TIME"
+        public static let createTimeAsc: Self = "CREATE_TIME_ASC"
     }
 
     public struct WikiFilter: Codable, Sendable {
@@ -1245,11 +1265,11 @@ extension Search {
 
     public struct DocWikiSearchResponse: Codable, Sendable {
         public var total: Int?
-        public var hasMore: Bool
+        public var hasMore: Bool?
         public var resUnits: [ResUnit]?
         public var pageToken: String?
         public var notice: String?
-        public init(total: Int? = nil, hasMore: Bool, resUnits: [ResUnit]? = nil, pageToken: String? = nil, notice: String? = nil) {
+        public init(total: Int? = nil, hasMore: Bool? = nil, resUnits: [ResUnit]? = nil, pageToken: String? = nil, notice: String? = nil) {
             self.total = total
             self.hasMore = hasMore
             self.resUnits = resUnits
@@ -1266,7 +1286,7 @@ extension Search {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.total = c.lenient(.total)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
             self.resUnits = c.lenient(.resUnits)
             self.pageToken = c.lenient(.pageToken)
             self.notice = c.lenient(.notice)
@@ -1303,8 +1323,8 @@ extension Search {
     public struct EntityType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let dOC: Self = "DOC"
-        public static let wIKI: Self = "WIKI"
+        public static let doc: Self = "DOC"
+        public static let wiki: Self = "WIKI"
     }
 
     public struct ResultMeta: Codable, Sendable {

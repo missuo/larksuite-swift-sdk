@@ -21,7 +21,7 @@ import Testing
         repeat {
             let r = try await client.calendar.v4.calendar.list(params: .init(pageSize: 500, pageToken: token))
             for c in r.data?.calendarList ?? [] {
-                print(c.calendarId, c.summary ?? "", c.type?.rawValue ?? "", c.role?.rawValue ?? "")
+                print(c.calendarId ?? "", c.summary ?? "", c.type?.rawValue ?? "", c.role?.rawValue ?? "")
             }
             token = r.data?.hasMore == true ? r.data?.pageToken : nil
         } while token != nil
@@ -71,13 +71,13 @@ import Testing
             calendarId: calendarId,
             params: .init(pageSize: 500, startTime: String(from), endTime: String(to), userIdType: .openId))
         for e in r.data?.items ?? [] where e.status != "cancelled" {
-            print(e.eventId, e.summary ?? "", e.startTime.timestamp ?? e.startTime.date ?? "", e.recurrence ?? "")
+            print(e.eventId ?? "", e.summary ?? "", e.startTime?.timestamp ?? e.startTime?.date ?? "", e.recurrence ?? "")
         }
 
         // Recurring events expanded into single occurrences (window of at most 40 days)
         let view = try await client.calendar.v4.calendarEvent.instanceView(
             calendarId: calendarId, params: .init(startTime: String(from), endTime: String(to), userIdType: .openId))
-        for e in view.data?.items ?? [] { print(e.eventId, e.summary ?? "", e.startTime?.timestamp ?? "") }
+        for e in view.data?.items ?? [] { print(e.eventId ?? "", e.summary ?? "", e.startTime?.timestamp ?? "") }
     }
 
     func freebusy(client: LarkClient, attendeeOpenId: String, otherOpenId: String) async throws {
@@ -85,7 +85,7 @@ import Testing
         let timeMin = fmt.string(from: Date()), timeMax = fmt.string(from: Date().addingTimeInterval(86_400))
         let fb = try await client.calendar.v4.freebusy.list(
             params: .init(userIdType: .openId), body: .init(timeMin: timeMin, timeMax: timeMax, userId: attendeeOpenId))
-        for slot in fb.data?.freebusyList ?? [] { print("busy", slot.startTime, "-", slot.endTime) }
+        for slot in fb.data?.freebusyList ?? [] { print("busy", slot.startTime ?? "", "-", slot.endTime ?? "") }
 
         // Several users at once (meeting rooms: freebusy.list with roomId:)
         let many = try await client.calendar.v4.freebusy.batch(

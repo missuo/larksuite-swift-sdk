@@ -72,6 +72,8 @@ extension Hire {
 
     public typealias JobManagerGetQuery = TalentCombinedCreateQuery
 
+    public typealias JobManagerGetResponse = JobRecruiterResponse
+
     public typealias WebsiteJobPostListResponse = JobPublishRecordSearchResponse
 
     public typealias WebsiteJobPostGetQuery = ReferralWebsiteJobPostGetQuery
@@ -413,8 +415,8 @@ extension Hire {
     }
 
     public struct OfferCustomFieldUpdateBodyConfigOption: Codable, Sendable {
-        public var name: Name
-        public init(name: Name) {
+        public var name: Name?
+        public init(name: Name? = nil) {
             self.name = name
         }
         enum CodingKeys: String, CodingKey {
@@ -422,7 +424,7 @@ extension Hire {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
         }
     }
 
@@ -559,7 +561,7 @@ extension Hire {
 
     public struct Resume: Codable, Sendable {
         public var internshipList: [InternshipList]?
-        public var basicInfo: BasicInfo
+        public var basicInfo: BasicInfo?
         public var educationList: [EducationList]?
         public var selfEvaluation: SelfEvaluation?
         public var careerList: [InternshipList]?
@@ -570,7 +572,7 @@ extension Hire {
         public var awardList: [AwardList]?
         public var projectList: [ProjectList]?
         public var languageList: [LanguageList]?
-        public init(internshipList: [InternshipList]? = nil, basicInfo: BasicInfo, educationList: [EducationList]? = nil, selfEvaluation: SelfEvaluation? = nil, careerList: [InternshipList]? = nil, customizedData: [ResumeCustomizedData]? = nil, resumeAttachmentId: String? = nil, snsList: [SnsList]? = nil, worksList: [WorksList]? = nil, awardList: [AwardList]? = nil, projectList: [ProjectList]? = nil, languageList: [LanguageList]? = nil) {
+        public init(internshipList: [InternshipList]? = nil, basicInfo: BasicInfo? = nil, educationList: [EducationList]? = nil, selfEvaluation: SelfEvaluation? = nil, careerList: [InternshipList]? = nil, customizedData: [ResumeCustomizedData]? = nil, resumeAttachmentId: String? = nil, snsList: [SnsList]? = nil, worksList: [WorksList]? = nil, awardList: [AwardList]? = nil, projectList: [ProjectList]? = nil, languageList: [LanguageList]? = nil) {
             self.internshipList = internshipList
             self.basicInfo = basicInfo
             self.educationList = educationList
@@ -601,7 +603,7 @@ extension Hire {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.internshipList = c.lenient(.internshipList)
-            self.basicInfo = try c.lenientRequired(.basicInfo)
+            self.basicInfo = c.lenient(.basicInfo)
             self.educationList = c.lenient(.educationList)
             self.selfEvaluation = c.lenient(.selfEvaluation)
             self.careerList = c.lenient(.careerList)
@@ -680,13 +682,13 @@ extension Hire {
         public var experienceYears: Int?
         public var gender: Int?
         public var birthday: Int?
-        public var name: String
+        public var name: String?
         public var preferredCityCodeList: [String]?
         public var resumeSourceId: String?
         public var age: Int?
         public var customizedData: [CustomizedData]?
         public var email: String?
-        public init(nationalityId: String? = nil, startWorkTime: Int? = nil, currentHomeAddress: String? = nil, hometownCityCode: String? = nil, mobileCountryCode: String? = nil, identification: BasicInfoIdentification? = nil, maritalStatus: Int? = nil, mobile: String? = nil, currentCityCode: String? = nil, experienceYears: Int? = nil, gender: Int? = nil, birthday: Int? = nil, name: String, preferredCityCodeList: [String]? = nil, resumeSourceId: String? = nil, age: Int? = nil, customizedData: [CustomizedData]? = nil, email: String? = nil) {
+        public init(nationalityId: String? = nil, startWorkTime: Int? = nil, currentHomeAddress: String? = nil, hometownCityCode: String? = nil, mobileCountryCode: String? = nil, identification: BasicInfoIdentification? = nil, maritalStatus: Int? = nil, mobile: String? = nil, currentCityCode: String? = nil, experienceYears: Int? = nil, gender: Int? = nil, birthday: Int? = nil, name: String? = nil, preferredCityCodeList: [String]? = nil, resumeSourceId: String? = nil, age: Int? = nil, customizedData: [CustomizedData]? = nil, email: String? = nil) {
             self.nationalityId = nationalityId
             self.startWorkTime = startWorkTime
             self.currentHomeAddress = currentHomeAddress
@@ -740,7 +742,7 @@ extension Hire {
             self.experienceYears = c.lenient(.experienceYears)
             self.gender = c.lenient(.gender)
             self.birthday = c.lenient(.birthday)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.preferredCityCodeList = c.lenient(.preferredCityCodeList)
             self.resumeSourceId = c.lenient(.resumeSourceId)
             self.age = c.lenient(.age)
@@ -1376,7 +1378,7 @@ extension Hire {
     }
 
     public struct TalentCombinedCreateBodyBasicInfo: Codable, Sendable {
-        public var name: String
+        public var name: String?
         public var mobile: String?
         public var mobileCountryCode: String?
         public var email: String?
@@ -1388,7 +1390,7 @@ extension Hire {
         public var currentCityCode: String?
         public var hometownCityCode: String?
         public var customizedData: [TalentCombinedCreateBodyBasicInfoCustomizedData]?
-        public init(name: String, mobile: String? = nil, mobileCountryCode: String? = nil, email: String? = nil, identification: Identification? = nil, startWorkTime: String? = nil, birthday: String? = nil, gender: Int? = nil, nationalityId: String? = nil, currentCityCode: String? = nil, hometownCityCode: String? = nil, customizedData: [TalentCombinedCreateBodyBasicInfoCustomizedData]? = nil) {
+        public init(name: String? = nil, mobile: String? = nil, mobileCountryCode: String? = nil, email: String? = nil, identification: Identification? = nil, startWorkTime: String? = nil, birthday: String? = nil, gender: Int? = nil, nationalityId: String? = nil, currentCityCode: String? = nil, hometownCityCode: String? = nil, customizedData: [TalentCombinedCreateBodyBasicInfoCustomizedData]? = nil) {
             self.name = name
             self.mobile = mobile
             self.mobileCountryCode = mobileCountryCode
@@ -1418,7 +1420,7 @@ extension Hire {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.mobile = c.lenient(.mobile)
             self.mobileCountryCode = c.lenient(.mobileCountryCode)
             self.email = c.lenient(.email)
@@ -1887,7 +1889,7 @@ extension Hire {
     }
 
     public struct TalentBasicInfo: Codable, Sendable {
-        public var name: String
+        public var name: String?
         public var mobile: String?
         public var mobileCode: String?
         public var mobileCountryCode: String?
@@ -1907,7 +1909,7 @@ extension Hire {
         public var maritalStatus: Int?
         public var currentHomeAddress: String?
         public var modifyTime: String?
-        public init(name: String, mobile: String? = nil, mobileCode: String? = nil, mobileCountryCode: String? = nil, email: String? = nil, experienceYears: Int? = nil, age: Int? = nil, nationality: Nationality? = nil, gender: Int? = nil, currentCity: CurrentCity? = nil, hometownCity: CurrentCity? = nil, preferredCityList: [CurrentCity]? = nil, identificationType: Int? = nil, identificationNumber: String? = nil, identification: Identification? = nil, birthday: Int? = nil, creatorId: String? = nil, maritalStatus: Int? = nil, currentHomeAddress: String? = nil, modifyTime: String? = nil) {
+        public init(name: String? = nil, mobile: String? = nil, mobileCode: String? = nil, mobileCountryCode: String? = nil, email: String? = nil, experienceYears: Int? = nil, age: Int? = nil, nationality: Nationality? = nil, gender: Int? = nil, currentCity: CurrentCity? = nil, hometownCity: CurrentCity? = nil, preferredCityList: [CurrentCity]? = nil, identificationType: Int? = nil, identificationNumber: String? = nil, identification: Identification? = nil, birthday: Int? = nil, creatorId: String? = nil, maritalStatus: Int? = nil, currentHomeAddress: String? = nil, modifyTime: String? = nil) {
             self.name = name
             self.mobile = mobile
             self.mobileCode = mobileCode
@@ -1953,7 +1955,7 @@ extension Hire {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.mobile = c.lenient(.mobile)
             self.mobileCode = c.lenient(.mobileCode)
             self.mobileCountryCode = c.lenient(.mobileCountryCode)
@@ -2383,7 +2385,7 @@ extension Hire {
     }
 
     public struct TalentGetResponseTalentBasicInfo: Codable, Sendable {
-        public var name: String
+        public var name: String?
         public var mobile: String?
         public var mobileCode: String?
         public var mobileCountryCode: String?
@@ -2405,7 +2407,7 @@ extension Hire {
         public var customizedDataList: [CustomizedDataList]?
         public var modifyTime: String?
         public var hukouLocationCode: String?
-        public init(name: String, mobile: String? = nil, mobileCode: String? = nil, mobileCountryCode: String? = nil, email: String? = nil, experienceYears: Int? = nil, age: Int? = nil, nationality: Nationality? = nil, gender: Int? = nil, currentCity: CurrentCity? = nil, hometownCity: CurrentCity? = nil, preferredCityList: [CurrentCity]? = nil, identificationType: Int? = nil, identificationNumber: String? = nil, identification: Identification? = nil, birthday: Int? = nil, creatorId: String? = nil, maritalStatus: Int? = nil, currentHomeAddress: String? = nil, customizedDataList: [CustomizedDataList]? = nil, modifyTime: String? = nil, hukouLocationCode: String? = nil) {
+        public init(name: String? = nil, mobile: String? = nil, mobileCode: String? = nil, mobileCountryCode: String? = nil, email: String? = nil, experienceYears: Int? = nil, age: Int? = nil, nationality: Nationality? = nil, gender: Int? = nil, currentCity: CurrentCity? = nil, hometownCity: CurrentCity? = nil, preferredCityList: [CurrentCity]? = nil, identificationType: Int? = nil, identificationNumber: String? = nil, identification: Identification? = nil, birthday: Int? = nil, creatorId: String? = nil, maritalStatus: Int? = nil, currentHomeAddress: String? = nil, customizedDataList: [CustomizedDataList]? = nil, modifyTime: String? = nil, hukouLocationCode: String? = nil) {
             self.name = name
             self.mobile = mobile
             self.mobileCode = mobileCode
@@ -2455,7 +2457,7 @@ extension Hire {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.mobile = c.lenient(.mobile)
             self.mobileCode = c.lenient(.mobileCode)
             self.mobileCountryCode = c.lenient(.mobileCountryCode)
@@ -2941,7 +2943,7 @@ extension Hire {
         public var operatorId: String?
         public var operatorAccountType: Int?
         public var resumeAttachmentId: String?
-        public var basicInfo: TalentCombinedUpdateBodyBasicInfo
+        public var basicInfo: TalentCombinedCreateBodyBasicInfo
         public var educationList: [TalentCombinedCreateBodyEducationList]?
         public var careerList: [CareerList]?
         public var projectList: [TalentCombinedCreateBodyProjectList]?
@@ -2953,7 +2955,7 @@ extension Hire {
         public var selfEvaluation: TalentCombinedCreateBodySelfEvaluation?
         public var customizedData: [TalentCombinedCreateBodyBasicInfoCustomizedData]?
         public var onlyParseResumeUpdateTalent: Bool?
-        public init(talentId: String, initSourceId: String? = nil, folderIdList: [String]? = nil, operatorId: String? = nil, operatorAccountType: Int? = nil, resumeAttachmentId: String? = nil, basicInfo: TalentCombinedUpdateBodyBasicInfo, educationList: [TalentCombinedCreateBodyEducationList]? = nil, careerList: [CareerList]? = nil, projectList: [TalentCombinedCreateBodyProjectList]? = nil, worksList: [TalentCombinedCreateBodyWorksList]? = nil, awardList: [TalentCombinedCreateBodyAwardList]? = nil, languageList: [TalentCombinedCreateBodyLanguageList]? = nil, snsList: [TalentCombinedCreateBodySnsList]? = nil, preferredCityCodeList: [String]? = nil, selfEvaluation: TalentCombinedCreateBodySelfEvaluation? = nil, customizedData: [TalentCombinedCreateBodyBasicInfoCustomizedData]? = nil, onlyParseResumeUpdateTalent: Bool? = nil) {
+        public init(talentId: String, initSourceId: String? = nil, folderIdList: [String]? = nil, operatorId: String? = nil, operatorAccountType: Int? = nil, resumeAttachmentId: String? = nil, basicInfo: TalentCombinedCreateBodyBasicInfo, educationList: [TalentCombinedCreateBodyEducationList]? = nil, careerList: [CareerList]? = nil, projectList: [TalentCombinedCreateBodyProjectList]? = nil, worksList: [TalentCombinedCreateBodyWorksList]? = nil, awardList: [TalentCombinedCreateBodyAwardList]? = nil, languageList: [TalentCombinedCreateBodyLanguageList]? = nil, snsList: [TalentCombinedCreateBodySnsList]? = nil, preferredCityCodeList: [String]? = nil, selfEvaluation: TalentCombinedCreateBodySelfEvaluation? = nil, customizedData: [TalentCombinedCreateBodyBasicInfoCustomizedData]? = nil, onlyParseResumeUpdateTalent: Bool? = nil) {
             self.talentId = talentId
             self.initSourceId = initSourceId
             self.folderIdList = folderIdList
@@ -3013,64 +3015,6 @@ extension Hire {
             self.selfEvaluation = c.lenient(.selfEvaluation)
             self.customizedData = c.lenient(.customizedData)
             self.onlyParseResumeUpdateTalent = c.lenient(.onlyParseResumeUpdateTalent)
-        }
-    }
-
-    public struct TalentCombinedUpdateBodyBasicInfo: Codable, Sendable {
-        public var name: String?
-        public var mobile: String?
-        public var mobileCountryCode: String?
-        public var email: String?
-        public var identification: Identification?
-        public var startWorkTime: String?
-        public var birthday: String?
-        public var gender: Int?
-        public var nationalityId: String?
-        public var currentCityCode: String?
-        public var hometownCityCode: String?
-        public var customizedData: [TalentCombinedCreateBodyBasicInfoCustomizedData]?
-        public init(name: String? = nil, mobile: String? = nil, mobileCountryCode: String? = nil, email: String? = nil, identification: Identification? = nil, startWorkTime: String? = nil, birthday: String? = nil, gender: Int? = nil, nationalityId: String? = nil, currentCityCode: String? = nil, hometownCityCode: String? = nil, customizedData: [TalentCombinedCreateBodyBasicInfoCustomizedData]? = nil) {
-            self.name = name
-            self.mobile = mobile
-            self.mobileCountryCode = mobileCountryCode
-            self.email = email
-            self.identification = identification
-            self.startWorkTime = startWorkTime
-            self.birthday = birthday
-            self.gender = gender
-            self.nationalityId = nationalityId
-            self.currentCityCode = currentCityCode
-            self.hometownCityCode = hometownCityCode
-            self.customizedData = customizedData
-        }
-        enum CodingKeys: String, CodingKey {
-            case name
-            case mobile
-            case mobileCountryCode = "mobile_country_code"
-            case email
-            case identification
-            case startWorkTime = "start_work_time"
-            case birthday
-            case gender
-            case nationalityId = "nationality_id"
-            case currentCityCode = "current_city_code"
-            case hometownCityCode = "hometown_city_code"
-            case customizedData = "customized_data"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = c.lenient(.name)
-            self.mobile = c.lenient(.mobile)
-            self.mobileCountryCode = c.lenient(.mobileCountryCode)
-            self.email = c.lenient(.email)
-            self.identification = c.lenient(.identification)
-            self.startWorkTime = c.lenient(.startWorkTime)
-            self.birthday = c.lenient(.birthday)
-            self.gender = c.lenient(.gender)
-            self.nationalityId = c.lenient(.nationalityId)
-            self.currentCityCode = c.lenient(.currentCityCode)
-            self.hometownCityCode = c.lenient(.hometownCityCode)
-            self.customizedData = c.lenient(.customizedData)
         }
     }
 
@@ -4400,7 +4344,7 @@ extension Hire {
         public var minLevelId: String?
         public var minSalary: Int?
         public var title: String?
-        public var jobManagers: JobManagers
+        public var jobManagers: JobRecruiterResponseInfo
         public var jobProcessId: String?
         public var subjectId: String?
         public var jobFunctionId: String?
@@ -4420,7 +4364,7 @@ extension Hire {
         public var jobAttribute: Int?
         public var expiryTimestamp: String?
         public var targetMajorIdList: [String]?
-        public init(id: String? = nil, experience: Int? = nil, expiryTime: Int? = nil, customizedDataList: [CustomizedData]? = nil, minLevelId: String? = nil, minSalary: Int? = nil, title: String? = nil, jobManagers: JobManagers, jobProcessId: String? = nil, subjectId: String? = nil, jobFunctionId: String? = nil, departmentId: String? = nil, headCount: Int? = nil, isNeverExpired: Bool, maxSalary: Int? = nil, requirement: String? = nil, addressId: String? = nil, description: String? = nil, highlightList: [String]? = nil, jobTypeId: String, maxLevelId: String? = nil, requiredDegree: Int? = nil, jobCategoryId: String? = nil, addressIdList: [String]? = nil, jobAttribute: Int? = nil, expiryTimestamp: String? = nil, targetMajorIdList: [String]? = nil) {
+        public init(id: String? = nil, experience: Int? = nil, expiryTime: Int? = nil, customizedDataList: [CustomizedData]? = nil, minLevelId: String? = nil, minSalary: Int? = nil, title: String? = nil, jobManagers: JobRecruiterResponseInfo, jobProcessId: String? = nil, subjectId: String? = nil, jobFunctionId: String? = nil, departmentId: String? = nil, headCount: Int? = nil, isNeverExpired: Bool, maxSalary: Int? = nil, requirement: String? = nil, addressId: String? = nil, description: String? = nil, highlightList: [String]? = nil, jobTypeId: String, maxLevelId: String? = nil, requiredDegree: Int? = nil, jobCategoryId: String? = nil, addressIdList: [String]? = nil, jobAttribute: Int? = nil, expiryTimestamp: String? = nil, targetMajorIdList: [String]? = nil) {
             self.id = id
             self.experience = experience
             self.expiryTime = expiryTime
@@ -4510,41 +4454,15 @@ extension Hire {
         }
     }
 
-    public struct JobManagers: Codable, Sendable {
-        public var id: String?
-        public var recruiterId: String
-        public var hiringManagerIdList: [String]
-        public var assistantIdList: [String]?
-        public init(id: String? = nil, recruiterId: String, hiringManagerIdList: [String], assistantIdList: [String]? = nil) {
-            self.id = id
-            self.recruiterId = recruiterId
-            self.hiringManagerIdList = hiringManagerIdList
-            self.assistantIdList = assistantIdList
-        }
-        enum CodingKeys: String, CodingKey {
-            case id
-            case recruiterId = "recruiter_id"
-            case hiringManagerIdList = "hiring_manager_id_list"
-            case assistantIdList = "assistant_id_list"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = c.lenient(.id)
-            self.recruiterId = try c.lenientRequired(.recruiterId)
-            self.hiringManagerIdList = try c.lenientRequired(.hiringManagerIdList)
-            self.assistantIdList = c.lenient(.assistantIdList)
-        }
-    }
-
     public struct JobCombinedUpdateResponse: Codable, Sendable {
         public var defaultJobPost: DefaultJobPost?
         public var job: Job?
-        public var jobManager: JobManagers?
+        public var jobManager: JobRecruiterResponseInfo?
         public var interviewRegistrationSchemaInfo: InterviewRegistration?
         public var onboardRegistrationSchemaInfo: InterviewRegistration?
         public var targetMajorList: [ResumeSourceList]?
         public var portalWebsiteApplyFormSchemaInfo: InterviewRegistration?
-        public init(defaultJobPost: DefaultJobPost? = nil, job: Job? = nil, jobManager: JobManagers? = nil, interviewRegistrationSchemaInfo: InterviewRegistration? = nil, onboardRegistrationSchemaInfo: InterviewRegistration? = nil, targetMajorList: [ResumeSourceList]? = nil, portalWebsiteApplyFormSchemaInfo: InterviewRegistration? = nil) {
+        public init(defaultJobPost: DefaultJobPost? = nil, job: Job? = nil, jobManager: JobRecruiterResponseInfo? = nil, interviewRegistrationSchemaInfo: InterviewRegistration? = nil, onboardRegistrationSchemaInfo: InterviewRegistration? = nil, targetMajorList: [ResumeSourceList]? = nil, portalWebsiteApplyFormSchemaInfo: InterviewRegistration? = nil) {
             self.defaultJobPost = defaultJobPost
             self.job = job
             self.jobManager = jobManager
@@ -4596,7 +4514,7 @@ extension Hire {
         public var minLevelId: String?
         public var minSalary: Int?
         public var title: String
-        public var jobManagers: JobManagers
+        public var jobManagers: JobRecruiterResponseInfo
         public var jobProcessId: String
         public var processType: Int
         public var subjectId: String?
@@ -4621,7 +4539,7 @@ extension Hire {
         public var onboardRegistrationSchemaId: String?
         public var targetMajorIdList: [String]?
         public var portalWebsiteApplyFormSchemaId: String?
-        public init(code: String? = nil, experience: Int? = nil, expiryTime: Int? = nil, customizedDataList: [CustomizedData]? = nil, minLevelId: String? = nil, minSalary: Int? = nil, title: String, jobManagers: JobManagers, jobProcessId: String, processType: Int, subjectId: String? = nil, jobFunctionId: String? = nil, departmentId: String, headCount: Int? = nil, isNeverExpired: Bool, maxSalary: Int? = nil, requirement: String? = nil, addressId: String? = nil, description: String? = nil, highlightList: [String]? = nil, jobTypeId: String, maxLevelId: String? = nil, recruitmentTypeId: String, requiredDegree: Int? = nil, jobCategoryId: String? = nil, addressIdList: [String]? = nil, jobAttribute: Int? = nil, expiryTimestamp: String? = nil, interviewRegistrationSchemaId: String? = nil, onboardRegistrationSchemaId: String? = nil, targetMajorIdList: [String]? = nil, portalWebsiteApplyFormSchemaId: String? = nil) {
+        public init(code: String? = nil, experience: Int? = nil, expiryTime: Int? = nil, customizedDataList: [CustomizedData]? = nil, minLevelId: String? = nil, minSalary: Int? = nil, title: String, jobManagers: JobRecruiterResponseInfo, jobProcessId: String, processType: Int, subjectId: String? = nil, jobFunctionId: String? = nil, departmentId: String, headCount: Int? = nil, isNeverExpired: Bool, maxSalary: Int? = nil, requirement: String? = nil, addressId: String? = nil, description: String? = nil, highlightList: [String]? = nil, jobTypeId: String, maxLevelId: String? = nil, recruitmentTypeId: String, requiredDegree: Int? = nil, jobCategoryId: String? = nil, addressIdList: [String]? = nil, jobAttribute: Int? = nil, expiryTimestamp: String? = nil, interviewRegistrationSchemaId: String? = nil, onboardRegistrationSchemaId: String? = nil, targetMajorIdList: [String]? = nil, portalWebsiteApplyFormSchemaId: String? = nil) {
             self.code = code
             self.experience = experience
             self.expiryTime = expiryTime
@@ -5756,11 +5674,11 @@ extension Hire {
     }
 
     public struct Bonus: Codable, Sendable {
-        public var bonusType: Int
+        public var bonusType: Int?
         public var pointBonus: Int?
         public var cash: Cash?
         public var cashBonus: [Cash]?
-        public init(bonusType: Int, pointBonus: Int? = nil, cash: Cash? = nil, cashBonus: [Cash]? = nil) {
+        public init(bonusType: Int? = nil, pointBonus: Int? = nil, cash: Cash? = nil, cashBonus: [Cash]? = nil) {
             self.bonusType = bonusType
             self.pointBonus = pointBonus
             self.cash = cash
@@ -5774,10 +5692,28 @@ extension Hire {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.bonusType = try c.lenientRequired(.bonusType)
+            self.bonusType = c.lenient(.bonusType)
             self.pointBonus = c.lenient(.pointBonus)
             self.cash = c.lenient(.cash)
             self.cashBonus = c.lenient(.cashBonus)
+        }
+    }
+
+    public struct Cash: Codable, Sendable {
+        public var currencyType: String?
+        public var amount: Double?
+        public init(currencyType: String? = nil, amount: Double? = nil) {
+            self.currencyType = currencyType
+            self.amount = amount
+        }
+        enum CodingKeys: String, CodingKey {
+            case currencyType = "currency_type"
+            case amount
+        }
+        public init(from decoder: any Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            self.currencyType = c.lenient(.currencyType)
+            self.amount = c.lenient(.amount)
         }
     }
 }

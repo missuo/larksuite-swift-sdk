@@ -4,8 +4,6 @@ import Foundation
 import LarkCore
 
 extension Translation {
-    public typealias TextDetectBody = TextTranslateResponse
-
     public struct TextTranslateBody: Codable, Sendable {
         public var sourceLanguage: String
         public var text: String
@@ -33,9 +31,9 @@ extension Translation {
     }
 
     public struct Glossary: Codable, Sendable {
-        public var from: String
-        public var to: String
-        public init(from: String, to: String) {
+        public var from: String?
+        public var to: String?
+        public init(from: String? = nil, to: String? = nil) {
             self.from = from
             self.to = to
         }
@@ -45,12 +43,26 @@ extension Translation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.from = try c.lenientRequired(.from)
-            self.to = try c.lenientRequired(.to)
+            self.from = c.lenient(.from)
+            self.to = c.lenient(.to)
         }
     }
 
     public struct TextTranslateResponse: Codable, Sendable {
+        public var text: String?
+        public init(text: String? = nil) {
+            self.text = text
+        }
+        enum CodingKeys: String, CodingKey {
+            case text
+        }
+        public init(from decoder: any Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            self.text = c.lenient(.text)
+        }
+    }
+
+    public struct TextDetectBody: Codable, Sendable {
         public var text: String
         public init(text: String) {
             self.text = text
@@ -65,8 +77,8 @@ extension Translation {
     }
 
     public struct TextDetectResponse: Codable, Sendable {
-        public var language: String
-        public init(language: String) {
+        public var language: String?
+        public init(language: String? = nil) {
             self.language = language
         }
         enum CodingKeys: String, CodingKey {
@@ -74,7 +86,7 @@ extension Translation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.language = try c.lenientRequired(.language)
+            self.language = c.lenient(.language)
         }
     }
 }

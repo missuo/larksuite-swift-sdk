@@ -96,7 +96,7 @@ import LarkSearch
 
     @Test("POST /open-apis/search/v2/schemas") func v2_schema_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"schema":{"properties":[{"name":"s","type":"text","is_searchable":true,"is_sortable":true,"is_returnable":true,"sort_options":{"priority":1,"order":"asc"},"type_definitions":{"tag":[{"name":"s","color":"red","text":"s"}],"user_ids":{"id_type":"open_id"}},"search_options":{"enable_semantic_match":true,"enable_exact_match":true,"enable_prefix_match":true,"enable_number_suffix_match":true,"enable_camel_match":true},"is_filterable":true,"filter_options":{"display_name":"s","i18n_display_name":{"zh_cn":"s","en_us":"s","ja_jp":"s"},"option_mode":"single","associated_smart_filter":"from","filter_type":"user","predefine_enum_values":[{"name":"s","text":"s"}],"enable_client_filter":true,"reference_datasource_id":"s"},"answer_option":{"is_searchable":true,"is_returnable":true},"desc":"s"}],"display":{"card_key":"search_common_card","fields_mapping":[{"display_field":"s","data_field":"s"}]},"schema_id":"s"}}}"##)
-        let resp = try await client.search.v2.schema.create(params: Search.SchemaCreateQuery(), body: Search.Schema(properties: [Search.SchemaProperty(name: "s", type: "text")], display: Search.Display(cardKey: "search_common_card"), schemaId: "s"))
+        let resp = try await client.search.v2.schema.create(params: Search.SchemaCreateQuery(), body: Search.SchemaCreateBody(properties: [Search.SchemaProperty()], display: Search.Display(), schemaId: "s"))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -128,7 +128,7 @@ import LarkSearch
 
     @Test("POST /open-apis/search/v2/data_sources/:data_source_id/items") func v2_dataSourceItem_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.search.v2.dataSourceItem.create(dataSourceId: "s", body: Search.DataSourceItemCreateBody(id: "s", acl: [Search.Acl()], metadata: Search.Metadata(title: "s", sourceUrl: "s"), structuredData: "s"))
+        let resp = try await client.search.v2.dataSourceItem.create(dataSourceId: "s", body: Search.DataSourceItemCreateBody(id: "s", acl: [Search.Acl()], metadata: Search.Metadata(), structuredData: "s"))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")

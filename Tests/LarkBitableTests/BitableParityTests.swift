@@ -151,7 +151,7 @@ import LarkBitable
 
     @Test("POST /open-apis/bitable/v1/apps/:app_token/tables/:table_id/records/batch_create") func v1_appTableRecord_batchCreate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"records":[{"fields":{"k":{"k":"v"}},"record_id":"s","created_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"created_time":1,"last_modified_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"last_modified_time":1,"shared_url":"s","record_url":"s"}]}}"##)
-        let resp = try await client.bitable.v1.appTableRecord.batchCreate(appToken: "s", tableId: "s", params: Bitable.AppTableRecordBatchCreateQuery(), body: Bitable.AppTableRecordBatchCreateBody(records: [Bitable.AppTableRecordBatchCreateBodyRecord(fields: ["k": ["k": "v"]])]))
+        let resp = try await client.bitable.v1.appTableRecord.batchCreate(appToken: "s", tableId: "s", params: Bitable.AppTableRecordBatchCreateQuery(), body: Bitable.AppTableRecordBatchCreateBody(records: [Bitable.AppTableRecordBatchCreateBodyRecord()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -162,7 +162,7 @@ import LarkBitable
 
     @Test("POST /open-apis/bitable/v1/apps/:app_token/tables/:table_id/records/batch_update") func v1_appTableRecord_batchUpdate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"records":[{"fields":{"k":{"k":"v"}},"record_id":"s","created_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"created_time":1,"last_modified_by":{"id":"s","name":"s","en_name":"s","email":"s","avatar_url":"s"},"last_modified_time":1,"shared_url":"s","record_url":"s"}]}}"##)
-        let resp = try await client.bitable.v1.appTableRecord.batchUpdate(appToken: "s", tableId: "s", params: Bitable.AppTableRecordBatchUpdateQuery(), body: Bitable.AppTableRecordBatchUpdateBody(records: [Bitable.AppTableRecordBatchCreateResponseRecord(fields: ["k": ["k": "v"]])]))
+        let resp = try await client.bitable.v1.appTableRecord.batchUpdate(appToken: "s", tableId: "s", params: Bitable.AppTableRecordBatchUpdateQuery(), body: Bitable.AppTableRecordBatchUpdateBody(records: [Bitable.AppTableRecordBatchCreateResponseRecord()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -250,7 +250,7 @@ import LarkBitable
 
     @Test("POST /open-apis/bitable/v1/apps/:app_token/roles/:role_id/members/batch_delete") func v1_appRoleMember_batchDelete() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.bitable.v1.appRoleMember.batchDelete(appToken: "s", roleId: "s", body: Bitable.AppRoleMemberBatchDeleteBody(memberList: [Bitable.MemberList(id: "s")]))
+        let resp = try await client.bitable.v1.appRoleMember.batchDelete(appToken: "s", roleId: "s", body: Bitable.AppRoleMemberBatchDeleteBody(memberList: [Bitable.MemberList()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
@@ -260,7 +260,7 @@ import LarkBitable
 
     @Test("POST /open-apis/bitable/v1/apps/:app_token/roles/:role_id/members/batch_create") func v1_appRoleMember_batchCreate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.bitable.v1.appRoleMember.batchCreate(appToken: "s", roleId: "s", body: Bitable.AppRoleMemberBatchDeleteBody(memberList: [Bitable.MemberList(id: "s")]))
+        let resp = try await client.bitable.v1.appRoleMember.batchCreate(appToken: "s", roleId: "s", body: Bitable.AppRoleMemberBatchDeleteBody(memberList: [Bitable.MemberList()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
@@ -301,7 +301,7 @@ import LarkBitable
 
     @Test("POST /open-apis/bitable/v1/apps/:app_token/roles") func v1_appRole_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"role":{"role_name":"s","role_id":"s","table_roles":[{"table_perm":1,"table_name":"s","table_id":"s","rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","other_perm":1},"field_perm":{"k":1},"allow_add_record":true,"allow_delete_record":true}],"block_roles":[{"block_id":"s","block_type":"dashboard","block_perm":1}]}}}"##)
-        let resp = try await client.bitable.v1.appRole.create(appToken: "s", body: Bitable.AppRoleCreateBody(roleName: "s", tableRoles: [Bitable.TableRole(tablePerm: 1)]))
+        let resp = try await client.bitable.v1.appRole.create(appToken: "s", body: Bitable.AppRoleCreateBody(roleName: "s", tableRoles: [Bitable.TableRole()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -312,7 +312,7 @@ import LarkBitable
 
     @Test("PUT /open-apis/bitable/v1/apps/:app_token/roles/:role_id") func v1_appRole_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"role":{"role_name":"s","role_id":"s","table_roles":[{"table_perm":1,"table_name":"s","table_id":"s","rec_rule":{"conditions":[{"field_name":"s","operator":"is","value":["s"],"field_type":1}],"conjunction":"and","other_perm":1},"field_perm":{"k":1},"allow_add_record":true,"allow_delete_record":true}],"block_roles":[{"block_id":"s","block_type":"dashboard","block_perm":1}]}}}"##)
-        let resp = try await client.bitable.v1.appRole.update(appToken: "s", roleId: "s", body: Bitable.AppRoleCreateBody(roleName: "s", tableRoles: [Bitable.TableRole(tablePerm: 1)]))
+        let resp = try await client.bitable.v1.appRole.update(appToken: "s", roleId: "s", body: Bitable.AppRoleCreateBody(roleName: "s", tableRoles: [Bitable.TableRole()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -431,7 +431,7 @@ import LarkBitable
 
     @Test("POST /open-apis/bitable/v1/apps/:app_token/tables/:table_id/field_groups") func v1_appTableFieldGroup_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"field_groups":"s"}}"##)
-        let resp = try await client.bitable.v1.appTableFieldGroup.create(appToken: "s", tableId: "s", body: Bitable.AppTableFieldGroupCreateBody(fieldGroups: [Bitable.FieldGroup(name: "s", children: [Bitable.FieldGroupChildren(type: "field", id: "s")])]))
+        let resp = try await client.bitable.v1.appTableFieldGroup.create(appToken: "s", tableId: "s", body: Bitable.AppTableFieldGroupCreateBody(fieldGroups: [Bitable.FieldGroup()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

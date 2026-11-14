@@ -51,10 +51,10 @@ extension Compensation {
     }
 
     public struct IndicatorListResponse: Codable, Sendable {
-        public var items: [Indicator]
+        public var items: [Indicator]?
         public var pageToken: String?
         public var hasMore: Bool?
-        public init(items: [Indicator], pageToken: String? = nil, hasMore: Bool? = nil) {
+        public init(items: [Indicator]? = nil, pageToken: String? = nil, hasMore: Bool? = nil) {
             self.items = items
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -66,19 +66,19 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
             self.pageToken = c.lenient(.pageToken)
             self.hasMore = c.lenient(.hasMore)
         }
     }
 
     public struct Indicator: Codable, Sendable {
-        public var id: String
-        public var name: String
-        public var valueType: ValueType
-        public var activeStatus: Int
-        public var i18nNames: [I18nName]
-        public init(id: String, name: String, valueType: ValueType, activeStatus: Int, i18nNames: [I18nName]) {
+        public var id: String?
+        public var name: String?
+        public var valueType: ValueType?
+        public var activeStatus: Int?
+        public var i18nNames: [I18nName]?
+        public init(id: String? = nil, name: String? = nil, valueType: ValueType? = nil, activeStatus: Int? = nil, i18nNames: [I18nName]? = nil) {
             self.id = id
             self.name = name
             self.valueType = valueType
@@ -94,11 +94,11 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.name = try c.lenientRequired(.name)
-            self.valueType = try c.lenientRequired(.valueType)
-            self.activeStatus = try c.lenientRequired(.activeStatus)
-            self.i18nNames = try c.lenientRequired(.i18nNames)
+            self.id = c.lenient(.id)
+            self.name = c.lenient(.name)
+            self.valueType = c.lenient(.valueType)
+            self.activeStatus = c.lenient(.activeStatus)
+            self.i18nNames = c.lenient(.i18nNames)
         }
     }
 
@@ -162,16 +162,16 @@ extension Compensation {
     }
 
     public struct Plan: Codable, Sendable {
-        public var planId: String
-        public var planTid: String
-        public var name: Name
-        public var effectiveDate: String
-        public var active: Bool
-        public var insuranceType: InsuranceType
+        public var planId: String?
+        public var planTid: String?
+        public var name: Name?
+        public var effectiveDate: String?
+        public var active: Bool?
+        public var insuranceType: InsuranceType?
         public var scope: Scope?
-        public var itemDetail: [ItemDetail]
-        public var remark: Name
-        public init(planId: String, planTid: String, name: Name, effectiveDate: String, active: Bool, insuranceType: InsuranceType, scope: Scope? = nil, itemDetail: [ItemDetail], remark: Name) {
+        public var itemDetail: [ItemDetail]?
+        public var remark: Name?
+        public init(planId: String? = nil, planTid: String? = nil, name: Name? = nil, effectiveDate: String? = nil, active: Bool? = nil, insuranceType: InsuranceType? = nil, scope: Scope? = nil, itemDetail: [ItemDetail]? = nil, remark: Name? = nil) {
             self.planId = planId
             self.planTid = planTid
             self.name = name
@@ -195,15 +195,15 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.planId = try c.lenientRequired(.planId)
-            self.planTid = try c.lenientRequired(.planTid)
-            self.name = try c.lenientRequired(.name)
-            self.effectiveDate = try c.lenientRequired(.effectiveDate)
-            self.active = try c.lenientRequired(.active)
-            self.insuranceType = try c.lenientRequired(.insuranceType)
+            self.planId = c.lenient(.planId)
+            self.planTid = c.lenient(.planTid)
+            self.name = c.lenient(.name)
+            self.effectiveDate = c.lenient(.effectiveDate)
+            self.active = c.lenient(.active)
+            self.insuranceType = c.lenient(.insuranceType)
             self.scope = c.lenient(.scope)
-            self.itemDetail = try c.lenientRequired(.itemDetail)
-            self.remark = try c.lenientRequired(.remark)
+            self.itemDetail = c.lenient(.itemDetail)
+            self.remark = c.lenient(.remark)
         }
     }
 
@@ -234,9 +234,9 @@ extension Compensation {
     }
 
     public struct Scope: Codable, Sendable {
-        public var isAll: Bool
+        public var isAll: Bool?
         public var rules: [[Rule]]?
-        public init(isAll: Bool, rules: [[Rule]]? = nil) {
+        public init(isAll: Bool? = nil, rules: [[Rule]]? = nil) {
             self.isAll = isAll
             self.rules = rules
         }
@@ -246,7 +246,7 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.isAll = try c.lenientRequired(.isAll)
+            self.isAll = c.lenient(.isAll)
             self.rules = c.lenient(.rules)
         }
     }
@@ -274,13 +274,13 @@ extension Compensation {
     }
 
     public struct ItemDetail: Codable, Sendable {
-        public var itemId: String
-        public var itemName: Name
-        public var itemSettingOfPerson: ItemSettingOfPerson
-        public var itemSettingOfCompany: ItemSettingOfPerson
-        public var paymentFrequency: PaymentFrequency
-        public var paymentMonths: [Int]
-        public init(itemId: String, itemName: Name, itemSettingOfPerson: ItemSettingOfPerson, itemSettingOfCompany: ItemSettingOfPerson, paymentFrequency: PaymentFrequency, paymentMonths: [Int]) {
+        public var itemId: String?
+        public var itemName: Name?
+        public var itemSettingOfPerson: ItemSettingOfPerson?
+        public var itemSettingOfCompany: ItemSettingOfPerson?
+        public var paymentFrequency: PaymentFrequency?
+        public var paymentMonths: [Int]?
+        public init(itemId: String? = nil, itemName: Name? = nil, itemSettingOfPerson: ItemSettingOfPerson? = nil, itemSettingOfCompany: ItemSettingOfPerson? = nil, paymentFrequency: PaymentFrequency? = nil, paymentMonths: [Int]? = nil) {
             self.itemId = itemId
             self.itemName = itemName
             self.itemSettingOfPerson = itemSettingOfPerson
@@ -298,23 +298,23 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.itemId = try c.lenientRequired(.itemId)
-            self.itemName = try c.lenientRequired(.itemName)
-            self.itemSettingOfPerson = try c.lenientRequired(.itemSettingOfPerson)
-            self.itemSettingOfCompany = try c.lenientRequired(.itemSettingOfCompany)
-            self.paymentFrequency = try c.lenientRequired(.paymentFrequency)
-            self.paymentMonths = try c.lenientRequired(.paymentMonths)
+            self.itemId = c.lenient(.itemId)
+            self.itemName = c.lenient(.itemName)
+            self.itemSettingOfPerson = c.lenient(.itemSettingOfPerson)
+            self.itemSettingOfCompany = c.lenient(.itemSettingOfCompany)
+            self.paymentFrequency = c.lenient(.paymentFrequency)
+            self.paymentMonths = c.lenient(.paymentMonths)
         }
     }
 
     public struct ItemSettingOfPerson: Codable, Sendable {
-        public var lowerLimit: String
-        public var upperLimit: String
-        public var paymentRatio: String
-        public var paymentRoundingRule: PaymentRoundingRule
-        public var paymentDecimals: Int
-        public var fixedPayment: String
-        public init(lowerLimit: String, upperLimit: String, paymentRatio: String, paymentRoundingRule: PaymentRoundingRule, paymentDecimals: Int, fixedPayment: String) {
+        public var lowerLimit: String?
+        public var upperLimit: String?
+        public var paymentRatio: String?
+        public var paymentRoundingRule: PaymentRoundingRule?
+        public var paymentDecimals: Int?
+        public var fixedPayment: String?
+        public init(lowerLimit: String? = nil, upperLimit: String? = nil, paymentRatio: String? = nil, paymentRoundingRule: PaymentRoundingRule? = nil, paymentDecimals: Int? = nil, fixedPayment: String? = nil) {
             self.lowerLimit = lowerLimit
             self.upperLimit = upperLimit
             self.paymentRatio = paymentRatio
@@ -332,12 +332,12 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.lowerLimit = try c.lenientRequired(.lowerLimit)
-            self.upperLimit = try c.lenientRequired(.upperLimit)
-            self.paymentRatio = try c.lenientRequired(.paymentRatio)
-            self.paymentRoundingRule = try c.lenientRequired(.paymentRoundingRule)
-            self.paymentDecimals = try c.lenientRequired(.paymentDecimals)
-            self.fixedPayment = try c.lenientRequired(.fixedPayment)
+            self.lowerLimit = c.lenient(.lowerLimit)
+            self.upperLimit = c.lenient(.upperLimit)
+            self.paymentRatio = c.lenient(.paymentRatio)
+            self.paymentRoundingRule = c.lenient(.paymentRoundingRule)
+            self.paymentDecimals = c.lenient(.paymentDecimals)
+            self.fixedPayment = c.lenient(.fixedPayment)
         }
     }
 
@@ -439,10 +439,10 @@ extension Compensation {
     }
 
     public struct ItemListResponse: Codable, Sendable {
-        public var items: [Item]
+        public var items: [Item]?
         public var pageToken: String?
-        public var hasMore: Bool
-        public init(items: [Item], pageToken: String? = nil, hasMore: Bool) {
+        public var hasMore: Bool?
+        public init(items: [Item]? = nil, pageToken: String? = nil, hasMore: Bool? = nil) {
             self.items = items
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -454,25 +454,25 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
             self.pageToken = c.lenient(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
         }
     }
 
     public struct Item: Codable, Sendable {
-        public var id: String
-        public var name: String
-        public var description: String
-        public var categoryId: String
-        public var valueType: ValueType
-        public var payOffFrequencyType: PayOffFrequencyType
+        public var id: String?
+        public var name: String?
+        public var description: String?
+        public var categoryId: String?
+        public var valueType: ValueType?
+        public var payOffFrequencyType: PayOffFrequencyType?
         public var decimalPlaces: Int?
-        public var activeStatus: Int
-        public var i18nNames: [I18nName]
-        public var i18nDescriptions: [I18nName]
+        public var activeStatus: Int?
+        public var i18nNames: [I18nName]?
+        public var i18nDescriptions: [I18nName]?
         public var itemType: ItemType?
-        public init(id: String, name: String, description: String, categoryId: String, valueType: ValueType, payOffFrequencyType: PayOffFrequencyType, decimalPlaces: Int? = nil, activeStatus: Int, i18nNames: [I18nName], i18nDescriptions: [I18nName], itemType: ItemType? = nil) {
+        public init(id: String? = nil, name: String? = nil, description: String? = nil, categoryId: String? = nil, valueType: ValueType? = nil, payOffFrequencyType: PayOffFrequencyType? = nil, decimalPlaces: Int? = nil, activeStatus: Int? = nil, i18nNames: [I18nName]? = nil, i18nDescriptions: [I18nName]? = nil, itemType: ItemType? = nil) {
             self.id = id
             self.name = name
             self.description = description
@@ -500,16 +500,16 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.name = try c.lenientRequired(.name)
-            self.description = try c.lenientRequired(.description)
-            self.categoryId = try c.lenientRequired(.categoryId)
-            self.valueType = try c.lenientRequired(.valueType)
-            self.payOffFrequencyType = try c.lenientRequired(.payOffFrequencyType)
+            self.id = c.lenient(.id)
+            self.name = c.lenient(.name)
+            self.description = c.lenient(.description)
+            self.categoryId = c.lenient(.categoryId)
+            self.valueType = c.lenient(.valueType)
+            self.payOffFrequencyType = c.lenient(.payOffFrequencyType)
             self.decimalPlaces = c.lenient(.decimalPlaces)
-            self.activeStatus = try c.lenientRequired(.activeStatus)
-            self.i18nNames = try c.lenientRequired(.i18nNames)
-            self.i18nDescriptions = try c.lenientRequired(.i18nDescriptions)
+            self.activeStatus = c.lenient(.activeStatus)
+            self.i18nNames = c.lenient(.i18nNames)
+            self.i18nDescriptions = c.lenient(.i18nDescriptions)
             self.itemType = c.lenient(.itemType)
         }
     }
@@ -530,10 +530,10 @@ extension Compensation {
     }
 
     public struct PlanListResponse: Codable, Sendable {
-        public var items: [PlanListResponseItem]
+        public var items: [PlanListResponseItem]?
         public var pageToken: String?
-        public var hasMore: Bool
-        public init(items: [PlanListResponseItem], pageToken: String? = nil, hasMore: Bool) {
+        public var hasMore: Bool?
+        public init(items: [PlanListResponseItem]? = nil, pageToken: String? = nil, hasMore: Bool? = nil) {
             self.items = items
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -545,26 +545,26 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
             self.pageToken = c.lenient(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
         }
     }
 
     public struct PlanListResponseItem: Codable, Sendable {
-        public var id: String
-        public var tid: String
-        public var name: String
-        public var description: String
-        public var effectiveDate: String
+        public var id: String?
+        public var tid: String?
+        public var name: String?
+        public var description: String?
+        public var effectiveDate: String?
         public var planScope: PlanScope?
         public var currencyId: String?
-        public var probationSalaryStatus: Bool
-        public var planItems: [PlanItem]
-        public var planIndicators: [PlanIndicator]
-        public var i18nNames: [I18nName]
-        public var i18nDescriptions: [I18nName]
-        public init(id: String, tid: String, name: String, description: String, effectiveDate: String, planScope: PlanScope? = nil, currencyId: String? = nil, probationSalaryStatus: Bool, planItems: [PlanItem], planIndicators: [PlanIndicator], i18nNames: [I18nName], i18nDescriptions: [I18nName]) {
+        public var probationSalaryStatus: Bool?
+        public var planItems: [PlanItem]?
+        public var planIndicators: [PlanIndicator]?
+        public var i18nNames: [I18nName]?
+        public var i18nDescriptions: [I18nName]?
+        public init(id: String? = nil, tid: String? = nil, name: String? = nil, description: String? = nil, effectiveDate: String? = nil, planScope: PlanScope? = nil, currencyId: String? = nil, probationSalaryStatus: Bool? = nil, planItems: [PlanItem]? = nil, planIndicators: [PlanIndicator]? = nil, i18nNames: [I18nName]? = nil, i18nDescriptions: [I18nName]? = nil) {
             self.id = id
             self.tid = tid
             self.name = name
@@ -594,18 +594,18 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.tid = try c.lenientRequired(.tid)
-            self.name = try c.lenientRequired(.name)
-            self.description = try c.lenientRequired(.description)
-            self.effectiveDate = try c.lenientRequired(.effectiveDate)
+            self.id = c.lenient(.id)
+            self.tid = c.lenient(.tid)
+            self.name = c.lenient(.name)
+            self.description = c.lenient(.description)
+            self.effectiveDate = c.lenient(.effectiveDate)
             self.planScope = c.lenient(.planScope)
             self.currencyId = c.lenient(.currencyId)
-            self.probationSalaryStatus = try c.lenientRequired(.probationSalaryStatus)
-            self.planItems = try c.lenientRequired(.planItems)
-            self.planIndicators = try c.lenientRequired(.planIndicators)
-            self.i18nNames = try c.lenientRequired(.i18nNames)
-            self.i18nDescriptions = try c.lenientRequired(.i18nDescriptions)
+            self.probationSalaryStatus = c.lenient(.probationSalaryStatus)
+            self.planItems = c.lenient(.planItems)
+            self.planIndicators = c.lenient(.planIndicators)
+            self.i18nNames = c.lenient(.i18nNames)
+            self.i18nDescriptions = c.lenient(.i18nDescriptions)
         }
     }
 
@@ -755,9 +755,9 @@ extension Compensation {
     }
 
     public struct PlanIndicator: Codable, Sendable {
-        public var indicatorId: String
+        public var indicatorId: String?
         public var planIndicatorLogic: PlanItemLogic?
-        public init(indicatorId: String, planIndicatorLogic: PlanItemLogic? = nil) {
+        public init(indicatorId: String? = nil, planIndicatorLogic: PlanItemLogic? = nil) {
             self.indicatorId = indicatorId
             self.planIndicatorLogic = planIndicatorLogic
         }
@@ -767,7 +767,7 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.indicatorId = try c.lenientRequired(.indicatorId)
+            self.indicatorId = c.lenient(.indicatorId)
             self.planIndicatorLogic = c.lenient(.planIndicatorLogic)
         }
     }
@@ -787,12 +787,12 @@ extension Compensation {
     }
 
     public struct SocialInsurance: Codable, Sendable {
-        public var id: String
-        public var name: Name
-        public var insuranceType: InsuranceType
-        public var active: Bool
-        public var isSystem: Bool
-        public init(id: String, name: Name, insuranceType: InsuranceType, active: Bool, isSystem: Bool) {
+        public var id: String?
+        public var name: Name?
+        public var insuranceType: InsuranceType?
+        public var active: Bool?
+        public var isSystem: Bool?
+        public init(id: String? = nil, name: Name? = nil, insuranceType: InsuranceType? = nil, active: Bool? = nil, isSystem: Bool? = nil) {
             self.id = id
             self.name = name
             self.insuranceType = insuranceType
@@ -808,11 +808,11 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.name = try c.lenientRequired(.name)
-            self.insuranceType = try c.lenientRequired(.insuranceType)
-            self.active = try c.lenientRequired(.active)
-            self.isSystem = try c.lenientRequired(.isSystem)
+            self.id = c.lenient(.id)
+            self.name = c.lenient(.name)
+            self.insuranceType = c.lenient(.insuranceType)
+            self.active = c.lenient(.active)
+            self.isSystem = c.lenient(.isSystem)
         }
     }
 
@@ -857,10 +857,10 @@ extension Compensation {
     }
 
     public struct ItemCategory: Codable, Sendable {
-        public var id: String
-        public var name: String
+        public var id: String?
+        public var name: String?
         public var i18nNames: [I18nName]?
-        public init(id: String, name: String, i18nNames: [I18nName]? = nil) {
+        public init(id: String? = nil, name: String? = nil, i18nNames: [I18nName]? = nil) {
             self.id = id
             self.name = name
             self.i18nNames = i18nNames
@@ -872,17 +872,17 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.name = try c.lenientRequired(.name)
+            self.id = c.lenient(.id)
+            self.name = c.lenient(.name)
             self.i18nNames = c.lenient(.i18nNames)
         }
     }
 
     public struct ChangeReasonListResponse: Codable, Sendable {
-        public var items: [ChangeReason]
+        public var items: [ChangeReason]?
         public var pageToken: String?
-        public var hasMore: Bool
-        public init(items: [ChangeReason], pageToken: String? = nil, hasMore: Bool) {
+        public var hasMore: Bool?
+        public init(items: [ChangeReason]? = nil, pageToken: String? = nil, hasMore: Bool? = nil) {
             self.items = items
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -894,20 +894,20 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
             self.pageToken = c.lenient(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
         }
     }
 
     public struct ChangeReason: Codable, Sendable {
-        public var id: String
-        public var name: String
-        public var note: String
-        public var activeStatus: Int
-        public var i18nNames: [I18nName]
-        public var i18nNotes: [I18nName]
-        public init(id: String, name: String, note: String, activeStatus: Int, i18nNames: [I18nName], i18nNotes: [I18nName]) {
+        public var id: String?
+        public var name: String?
+        public var note: String?
+        public var activeStatus: Int?
+        public var i18nNames: [I18nName]?
+        public var i18nNotes: [I18nName]?
+        public init(id: String? = nil, name: String? = nil, note: String? = nil, activeStatus: Int? = nil, i18nNames: [I18nName]? = nil, i18nNotes: [I18nName]? = nil) {
             self.id = id
             self.name = name
             self.note = note
@@ -925,12 +925,12 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.name = try c.lenientRequired(.name)
-            self.note = try c.lenientRequired(.note)
-            self.activeStatus = try c.lenientRequired(.activeStatus)
-            self.i18nNames = try c.lenientRequired(.i18nNames)
-            self.i18nNotes = try c.lenientRequired(.i18nNotes)
+            self.id = c.lenient(.id)
+            self.name = c.lenient(.name)
+            self.note = c.lenient(.note)
+            self.activeStatus = c.lenient(.activeStatus)
+            self.i18nNames = c.lenient(.i18nNames)
+            self.i18nNotes = c.lenient(.i18nNotes)
         }
     }
 
@@ -1013,10 +1013,10 @@ extension Compensation {
     }
 
     public struct ItemValueList: Codable, Sendable {
-        public var itemId: String
-        public var itemValue: String
+        public var itemId: String?
+        public var itemValue: String?
         public var itemValueRegular: String?
-        public init(itemId: String, itemValue: String, itemValueRegular: String? = nil) {
+        public init(itemId: String? = nil, itemValue: String? = nil, itemValueRegular: String? = nil) {
             self.itemId = itemId
             self.itemValue = itemValue
             self.itemValueRegular = itemValueRegular
@@ -1028,8 +1028,8 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.itemId = try c.lenientRequired(.itemId)
-            self.itemValue = try c.lenientRequired(.itemValue)
+            self.itemId = c.lenient(.itemId)
+            self.itemValue = c.lenient(.itemValue)
             self.itemValueRegular = c.lenient(.itemValueRegular)
         }
     }
@@ -1101,10 +1101,10 @@ extension Compensation {
     }
 
     public struct ArchiveQueryResponse: Codable, Sendable {
-        public var items: [Archive]
+        public var items: [Archive]?
         public var pageToken: String?
-        public var hasMore: Bool
-        public init(items: [Archive], pageToken: String? = nil, hasMore: Bool) {
+        public var hasMore: Bool?
+        public init(items: [Archive]? = nil, pageToken: String? = nil, hasMore: Bool? = nil) {
             self.items = items
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -1116,29 +1116,29 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
             self.pageToken = c.lenient(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
         }
     }
 
     public struct Archive: Codable, Sendable {
-        public var userId: String
-        public var id: String
-        public var tid: String
-        public var planId: String
-        public var planTid: String
+        public var userId: String?
+        public var id: String?
+        public var tid: String?
+        public var planId: String?
+        public var planTid: String?
         public var currencyId: String?
-        public var changeReasonId: String
-        public var changeDescription: String
-        public var effectiveDate: String
+        public var changeReasonId: String?
+        public var changeDescription: String?
+        public var effectiveDate: String?
         public var expirationDate: String?
         public var salaryLevelId: String?
         public var createdTime: String?
         public var updatedTime: String?
-        public var archiveItems: [ArchiveItem]
-        public var archiveIndicators: [ArchiveIndicator]
-        public init(userId: String, id: String, tid: String, planId: String, planTid: String, currencyId: String? = nil, changeReasonId: String, changeDescription: String, effectiveDate: String, expirationDate: String? = nil, salaryLevelId: String? = nil, createdTime: String? = nil, updatedTime: String? = nil, archiveItems: [ArchiveItem], archiveIndicators: [ArchiveIndicator]) {
+        public var archiveItems: [ArchiveItem]?
+        public var archiveIndicators: [ArchiveIndicator]?
+        public init(userId: String? = nil, id: String? = nil, tid: String? = nil, planId: String? = nil, planTid: String? = nil, currencyId: String? = nil, changeReasonId: String? = nil, changeDescription: String? = nil, effectiveDate: String? = nil, expirationDate: String? = nil, salaryLevelId: String? = nil, createdTime: String? = nil, updatedTime: String? = nil, archiveItems: [ArchiveItem]? = nil, archiveIndicators: [ArchiveIndicator]? = nil) {
             self.userId = userId
             self.id = id
             self.tid = tid
@@ -1174,29 +1174,29 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.id = try c.lenientRequired(.id)
-            self.tid = try c.lenientRequired(.tid)
-            self.planId = try c.lenientRequired(.planId)
-            self.planTid = try c.lenientRequired(.planTid)
+            self.userId = c.lenient(.userId)
+            self.id = c.lenient(.id)
+            self.tid = c.lenient(.tid)
+            self.planId = c.lenient(.planId)
+            self.planTid = c.lenient(.planTid)
             self.currencyId = c.lenient(.currencyId)
-            self.changeReasonId = try c.lenientRequired(.changeReasonId)
-            self.changeDescription = try c.lenientRequired(.changeDescription)
-            self.effectiveDate = try c.lenientRequired(.effectiveDate)
+            self.changeReasonId = c.lenient(.changeReasonId)
+            self.changeDescription = c.lenient(.changeDescription)
+            self.effectiveDate = c.lenient(.effectiveDate)
             self.expirationDate = c.lenient(.expirationDate)
             self.salaryLevelId = c.lenient(.salaryLevelId)
             self.createdTime = c.lenient(.createdTime)
             self.updatedTime = c.lenient(.updatedTime)
-            self.archiveItems = try c.lenientRequired(.archiveItems)
-            self.archiveIndicators = try c.lenientRequired(.archiveIndicators)
+            self.archiveItems = c.lenient(.archiveItems)
+            self.archiveIndicators = c.lenient(.archiveIndicators)
         }
     }
 
     public struct ArchiveItem: Codable, Sendable {
-        public var itemId: String
-        public var itemResult: String
+        public var itemId: String?
+        public var itemResult: String?
         public var itemResultRegular: String?
-        public init(itemId: String, itemResult: String, itemResultRegular: String? = nil) {
+        public init(itemId: String? = nil, itemResult: String? = nil, itemResultRegular: String? = nil) {
             self.itemId = itemId
             self.itemResult = itemResult
             self.itemResultRegular = itemResultRegular
@@ -1208,17 +1208,17 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.itemId = try c.lenientRequired(.itemId)
-            self.itemResult = try c.lenientRequired(.itemResult)
+            self.itemId = c.lenient(.itemId)
+            self.itemResult = c.lenient(.itemResult)
             self.itemResultRegular = c.lenient(.itemResultRegular)
         }
     }
 
     public struct ArchiveIndicator: Codable, Sendable {
-        public var indicatorId: String
-        public var indicatorResult: String
+        public var indicatorId: String?
+        public var indicatorResult: String?
         public var indicatorResultRegular: String?
-        public init(indicatorId: String, indicatorResult: String, indicatorResultRegular: String? = nil) {
+        public init(indicatorId: String? = nil, indicatorResult: String? = nil, indicatorResultRegular: String? = nil) {
             self.indicatorId = indicatorId
             self.indicatorResult = indicatorResult
             self.indicatorResultRegular = indicatorResultRegular
@@ -1230,8 +1230,8 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.indicatorId = try c.lenientRequired(.indicatorId)
-            self.indicatorResult = try c.lenientRequired(.indicatorResult)
+            self.indicatorId = c.lenient(.indicatorId)
+            self.indicatorResult = c.lenient(.indicatorResult)
             self.indicatorResultRegular = c.lenient(.indicatorResultRegular)
         }
     }
@@ -1443,18 +1443,18 @@ extension Compensation {
     }
 
     public struct RecurringPaymentBatchCreateBodyRecord: Codable, Sendable {
-        public var uniqueId: String
-        public var userId: String
-        public var itemId: String
-        public var eachAmount: String
-        public var startDate: String
-        public var endDate: String
-        public var currencyId: String
-        public var issuanceType: IssuanceType
-        public var issuancePeriod: PayOffFrequencyType
+        public var uniqueId: String?
+        public var userId: String?
+        public var itemId: String?
+        public var eachAmount: String?
+        public var startDate: String?
+        public var endDate: String?
+        public var currencyId: String?
+        public var issuanceType: IssuanceType?
+        public var issuancePeriod: PayOffFrequencyType?
         public var remark: String?
         public var issuanceCountryRegionId: String?
-        public init(uniqueId: String, userId: String, itemId: String, eachAmount: String, startDate: String, endDate: String, currencyId: String, issuanceType: IssuanceType, issuancePeriod: PayOffFrequencyType, remark: String? = nil, issuanceCountryRegionId: String? = nil) {
+        public init(uniqueId: String? = nil, userId: String? = nil, itemId: String? = nil, eachAmount: String? = nil, startDate: String? = nil, endDate: String? = nil, currencyId: String? = nil, issuanceType: IssuanceType? = nil, issuancePeriod: PayOffFrequencyType? = nil, remark: String? = nil, issuanceCountryRegionId: String? = nil) {
             self.uniqueId = uniqueId
             self.userId = userId
             self.itemId = itemId
@@ -1482,15 +1482,15 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.uniqueId = try c.lenientRequired(.uniqueId)
-            self.userId = try c.lenientRequired(.userId)
-            self.itemId = try c.lenientRequired(.itemId)
-            self.eachAmount = try c.lenientRequired(.eachAmount)
-            self.startDate = try c.lenientRequired(.startDate)
-            self.endDate = try c.lenientRequired(.endDate)
-            self.currencyId = try c.lenientRequired(.currencyId)
-            self.issuanceType = try c.lenientRequired(.issuanceType)
-            self.issuancePeriod = try c.lenientRequired(.issuancePeriod)
+            self.uniqueId = c.lenient(.uniqueId)
+            self.userId = c.lenient(.userId)
+            self.itemId = c.lenient(.itemId)
+            self.eachAmount = c.lenient(.eachAmount)
+            self.startDate = c.lenient(.startDate)
+            self.endDate = c.lenient(.endDate)
+            self.currencyId = c.lenient(.currencyId)
+            self.issuanceType = c.lenient(.issuanceType)
+            self.issuancePeriod = c.lenient(.issuancePeriod)
             self.remark = c.lenient(.remark)
             self.issuanceCountryRegionId = c.lenient(.issuanceCountryRegionId)
         }
@@ -1565,15 +1565,15 @@ extension Compensation {
     }
 
     public struct RecurringPaymentBatchUpdateBodyRecord: Codable, Sendable {
-        public var id: String
-        public var eachAmount: String
-        public var startDate: String
-        public var endDate: String
-        public var currencyId: String
-        public var issuanceType: IssuanceType
+        public var id: String?
+        public var eachAmount: String?
+        public var startDate: String?
+        public var endDate: String?
+        public var currencyId: String?
+        public var issuanceType: IssuanceType?
         public var remark: String?
         public var issuanceCountryRegionId: String?
-        public init(id: String, eachAmount: String, startDate: String, endDate: String, currencyId: String, issuanceType: IssuanceType, remark: String? = nil, issuanceCountryRegionId: String? = nil) {
+        public init(id: String? = nil, eachAmount: String? = nil, startDate: String? = nil, endDate: String? = nil, currencyId: String? = nil, issuanceType: IssuanceType? = nil, remark: String? = nil, issuanceCountryRegionId: String? = nil) {
             self.id = id
             self.eachAmount = eachAmount
             self.startDate = startDate
@@ -1595,12 +1595,12 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.eachAmount = try c.lenientRequired(.eachAmount)
-            self.startDate = try c.lenientRequired(.startDate)
-            self.endDate = try c.lenientRequired(.endDate)
-            self.currencyId = try c.lenientRequired(.currencyId)
-            self.issuanceType = try c.lenientRequired(.issuanceType)
+            self.id = c.lenient(.id)
+            self.eachAmount = c.lenient(.eachAmount)
+            self.startDate = c.lenient(.startDate)
+            self.endDate = c.lenient(.endDate)
+            self.currencyId = c.lenient(.currencyId)
+            self.issuanceType = c.lenient(.issuanceType)
             self.remark = c.lenient(.remark)
             self.issuanceCountryRegionId = c.lenient(.issuanceCountryRegionId)
         }
@@ -1643,8 +1643,8 @@ extension Compensation {
     }
 
     public struct SocialArchiveQueryResponse: Codable, Sendable {
-        public var archives: [SocialArchiveQueryResponseArchive]
-        public init(archives: [SocialArchiveQueryResponseArchive]) {
+        public var archives: [SocialArchiveQueryResponseArchive]?
+        public init(archives: [SocialArchiveQueryResponseArchive]? = nil) {
             self.archives = archives
         }
         enum CodingKeys: String, CodingKey {
@@ -1652,14 +1652,14 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.archives = try c.lenientRequired(.archives)
+            self.archives = c.lenient(.archives)
         }
     }
 
     public struct SocialArchiveQueryResponseArchive: Codable, Sendable {
-        public var userId: String
-        public var details: [SocialArchiveQueryResponseArchiveDetail]
-        public init(userId: String, details: [SocialArchiveQueryResponseArchiveDetail]) {
+        public var userId: String?
+        public var details: [SocialArchiveQueryResponseArchiveDetail]?
+        public init(userId: String? = nil, details: [SocialArchiveQueryResponseArchiveDetail]? = nil) {
             self.userId = userId
             self.details = details
         }
@@ -1669,15 +1669,15 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userId = try c.lenientRequired(.userId)
-            self.details = try c.lenientRequired(.details)
+            self.userId = c.lenient(.userId)
+            self.details = c.lenient(.details)
         }
     }
 
     public struct SocialArchiveQueryResponseArchiveDetail: Codable, Sendable {
-        public var description: Name
-        public var insuranceType: InsuranceType
-        public var insuranceStatus: InsuranceStatus
+        public var description: Name?
+        public var insuranceType: InsuranceType?
+        public var insuranceStatus: InsuranceStatus?
         public var id: String?
         public var tid: String?
         public var planId: String?
@@ -1689,7 +1689,7 @@ extension Compensation {
         public var baseSalary: String?
         public var insuranceDetails: [InsuranceDetail]?
         public var effectiveDate: String?
-        public init(description: Name, insuranceType: InsuranceType, insuranceStatus: InsuranceStatus, id: String? = nil, tid: String? = nil, planId: String? = nil, planTid: String? = nil, locationId: String? = nil, companyId: String? = nil, accountType: AccountType? = nil, insuranceAccount: String? = nil, baseSalary: String? = nil, insuranceDetails: [InsuranceDetail]? = nil, effectiveDate: String? = nil) {
+        public init(description: Name? = nil, insuranceType: InsuranceType? = nil, insuranceStatus: InsuranceStatus? = nil, id: String? = nil, tid: String? = nil, planId: String? = nil, planTid: String? = nil, locationId: String? = nil, companyId: String? = nil, accountType: AccountType? = nil, insuranceAccount: String? = nil, baseSalary: String? = nil, insuranceDetails: [InsuranceDetail]? = nil, effectiveDate: String? = nil) {
             self.description = description
             self.insuranceType = insuranceType
             self.insuranceStatus = insuranceStatus
@@ -1723,9 +1723,9 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.description = try c.lenientRequired(.description)
-            self.insuranceType = try c.lenientRequired(.insuranceType)
-            self.insuranceStatus = try c.lenientRequired(.insuranceStatus)
+            self.description = c.lenient(.description)
+            self.insuranceType = c.lenient(.insuranceType)
+            self.insuranceStatus = c.lenient(.insuranceStatus)
             self.id = c.lenient(.id)
             self.tid = c.lenient(.tid)
             self.planId = c.lenient(.planId)
@@ -1758,14 +1758,14 @@ extension Compensation {
     }
 
     public struct InsuranceDetail: Codable, Sendable {
-        public var insuranceId: String
-        public var companyDeduction: String
-        public var companySetting: ItemSettingOfPerson
-        public var personalDeduction: String
-        public var personalSetting: ItemSettingOfPerson
-        public var paymentFrequency: PaymentFrequency
-        public var paymentMonths: [Int]
-        public init(insuranceId: String, companyDeduction: String, companySetting: ItemSettingOfPerson, personalDeduction: String, personalSetting: ItemSettingOfPerson, paymentFrequency: PaymentFrequency, paymentMonths: [Int]) {
+        public var insuranceId: String?
+        public var companyDeduction: String?
+        public var companySetting: ItemSettingOfPerson?
+        public var personalDeduction: String?
+        public var personalSetting: ItemSettingOfPerson?
+        public var paymentFrequency: PaymentFrequency?
+        public var paymentMonths: [Int]?
+        public init(insuranceId: String? = nil, companyDeduction: String? = nil, companySetting: ItemSettingOfPerson? = nil, personalDeduction: String? = nil, personalSetting: ItemSettingOfPerson? = nil, paymentFrequency: PaymentFrequency? = nil, paymentMonths: [Int]? = nil) {
             self.insuranceId = insuranceId
             self.companyDeduction = companyDeduction
             self.companySetting = companySetting
@@ -1785,13 +1785,13 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.insuranceId = try c.lenientRequired(.insuranceId)
-            self.companyDeduction = try c.lenientRequired(.companyDeduction)
-            self.companySetting = try c.lenientRequired(.companySetting)
-            self.personalDeduction = try c.lenientRequired(.personalDeduction)
-            self.personalSetting = try c.lenientRequired(.personalSetting)
-            self.paymentFrequency = try c.lenientRequired(.paymentFrequency)
-            self.paymentMonths = try c.lenientRequired(.paymentMonths)
+            self.insuranceId = c.lenient(.insuranceId)
+            self.companyDeduction = c.lenient(.companyDeduction)
+            self.companySetting = c.lenient(.companySetting)
+            self.personalDeduction = c.lenient(.personalDeduction)
+            self.personalSetting = c.lenient(.personalSetting)
+            self.paymentFrequency = c.lenient(.paymentFrequency)
+            self.paymentMonths = c.lenient(.paymentMonths)
         }
     }
 
@@ -1895,17 +1895,17 @@ extension Compensation {
 
     public struct LumpSumPaymentBatchUpdateBodyRecord: Codable, Sendable {
         public var id: String?
-        public var totalAmount: String
+        public var totalAmount: String?
         public var bindingPeriod: Int?
-        public var currencyId: String
-        public var issuanceFrequency: Int
+        public var currencyId: String?
+        public var issuanceFrequency: Int?
         public var remark: String?
         public var referencePeriodStartDate: String?
         public var referencePeriodEndDate: String?
-        public var details: [LumpSumPaymentBatchUpdateBodyRecordDetail]
+        public var details: [LumpSumPaymentBatchUpdateBodyRecordDetail]?
         public var bindingPeriodDecimal: String?
         public var operationSource: String?
-        public init(id: String? = nil, totalAmount: String, bindingPeriod: Int? = nil, currencyId: String, issuanceFrequency: Int, remark: String? = nil, referencePeriodStartDate: String? = nil, referencePeriodEndDate: String? = nil, details: [LumpSumPaymentBatchUpdateBodyRecordDetail], bindingPeriodDecimal: String? = nil, operationSource: String? = nil) {
+        public init(id: String? = nil, totalAmount: String? = nil, bindingPeriod: Int? = nil, currencyId: String? = nil, issuanceFrequency: Int? = nil, remark: String? = nil, referencePeriodStartDate: String? = nil, referencePeriodEndDate: String? = nil, details: [LumpSumPaymentBatchUpdateBodyRecordDetail]? = nil, bindingPeriodDecimal: String? = nil, operationSource: String? = nil) {
             self.id = id
             self.totalAmount = totalAmount
             self.bindingPeriod = bindingPeriod
@@ -1934,14 +1934,14 @@ extension Compensation {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.totalAmount = try c.lenientRequired(.totalAmount)
+            self.totalAmount = c.lenient(.totalAmount)
             self.bindingPeriod = c.lenient(.bindingPeriod)
-            self.currencyId = try c.lenientRequired(.currencyId)
-            self.issuanceFrequency = try c.lenientRequired(.issuanceFrequency)
+            self.currencyId = c.lenient(.currencyId)
+            self.issuanceFrequency = c.lenient(.issuanceFrequency)
             self.remark = c.lenient(.remark)
             self.referencePeriodStartDate = c.lenient(.referencePeriodStartDate)
             self.referencePeriodEndDate = c.lenient(.referencePeriodEndDate)
-            self.details = try c.lenientRequired(.details)
+            self.details = c.lenient(.details)
             self.bindingPeriodDecimal = c.lenient(.bindingPeriodDecimal)
             self.operationSource = c.lenient(.operationSource)
         }
@@ -2314,19 +2314,19 @@ extension Compensation {
     }
 
     public struct LumpSumPaymentBatchCreateBodyRecord: Codable, Sendable {
-        public var uniqueId: String
-        public var userId: String
-        public var totalAmount: String
-        public var bindingPeriod: Int
-        public var currencyId: String
-        public var issuanceFrequency: Int
-        public var itemId: String
+        public var uniqueId: String?
+        public var userId: String?
+        public var totalAmount: String?
+        public var bindingPeriod: Int?
+        public var currencyId: String?
+        public var issuanceFrequency: Int?
+        public var itemId: String?
         public var referencePeriodStartDate: String?
         public var referencePeriodEndDate: String?
-        public var details: [LumpSumPaymentBatchCreateBodyRecordDetail]
+        public var details: [LumpSumPaymentBatchCreateBodyRecordDetail]?
         public var remark: String?
         public var bindingPeriodDecimal: String?
-        public init(uniqueId: String, userId: String, totalAmount: String, bindingPeriod: Int, currencyId: String, issuanceFrequency: Int, itemId: String, referencePeriodStartDate: String? = nil, referencePeriodEndDate: String? = nil, details: [LumpSumPaymentBatchCreateBodyRecordDetail], remark: String? = nil, bindingPeriodDecimal: String? = nil) {
+        public init(uniqueId: String? = nil, userId: String? = nil, totalAmount: String? = nil, bindingPeriod: Int? = nil, currencyId: String? = nil, issuanceFrequency: Int? = nil, itemId: String? = nil, referencePeriodStartDate: String? = nil, referencePeriodEndDate: String? = nil, details: [LumpSumPaymentBatchCreateBodyRecordDetail]? = nil, remark: String? = nil, bindingPeriodDecimal: String? = nil) {
             self.uniqueId = uniqueId
             self.userId = userId
             self.totalAmount = totalAmount
@@ -2356,33 +2356,33 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.uniqueId = try c.lenientRequired(.uniqueId)
-            self.userId = try c.lenientRequired(.userId)
-            self.totalAmount = try c.lenientRequired(.totalAmount)
-            self.bindingPeriod = try c.lenientRequired(.bindingPeriod)
-            self.currencyId = try c.lenientRequired(.currencyId)
-            self.issuanceFrequency = try c.lenientRequired(.issuanceFrequency)
-            self.itemId = try c.lenientRequired(.itemId)
+            self.uniqueId = c.lenient(.uniqueId)
+            self.userId = c.lenient(.userId)
+            self.totalAmount = c.lenient(.totalAmount)
+            self.bindingPeriod = c.lenient(.bindingPeriod)
+            self.currencyId = c.lenient(.currencyId)
+            self.issuanceFrequency = c.lenient(.issuanceFrequency)
+            self.itemId = c.lenient(.itemId)
             self.referencePeriodStartDate = c.lenient(.referencePeriodStartDate)
             self.referencePeriodEndDate = c.lenient(.referencePeriodEndDate)
-            self.details = try c.lenientRequired(.details)
+            self.details = c.lenient(.details)
             self.remark = c.lenient(.remark)
             self.bindingPeriodDecimal = c.lenient(.bindingPeriodDecimal)
         }
     }
 
     public struct LumpSumPaymentBatchCreateBodyRecordDetail: Codable, Sendable {
-        public var issuanceAmount: String
-        public var issuanceStatus: IssuanceStatus
-        public var issuanceWay: IssuanceWay
-        public var issuanceTime: String
-        public var belongTime: String
+        public var issuanceAmount: String?
+        public var issuanceStatus: IssuanceStatus?
+        public var issuanceWay: IssuanceWay?
+        public var issuanceTime: String?
+        public var belongTime: String?
         public var issuanceCountryRegionId: String?
         public var issuancePayGroupId: String?
         public var detailReferencePeriodStartDate: String?
         public var detailReferencePeriodEndDate: String?
         public var isNotIssuedDueToOffboardings: Int?
-        public init(issuanceAmount: String, issuanceStatus: IssuanceStatus, issuanceWay: IssuanceWay, issuanceTime: String, belongTime: String, issuanceCountryRegionId: String? = nil, issuancePayGroupId: String? = nil, detailReferencePeriodStartDate: String? = nil, detailReferencePeriodEndDate: String? = nil, isNotIssuedDueToOffboardings: Int? = nil) {
+        public init(issuanceAmount: String? = nil, issuanceStatus: IssuanceStatus? = nil, issuanceWay: IssuanceWay? = nil, issuanceTime: String? = nil, belongTime: String? = nil, issuanceCountryRegionId: String? = nil, issuancePayGroupId: String? = nil, detailReferencePeriodStartDate: String? = nil, detailReferencePeriodEndDate: String? = nil, isNotIssuedDueToOffboardings: Int? = nil) {
             self.issuanceAmount = issuanceAmount
             self.issuanceStatus = issuanceStatus
             self.issuanceWay = issuanceWay
@@ -2408,11 +2408,11 @@ extension Compensation {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.issuanceAmount = try c.lenientRequired(.issuanceAmount)
-            self.issuanceStatus = try c.lenientRequired(.issuanceStatus)
-            self.issuanceWay = try c.lenientRequired(.issuanceWay)
-            self.issuanceTime = try c.lenientRequired(.issuanceTime)
-            self.belongTime = try c.lenientRequired(.belongTime)
+            self.issuanceAmount = c.lenient(.issuanceAmount)
+            self.issuanceStatus = c.lenient(.issuanceStatus)
+            self.issuanceWay = c.lenient(.issuanceWay)
+            self.issuanceTime = c.lenient(.issuanceTime)
+            self.belongTime = c.lenient(.belongTime)
             self.issuanceCountryRegionId = c.lenient(.issuanceCountryRegionId)
             self.issuancePayGroupId = c.lenient(.issuancePayGroupId)
             self.detailReferencePeriodStartDate = c.lenient(.detailReferencePeriodStartDate)
@@ -2559,12 +2559,12 @@ extension Compensation {
         public var uuid: String?
         public var type: String?
         public var appId: String?
-        public var operateType: OperateType
-        public var employmentId: String
-        public var effectiveDate: String
+        public var operateType: OperateType?
+        public var employmentId: String?
+        public var effectiveDate: String?
         public var beforeTid: String?
         public var afterTid: String?
-        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, operateType: OperateType, employmentId: String, effectiveDate: String, beforeTid: String? = nil, afterTid: String? = nil) {
+        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, operateType: OperateType? = nil, employmentId: String? = nil, effectiveDate: String? = nil, beforeTid: String? = nil, afterTid: String? = nil) {
             self.eventId = eventId
             self.token = token
             self.createTime = createTime
@@ -2607,9 +2607,9 @@ extension Compensation {
             self.uuid = c.lenient(.uuid)
             self.type = c.lenient(.type)
             self.appId = c.lenient(.appId)
-            self.operateType = try c.lenientRequired(.operateType)
-            self.employmentId = try c.lenientRequired(.employmentId)
-            self.effectiveDate = try c.lenientRequired(.effectiveDate)
+            self.operateType = c.lenient(.operateType)
+            self.employmentId = c.lenient(.employmentId)
+            self.effectiveDate = c.lenient(.effectiveDate)
             self.beforeTid = c.lenient(.beforeTid)
             self.afterTid = c.lenient(.afterTid)
         }

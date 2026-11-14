@@ -810,7 +810,7 @@ import LarkMail
 
     @Test("POST /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/labels") func v1_userMailboxLabel_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"label":{"id":"s","name":"s","background_color":"s","messages_unread":1}}}"##)
-        let resp = try await client.mail.v1.userMailboxLabel.create(userMailboxId: "s", body: Mail.UserMailboxLabelCreateBody(label: Mail.Label(name: "s")))
+        let resp = try await client.mail.v1.userMailboxLabel.create(userMailboxId: "s", body: Mail.UserMailboxLabelCreateBody(label: Mail.Label()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -832,7 +832,7 @@ import LarkMail
 
     @Test("PATCH /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/labels/:label_id") func v1_userMailboxLabel_patch() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"label":{"id":"s","name":"s","background_color":"s","messages_unread":1}}}"##)
-        let resp = try await client.mail.v1.userMailboxLabel.patch(userMailboxId: "s", labelId: "s", body: Mail.UserMailboxLabelPatchBody(label: Mail.UserMailboxLabelPatchBodyLabel()))
+        let resp = try await client.mail.v1.userMailboxLabel.patch(userMailboxId: "s", labelId: "s", body: Mail.UserMailboxLabelPatchBody(label: Mail.Label()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -928,7 +928,7 @@ import LarkMail
 
     @Test("PUT /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/rules/:rule_id") func v1_userMailboxRule_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.mail.v1.userMailboxRule.update(userMailboxId: "s", ruleId: "s", body: Mail.UserMailboxRuleUpdateBody(condition: Mail.Condition(matchType: 1, items: [Mail.ConditionItem(type: 1)]), action: Mail.Action(items: [Mail.ActionItem(type: 1)]), ignoreTheRestOfRules: true, name: "s", isEnable: true))
+        let resp = try await client.mail.v1.userMailboxRule.update(userMailboxId: "s", ruleId: "s", body: Mail.UserMailboxRuleUpdateBody(condition: Mail.Condition(), action: Mail.Action(), ignoreTheRestOfRules: true, name: "s", isEnable: true))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PUT")
@@ -949,7 +949,7 @@ import LarkMail
 
     @Test("POST /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/rules") func v1_userMailboxRule_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"rule":{"id":"s","condition":{"match_type":1,"items":[{"type":1,"operator":1,"input":"s"}]},"action":{"items":[{"type":1,"input":"s"}]},"ignore_the_rest_of_rules":true,"name":"s","is_enable":true}}}"##)
-        let resp = try await client.mail.v1.userMailboxRule.create(userMailboxId: "s", body: Mail.UserMailboxRuleUpdateBody(condition: Mail.Condition(matchType: 1, items: [Mail.ConditionItem(type: 1)]), action: Mail.Action(items: [Mail.ActionItem(type: 1)]), ignoreTheRestOfRules: true, name: "s", isEnable: true))
+        let resp = try await client.mail.v1.userMailboxRule.create(userMailboxId: "s", body: Mail.UserMailboxRuleUpdateBody(condition: Mail.Condition(), action: Mail.Action(), ignoreTheRestOfRules: true, name: "s", isEnable: true))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -1014,7 +1014,7 @@ import LarkMail
 
     @Test("POST /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/templates") func v1_userMailboxTemplate_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"template":{"template_id":"s","name":"s","subject":"s","template_content":"s","is_plain_text_mode":true,"tos":[{"mail_address":"s","name":"s"}],"ccs":[{"mail_address":"s","name":"s"}],"bccs":[{"mail_address":"s","name":"s"}],"attachments":[{"filename":"s","id":"s","attachment_type":1,"is_inline":true,"cid":"s"}],"create_time":"s"}}}"##)
-        let resp = try await client.mail.v1.userMailboxTemplate.create(userMailboxId: "s", body: Mail.UserMailboxTemplateCreateBody(template: Mail.Template(name: "s")))
+        let resp = try await client.mail.v1.userMailboxTemplate.create(userMailboxId: "s", body: Mail.UserMailboxTemplateCreateBody(template: Mail.Template()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -1036,7 +1036,7 @@ import LarkMail
 
     @Test("PUT /open-apis/mail/v1/user_mailboxes/:user_mailbox_id/templates/:template_id") func v1_userMailboxTemplate_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"template":{"template_id":"s","name":"s","subject":"s","template_content":"s","is_plain_text_mode":true,"tos":[{"mail_address":"s","name":"s"}],"ccs":[{"mail_address":"s","name":"s"}],"bccs":[{"mail_address":"s","name":"s"}],"attachments":[{"filename":"s","id":"s","attachment_type":1,"is_inline":true,"cid":"s"}],"create_time":"s"}}}"##)
-        let resp = try await client.mail.v1.userMailboxTemplate.update(userMailboxId: "s", templateId: "s", body: Mail.UserMailboxTemplateCreateBody(template: Mail.Template(name: "s")))
+        let resp = try await client.mail.v1.userMailboxTemplate.update(userMailboxId: "s", templateId: "s", body: Mail.UserMailboxTemplateCreateBody(template: Mail.Template()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

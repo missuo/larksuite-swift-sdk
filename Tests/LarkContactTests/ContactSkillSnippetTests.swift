@@ -17,7 +17,7 @@ import Testing
 
         // Up to 50 users per call
         let batch = try await client.contact.v3.user.batch(params: .init(userIds: [openId, otherOpenId], userIdType: .openId))
-        for u in batch.data?.items ?? [] { print(u.openId ?? "", u.name) }
+        for u in batch.data?.items ?? [] { print(u.openId ?? "", u.name ?? "") }
     }
 
     func batchGetId(client: LarkClient) async throws {
@@ -34,7 +34,7 @@ import Testing
         for try await page in client.contact.v3.user.findByDepartmentWithIterator(params: .init(
             userIdType: .openId, departmentIdType: .openDepartmentId, departmentId: "0", pageSize: 50))
         {
-            for u in page.items ?? [] { print(u.openId ?? "", u.name, u.email ?? "") }
+            for u in page.items ?? [] { print(u.openId ?? "", u.name ?? "", u.email ?? "") }
         }
     }
 
@@ -45,7 +45,7 @@ import Testing
             params: .init(userIdType: .openId, departmentIdType: .openDepartmentId, fetchChild: true, pageSize: 50))
         {
             for d in page.items ?? [] {
-                print(d.openDepartmentId ?? "", d.name, d.parentDepartmentId, d.memberCount ?? 0, d.leaderUserId ?? "")
+                print(d.openDepartmentId ?? "", d.name ?? "", d.parentDepartmentId ?? "", d.memberCount ?? 0, d.leaderUserId ?? "")
             }
         }
 
@@ -57,7 +57,7 @@ import Testing
         for try await page in client.contact.v3.department.parentWithIterator(params: .init(
             userIdType: .openId, departmentIdType: .openDepartmentId, departmentId: openDepartmentId))
         {
-            for d in page.items ?? [] { print(d.name) }
+            for d in page.items ?? [] { print(d.name ?? "") }
         }
     }
 
@@ -103,7 +103,10 @@ import Testing
     }
 
     /// Pins the behaviour the skill's "strict required fields" gotcha describes.
-    @Test func userEventWithoutMobileDecodesObjectAsNil() throws {
+    /// node-sdk never validates server data. Fields node marks as required (`name`, `mobile`)
+    /// may be absent (missing permission, or `old_object` carrying only changed fields); the
+    /// object must still decode with those fields `nil`, and list items must not be dropped.
+    @Test func objectsMissingNodeRequiredFieldsStillDecode() throws {
         let body: JSONValue = [
             "schema": "2.0",
             "header": ["event_type": "contact.user.updated_v3", "event_id": "ev_1"],
@@ -114,12 +117,13 @@ import Testing
         ]
         let raw = LarkEvent(body: body)
         let e = try raw.decode(Contact.UserUpdatedV3Event.self)
-        #expect(e.object == nil)
-        #expect(e.oldObject == nil)
-        #expect(raw.payload["old_object"]?["department_ids"] == ["od_0"])
-        let page = try (["has_more": false, "items": [["open_id": "ou_1", "name": "A"]]] as JSONValue)
+        #expect(e.object?.openId == "ou_1")
+        #expect(e.object?.mobile == nil)
+        #expect(e.oldObject?.departmentIds == ["od_0"])
+        #expect(e.oldObject?.name == nil)
+        let page = try (["has_more": false, "items": [["open_id": "ou_1"]]] as JSONValue)
             .decode(as: Contact.UserFindByDepartmentResponse.self)
-        #expect((page.items ?? []).isEmpty)
+        #expect(page.items?.map(\.openId) == ["ou_1"])
     }
 
     @Test func compiles() {}

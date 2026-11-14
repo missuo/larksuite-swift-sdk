@@ -287,7 +287,7 @@ import LarkAily
 
     @Test("POST /open-apis/aily/v1/agents/:agent_id/chats") func v1_agentAgentChat_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"agent_chat_id":"s","session_id":"s"}}"##)
-        let resp = try await client.aily.v1.agentAgentChat.create(agentId: "s", body: Aily.AgentAgentChatCreateBody(userMessage: Aily.UserMessage(content: [Aily.UserMessageContent(type: "s", text: "s")])))
+        let resp = try await client.aily.v1.agentAgentChat.create(agentId: "s", body: Aily.AgentAgentChatCreateBody(userMessage: Aily.UserMessage()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

@@ -54,7 +54,7 @@ and fails if the checked-in generated code drifts. Progress and scope live in [P
 |---|---|---|---|
 | Naming | `snake_case` payload objects, `{ path, params, data }` | camelCase properties; path params are labelled arguments, `params:` / `body:` structs; wire names unchanged | Idiomatic Swift; the wire format is identical |
 | Business errors | returns the body when `code != 0` | throws `LarkError.api(LarkAPIError)` (with `code`, `msg`, `logId`, raw body) | Swift error handling; nothing is lost |
-| Typed models | TypeScript types only | `Codable` structs with lenient decoding; open string enums | A mismatched field becomes `nil` instead of failing the response, matching JS's tolerance |
+| Typed models | TypeScript types only (never validated at runtime) | `Codable` structs with lenient decoding; open string enums. Response/event types and every nested object type are all-optional; only top-level request `Query`/`Body` fields and path arguments keep node's required markers | Matches node at runtime: a missing or mismatched field becomes `nil` instead of failing or dropping the object, and one nested type serves both requests and responses |
 | Event handlers | one flattened object | `LarkEvent` (whose `payload` is exactly node's flattened object) or a typed struct decoded from it | Type safety; same data |
 | WS ack `biz_rt` | `startTime - endTime` (negative, a bug) | elapsed milliseconds (positive) | Field is a duration |
 | Explicit tenant token | `withTenantToken` header is overwritten by the managed token unless `disableTokenCache` | an explicit token in `RequestOptions` always wins | Avoids silently ignoring caller input |

@@ -76,7 +76,7 @@ import LarkBaike
 
     @Test("POST /open-apis/baike/v1/entities") func v1_entity_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"entity":{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","name":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1}}}"##)
-        let resp = try await client.baike.v1.entity.create(params: Baike.EntityCreateQuery(), body: Baike.EntityCreateBody(mainKeys: [Baike.MainKey(key: "s", displayStatus: Baike.DisplayStatus(allowHighlight: true, allowSearch: true))]))
+        let resp = try await client.baike.v1.entity.create(params: Baike.EntityCreateQuery(), body: Baike.EntityCreateBody(mainKeys: [Baike.MainKey()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -87,7 +87,7 @@ import LarkBaike
 
     @Test("PUT /open-apis/baike/v1/entities/:entity_id") func v1_entity_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"entity":{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","name":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1}}}"##)
-        let resp = try await client.baike.v1.entity.update(entityId: "s", params: Baike.EntityCreateQuery(), body: Baike.EntityCreateBody(mainKeys: [Baike.MainKey(key: "s", displayStatus: Baike.DisplayStatus(allowHighlight: true, allowSearch: true))]))
+        let resp = try await client.baike.v1.entity.update(entityId: "s", params: Baike.EntityCreateQuery(), body: Baike.EntityCreateBody(mainKeys: [Baike.MainKey()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -132,7 +132,7 @@ import LarkBaike
 
     @Test("POST /open-apis/baike/v1/drafts") func v1_draft_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"draft":{"draft_id":"s","entity":{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","name":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1}}}}"##)
-        let resp = try await client.baike.v1.draft.create(params: Baike.EntityCreateQuery(), body: Baike.DraftCreateBody(mainKeys: [Baike.MainKey(key: "s", displayStatus: Baike.DisplayStatus(allowHighlight: true, allowSearch: true))]))
+        let resp = try await client.baike.v1.draft.create(params: Baike.EntityCreateQuery(), body: Baike.DraftCreateBody(mainKeys: [Baike.MainKey()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -143,7 +143,7 @@ import LarkBaike
 
     @Test("PUT /open-apis/baike/v1/drafts/:draft_id") func v1_draft_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"draft":{"draft_id":"s","entity":{"id":"s","main_keys":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"full_names":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"aliases":[{"key":"s","display_status":{"allow_highlight":true,"allow_search":true}}],"description":"s","creator":"s","create_time":"s","updater":"s","update_time":"s","related_meta":{"users":[{"id":"s","title":"s","url":"s"}],"chats":[{"id":"s","title":"s","url":"s"}],"docs":[{"title":"s","url":"s"}],"oncalls":[{"id":"s","title":"s","url":"s"}],"links":[{"title":"s","url":"s"}],"abbreviations":[{"id":"s"}],"classifications":[{"id":"s","name":"s","father_id":"s"}],"images":[{"token":"s"}]},"statistics":{"like_count":1,"dislike_count":1},"outer_info":{"provider":"s","outer_id":"s"},"rich_text":"s","source":1}}}}"##)
-        let resp = try await client.baike.v1.draft.update(draftId: "s", params: Baike.EntityCreateQuery(), body: Baike.DraftUpdateBody(mainKeys: [Baike.MainKey(key: "s", displayStatus: Baike.DisplayStatus(allowHighlight: true, allowSearch: true))]))
+        let resp = try await client.baike.v1.draft.update(draftId: "s", params: Baike.EntityCreateQuery(), body: Baike.DraftUpdateBody(mainKeys: [Baike.MainKey()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

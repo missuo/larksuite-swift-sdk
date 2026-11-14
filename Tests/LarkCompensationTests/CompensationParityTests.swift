@@ -103,7 +103,7 @@ import LarkCompensation
 
     @Test("POST /open-apis/compensation/v1/archives") func v1_archive_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"unique_id":"s","archive_tid":"s"}}"##)
-        let resp = try await client.compensation.v1.archive.create(params: Compensation.ArchiveCreateQuery(userIdType: "user_id"), body: Compensation.ArchiveCreateBody(uniqueId: "s", userId: "s", effectiveTime: "s", currencyId: "s", planId: "s", planTid: "s", changeReasonId: "s", itemValueLists: [Compensation.ItemValueList(itemId: "s", itemValue: "s")]))
+        let resp = try await client.compensation.v1.archive.create(params: Compensation.ArchiveCreateQuery(userIdType: "user_id"), body: Compensation.ArchiveCreateBody(uniqueId: "s", userId: "s", effectiveTime: "s", currencyId: "s", planId: "s", planTid: "s", changeReasonId: "s", itemValueLists: [Compensation.ItemValueList()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

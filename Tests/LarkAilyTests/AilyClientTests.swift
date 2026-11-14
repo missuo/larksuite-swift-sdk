@@ -191,7 +191,7 @@ extension AilyClientTests {
 
             #expect(reply.id == "reply_1")
             #expect(reply.content == "hi there")
-            #expect(reply.sender?.senderType == .aSSISTANT)
+            #expect(reply.sender?.senderType == .assistant)
 
             let reqs = http.requests
             #expect(reqs.map { "\($0.method.rawValue) \($0.url.path)" } == [

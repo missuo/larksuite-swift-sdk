@@ -76,7 +76,7 @@ import LarkPerformance
 
     @Test("POST /open-apis/performance/v2/metric_details/import") func v2_metricDetail_import() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"import_record_id":"s"}}"##)
-        let resp = try await client.performance.v2.metricDetail.`import`(params: Performance.MetricDetailImportQuery(clientToken: "s"), body: Performance.MetricDetailImportBody(semesterId: "s", importedMetrics: [Performance.ImportedMetric(revieweeUserId: "s", metricId: "s", fields: [Performance.ImportedMetricField(fieldId: "s")])]))
+        let resp = try await client.performance.v2.metricDetail.`import`(params: Performance.MetricDetailImportQuery(clientToken: "s"), body: Performance.MetricDetailImportBody(semesterId: "s", importedMetrics: [Performance.ImportedMetric()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -221,7 +221,7 @@ import LarkPerformance
 
     @Test("POST /open-apis/performance/v2/additional_informations/import") func v2_additionalInformation_import() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"import_record_id":"s","additional_informations":[{"item_id":"s","external_id":"s","reviewee_user_id":"s","item":"s","time":"s","detailed_description":"s"}]}}"##)
-        let resp = try await client.performance.v2.additionalInformation.`import`(params: Performance.MetricDetailImportQuery(clientToken: "s"), body: Performance.AdditionalInformationImportBody(semesterId: "s", additionalInformations: [Performance.AdditionalInformation(revieweeUserId: "s", item: "s", time: "s", detailedDescription: "s")]))
+        let resp = try await client.performance.v2.additionalInformation.`import`(params: Performance.MetricDetailImportQuery(clientToken: "s"), body: Performance.AdditionalInformationImportBody(semesterId: "s", additionalInformations: [Performance.AdditionalInformation()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

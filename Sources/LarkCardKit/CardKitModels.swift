@@ -4,6 +4,8 @@ import Foundation
 import LarkCore
 
 extension CardKit {
+    public typealias CardIdConvertResponse = CardCreateResponse
+
     public struct CardCreateBody: Codable, Sendable {
         public var type: String
         public var data: String
@@ -23,8 +25,8 @@ extension CardKit {
     }
 
     public struct CardCreateResponse: Codable, Sendable {
-        public var cardId: String
-        public init(cardId: String) {
+        public var cardId: String?
+        public init(cardId: String? = nil) {
             self.cardId = cardId
         }
         enum CodingKeys: String, CodingKey {
@@ -32,7 +34,7 @@ extension CardKit {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.cardId = try c.lenientRequired(.cardId)
+            self.cardId = c.lenient(.cardId)
         }
     }
 
@@ -81,9 +83,9 @@ extension CardKit {
     }
 
     public struct Card: Codable, Sendable {
-        public var type: CardType
-        public var data: String
-        public init(type: CardType, data: String) {
+        public var type: CardType?
+        public var data: String?
+        public init(type: CardType? = nil, data: String? = nil) {
             self.type = type
             self.data = data
         }
@@ -93,8 +95,8 @@ extension CardKit {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.data = try c.lenientRequired(.data)
+            self.type = c.lenient(.type)
+            self.data = c.lenient(.data)
         }
     }
 
@@ -116,20 +118,6 @@ extension CardKit {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.messageId = try c.lenientRequired(.messageId)
-        }
-    }
-
-    public struct CardIdConvertResponse: Codable, Sendable {
-        public var cardId: String?
-        public init(cardId: String? = nil) {
-            self.cardId = cardId
-        }
-        enum CodingKeys: String, CodingKey {
-            case cardId = "card_id"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.cardId = c.lenient(.cardId)
         }
     }
 

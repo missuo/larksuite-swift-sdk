@@ -53,12 +53,12 @@ extension Base {
     }
 
     public struct AppRole: Codable, Sendable {
-        public var roleName: String
-        public var tableRoles: [TableRole]
+        public var roleName: String?
+        public var tableRoles: [TableRole]?
         public var roleId: String?
         public var blockRoles: [BlockRole]?
         public var baseRule: [String: Int]?
-        public init(roleName: String, tableRoles: [TableRole], roleId: String? = nil, blockRoles: [BlockRole]? = nil, baseRule: [String: Int]? = nil) {
+        public init(roleName: String? = nil, tableRoles: [TableRole]? = nil, roleId: String? = nil, blockRoles: [BlockRole]? = nil, baseRule: [String: Int]? = nil) {
             self.roleName = roleName
             self.tableRoles = tableRoles
             self.roleId = roleId
@@ -74,8 +74,8 @@ extension Base {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.roleName = try c.lenientRequired(.roleName)
-            self.tableRoles = try c.lenientRequired(.tableRoles)
+            self.roleName = c.lenient(.roleName)
+            self.tableRoles = c.lenient(.tableRoles)
             self.roleId = c.lenient(.roleId)
             self.blockRoles = c.lenient(.blockRoles)
             self.baseRule = c.lenient(.baseRule)
@@ -83,7 +83,7 @@ extension Base {
     }
 
     public struct TableRole: Codable, Sendable {
-        public var tablePerm: Int
+        public var tablePerm: Int?
         public var tableName: String?
         public var tableId: String?
         public var recRule: RecRule?
@@ -94,7 +94,7 @@ extension Base {
         public var viewPerm: Int?
         public var viewRules: [String: Int]?
         public var fieldActionRules: [String: [String: Int]]?
-        public init(tablePerm: Int, tableName: String? = nil, tableId: String? = nil, recRule: RecRule? = nil, otherRecRule: OtherRecRule? = nil, fieldPerm: [String: Int]? = nil, allowAddRecord: Bool? = nil, allowDeleteRecord: Bool? = nil, viewPerm: Int? = nil, viewRules: [String: Int]? = nil, fieldActionRules: [String: [String: Int]]? = nil) {
+        public init(tablePerm: Int? = nil, tableName: String? = nil, tableId: String? = nil, recRule: RecRule? = nil, otherRecRule: OtherRecRule? = nil, fieldPerm: [String: Int]? = nil, allowAddRecord: Bool? = nil, allowDeleteRecord: Bool? = nil, viewPerm: Int? = nil, viewRules: [String: Int]? = nil, fieldActionRules: [String: [String: Int]]? = nil) {
             self.tablePerm = tablePerm
             self.tableName = tableName
             self.tableId = tableId
@@ -122,7 +122,7 @@ extension Base {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.tablePerm = try c.lenientRequired(.tablePerm)
+            self.tablePerm = c.lenient(.tablePerm)
             self.tableName = c.lenient(.tableName)
             self.tableId = c.lenient(.tableId)
             self.recRule = c.lenient(.recRule)
@@ -171,11 +171,11 @@ extension Base {
     }
 
     public struct Condition: Codable, Sendable {
-        public var fieldName: String
+        public var fieldName: String?
         public var `operator`: Operator?
         public var value: [String]?
         public var fieldType: Int?
-        public init(fieldName: String, `operator`: Operator? = nil, value: [String]? = nil, fieldType: Int? = nil) {
+        public init(fieldName: String? = nil, `operator`: Operator? = nil, value: [String]? = nil, fieldType: Int? = nil) {
             self.fieldName = fieldName
             self.operator = `operator`
             self.value = value
@@ -189,7 +189,7 @@ extension Base {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldName = try c.lenientRequired(.fieldName)
+            self.fieldName = c.lenient(.fieldName)
             self.operator = c.lenient(.`operator`)
             self.value = c.lenient(.value)
             self.fieldType = c.lenient(.fieldType)
@@ -261,10 +261,10 @@ extension Base {
     }
 
     public struct BlockRole: Codable, Sendable {
-        public var blockId: String
-        public var blockPerm: Int
+        public var blockId: String?
+        public var blockPerm: Int?
         public var blockType: BlockType?
-        public init(blockId: String, blockPerm: Int, blockType: BlockType? = nil) {
+        public init(blockId: String? = nil, blockPerm: Int? = nil, blockType: BlockType? = nil) {
             self.blockId = blockId
             self.blockPerm = blockPerm
             self.blockType = blockType
@@ -276,8 +276,8 @@ extension Base {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.blockId = try c.lenientRequired(.blockId)
-            self.blockPerm = try c.lenientRequired(.blockPerm)
+            self.blockId = c.lenient(.blockId)
+            self.blockPerm = c.lenient(.blockPerm)
             self.blockType = c.lenient(.blockType)
         }
     }
@@ -316,7 +316,7 @@ extension Base {
     }
 
     public struct AppRoleCreateBodyTableRole: Codable, Sendable {
-        public var tablePerm: Int
+        public var tablePerm: Int?
         public var tableName: String?
         public var tableId: String?
         public var recRule: AppRoleCreateBodyTableRoleRecRule?
@@ -327,7 +327,7 @@ extension Base {
         public var viewPerm: Int?
         public var viewRules: [String: Int]?
         public var fieldActionRules: [String: [String: Int]]?
-        public init(tablePerm: Int, tableName: String? = nil, tableId: String? = nil, recRule: AppRoleCreateBodyTableRoleRecRule? = nil, otherRecRule: AppRoleCreateBodyTableRoleOtherRecRule? = nil, fieldPerm: [String: Int]? = nil, allowAddRecord: Bool? = nil, allowDeleteRecord: Bool? = nil, viewPerm: Int? = nil, viewRules: [String: Int]? = nil, fieldActionRules: [String: [String: Int]]? = nil) {
+        public init(tablePerm: Int? = nil, tableName: String? = nil, tableId: String? = nil, recRule: AppRoleCreateBodyTableRoleRecRule? = nil, otherRecRule: AppRoleCreateBodyTableRoleOtherRecRule? = nil, fieldPerm: [String: Int]? = nil, allowAddRecord: Bool? = nil, allowDeleteRecord: Bool? = nil, viewPerm: Int? = nil, viewRules: [String: Int]? = nil, fieldActionRules: [String: [String: Int]]? = nil) {
             self.tablePerm = tablePerm
             self.tableName = tableName
             self.tableId = tableId
@@ -355,7 +355,7 @@ extension Base {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.tablePerm = try c.lenientRequired(.tablePerm)
+            self.tablePerm = c.lenient(.tablePerm)
             self.tableName = c.lenient(.tableName)
             self.tableId = c.lenient(.tableId)
             self.recRule = c.lenient(.recRule)
@@ -400,10 +400,10 @@ extension Base {
     }
 
     public struct AppRoleCreateBodyTableRoleRecRuleCondition: Codable, Sendable {
-        public var fieldName: String
+        public var fieldName: String?
         public var `operator`: Operator?
         public var value: [String]?
-        public init(fieldName: String, `operator`: Operator? = nil, value: [String]? = nil) {
+        public init(fieldName: String? = nil, `operator`: Operator? = nil, value: [String]? = nil) {
             self.fieldName = fieldName
             self.operator = `operator`
             self.value = value
@@ -415,7 +415,7 @@ extension Base {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldName = try c.lenientRequired(.fieldName)
+            self.fieldName = c.lenient(.fieldName)
             self.operator = c.lenient(.`operator`)
             self.value = c.lenient(.value)
         }
@@ -462,9 +462,9 @@ extension Base {
     }
 
     public struct AppRoleCreateBodyBlockRole: Codable, Sendable {
-        public var blockId: String
-        public var blockPerm: Int
-        public init(blockId: String, blockPerm: Int) {
+        public var blockId: String?
+        public var blockPerm: Int?
+        public init(blockId: String? = nil, blockPerm: Int? = nil) {
             self.blockId = blockId
             self.blockPerm = blockPerm
         }
@@ -474,8 +474,8 @@ extension Base {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.blockId = try c.lenientRequired(.blockId)
-            self.blockPerm = try c.lenientRequired(.blockPerm)
+            self.blockId = c.lenient(.blockId)
+            self.blockPerm = c.lenient(.blockPerm)
         }
     }
 

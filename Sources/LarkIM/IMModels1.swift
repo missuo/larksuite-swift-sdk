@@ -44,8 +44,6 @@ extension IM {
 
     public typealias ChatTabDeleteTabsResponse = ChatTabListTabsResponse
 
-    public typealias ChatTabUpdateTabsBody = ChatTabListTabsResponse
-
     public typealias ChatTabUpdateTabsResponse = ChatTabListTabsResponse
 
     public typealias ChatTabCreateResponse = ChatTabListTabsResponse
@@ -119,9 +117,9 @@ extension IM {
     }
 
     public struct FollowUps: Codable, Sendable {
-        public var content: String
+        public var content: String?
         public var i18nContents: [I18nContent]?
-        public init(content: String, i18nContents: [I18nContent]? = nil) {
+        public init(content: String? = nil, i18nContents: [I18nContent]? = nil) {
             self.content = content
             self.i18nContents = i18nContents
         }
@@ -131,15 +129,15 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.content = try c.lenientRequired(.content)
+            self.content = c.lenient(.content)
             self.i18nContents = c.lenient(.i18nContents)
         }
     }
 
     public struct I18nContent: Codable, Sendable {
-        public var content: String
-        public var language: Language
-        public init(content: String, language: Language) {
+        public var content: String?
+        public var language: Language?
+        public init(content: String? = nil, language: Language? = nil) {
             self.content = content
             self.language = language
         }
@@ -149,8 +147,8 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.content = try c.lenientRequired(.content)
-            self.language = try c.lenientRequired(.language)
+            self.content = c.lenient(.content)
+            self.language = c.lenient(.language)
         }
     }
 
@@ -214,8 +212,8 @@ extension IM {
     }
 
     public struct MessageUrgentAppResponse: Codable, Sendable {
-        public var invalidUserIdList: [String]
-        public init(invalidUserIdList: [String]) {
+        public var invalidUserIdList: [String]?
+        public init(invalidUserIdList: [String]? = nil) {
             self.invalidUserIdList = invalidUserIdList
         }
         enum CodingKeys: String, CodingKey {
@@ -223,7 +221,7 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.invalidUserIdList = try c.lenientRequired(.invalidUserIdList)
+            self.invalidUserIdList = c.lenient(.invalidUserIdList)
         }
     }
 
@@ -372,12 +370,12 @@ extension IM {
     }
 
     public struct MessageSearchResponse: Codable, Sendable {
-        public var items: [Message]
+        public var items: [Message]?
         public var total: Int?
-        public var hasMore: Bool
+        public var hasMore: Bool?
         public var pageToken: String?
         public var notice: String?
-        public init(items: [Message], total: Int? = nil, hasMore: Bool, pageToken: String? = nil, notice: String? = nil) {
+        public init(items: [Message]? = nil, total: Int? = nil, hasMore: Bool? = nil, pageToken: String? = nil, notice: String? = nil) {
             self.items = items
             self.total = total
             self.hasMore = hasMore
@@ -393,19 +391,19 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
             self.total = c.lenient(.total)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
             self.pageToken = c.lenient(.pageToken)
             self.notice = c.lenient(.notice)
         }
     }
 
     public struct Message: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var displayInfo: String?
         public var metaData: MetaData?
-        public init(id: String, displayInfo: String? = nil, metaData: MetaData? = nil) {
+        public init(id: String? = nil, displayInfo: String? = nil, metaData: MetaData? = nil) {
             self.id = id
             self.displayInfo = displayInfo
             self.metaData = metaData
@@ -417,14 +415,14 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.displayInfo = c.lenient(.displayInfo)
             self.metaData = c.lenient(.metaData)
         }
     }
 
     public struct MetaData: Codable, Sendable {
-        public var messageId: String
+        public var messageId: String?
         public var type: MetaDataType?
         public var createTime: String?
         public var updateTime: String?
@@ -434,7 +432,7 @@ extension IM {
         public var threadId: String?
         public var threadPosition: Int?
         public var isP2pChat: Bool?
-        public init(messageId: String, type: MetaDataType? = nil, createTime: String? = nil, updateTime: String? = nil, position: Int? = nil, chatId: String? = nil, fromId: String? = nil, threadId: String? = nil, threadPosition: Int? = nil, isP2pChat: Bool? = nil) {
+        public init(messageId: String? = nil, type: MetaDataType? = nil, createTime: String? = nil, updateTime: String? = nil, position: Int? = nil, chatId: String? = nil, fromId: String? = nil, threadId: String? = nil, threadPosition: Int? = nil, isP2pChat: Bool? = nil) {
             self.messageId = messageId
             self.type = type
             self.createTime = createTime
@@ -460,7 +458,7 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.messageId = try c.lenientRequired(.messageId)
+            self.messageId = c.lenient(.messageId)
             self.type = c.lenient(.type)
             self.createTime = c.lenient(.createTime)
             self.updateTime = c.lenient(.updateTime)
@@ -611,14 +609,14 @@ extension IM {
     }
 
     public struct Sender: Codable, Sendable {
-        public var id: String
-        public var idType: String
-        public var senderType: String
+        public var id: String?
+        public var idType: String?
+        public var senderType: String?
         public var tenantKey: String?
         public var senderName: String?
         public var openBotId: String?
         public var senderI18nNames: SenderI18nNames?
-        public init(id: String, idType: String, senderType: String, tenantKey: String? = nil, senderName: String? = nil, openBotId: String? = nil, senderI18nNames: SenderI18nNames? = nil) {
+        public init(id: String? = nil, idType: String? = nil, senderType: String? = nil, tenantKey: String? = nil, senderName: String? = nil, openBotId: String? = nil, senderI18nNames: SenderI18nNames? = nil) {
             self.id = id
             self.idType = idType
             self.senderType = senderType
@@ -638,9 +636,9 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
-            self.idType = try c.lenientRequired(.idType)
-            self.senderType = try c.lenientRequired(.senderType)
+            self.id = c.lenient(.id)
+            self.idType = c.lenient(.idType)
+            self.senderType = c.lenient(.senderType)
             self.tenantKey = c.lenient(.tenantKey)
             self.senderName = c.lenient(.senderName)
             self.openBotId = c.lenient(.openBotId)
@@ -671,8 +669,8 @@ extension IM {
     }
 
     public struct MessageReplyResponseBody: Codable, Sendable {
-        public var content: String
-        public init(content: String) {
+        public var content: String?
+        public init(content: String? = nil) {
             self.content = content
         }
         enum CodingKeys: String, CodingKey {
@@ -680,17 +678,17 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.content = try c.lenientRequired(.content)
+            self.content = c.lenient(.content)
         }
     }
 
     public struct Mention: Codable, Sendable {
-        public var key: String
-        public var id: String
-        public var idType: String
-        public var name: String
+        public var key: String?
+        public var id: String?
+        public var idType: String?
+        public var name: String?
         public var tenantKey: String?
-        public init(key: String, id: String, idType: String, name: String, tenantKey: String? = nil) {
+        public init(key: String? = nil, id: String? = nil, idType: String? = nil, name: String? = nil, tenantKey: String? = nil) {
             self.key = key
             self.id = id
             self.idType = idType
@@ -706,10 +704,10 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.key = try c.lenientRequired(.key)
-            self.id = try c.lenientRequired(.id)
-            self.idType = try c.lenientRequired(.idType)
-            self.name = try c.lenientRequired(.name)
+            self.key = c.lenient(.key)
+            self.id = c.lenient(.id)
+            self.idType = c.lenient(.idType)
+            self.name = c.lenient(.name)
             self.tenantKey = c.lenient(.tenantKey)
         }
     }
@@ -1081,9 +1079,9 @@ extension IM {
 
     public struct MessageReadUsersResponse: Codable, Sendable {
         public var items: [MessageReadUsersResponseItem]?
-        public var hasMore: Bool
+        public var hasMore: Bool?
         public var pageToken: String?
-        public init(items: [MessageReadUsersResponseItem]? = nil, hasMore: Bool, pageToken: String? = nil) {
+        public init(items: [MessageReadUsersResponseItem]? = nil, hasMore: Bool? = nil, pageToken: String? = nil) {
             self.items = items
             self.hasMore = hasMore
             self.pageToken = pageToken
@@ -1096,17 +1094,17 @@ extension IM {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.items = c.lenient(.items)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
             self.pageToken = c.lenient(.pageToken)
         }
     }
 
     public struct MessageReadUsersResponseItem: Codable, Sendable {
-        public var userIdType: String
-        public var userId: String
-        public var timestamp: String
+        public var userIdType: String?
+        public var userId: String?
+        public var timestamp: String?
         public var tenantKey: String?
-        public init(userIdType: String, userId: String, timestamp: String, tenantKey: String? = nil) {
+        public init(userIdType: String? = nil, userId: String? = nil, timestamp: String? = nil, tenantKey: String? = nil) {
             self.userIdType = userIdType
             self.userId = userId
             self.timestamp = timestamp
@@ -1120,9 +1118,9 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.userIdType = try c.lenientRequired(.userIdType)
-            self.userId = try c.lenientRequired(.userId)
-            self.timestamp = try c.lenientRequired(.timestamp)
+            self.userIdType = c.lenient(.userIdType)
+            self.userId = c.lenient(.userId)
+            self.timestamp = c.lenient(.timestamp)
             self.tenantKey = c.lenient(.tenantKey)
         }
     }
@@ -1212,9 +1210,9 @@ extension IM {
     }
 
     public struct ReadUser: Codable, Sendable {
-        public var readCount: String
-        public var totalCount: String
-        public init(readCount: String, totalCount: String) {
+        public var readCount: String?
+        public var totalCount: String?
+        public init(readCount: String? = nil, totalCount: String? = nil) {
             self.readCount = readCount
             self.totalCount = totalCount
         }
@@ -1224,8 +1222,8 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.readCount = try c.lenientRequired(.readCount)
-            self.totalCount = try c.lenientRequired(.totalCount)
+            self.readCount = c.lenient(.readCount)
+            self.totalCount = c.lenient(.totalCount)
         }
     }
 
@@ -1532,12 +1530,12 @@ extension IM {
     }
 
     public struct Pin: Codable, Sendable {
-        public var messageId: String
+        public var messageId: String?
         public var chatId: String?
         public var operatorId: String?
         public var operatorIdType: String?
         public var createTime: String?
-        public init(messageId: String, chatId: String? = nil, operatorId: String? = nil, operatorIdType: String? = nil, createTime: String? = nil) {
+        public init(messageId: String? = nil, chatId: String? = nil, operatorId: String? = nil, operatorIdType: String? = nil, createTime: String? = nil) {
             self.messageId = messageId
             self.chatId = chatId
             self.operatorId = operatorId
@@ -1553,7 +1551,7 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.messageId = try c.lenientRequired(.messageId)
+            self.messageId = c.lenient(.messageId)
             self.chatId = c.lenient(.chatId)
             self.operatorId = c.lenient(.operatorId)
             self.operatorIdType = c.lenient(.operatorIdType)
@@ -2451,10 +2449,10 @@ extension IM {
     public struct ChatTab: Codable, Sendable {
         public var tabId: String?
         public var tabName: String?
-        public var tabType: TabType
+        public var tabType: TabType?
         public var tabContent: TabContent?
         public var tabConfig: TabConfig?
-        public init(tabId: String? = nil, tabName: String? = nil, tabType: TabType, tabContent: TabContent? = nil, tabConfig: TabConfig? = nil) {
+        public init(tabId: String? = nil, tabName: String? = nil, tabType: TabType? = nil, tabContent: TabContent? = nil, tabConfig: TabConfig? = nil) {
             self.tabId = tabId
             self.tabName = tabName
             self.tabType = tabType
@@ -2472,7 +2470,7 @@ extension IM {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.tabId = c.lenient(.tabId)
             self.tabName = c.lenient(.tabName)
-            self.tabType = try c.lenientRequired(.tabType)
+            self.tabType = c.lenient(.tabType)
             self.tabContent = c.lenient(.tabContent)
             self.tabConfig = c.lenient(.tabConfig)
         }
@@ -2567,6 +2565,20 @@ extension IM {
         }
     }
 
+    public struct ChatTabUpdateTabsBody: Codable, Sendable {
+        public var chatTabs: [ChatTab]?
+        public init(chatTabs: [ChatTab]? = nil) {
+            self.chatTabs = chatTabs
+        }
+        enum CodingKeys: String, CodingKey {
+            case chatTabs = "chat_tabs"
+        }
+        public init(from decoder: any Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            self.chatTabs = c.lenient(.chatTabs)
+        }
+    }
+
     public struct ChatTabCreateBody: Codable, Sendable {
         public var chatTabs: [ChatTabCreateBodyChatTab]
         public init(chatTabs: [ChatTabCreateBodyChatTab]) {
@@ -2583,10 +2595,10 @@ extension IM {
 
     public struct ChatTabCreateBodyChatTab: Codable, Sendable {
         public var tabName: String?
-        public var tabType: TabType
+        public var tabType: TabType?
         public var tabContent: TabContent?
         public var tabConfig: TabConfig?
-        public init(tabName: String? = nil, tabType: TabType, tabContent: TabContent? = nil, tabConfig: TabConfig? = nil) {
+        public init(tabName: String? = nil, tabType: TabType? = nil, tabContent: TabContent? = nil, tabConfig: TabConfig? = nil) {
             self.tabName = tabName
             self.tabType = tabType
             self.tabContent = tabContent
@@ -2601,7 +2613,7 @@ extension IM {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.tabName = c.lenient(.tabName)
-            self.tabType = try c.lenientRequired(.tabType)
+            self.tabType = c.lenient(.tabType)
             self.tabContent = c.lenient(.tabContent)
             self.tabConfig = c.lenient(.tabConfig)
         }
@@ -2791,8 +2803,8 @@ extension IM {
     public struct ChatMenuItemActionType: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let nONE: Self = "NONE"
-        public static let rEDIRECTLINK: Self = "REDIRECT_LINK"
+        public static let none: Self = "NONE"
+        public static let redirectLink: Self = "REDIRECT_LINK"
     }
 
     public struct RedirectLink: Codable, Sendable {
@@ -2872,8 +2884,8 @@ extension IM {
     }
 
     public struct ChatMenuTreeCreateBodyMenuTree: Codable, Sendable {
-        public var chatMenuTopLevels: [ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevel]
-        public init(chatMenuTopLevels: [ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevel]) {
+        public var chatMenuTopLevels: [ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevel]?
+        public init(chatMenuTopLevels: [ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevel]? = nil) {
             self.chatMenuTopLevels = chatMenuTopLevels
         }
         enum CodingKeys: String, CodingKey {
@@ -2881,14 +2893,14 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.chatMenuTopLevels = try c.lenientRequired(.chatMenuTopLevels)
+            self.chatMenuTopLevels = c.lenient(.chatMenuTopLevels)
         }
     }
 
     public struct ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevel: Codable, Sendable {
-        public var chatMenuItem: ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevelChatMenuItem
+        public var chatMenuItem: ChatMenuItem?
         public var children: [ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevelChildren]?
-        public init(chatMenuItem: ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevelChatMenuItem, children: [ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevelChildren]? = nil) {
+        public init(chatMenuItem: ChatMenuItem? = nil, children: [ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevelChildren]? = nil) {
             self.chatMenuItem = chatMenuItem
             self.children = children
         }
@@ -2898,38 +2910,8 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.chatMenuItem = try c.lenientRequired(.chatMenuItem)
+            self.chatMenuItem = c.lenient(.chatMenuItem)
             self.children = c.lenient(.children)
-        }
-    }
-
-    public struct ChatMenuTreeCreateBodyMenuTreeChatMenuTopLevelChatMenuItem: Codable, Sendable {
-        public var actionType: ChatMenuItemActionType
-        public var redirectLink: RedirectLink?
-        public var imageKey: String?
-        public var name: String
-        public var i18nNames: SenderI18nNames?
-        public init(actionType: ChatMenuItemActionType, redirectLink: RedirectLink? = nil, imageKey: String? = nil, name: String, i18nNames: SenderI18nNames? = nil) {
-            self.actionType = actionType
-            self.redirectLink = redirectLink
-            self.imageKey = imageKey
-            self.name = name
-            self.i18nNames = i18nNames
-        }
-        enum CodingKeys: String, CodingKey {
-            case actionType = "action_type"
-            case redirectLink = "redirect_link"
-            case imageKey = "image_key"
-            case name
-            case i18nNames = "i18n_names"
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.actionType = try c.lenientRequired(.actionType)
-            self.redirectLink = c.lenient(.redirectLink)
-            self.imageKey = c.lenient(.imageKey)
-            self.name = try c.lenientRequired(.name)
-            self.i18nNames = c.lenient(.i18nNames)
         }
     }
 
@@ -3001,10 +2983,10 @@ extension IM {
     public struct UpdateFields: LarkOpenEnum {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
-        public static let iCON: Self = "ICON"
-        public static let nAME: Self = "NAME"
-        public static let i18NNAME: Self = "I18N_NAME"
-        public static let rEDIRECTLINK: Self = "REDIRECT_LINK"
+        public static let icon: Self = "ICON"
+        public static let name: Self = "NAME"
+        public static let i18nName: Self = "I18N_NAME"
+        public static let redirectLink: Self = "REDIRECT_LINK"
     }
 
     public struct ImageCreateBody: Codable, Sendable, LarkMultipartBody {
@@ -3080,9 +3062,9 @@ extension IM {
     }
 
     public struct Operator: Codable, Sendable {
-        public var operatorId: String
-        public var operatorType: OperatorType
-        public init(operatorId: String, operatorType: OperatorType) {
+        public var operatorId: String?
+        public var operatorType: OperatorType?
+        public init(operatorId: String? = nil, operatorType: OperatorType? = nil) {
             self.operatorId = operatorId
             self.operatorType = operatorType
         }
@@ -3092,8 +3074,8 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.operatorId = try c.lenientRequired(.operatorId)
-            self.operatorType = try c.lenientRequired(.operatorType)
+            self.operatorId = c.lenient(.operatorId)
+            self.operatorType = c.lenient(.operatorType)
         }
     }
 
@@ -3106,8 +3088,8 @@ extension IM {
     }
 
     public struct ReactionType: Codable, Sendable {
-        public var emojiType: String
-        public init(emojiType: String) {
+        public var emojiType: String?
+        public init(emojiType: String? = nil) {
             self.emojiType = emojiType
         }
         enum CodingKeys: String, CodingKey {
@@ -3115,7 +3097,7 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.emojiType = try c.lenientRequired(.emojiType)
+            self.emojiType = c.lenient(.emojiType)
         }
     }
 
@@ -3146,10 +3128,10 @@ extension IM {
     }
 
     public struct MessageReactionListResponse: Codable, Sendable {
-        public var items: [MessageReaction]
-        public var hasMore: Bool
-        public var pageToken: String
-        public init(items: [MessageReaction], hasMore: Bool, pageToken: String) {
+        public var items: [MessageReaction]?
+        public var hasMore: Bool?
+        public var pageToken: String?
+        public init(items: [MessageReaction]? = nil, hasMore: Bool? = nil, pageToken: String? = nil) {
             self.items = items
             self.hasMore = hasMore
             self.pageToken = pageToken
@@ -3161,9 +3143,9 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
-            self.hasMore = try c.lenientRequired(.hasMore)
-            self.pageToken = try c.lenientRequired(.pageToken)
+            self.items = c.lenient(.items)
+            self.hasMore = c.lenient(.hasMore)
+            self.pageToken = c.lenient(.pageToken)
         }
     }
 
@@ -3645,9 +3627,9 @@ extension IM {
     }
 
     public struct FeedCard: Codable, Sendable {
-        public var bizId: String
-        public var userId: String
-        public init(bizId: String, userId: String) {
+        public var bizId: String?
+        public var userId: String?
+        public init(bizId: String? = nil, userId: String? = nil) {
             self.bizId = bizId
             self.userId = userId
         }
@@ -3657,8 +3639,8 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.bizId = try c.lenientRequired(.bizId)
-            self.userId = try c.lenientRequired(.userId)
+            self.bizId = c.lenient(.bizId)
+            self.userId = c.lenient(.userId)
         }
     }
 
@@ -3677,10 +3659,10 @@ extension IM {
     }
 
     public struct FailedCard: Codable, Sendable {
-        public var bizId: String
-        public var userId: String
+        public var bizId: String?
+        public var userId: String?
         public var reason: Reason?
-        public init(bizId: String, userId: String, reason: Reason? = nil) {
+        public init(bizId: String? = nil, userId: String? = nil, reason: Reason? = nil) {
             self.bizId = bizId
             self.userId = userId
             self.reason = reason
@@ -3692,8 +3674,8 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.bizId = try c.lenientRequired(.bizId)
-            self.userId = try c.lenientRequired(.userId)
+            self.bizId = c.lenient(.bizId)
+            self.userId = c.lenient(.userId)
             self.reason = c.lenient(.reason)
         }
     }
@@ -3724,10 +3706,10 @@ extension IM {
     }
 
     public struct AppFeedCardBatchUpdateBodyFeedCard: Codable, Sendable {
-        public var appFeedCard: AppFeedCard
-        public var userId: String
-        public var updateFields: [AppFeedCardBatchUpdateBodyFeedCardUpdateFields]
-        public init(appFeedCard: AppFeedCard, userId: String, updateFields: [AppFeedCardBatchUpdateBodyFeedCardUpdateFields]) {
+        public var appFeedCard: AppFeedCard?
+        public var userId: String?
+        public var updateFields: [AppFeedCardBatchUpdateBodyFeedCardUpdateFields]?
+        public init(appFeedCard: AppFeedCard? = nil, userId: String? = nil, updateFields: [AppFeedCardBatchUpdateBodyFeedCardUpdateFields]? = nil) {
             self.appFeedCard = appFeedCard
             self.userId = userId
             self.updateFields = updateFields
@@ -3739,9 +3721,9 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.appFeedCard = try c.lenientRequired(.appFeedCard)
-            self.userId = try c.lenientRequired(.userId)
-            self.updateFields = try c.lenientRequired(.updateFields)
+            self.appFeedCard = c.lenient(.appFeedCard)
+            self.userId = c.lenient(.userId)
+            self.updateFields = c.lenient(.updateFields)
         }
     }
 
@@ -3792,9 +3774,9 @@ extension IM {
     }
 
     public struct StatusLabel: Codable, Sendable {
-        public var text: String
-        public var type: StatusLabelType
-        public init(text: String, type: StatusLabelType) {
+        public var text: String?
+        public var type: StatusLabelType?
+        public init(text: String? = nil, type: StatusLabelType? = nil) {
             self.text = text
             self.type = type
         }
@@ -3804,8 +3786,8 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.text = try c.lenientRequired(.text)
-            self.type = try c.lenientRequired(.type)
+            self.text = c.lenient(.text)
+            self.type = c.lenient(.type)
         }
     }
 
@@ -3820,8 +3802,8 @@ extension IM {
     }
 
     public struct Buttons: Codable, Sendable {
-        public var buttons: [Button]
-        public init(buttons: [Button]) {
+        public var buttons: [Button]?
+        public init(buttons: [Button]? = nil) {
             self.buttons = buttons
         }
         enum CodingKeys: String, CodingKey {
@@ -3829,17 +3811,17 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.buttons = try c.lenientRequired(.buttons)
+            self.buttons = c.lenient(.buttons)
         }
     }
 
     public struct Button: Codable, Sendable {
         public var multiUrl: MultiUrl?
-        public var actionType: ButtonActionType
-        public var text: Text
+        public var actionType: ButtonActionType?
+        public var text: Text?
         public var buttonType: ButtonType?
         public var actionMap: [String: String]?
-        public init(multiUrl: MultiUrl? = nil, actionType: ButtonActionType, text: Text, buttonType: ButtonType? = nil, actionMap: [String: String]? = nil) {
+        public init(multiUrl: MultiUrl? = nil, actionType: ButtonActionType? = nil, text: Text? = nil, buttonType: ButtonType? = nil, actionMap: [String: String]? = nil) {
             self.multiUrl = multiUrl
             self.actionType = actionType
             self.text = text
@@ -3856,8 +3838,8 @@ extension IM {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.multiUrl = c.lenient(.multiUrl)
-            self.actionType = try c.lenientRequired(.actionType)
-            self.text = try c.lenientRequired(.text)
+            self.actionType = c.lenient(.actionType)
+            self.text = c.lenient(.text)
             self.buttonType = c.lenient(.buttonType)
             self.actionMap = c.lenient(.actionMap)
         }
@@ -3898,8 +3880,8 @@ extension IM {
     }
 
     public struct Text: Codable, Sendable {
-        public var text: String
-        public init(text: String) {
+        public var text: String?
+        public init(text: String? = nil) {
             self.text = text
         }
         enum CodingKeys: String, CodingKey {
@@ -3907,7 +3889,7 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.text = try c.lenientRequired(.text)
+            self.text = c.lenient(.text)
         }
     }
 
@@ -4081,10 +4063,10 @@ extension IM {
     }
 
     public struct CreateTag: Codable, Sendable {
-        public var tagType: TagType
-        public var name: String
-        public var i18nNames: [CreateTagI18nName]?
-        public init(tagType: TagType, name: String, i18nNames: [CreateTagI18nName]? = nil) {
+        public var tagType: TagType?
+        public var name: String?
+        public var i18nNames: [I18nName]?
+        public init(tagType: TagType? = nil, name: String? = nil, i18nNames: [I18nName]? = nil) {
             self.tagType = tagType
             self.name = name
             self.i18nNames = i18nNames
@@ -4096,8 +4078,8 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.tagType = try c.lenientRequired(.tagType)
-            self.name = try c.lenientRequired(.name)
+            self.tagType = c.lenient(.tagType)
+            self.name = c.lenient(.name)
             self.i18nNames = c.lenient(.i18nNames)
         }
     }
@@ -4107,24 +4089,6 @@ extension IM {
         public let rawValue: String
         public init(rawValue: String) { self.rawValue = rawValue }
         public static let tenant: Self = "tenant"
-    }
-
-    public struct CreateTagI18nName: Codable, Sendable {
-        public var locale: String
-        public var name: String
-        public init(locale: String, name: String) {
-            self.locale = locale
-            self.name = name
-        }
-        enum CodingKeys: String, CodingKey {
-            case locale
-            case name
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.locale = try c.lenientRequired(.locale)
-            self.name = try c.lenientRequired(.name)
-        }
     }
 
     public struct TagCreateResponse: Codable, Sendable {
@@ -4178,10 +4142,10 @@ extension IM {
     }
 
     public struct PatchTag: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var name: String?
-        public var i18nNames: [CreateTagI18nName]?
-        public init(id: String, name: String? = nil, i18nNames: [CreateTagI18nName]? = nil) {
+        public var i18nNames: [I18nName]?
+        public init(id: String? = nil, name: String? = nil, i18nNames: [I18nName]? = nil) {
             self.id = id
             self.name = name
             self.i18nNames = i18nNames
@@ -4193,7 +4157,7 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.name = c.lenient(.name)
             self.i18nNames = c.lenient(.i18nNames)
         }
@@ -4373,12 +4337,12 @@ extension IM {
     }
 
     public struct ChatSearchResponseV2: Codable, Sendable {
-        public var items: [ChatSearchResponseV2Item]
+        public var items: [ChatSearchResponseV2Item]?
         public var total: Int?
-        public var hasMore: Bool
+        public var hasMore: Bool?
         public var pageToken: String?
         public var notice: String?
-        public init(items: [ChatSearchResponseV2Item], total: Int? = nil, hasMore: Bool, pageToken: String? = nil, notice: String? = nil) {
+        public init(items: [ChatSearchResponseV2Item]? = nil, total: Int? = nil, hasMore: Bool? = nil, pageToken: String? = nil, notice: String? = nil) {
             self.items = items
             self.total = total
             self.hasMore = hasMore
@@ -4394,19 +4358,19 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
             self.total = c.lenient(.total)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
             self.pageToken = c.lenient(.pageToken)
             self.notice = c.lenient(.notice)
         }
     }
 
     public struct ChatSearchResponseV2Item: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var displayInfo: String?
         public var metaData: ChatSearchResponseV2ItemMetaData?
-        public init(id: String, displayInfo: String? = nil, metaData: ChatSearchResponseV2ItemMetaData? = nil) {
+        public init(id: String? = nil, displayInfo: String? = nil, metaData: ChatSearchResponseV2ItemMetaData? = nil) {
             self.id = id
             self.displayInfo = displayInfo
             self.metaData = metaData
@@ -4418,14 +4382,14 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.displayInfo = c.lenient(.displayInfo)
             self.metaData = c.lenient(.metaData)
         }
     }
 
     public struct ChatSearchResponseV2ItemMetaData: Codable, Sendable {
-        public var chatId: String
+        public var chatId: String?
         public var createTime: String?
         public var updateTime: String?
         public var external: Bool?
@@ -4437,7 +4401,7 @@ extension IM {
         public var ownerIdType: String?
         public var tenantKey: String?
         public var chatStatus: ChatStatus?
-        public init(chatId: String, createTime: String? = nil, updateTime: String? = nil, external: Bool? = nil, chatMode: String? = nil, description: String? = nil, avatar: String? = nil, name: String? = nil, ownerId: String? = nil, ownerIdType: String? = nil, tenantKey: String? = nil, chatStatus: ChatStatus? = nil) {
+        public init(chatId: String? = nil, createTime: String? = nil, updateTime: String? = nil, external: Bool? = nil, chatMode: String? = nil, description: String? = nil, avatar: String? = nil, name: String? = nil, ownerId: String? = nil, ownerIdType: String? = nil, tenantKey: String? = nil, chatStatus: ChatStatus? = nil) {
             self.chatId = chatId
             self.createTime = createTime
             self.updateTime = updateTime
@@ -4467,7 +4431,7 @@ extension IM {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.chatId = try c.lenientRequired(.chatId)
+            self.chatId = c.lenient(.chatId)
             self.createTime = c.lenient(.createTime)
             self.updateTime = c.lenient(.updateTime)
             self.external = c.lenient(.external)
@@ -4479,6 +4443,82 @@ extension IM {
             self.ownerIdType = c.lenient(.ownerIdType)
             self.tenantKey = c.lenient(.tenantKey)
             self.chatStatus = c.lenient(.chatStatus)
+        }
+    }
+
+    public struct MessageMessageReadV1Event: Codable, Sendable {
+        public var eventId: String?
+        public var token: String?
+        public var createTime: String?
+        public var eventType: String?
+        public var tenantKey: String?
+        public var ts: String?
+        public var uuid: String?
+        public var type: String?
+        public var appId: String?
+        public var reader: Reader?
+        public var messageIdList: [String]?
+        public init(eventId: String? = nil, token: String? = nil, createTime: String? = nil, eventType: String? = nil, tenantKey: String? = nil, ts: String? = nil, uuid: String? = nil, type: String? = nil, appId: String? = nil, reader: Reader? = nil, messageIdList: [String]? = nil) {
+            self.eventId = eventId
+            self.token = token
+            self.createTime = createTime
+            self.eventType = eventType
+            self.tenantKey = tenantKey
+            self.ts = ts
+            self.uuid = uuid
+            self.type = type
+            self.appId = appId
+            self.reader = reader
+            self.messageIdList = messageIdList
+        }
+        enum CodingKeys: String, CodingKey {
+            case eventId = "event_id"
+            case token
+            case createTime = "create_time"
+            case eventType = "event_type"
+            case tenantKey = "tenant_key"
+            case ts
+            case uuid
+            case type
+            case appId = "app_id"
+            case reader
+            case messageIdList = "message_id_list"
+        }
+        public init(from decoder: any Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            self.eventId = c.lenient(.eventId)
+            self.token = c.lenient(.token)
+            self.createTime = c.lenient(.createTime)
+            self.eventType = c.lenient(.eventType)
+            self.tenantKey = c.lenient(.tenantKey)
+            self.ts = c.lenient(.ts)
+            self.uuid = c.lenient(.uuid)
+            self.type = c.lenient(.type)
+            self.appId = c.lenient(.appId)
+            self.reader = c.lenient(.reader)
+            self.messageIdList = c.lenient(.messageIdList)
+        }
+    }
+
+    public struct Reader: Codable, Sendable {
+        public var readerId: ReaderId?
+        public var readTime: String?
+        public var tenantKey: String?
+        public init(readerId: ReaderId? = nil, readTime: String? = nil, tenantKey: String? = nil) {
+            self.readerId = readerId
+            self.readTime = readTime
+            self.tenantKey = tenantKey
+        }
+        enum CodingKeys: String, CodingKey {
+            case readerId = "reader_id"
+            case readTime = "read_time"
+            case tenantKey = "tenant_key"
+        }
+        public init(from decoder: any Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            self.readerId = c.lenient(.readerId)
+            self.readTime = c.lenient(.readTime)
+            self.tenantKey = c.lenient(.tenantKey)
         }
     }
 }

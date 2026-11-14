@@ -76,7 +76,7 @@ import LarkAttendance
 
     @Test("POST /open-apis/attendance/v1/groups") func v1_group_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"group":{"group_id":"s","group_name":"s","time_zone":"s","bind_dept_ids":["s"],"except_dept_ids":["s"],"bind_user_ids":["s"],"except_user_ids":["s"],"group_leader_ids":["s"],"sub_group_leader_ids":["s"],"allow_out_punch":true,"out_punch_need_approval":true,"out_punch_need_post_approval":true,"out_punch_need_remark":true,"out_punch_need_photo":true,"out_punch_allowed_hide_addr":true,"out_punch_allowed_adjust_addr":true,"adjust_range":1,"allow_pc_punch":true,"allow_remedy":true,"remedy_limit":true,"remedy_limit_count":1,"remedy_date_limit":true,"remedy_date_num":1,"allow_remedy_type_lack":true,"allow_remedy_type_late":true,"allow_remedy_type_early":true,"allow_remedy_type_normal":true,"show_cumulative_time":true,"show_over_time":true,"hide_staff_punch_time":true,"hide_clock_in_rule":true,"face_punch":true,"face_punch_cfg":1,"face_live_need_action":true,"face_downgrade":true,"replace_basic_pic":true,"anti_cheat_punch_config":{"intercept_suspected_cheat_punch":true,"check_cheat_software_punch":true,"check_buddy_punch":true,"check_simulate_wifi_punch":true,"check_change_device_punch":true,"allow_change_device_num":1,"suspected_cheat_handle_method":1},"machines":[{"machine_sn":"s","machine_name":"s"}],"gps_range":1,"locations":[{"location_id":"s","location_name":"s","location_type":1,"latitude":1.5,"longitude":1.5,"ssid":"s","bssid":"s","map_type":1,"address":"s","ip":"s","feature":"s","gps_range":1}],"group_type":1,"punch_day_shift_ids":["s"],"free_punch_cfg":{"free_start_time":"s","free_end_time":"s","punch_day":1,"work_day_no_punch_as_lack":true,"work_hours_demand":true,"work_hours":1,"free_clock_setting":{"clock_mode":1,"clock_internal_hhmm":1}},"calendar_id":1,"need_punch_special_days":[{"punch_day":1,"shift_id":"s"}],"no_need_punch_special_days":[{"punch_day":1,"shift_id":"s"}],"work_day_no_punch_as_lack":true,"effect_now":true,"remedy_period_type":1,"remedy_period_custom_date":1,"punch_type":1,"effect_time":"s","fixshift_effect_time":"s","member_effect_time":"s","rest_clockIn_need_approval":true,"clockIn_need_photo":true,"member_status_change":{"onboarding_on_no_need_punch":true,"onboarding_off_no_need_punch":true,"offboarding_on_no_need_punch":true,"offboarding_off_no_need_punch":true},"leave_need_punch":true,"leave_need_punch_cfg":{"late_minutes_as_late":1,"late_minutes_as_lack":1,"early_minutes_as_early":1,"early_minutes_as_lack":1,"not_during_shift":true},"go_out_need_punch":1,"go_out_need_punch_cfg":{"late_minutes_as_late":1,"late_minutes_as_lack":1,"early_minutes_as_early":1,"early_minutes_as_lack":1,"not_during_shift":true},"travel_need_punch":1,"travel_need_punch_cfg":{"late_minutes_as_late":1,"late_minutes_as_lack":1,"early_minutes_as_early":1,"early_minutes_as_lack":1,"not_during_shift":true},"need_punch_members":[{"rule_scope_type":1,"scope_group_list":{"scope_value_type":1,"operation_type":1,"right":[{"key":"s","name":"s"}],"member_ids":["s"],"custom_field_ID":"s","custom_field_obj_type":"s"}}],"no_need_punch_members":[{"rule_scope_type":1,"scope_group_list":{"scope_value_type":1,"operation_type":1,"right":[{"key":"s","name":"s"}],"member_ids":["s"],"custom_field_ID":"s","custom_field_obj_type":"s"}}],"save_auto_changes":true,"org_change_auto_adjust":true,"bind_default_dept_ids":["s"],"bind_default_user_ids":["s"],"overtime_clock_cfg":{"allow_punch_approval":true,"need_clock_over_time_start_and_end":true},"new_calendar_id":"s","allow_apply_punch":true,"clock_in_abnormal_settings":{"ignore_until_latest_clockout":true}}}}"##)
-        let resp = try await client.attendance.v1.group.create(params: Attendance.GroupCreateQuery(employeeType: "employee_id", deptType: "open_id"), body: Attendance.GroupCreateBody(group: Attendance.Group(groupName: "s", timeZone: "s", groupLeaderIds: ["s"], groupType: 1, punchDayShiftIds: ["s"], calendarId: 1)))
+        let resp = try await client.attendance.v1.group.create(params: Attendance.GroupCreateQuery(employeeType: "employee_id", deptType: "open_id"), body: Attendance.GroupCreateBody(group: Attendance.Group()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -112,7 +112,7 @@ import LarkAttendance
 
     @Test("POST /open-apis/attendance/v1/user_daily_shifts/batch_create") func v1_userDailyShift_batchCreate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"user_daily_shifts":[{"group_id":"s","shift_id":"s","month":1,"user_id":"s","day_no":1,"is_clear_schedule":true}]}}"##)
-        let resp = try await client.attendance.v1.userDailyShift.batchCreate(params: Attendance.UserDailyShiftQueryQuery(employeeType: "employee_id"), body: Attendance.UserDailyShiftBatchCreateBody(userDailyShifts: [Attendance.UserDailyShift(groupId: "s", shiftId: "s", month: 1, userId: "s", dayNo: 1)]))
+        let resp = try await client.attendance.v1.userDailyShift.batchCreate(params: Attendance.UserDailyShiftQueryQuery(employeeType: "employee_id"), body: Attendance.UserDailyShiftBatchCreateBody(userDailyShifts: [Attendance.UserDailyShift()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -124,7 +124,7 @@ import LarkAttendance
 
     @Test("POST /open-apis/attendance/v1/user_daily_shifts/batch_create_temp") func v1_userDailyShift_batchCreateTemp() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"user_tmp_daily_shifts":[{"group_id":"s","user_id":"s","date":1,"shift_name":"s","punch_time_simple_rules":[{"on_time":"s","off_time":"s"}]}]}}"##)
-        let resp = try await client.attendance.v1.userDailyShift.batchCreateTemp(params: Attendance.UserDailyShiftQueryQuery(employeeType: "employee_id"), body: Attendance.UserDailyShiftBatchCreateTempBody(userTmpDailyShifts: [Attendance.UserTmpDailyShift(groupId: "s", userId: "s", date: 1, shiftName: "s", punchTimeSimpleRules: [Attendance.PunchTimeSimpleRule(onTime: "s", offTime: "s")])]))
+        let resp = try await client.attendance.v1.userDailyShift.batchCreateTemp(params: Attendance.UserDailyShiftQueryQuery(employeeType: "employee_id"), body: Attendance.UserDailyShiftBatchCreateTempBody(userTmpDailyShifts: [Attendance.UserTmpDailyShift()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -216,7 +216,7 @@ import LarkAttendance
 
     @Test("POST /open-apis/attendance/v1/shifts") func v1_shift_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"shift":{"shift_id":"s","shift_name":"s","punch_times":1,"sub_shift_leader_ids":["s"],"is_flexible":true,"flexible_minutes":1,"flexible_rule":[{"flexible_early_minutes":1,"flexible_late_minutes":1}],"no_need_off":true,"punch_time_rule":[{"on_time":"s","off_time":"s","late_minutes_as_late":1,"late_minutes_as_lack":1,"on_advance_minutes":1,"early_minutes_as_early":1,"early_minutes_as_lack":1,"off_delay_minutes":1,"late_minutes_as_serious_late":1,"no_need_on":true,"no_need_off":true}],"late_off_late_on_rule":[{"late_off_minutes":1,"late_on_minutes":1}],"rest_time_rule":[{"rest_begin_time":"s","rest_end_time":"s"}],"overtime_rule":[{"on_overtime":"s","off_overtime":"s"}],"day_type":1,"overtime_rest_time_rule":[{"rest_begin_time":"s","rest_end_time":"s"}],"late_minutes_as_serious_late":1,"shift_middle_time_rule":{"middle_time_type":1,"fixed_middle_time":"s"},"shift_attendance_time_config":{"attendance_time":1.5,"on_attendance_time":1.5,"off_attendance_time":1.5},"late_off_late_on_setting":{"late_off_base_on_time_type":1,"late_on_base_on_time_type":1},"id":"s","rest_time_flexible_configs":[{"need_flexible":true,"late_mins":1}]}}}"##)
-        let resp = try await client.attendance.v1.shift.create(params: Attendance.ShiftCreateQuery(), body: Attendance.ShiftCreateBody(shiftName: "s", punchTimes: 1, punchTimeRule: [Attendance.PunchTimeRule(onTime: "s", offTime: "s", lateMinutesAsLate: 1, lateMinutesAsLack: 1, onAdvanceMinutes: 1, earlyMinutesAsEarly: 1, earlyMinutesAsLack: 1, offDelayMinutes: 1)]))
+        let resp = try await client.attendance.v1.shift.create(params: Attendance.ShiftCreateQuery(), body: Attendance.ShiftCreateBody(shiftName: "s", punchTimes: 1, punchTimeRule: [Attendance.PunchTimeRule()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -239,7 +239,7 @@ import LarkAttendance
 
     @Test("PUT /open-apis/attendance/v1/user_stats_views/:user_stats_view_id") func v1_userStatsView_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"view":{"view_id":"s","stats_type":"daily","user_id":"s","items":[{"code":"s","title":"s","child_items":[{"code":"s","value":"s","title":"s","column_type":1,"read_only":true,"min_value":"s","max_value":"s"}]}]}}}"##)
-        let resp = try await client.attendance.v1.userStatsView.update(userStatsViewId: "s", params: Attendance.UserDailyShiftQueryQuery(employeeType: "employee_id"), body: Attendance.UserStatsViewUpdateBody(view: Attendance.View(viewId: "s", statsType: "daily", userId: "s")))
+        let resp = try await client.attendance.v1.userStatsView.update(userStatsViewId: "s", params: Attendance.UserDailyShiftQueryQuery(employeeType: "employee_id"), body: Attendance.UserStatsViewUpdateBody(view: Attendance.View()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -367,7 +367,7 @@ import LarkAttendance
 
     @Test("PATCH /open-apis/attendance/v1/leave_accrual_record/:leave_id") func v1_leaveAccrualRecord_patch() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"record":{"id":"s","employment_id":"s","leave_type_id":"s","granting_quantity":"s","granting_unit":1,"effective_date":"s","expiration_date":"s","granted_by":1,"reason":[{"lang":"s","value":"s"}],"created_at":"s","created_by":"s","updated_at":"s","updated_by":"s","section_type":1}}}"##)
-        let resp = try await client.attendance.v1.leaveAccrualRecord.patch(leaveId: "s", params: Attendance.LeaveEmployExpireRecordGetQuery(), body: Attendance.LeaveAccrualRecordPatchBody(leaveGrantingRecordId: "s", employmentId: "s", leaveTypeId: "s", reason: [Attendance.Reason(lang: "s", value: "s")]))
+        let resp = try await client.attendance.v1.leaveAccrualRecord.patch(leaveId: "s", params: Attendance.LeaveEmployExpireRecordGetQuery(), body: Attendance.LeaveAccrualRecordPatchBody(leaveGrantingRecordId: "s", employmentId: "s", leaveTypeId: "s", reason: [Attendance.Reason()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -389,7 +389,7 @@ import LarkAttendance
 
     @Test("POST /open-apis/attendance/v1/user_flows/batch_create") func v1_userFlow_batchCreate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"flow_records":[{"user_id":"s","creator_id":"s","location_name":"s","check_time":"s","comment":"s","record_id":"s","longitude":1.5,"latitude":1.5,"ssid":"s","bssid":"s","is_field":true,"is_wifi":true,"type":1,"photo_urls":["s"],"device_id":"s","check_result":"NoNeedCheck","external_id":"s","idempotent_id":"s","create_time":"s"}]}}"##)
-        let resp = try await client.attendance.v1.userFlow.batchCreate(params: Attendance.UserDailyShiftQueryQuery(employeeType: "employee_id"), body: Attendance.UserFlowBatchCreateBody(flowRecords: [Attendance.FlowRecord(userId: "s", creatorId: "s", locationName: "s", checkTime: "s", comment: "s")]))
+        let resp = try await client.attendance.v1.userFlow.batchCreate(params: Attendance.UserDailyShiftQueryQuery(employeeType: "employee_id"), body: Attendance.UserFlowBatchCreateBody(flowRecords: [Attendance.FlowRecord()]))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)

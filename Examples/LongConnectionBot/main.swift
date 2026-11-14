@@ -35,13 +35,14 @@ let client = try LarkClient(appId: appId, appSecret: appSecret, domain: domain, 
 let dispatcher = EventDispatcher(logLevel: .info)
     .register(.imMessageReceiveV1) { event, _ in
         // Do slow work outside the handler so the ack is sent promptly.
+        guard let messageId = event.message?.messageId else { return nil }
         Task {
             do {
-                let text = event.text ?? "[\(event.message.messageType)]"
+                let text = event.text ?? "[\(event.message?.messageType ?? "unknown")]"
                 if text.contains("card") {
-                    _ = try await client.im.v1.message.reply(messageId: event.message.messageId, body: .card(choiceCard(chosen: nil)))
+                    _ = try await client.im.v1.message.reply(messageId: messageId, body: .card(choiceCard(chosen: nil)))
                 } else {
-                    _ = try await client.im.v1.message.reply(messageId: event.message.messageId, body: .text("echo: \(text)"))
+                    _ = try await client.im.v1.message.reply(messageId: messageId, body: .text("echo: \(text)"))
                 }
             } catch {
                 print("reply failed: \(error)")

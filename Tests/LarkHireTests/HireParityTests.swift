@@ -85,7 +85,7 @@ import LarkHire
 
     @Test("POST /open-apis/hire/v1/websites/:website_id/deliveries/create_by_resume") func v1_websiteDelivery_createByResume() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"delivery":{"application_id":"s","id":"s","job_id":"s","job_post_id":"s","portal_resume_id":"s","user_id":"s","talent_id":"s"}}}"##)
-        let resp = try await client.hire.v1.websiteDelivery.createByResume(websiteId: "s", params: Hire.WebsiteDeliveryCreateByResumeQuery(), body: Hire.WebsiteDeliveryCreateByResumeBody(jobPostId: "s", resume: Hire.Resume(basicInfo: Hire.BasicInfo(name: "s")), userId: "s"))
+        let resp = try await client.hire.v1.websiteDelivery.createByResume(websiteId: "s", params: Hire.WebsiteDeliveryCreateByResumeQuery(), body: Hire.WebsiteDeliveryCreateByResumeBody(jobPostId: "s", resume: Hire.Resume(), userId: "s"))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -161,7 +161,7 @@ import LarkHire
 
     @Test("POST /open-apis/hire/v1/talents/combined_create") func v1_talent_combinedCreate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"talent_id":"s","creator_id":"s","creator_account_type":1}}"##)
-        let resp = try await client.hire.v1.talent.combinedCreate(params: Hire.TalentCombinedCreateQuery(), body: Hire.TalentCombinedCreateBody(basicInfo: Hire.TalentCombinedCreateBodyBasicInfo(name: "s")))
+        let resp = try await client.hire.v1.talent.combinedCreate(params: Hire.TalentCombinedCreateQuery(), body: Hire.TalentCombinedCreateBody(basicInfo: Hire.TalentCombinedCreateBodyBasicInfo()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -194,7 +194,7 @@ import LarkHire
 
     @Test("POST /open-apis/hire/v1/talents/combined_update") func v1_talent_combinedUpdate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"talent_id":"s","operator_id":"s","operator_account_type":1}}"##)
-        let resp = try await client.hire.v1.talent.combinedUpdate(params: Hire.TalentCombinedCreateQuery(), body: Hire.TalentCombinedUpdateBody(talentId: "s", basicInfo: Hire.TalentCombinedUpdateBodyBasicInfo()))
+        let resp = try await client.hire.v1.talent.combinedUpdate(params: Hire.TalentCombinedCreateQuery(), body: Hire.TalentCombinedUpdateBody(talentId: "s", basicInfo: Hire.TalentCombinedCreateBodyBasicInfo()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -313,7 +313,7 @@ import LarkHire
 
     @Test("POST /open-apis/hire/v1/jobs/:job_id/combined_update") func v1_job_combinedUpdate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"default_job_post":{"id":"s"},"job":{"id":"s","title":"s","description":"s","code":"s","requirement":"s","recruitment_type":{"id":"s","zh_name":"s","en_name":"s","active_status":1},"department":{"id":"s","zh_name":"s","en_name":"s"},"city":{"city_code":"s","zh_name":"s","en_name":"s"},"min_job_level":{"id":"s","zh_name":"s","en_name":"s","active_status":1},"max_job_level":{"id":"s","zh_name":"s","en_name":"s","active_status":1},"highlight_list":[{"id":"s","zh_name":"s","en_name":"s"}],"job_category":{"id":"s","zh_name":"s","en_name":"s","active_status":1},"job_type":{"id":"s","zh_name":"s","en_name":"s"},"active_status":1,"create_user_id":"s","create_time":1,"update_time":1,"process_type":1,"process_id":"s","process_name":"s","process_en_name":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s"}}],"job_function":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"subject":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"head_count":1,"experience":1,"expiry_time":1,"min_salary":1,"max_salary":1,"required_degree":1,"city_list":[{"code":"s","name":{"zh_cn":"s","en_us":"s"}}],"job_attribute":1,"create_timestamp":"s","update_timestamp":"s","expiry_timestamp":"s","target_major_list":[{"id":"s","zh_name":"s","en_name":"s"}]},"job_manager":{"id":"s","recruiter_id":"s","hiring_manager_id_list":["s"],"assistant_id_list":["s"]},"interview_registration_schema_info":{"schema_id":"s","name":"s"},"onboard_registration_schema_info":{"schema_id":"s","name":"s"},"target_major_list":[{"id":"s","zh_name":"s","en_name":"s"}],"portal_website_apply_form_schema_info":{"schema_id":"s","name":"s"}}}"##)
-        let resp = try await client.hire.v1.job.combinedUpdate(jobId: "s", params: Hire.JobCombinedUpdateQuery(), body: Hire.JobCombinedUpdateBody(jobManagers: Hire.JobManagers(recruiterId: "s", hiringManagerIdList: ["s"]), isNeverExpired: true, jobTypeId: "s"))
+        let resp = try await client.hire.v1.job.combinedUpdate(jobId: "s", params: Hire.JobCombinedUpdateQuery(), body: Hire.JobCombinedUpdateBody(jobManagers: Hire.JobRecruiterResponseInfo(), isNeverExpired: true, jobTypeId: "s"))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -324,7 +324,7 @@ import LarkHire
 
     @Test("POST /open-apis/hire/v1/jobs/combined_create") func v1_job_combinedCreate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"default_job_post":{"id":"s"},"job":{"id":"s","title":"s","description":"s","code":"s","requirement":"s","recruitment_type":{"id":"s","zh_name":"s","en_name":"s","active_status":1},"department":{"id":"s","zh_name":"s","en_name":"s"},"city":{"city_code":"s","zh_name":"s","en_name":"s"},"min_job_level":{"id":"s","zh_name":"s","en_name":"s","active_status":1},"max_job_level":{"id":"s","zh_name":"s","en_name":"s","active_status":1},"highlight_list":[{"id":"s","zh_name":"s","en_name":"s"}],"job_category":{"id":"s","zh_name":"s","en_name":"s","active_status":1},"job_type":{"id":"s","zh_name":"s","en_name":"s"},"active_status":1,"create_user_id":"s","create_time":1,"update_time":1,"process_type":1,"process_id":"s","process_name":"s","process_en_name":"s","customized_data_list":[{"object_id":"s","name":{"zh_cn":"s","en_us":"s"},"object_type":1,"value":{"content":"s","option":{"key":"s","name":{"zh_cn":"s","en_us":"s"}},"option_list":[{"key":"s","name":{"zh_cn":"s","en_us":"s"}}],"time_range":{"start_time":"s","end_time":"s"},"time":"s","number":"s"}}],"job_function":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"subject":{"id":"s","name":{"zh_cn":"s","en_us":"s"}},"head_count":1,"experience":1,"expiry_time":1,"min_salary":1,"max_salary":1,"required_degree":1,"city_list":[{"code":"s","name":{"zh_cn":"s","en_us":"s"}}],"job_attribute":1,"create_timestamp":"s","update_timestamp":"s","expiry_timestamp":"s","target_major_list":[{"id":"s","zh_name":"s","en_name":"s"}]},"job_manager":{"id":"s","recruiter_id":"s","hiring_manager_id_list":["s"],"assistant_id_list":["s"]},"interview_registration_schema_info":{"schema_id":"s","name":"s"},"onboard_registration_schema_info":{"schema_id":"s","name":"s"},"target_major_list":[{"id":"s","zh_name":"s","en_name":"s"}],"portal_website_apply_form_schema_info":{"schema_id":"s","name":"s"}}}"##)
-        let resp = try await client.hire.v1.job.combinedCreate(params: Hire.JobCombinedUpdateQuery(), body: Hire.JobCombinedCreateBody(title: "s", jobManagers: Hire.JobManagers(recruiterId: "s", hiringManagerIdList: ["s"]), jobProcessId: "s", processType: 1, departmentId: "s", isNeverExpired: true, jobTypeId: "s", recruitmentTypeId: "s"))
+        let resp = try await client.hire.v1.job.combinedCreate(params: Hire.JobCombinedUpdateQuery(), body: Hire.JobCombinedCreateBody(title: "s", jobManagers: Hire.JobRecruiterResponseInfo(), jobProcessId: "s", processType: 1, departmentId: "s", isNeverExpired: true, jobTypeId: "s", recruitmentTypeId: "s"))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -381,7 +381,7 @@ import LarkHire
 
     @Test("POST /open-apis/hire/v1/external_referral_rewards") func v1_externalReferralReward_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"id":"s"}}"##)
-        let resp = try await client.hire.v1.externalReferralReward.create(params: Hire.WebsiteDeliveryCreateByResumeQuery(), body: Hire.ExternalReferralRewardCreateBody(referralUserId: "s", externalId: "s", ruleType: 1, bonus: Hire.Bonus(bonusType: 1), stage: 1))
+        let resp = try await client.hire.v1.externalReferralReward.create(params: Hire.WebsiteDeliveryCreateByResumeQuery(), body: Hire.ExternalReferralRewardCreateBody(referralUserId: "s", externalId: "s", ruleType: 1, bonus: Hire.Bonus(), stage: 1))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -536,7 +536,7 @@ import LarkHire
 
     @Test("POST /open-apis/hire/v1/eco_account_custom_fields") func v1_ecoAccountCustomField_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.hire.v1.ecoAccountCustomField.create(body: Hire.EcoAccountCustomFieldCreateBody(scope: 1, customFieldList: [Hire.CustomFieldList(key: "s", name: Hire.Name(), isRequired: true)]))
+        let resp = try await client.hire.v1.ecoAccountCustomField.create(body: Hire.EcoAccountCustomFieldCreateBody(scope: 1, customFieldList: [Hire.CustomFieldList()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
@@ -556,7 +556,7 @@ import LarkHire
 
     @Test("PATCH /open-apis/hire/v1/eco_account_custom_fields/batch_update") func v1_ecoAccountCustomField_batchUpdate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.hire.v1.ecoAccountCustomField.batchUpdate(body: Hire.EcoAccountCustomFieldCreateBody(scope: 1, customFieldList: [Hire.CustomFieldList(key: "s", name: Hire.Name(), isRequired: true)]))
+        let resp = try await client.hire.v1.ecoAccountCustomField.batchUpdate(body: Hire.EcoAccountCustomFieldCreateBody(scope: 1, customFieldList: [Hire.CustomFieldList()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
@@ -599,7 +599,7 @@ import LarkHire
 
     @Test("POST /open-apis/hire/v1/eco_exam_papers") func v1_ecoExamPaper_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.hire.v1.ecoExamPaper.create(body: Hire.EcoExamPaperCreateBody(accountId: "s", paperList: [Hire.PaperList(id: "s", name: "s")]))
+        let resp = try await client.hire.v1.ecoExamPaper.create(body: Hire.EcoExamPaperCreateBody(accountId: "s", paperList: [Hire.PaperList()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
@@ -609,7 +609,7 @@ import LarkHire
 
     @Test("PATCH /open-apis/hire/v1/eco_exam_papers/batch_update") func v1_ecoExamPaper_batchUpdate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.hire.v1.ecoExamPaper.batchUpdate(body: Hire.EcoExamPaperCreateBody(accountId: "s", paperList: [Hire.PaperList(id: "s", name: "s")]))
+        let resp = try await client.hire.v1.ecoExamPaper.batchUpdate(body: Hire.EcoExamPaperCreateBody(accountId: "s", paperList: [Hire.PaperList()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
@@ -662,7 +662,7 @@ import LarkHire
 
     @Test("POST /open-apis/hire/v1/offers") func v1_offer_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"offer_id":"s","application_id":"s","schema_id":"s","offer_type":1,"basic_info":{"department_id":"s","leader_user_id":"s","employment_job_id":"s","employee_type_id":"s","job_family_id":"s","job_level_id":"s","probation_month":1,"contract_year":1,"contract_period":{"period_type":1,"period":1},"expected_onboard_date":"s","onboard_address_id":"s","work_address_id":"s","owner_user_id":"s","recommended_words":"s","job_requirement_id":"s","job_process_type_id":1,"attachment_id_list":["s"],"common_attachment_id_list":["s"],"attachment_description":"s","operator_user_id":"s","position_id":"s","job_offered":"s","job_grade_id":"s","pathway_id":"s"},"salary_info":{"currency":"s","basic_salary":"s","probation_salary_percentage":"s","award_salary_multiple":"s","option_shares":"s","quarterly_bonus":"s","half_year_bonus":"s"},"customized_info_list":[{"id":"s","value":"s"}]}}"##)
-        let resp = try await client.hire.v1.offer.create(params: Hire.OfferCreateQuery(), body: Hire.OfferCreateBody(applicationId: "s", basicInfo: Hire.OfferCreateBodyBasicInfo(departmentId: "s", leaderUserId: "s", ownerUserId: "s", operatorUserId: "s")))
+        let resp = try await client.hire.v1.offer.create(params: Hire.OfferCreateQuery(), body: Hire.OfferCreateBody(applicationId: "s", basicInfo: Hire.OfferCreateBodyBasicInfo()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -673,7 +673,7 @@ import LarkHire
 
     @Test("PUT /open-apis/hire/v1/offers/:offer_id") func v1_offer_update() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{"offer_id":"s","schema_id":"s","basic_info":{"department_id":"s","leader_user_id":"s","employment_job_id":"s","employee_type_id":"s","job_family_id":"s","job_level_id":"s","probation_month":1,"contract_year":1,"contract_period":{"period_type":1,"period":1},"expected_onboard_date":"s","onboard_address_id":"s","work_address_id":"s","owner_user_id":"s","recommended_words":"s","job_requirement_id":"s","job_process_type_id":1,"attachment_id_list":["s"],"common_attachment_id_list":["s"],"attachment_description":"s","operator_user_id":"s","position_id":"s","job_offered":"s","job_grade_id":"s","pathway_id":"s"},"salary_info":{"currency":"s","basic_salary":"s","probation_salary_percentage":"s","award_salary_multiple":"s","option_shares":"s","quarterly_bonus":"s","half_year_bonus":"s"},"customized_info_list":[{"id":"s","value":"s"}]}}"##)
-        let resp = try await client.hire.v1.offer.update(offerId: "s", params: Hire.OfferCreateQuery(), body: Hire.OfferUpdateBody(schemaId: "s", basicInfo: Hire.OfferCreateBodyBasicInfo(departmentId: "s", leaderUserId: "s", ownerUserId: "s", operatorUserId: "s")))
+        let resp = try await client.hire.v1.offer.update(offerId: "s", params: Hire.OfferCreateQuery(), body: Hire.OfferUpdateBody(schemaId: "s", basicInfo: Hire.OfferCreateBodyBasicInfo()))
         #expect(resp.code == 0)
         #expect(resp.data != nil)
         let req = try #require(http.apiRequest)
@@ -844,7 +844,7 @@ import LarkHire
 
     @Test("POST /open-apis/hire/v1/eco_exams/:exam_id/login_info") func v1_ecoExam_loginInfo() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.hire.v1.ecoExam.loginInfo(examId: "s", body: Hire.EcoExamLoginInfoBody(examLoginInfo: Hire.ExamLoginInfo(examUrl: "s")))
+        let resp = try await client.hire.v1.ecoExam.loginInfo(examId: "s", body: Hire.EcoExamLoginInfoBody(examLoginInfo: Hire.ExamLoginInfo()))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
@@ -1007,7 +1007,7 @@ import LarkHire
 
     @Test("PATCH /open-apis/hire/v1/eco_background_check_custom_fields/batch_update") func v1_ecoBackgroundCheckCustomField_batchUpdate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.hire.v1.ecoBackgroundCheckCustomField.batchUpdate(body: Hire.EcoBackgroundCheckCustomFieldBatchUpdateBody(accountId: "s", customFieldList: [Hire.EcoBackgroundCheckCustomFieldBatchUpdateBodyCustomFieldList(type: "text", key: "s", name: Hire.Name(), isRequired: true)]))
+        let resp = try await client.hire.v1.ecoBackgroundCheckCustomField.batchUpdate(body: Hire.EcoBackgroundCheckCustomFieldBatchUpdateBody(accountId: "s", customFieldList: [Hire.EcoBackgroundCheckCustomFieldBatchUpdateBodyCustomFieldList()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
@@ -1017,7 +1017,7 @@ import LarkHire
 
     @Test("POST /open-apis/hire/v1/eco_background_check_custom_fields") func v1_ecoBackgroundCheckCustomField_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.hire.v1.ecoBackgroundCheckCustomField.create(body: Hire.EcoBackgroundCheckCustomFieldBatchUpdateBody(accountId: "s", customFieldList: [Hire.EcoBackgroundCheckCustomFieldBatchUpdateBodyCustomFieldList(type: "text", key: "s", name: Hire.Name(), isRequired: true)]))
+        let resp = try await client.hire.v1.ecoBackgroundCheckCustomField.create(body: Hire.EcoBackgroundCheckCustomFieldBatchUpdateBody(accountId: "s", customFieldList: [Hire.EcoBackgroundCheckCustomFieldBatchUpdateBodyCustomFieldList()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")
@@ -1484,7 +1484,7 @@ import LarkHire
 
     @Test("PATCH /open-apis/hire/v1/eco_background_check_packages/batch_update") func v1_ecoBackgroundCheckPackage_batchUpdate() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.hire.v1.ecoBackgroundCheckPackage.batchUpdate(body: Hire.EcoBackgroundCheckPackageBatchUpdateBody(accountId: "s", packageList: [Hire.PackageList(id: "s", name: "s")]))
+        let resp = try await client.hire.v1.ecoBackgroundCheckPackage.batchUpdate(body: Hire.EcoBackgroundCheckPackageBatchUpdateBody(accountId: "s", packageList: [Hire.PackageList()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "PATCH")
@@ -1494,7 +1494,7 @@ import LarkHire
 
     @Test("POST /open-apis/hire/v1/eco_background_check_packages") func v1_ecoBackgroundCheckPackage_create() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.hire.v1.ecoBackgroundCheckPackage.create(body: Hire.EcoBackgroundCheckPackageBatchUpdateBody(accountId: "s", packageList: [Hire.PackageList(id: "s", name: "s")]))
+        let resp = try await client.hire.v1.ecoBackgroundCheckPackage.create(body: Hire.EcoBackgroundCheckPackageBatchUpdateBody(accountId: "s", packageList: [Hire.PackageList()]))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")

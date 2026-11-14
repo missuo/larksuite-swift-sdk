@@ -113,12 +113,12 @@ extension Bitable {
     }
 
     public struct TableField: Codable, Sendable {
-        public var fieldName: String
-        public var type: Int
+        public var fieldName: String?
+        public var type: Int?
         public var uiType: UiType?
         public var property: TableFieldProperty?
         public var description: Description?
-        public init(fieldName: String, type: Int, uiType: UiType? = nil, property: TableFieldProperty? = nil, description: Description? = nil) {
+        public init(fieldName: String? = nil, type: Int? = nil, uiType: UiType? = nil, property: TableFieldProperty? = nil, description: Description? = nil) {
             self.fieldName = fieldName
             self.type = type
             self.uiType = uiType
@@ -134,8 +134,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldName = try c.lenientRequired(.fieldName)
-            self.type = try c.lenientRequired(.type)
+            self.fieldName = c.lenient(.fieldName)
+            self.type = c.lenient(.type)
             self.uiType = c.lenient(.uiType)
             self.property = c.lenient(.property)
             self.description = c.lenient(.description)
@@ -281,9 +281,9 @@ extension Bitable {
     }
 
     public struct AutoSerial: Codable, Sendable {
-        public var type: AutoSerialType
+        public var type: AutoSerialType?
         public var options: [AutoSerialOption]?
-        public init(type: AutoSerialType, options: [AutoSerialOption]? = nil) {
+        public init(type: AutoSerialType? = nil, options: [AutoSerialOption]? = nil) {
             self.type = type
             self.options = options
         }
@@ -293,7 +293,7 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
+            self.type = c.lenient(.type)
             self.options = c.lenient(.options)
         }
     }
@@ -307,9 +307,9 @@ extension Bitable {
     }
 
     public struct AutoSerialOption: Codable, Sendable {
-        public var type: AutoSerialOptionType
-        public var value: String
-        public init(type: AutoSerialOptionType, value: String) {
+        public var type: AutoSerialOptionType?
+        public var value: String?
+        public init(type: AutoSerialOptionType? = nil, value: String? = nil) {
             self.type = type
             self.value = value
         }
@@ -319,8 +319,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.value = try c.lenientRequired(.value)
+            self.type = c.lenient(.type)
+            self.value = c.lenient(.value)
         }
     }
 
@@ -334,8 +334,8 @@ extension Bitable {
     }
 
     public struct Location: Codable, Sendable {
-        public var inputType: InputType
-        public init(inputType: InputType) {
+        public var inputType: InputType?
+        public init(inputType: InputType? = nil) {
             self.inputType = inputType
         }
         enum CodingKeys: String, CodingKey {
@@ -343,7 +343,7 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.inputType = try c.lenientRequired(.inputType)
+            self.inputType = c.lenient(.inputType)
         }
     }
 
@@ -388,10 +388,10 @@ extension Bitable {
     }
 
     public struct TableFieldPropertyType: Codable, Sendable {
-        public var dataType: Int
+        public var dataType: Int?
         public var uiProperty: UiProperty?
         public var uiType: TableFieldPropertyTypeUiType?
-        public init(dataType: Int, uiProperty: UiProperty? = nil, uiType: TableFieldPropertyTypeUiType? = nil) {
+        public init(dataType: Int? = nil, uiProperty: UiProperty? = nil, uiType: TableFieldPropertyTypeUiType? = nil) {
             self.dataType = dataType
             self.uiProperty = uiProperty
             self.uiType = uiType
@@ -403,7 +403,7 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.dataType = try c.lenientRequired(.dataType)
+            self.dataType = c.lenient(.dataType)
             self.uiProperty = c.lenient(.uiProperty)
             self.uiType = c.lenient(.uiType)
         }
@@ -477,9 +477,9 @@ extension Bitable {
     }
 
     public struct FilterInfoFilterInfo: Codable, Sendable {
-        public var conjunction: Conjunction
-        public var conditions: [Condition]
-        public init(conjunction: Conjunction, conditions: [Condition]) {
+        public var conjunction: Conjunction?
+        public var conditions: [Condition]?
+        public init(conjunction: Conjunction? = nil, conditions: [Condition]? = nil) {
             self.conjunction = conjunction
             self.conditions = conditions
         }
@@ -489,8 +489,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.conjunction = try c.lenientRequired(.conjunction)
-            self.conditions = try c.lenientRequired(.conditions)
+            self.conjunction = c.lenient(.conjunction)
+            self.conditions = c.lenient(.conditions)
         }
     }
 
@@ -503,12 +503,12 @@ extension Bitable {
     }
 
     public struct Condition: Codable, Sendable {
-        public var fieldId: String
-        public var `operator`: Operator
+        public var fieldId: String?
+        public var `operator`: Operator?
         public var value: String?
         public var conditionId: String?
         public var fieldType: Int?
-        public init(fieldId: String, `operator`: Operator, value: String? = nil, conditionId: String? = nil, fieldType: Int? = nil) {
+        public init(fieldId: String? = nil, `operator`: Operator? = nil, value: String? = nil, conditionId: String? = nil, fieldType: Int? = nil) {
             self.fieldId = fieldId
             self.operator = `operator`
             self.value = value
@@ -524,8 +524,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldId = try c.lenientRequired(.fieldId)
-            self.operator = try c.lenientRequired(.`operator`)
+            self.fieldId = c.lenient(.fieldId)
+            self.operator = c.lenient(.`operator`)
             self.value = c.lenient(.value)
             self.conditionId = c.lenient(.conditionId)
             self.fieldType = c.lenient(.fieldType)
@@ -603,12 +603,12 @@ extension Bitable {
     }
 
     public struct AppTableCreateBodyTableField: Codable, Sendable {
-        public var fieldName: String
-        public var type: Int
+        public var fieldName: String?
+        public var type: Int?
         public var uiType: UiType?
         public var property: AppTableCreateBodyTableFieldProperty?
         public var description: Description?
-        public init(fieldName: String, type: Int, uiType: UiType? = nil, property: AppTableCreateBodyTableFieldProperty? = nil, description: Description? = nil) {
+        public init(fieldName: String? = nil, type: Int? = nil, uiType: UiType? = nil, property: AppTableCreateBodyTableFieldProperty? = nil, description: Description? = nil) {
             self.fieldName = fieldName
             self.type = type
             self.uiType = uiType
@@ -624,8 +624,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldName = try c.lenientRequired(.fieldName)
-            self.type = try c.lenientRequired(.type)
+            self.fieldName = c.lenient(.fieldName)
+            self.type = c.lenient(.type)
             self.uiType = c.lenient(.uiType)
             self.property = c.lenient(.property)
             self.description = c.lenient(.description)
@@ -737,9 +737,9 @@ extension Bitable {
     }
 
     public struct AppTableCreateBodyTableFieldPropertyFilterInfoFilterInfo: Codable, Sendable {
-        public var conjunction: Conjunction
-        public var conditions: [AppTableCreateBodyTableFieldPropertyFilterInfoFilterInfoCondition]
-        public init(conjunction: Conjunction, conditions: [AppTableCreateBodyTableFieldPropertyFilterInfoFilterInfoCondition]) {
+        public var conjunction: Conjunction?
+        public var conditions: [AppTableCreateBodyTableFieldPropertyFilterInfoFilterInfoCondition]?
+        public init(conjunction: Conjunction? = nil, conditions: [AppTableCreateBodyTableFieldPropertyFilterInfoFilterInfoCondition]? = nil) {
             self.conjunction = conjunction
             self.conditions = conditions
         }
@@ -749,16 +749,16 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.conjunction = try c.lenientRequired(.conjunction)
-            self.conditions = try c.lenientRequired(.conditions)
+            self.conjunction = c.lenient(.conjunction)
+            self.conditions = c.lenient(.conditions)
         }
     }
 
     public struct AppTableCreateBodyTableFieldPropertyFilterInfoFilterInfoCondition: Codable, Sendable {
-        public var fieldId: String
-        public var `operator`: Operator
+        public var fieldId: String?
+        public var `operator`: Operator?
         public var value: String?
-        public init(fieldId: String, `operator`: Operator, value: String? = nil) {
+        public init(fieldId: String? = nil, `operator`: Operator? = nil, value: String? = nil) {
             self.fieldId = fieldId
             self.operator = `operator`
             self.value = value
@@ -770,8 +770,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldId = try c.lenientRequired(.fieldId)
-            self.operator = try c.lenientRequired(.`operator`)
+            self.fieldId = c.lenient(.fieldId)
+            self.operator = c.lenient(.`operator`)
             self.value = c.lenient(.value)
         }
     }
@@ -919,11 +919,11 @@ extension Bitable {
     }
 
     public struct AppDashboardListResponse: Codable, Sendable {
-        public var dashboards: [Dashboard]
-        public var pageToken: String
-        public var hasMore: Bool
+        public var dashboards: [Dashboard]?
+        public var pageToken: String?
+        public var hasMore: Bool?
         public var total: Int?
-        public init(dashboards: [Dashboard], pageToken: String, hasMore: Bool, total: Int? = nil) {
+        public init(dashboards: [Dashboard]? = nil, pageToken: String? = nil, hasMore: Bool? = nil, total: Int? = nil) {
             self.dashboards = dashboards
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -937,18 +937,18 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.dashboards = try c.lenientRequired(.dashboards)
-            self.pageToken = try c.lenientRequired(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.dashboards = c.lenient(.dashboards)
+            self.pageToken = c.lenient(.pageToken)
+            self.hasMore = c.lenient(.hasMore)
             self.total = c.lenient(.total)
         }
     }
 
     public struct Dashboard: Codable, Sendable {
-        public var blockId: String
-        public var name: String
+        public var blockId: String?
+        public var name: String?
         public var shareConfig: ShareConfig?
-        public init(blockId: String, name: String, shareConfig: ShareConfig? = nil) {
+        public init(blockId: String? = nil, name: String? = nil, shareConfig: ShareConfig? = nil) {
             self.blockId = blockId
             self.name = name
             self.shareConfig = shareConfig
@@ -960,8 +960,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.blockId = try c.lenientRequired(.blockId)
-            self.name = try c.lenientRequired(.name)
+            self.blockId = c.lenient(.blockId)
+            self.name = c.lenient(.name)
             self.shareConfig = c.lenient(.shareConfig)
         }
     }
@@ -1407,14 +1407,14 @@ extension Bitable {
     }
 
     public struct AppTableRecordBatchCreateBodyRecord: Codable, Sendable {
-        public var fields: [String: JSONValue]
+        public var fields: [String: JSONValue]?
         public var createdBy: CreatedBy?
         public var createdTime: Int?
         public var lastModifiedBy: CreatedBy?
         public var lastModifiedTime: Int?
         public var sharedUrl: String?
         public var recordUrl: String?
-        public init(fields: [String: JSONValue], createdBy: CreatedBy? = nil, createdTime: Int? = nil, lastModifiedBy: CreatedBy? = nil, lastModifiedTime: Int? = nil, sharedUrl: String? = nil, recordUrl: String? = nil) {
+        public init(fields: [String: JSONValue]? = nil, createdBy: CreatedBy? = nil, createdTime: Int? = nil, lastModifiedBy: CreatedBy? = nil, lastModifiedTime: Int? = nil, sharedUrl: String? = nil, recordUrl: String? = nil) {
             self.fields = fields
             self.createdBy = createdBy
             self.createdTime = createdTime
@@ -1434,7 +1434,7 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fields = try c.lenientRequired(.fields)
+            self.fields = c.lenient(.fields)
             self.createdBy = c.lenient(.createdBy)
             self.createdTime = c.lenient(.createdTime)
             self.lastModifiedBy = c.lenient(.lastModifiedBy)
@@ -1489,7 +1489,7 @@ extension Bitable {
     }
 
     public struct AppTableRecordBatchCreateResponseRecord: Codable, Sendable {
-        public var fields: [String: JSONValue]
+        public var fields: [String: JSONValue]?
         public var recordId: String?
         public var createdBy: CreatedBy?
         public var createdTime: Int?
@@ -1497,7 +1497,7 @@ extension Bitable {
         public var lastModifiedTime: Int?
         public var sharedUrl: String?
         public var recordUrl: String?
-        public init(fields: [String: JSONValue], recordId: String? = nil, createdBy: CreatedBy? = nil, createdTime: Int? = nil, lastModifiedBy: CreatedBy? = nil, lastModifiedTime: Int? = nil, sharedUrl: String? = nil, recordUrl: String? = nil) {
+        public init(fields: [String: JSONValue]? = nil, recordId: String? = nil, createdBy: CreatedBy? = nil, createdTime: Int? = nil, lastModifiedBy: CreatedBy? = nil, lastModifiedTime: Int? = nil, sharedUrl: String? = nil, recordUrl: String? = nil) {
             self.fields = fields
             self.recordId = recordId
             self.createdBy = createdBy
@@ -1519,7 +1519,7 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fields = try c.lenientRequired(.fields)
+            self.fields = c.lenient(.fields)
             self.recordId = c.lenient(.recordId)
             self.createdBy = c.lenient(.createdBy)
             self.createdTime = c.lenient(.createdTime)
@@ -1683,10 +1683,10 @@ extension Bitable {
     }
 
     public struct Filter: Codable, Sendable {
-        public var conjunction: Conjunction
+        public var conjunction: Conjunction?
         public var conditions: [FilterCondition]?
         public var children: [Children]?
-        public init(conjunction: Conjunction, conditions: [FilterCondition]? = nil, children: [Children]? = nil) {
+        public init(conjunction: Conjunction? = nil, conditions: [FilterCondition]? = nil, children: [Children]? = nil) {
             self.conjunction = conjunction
             self.conditions = conditions
             self.children = children
@@ -1698,17 +1698,17 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.conjunction = try c.lenientRequired(.conjunction)
+            self.conjunction = c.lenient(.conjunction)
             self.conditions = c.lenient(.conditions)
             self.children = c.lenient(.children)
         }
     }
 
     public struct FilterCondition: Codable, Sendable {
-        public var fieldName: String
-        public var `operator`: FilterConditionOperator
+        public var fieldName: String?
+        public var `operator`: FilterConditionOperator?
         public var value: [String]?
-        public init(fieldName: String, `operator`: FilterConditionOperator, value: [String]? = nil) {
+        public init(fieldName: String? = nil, `operator`: FilterConditionOperator? = nil, value: [String]? = nil) {
             self.fieldName = fieldName
             self.operator = `operator`
             self.value = value
@@ -1720,8 +1720,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldName = try c.lenientRequired(.fieldName)
-            self.operator = try c.lenientRequired(.`operator`)
+            self.fieldName = c.lenient(.fieldName)
+            self.operator = c.lenient(.`operator`)
             self.value = c.lenient(.value)
         }
     }
@@ -1745,9 +1745,9 @@ extension Bitable {
     }
 
     public struct Children: Codable, Sendable {
-        public var conjunction: Conjunction
+        public var conjunction: Conjunction?
         public var conditions: [FilterCondition]?
-        public init(conjunction: Conjunction, conditions: [FilterCondition]? = nil) {
+        public init(conjunction: Conjunction? = nil, conditions: [FilterCondition]? = nil) {
             self.conjunction = conjunction
             self.conditions = conditions
         }
@@ -1757,7 +1757,7 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.conjunction = try c.lenientRequired(.conjunction)
+            self.conjunction = c.lenient(.conjunction)
             self.conditions = c.lenient(.conditions)
         }
     }
@@ -1958,8 +1958,8 @@ extension Bitable {
 
     public struct MemberList: Codable, Sendable {
         public var type: MemberListType?
-        public var id: String
-        public init(type: MemberListType? = nil, id: String) {
+        public var id: String?
+        public init(type: MemberListType? = nil, id: String? = nil) {
             self.type = type
             self.id = id
         }
@@ -1970,7 +1970,7 @@ extension Bitable {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.type = c.lenient(.type)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
         }
     }
 
@@ -2118,14 +2118,14 @@ extension Bitable {
     }
 
     public struct TableRole: Codable, Sendable {
-        public var tablePerm: Int
+        public var tablePerm: Int?
         public var tableName: String?
         public var tableId: String?
         public var recRule: RecRule?
         public var fieldPerm: [String: Int]?
         public var allowAddRecord: Bool?
         public var allowDeleteRecord: Bool?
-        public init(tablePerm: Int, tableName: String? = nil, tableId: String? = nil, recRule: RecRule? = nil, fieldPerm: [String: Int]? = nil, allowAddRecord: Bool? = nil, allowDeleteRecord: Bool? = nil) {
+        public init(tablePerm: Int? = nil, tableName: String? = nil, tableId: String? = nil, recRule: RecRule? = nil, fieldPerm: [String: Int]? = nil, allowAddRecord: Bool? = nil, allowDeleteRecord: Bool? = nil) {
             self.tablePerm = tablePerm
             self.tableName = tableName
             self.tableId = tableId
@@ -2145,7 +2145,7 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.tablePerm = try c.lenientRequired(.tablePerm)
+            self.tablePerm = c.lenient(.tablePerm)
             self.tableName = c.lenient(.tableName)
             self.tableId = c.lenient(.tableId)
             self.recRule = c.lenient(.recRule)
@@ -2156,10 +2156,10 @@ extension Bitable {
     }
 
     public struct RecRule: Codable, Sendable {
-        public var conditions: [RecRuleCondition]
+        public var conditions: [RecRuleCondition]?
         public var conjunction: Conjunction?
         public var otherPerm: Int?
-        public init(conditions: [RecRuleCondition], conjunction: Conjunction? = nil, otherPerm: Int? = nil) {
+        public init(conditions: [RecRuleCondition]? = nil, conjunction: Conjunction? = nil, otherPerm: Int? = nil) {
             self.conditions = conditions
             self.conjunction = conjunction
             self.otherPerm = otherPerm
@@ -2171,17 +2171,17 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.conditions = try c.lenientRequired(.conditions)
+            self.conditions = c.lenient(.conditions)
             self.conjunction = c.lenient(.conjunction)
             self.otherPerm = c.lenient(.otherPerm)
         }
     }
 
     public struct RecRuleCondition: Codable, Sendable {
-        public var fieldName: String
+        public var fieldName: String?
         public var `operator`: RecRuleConditionOperator?
         public var value: [String]?
-        public init(fieldName: String, `operator`: RecRuleConditionOperator? = nil, value: [String]? = nil) {
+        public init(fieldName: String? = nil, `operator`: RecRuleConditionOperator? = nil, value: [String]? = nil) {
             self.fieldName = fieldName
             self.operator = `operator`
             self.value = value
@@ -2193,7 +2193,7 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldName = try c.lenientRequired(.fieldName)
+            self.fieldName = c.lenient(.fieldName)
             self.operator = c.lenient(.`operator`)
             self.value = c.lenient(.value)
         }
@@ -2212,9 +2212,9 @@ extension Bitable {
     }
 
     public struct BlockRole: Codable, Sendable {
-        public var blockId: String
-        public var blockPerm: Int
-        public init(blockId: String, blockPerm: Int) {
+        public var blockId: String?
+        public var blockPerm: Int?
+        public init(blockId: String? = nil, blockPerm: Int? = nil) {
             self.blockId = blockId
             self.blockPerm = blockPerm
         }
@@ -2224,8 +2224,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.blockId = try c.lenientRequired(.blockId)
-            self.blockPerm = try c.lenientRequired(.blockPerm)
+            self.blockId = c.lenient(.blockId)
+            self.blockPerm = c.lenient(.blockPerm)
         }
     }
 
@@ -2244,11 +2244,11 @@ extension Bitable {
     }
 
     public struct Role: Codable, Sendable {
-        public var roleName: String
+        public var roleName: String?
         public var roleId: String?
-        public var tableRoles: [RoleTableRole]
+        public var tableRoles: [RoleTableRole]?
         public var blockRoles: [RoleBlockRole]?
-        public init(roleName: String, roleId: String? = nil, tableRoles: [RoleTableRole], blockRoles: [RoleBlockRole]? = nil) {
+        public init(roleName: String? = nil, roleId: String? = nil, tableRoles: [RoleTableRole]? = nil, blockRoles: [RoleBlockRole]? = nil) {
             self.roleName = roleName
             self.roleId = roleId
             self.tableRoles = tableRoles
@@ -2262,22 +2262,22 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.roleName = try c.lenientRequired(.roleName)
+            self.roleName = c.lenient(.roleName)
             self.roleId = c.lenient(.roleId)
-            self.tableRoles = try c.lenientRequired(.tableRoles)
+            self.tableRoles = c.lenient(.tableRoles)
             self.blockRoles = c.lenient(.blockRoles)
         }
     }
 
     public struct RoleTableRole: Codable, Sendable {
-        public var tablePerm: Int
+        public var tablePerm: Int?
         public var tableName: String?
         public var tableId: String?
         public var recRule: RoleTableRoleRecRule?
         public var fieldPerm: [String: Int]?
         public var allowAddRecord: Bool?
         public var allowDeleteRecord: Bool?
-        public init(tablePerm: Int, tableName: String? = nil, tableId: String? = nil, recRule: RoleTableRoleRecRule? = nil, fieldPerm: [String: Int]? = nil, allowAddRecord: Bool? = nil, allowDeleteRecord: Bool? = nil) {
+        public init(tablePerm: Int? = nil, tableName: String? = nil, tableId: String? = nil, recRule: RoleTableRoleRecRule? = nil, fieldPerm: [String: Int]? = nil, allowAddRecord: Bool? = nil, allowDeleteRecord: Bool? = nil) {
             self.tablePerm = tablePerm
             self.tableName = tableName
             self.tableId = tableId
@@ -2297,7 +2297,7 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.tablePerm = try c.lenientRequired(.tablePerm)
+            self.tablePerm = c.lenient(.tablePerm)
             self.tableName = c.lenient(.tableName)
             self.tableId = c.lenient(.tableId)
             self.recRule = c.lenient(.recRule)
@@ -2308,10 +2308,10 @@ extension Bitable {
     }
 
     public struct RoleTableRoleRecRule: Codable, Sendable {
-        public var conditions: [RoleTableRoleRecRuleCondition]
+        public var conditions: [RoleTableRoleRecRuleCondition]?
         public var conjunction: Conjunction?
         public var otherPerm: Int?
-        public init(conditions: [RoleTableRoleRecRuleCondition], conjunction: Conjunction? = nil, otherPerm: Int? = nil) {
+        public init(conditions: [RoleTableRoleRecRuleCondition]? = nil, conjunction: Conjunction? = nil, otherPerm: Int? = nil) {
             self.conditions = conditions
             self.conjunction = conjunction
             self.otherPerm = otherPerm
@@ -2323,18 +2323,18 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.conditions = try c.lenientRequired(.conditions)
+            self.conditions = c.lenient(.conditions)
             self.conjunction = c.lenient(.conjunction)
             self.otherPerm = c.lenient(.otherPerm)
         }
     }
 
     public struct RoleTableRoleRecRuleCondition: Codable, Sendable {
-        public var fieldName: String
+        public var fieldName: String?
         public var `operator`: RecRuleConditionOperator?
         public var value: [String]?
         public var fieldType: Int?
-        public init(fieldName: String, `operator`: RecRuleConditionOperator? = nil, value: [String]? = nil, fieldType: Int? = nil) {
+        public init(fieldName: String? = nil, `operator`: RecRuleConditionOperator? = nil, value: [String]? = nil, fieldType: Int? = nil) {
             self.fieldName = fieldName
             self.operator = `operator`
             self.value = value
@@ -2348,7 +2348,7 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldName = try c.lenientRequired(.fieldName)
+            self.fieldName = c.lenient(.fieldName)
             self.operator = c.lenient(.`operator`)
             self.value = c.lenient(.value)
             self.fieldType = c.lenient(.fieldType)
@@ -2356,10 +2356,10 @@ extension Bitable {
     }
 
     public struct RoleBlockRole: Codable, Sendable {
-        public var blockId: String
+        public var blockId: String?
         public var blockType: BlockType?
-        public var blockPerm: Int
-        public init(blockId: String, blockType: BlockType? = nil, blockPerm: Int) {
+        public var blockPerm: Int?
+        public init(blockId: String? = nil, blockType: BlockType? = nil, blockPerm: Int? = nil) {
             self.blockId = blockId
             self.blockType = blockType
             self.blockPerm = blockPerm
@@ -2371,9 +2371,9 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.blockId = try c.lenientRequired(.blockId)
+            self.blockId = c.lenient(.blockId)
             self.blockType = c.lenient(.blockType)
-            self.blockPerm = try c.lenientRequired(.blockPerm)
+            self.blockPerm = c.lenient(.blockPerm)
         }
     }
 
@@ -2502,10 +2502,10 @@ extension Bitable {
     }
 
     public struct ViewPropertyFilterInfo: Codable, Sendable {
-        public var conjunction: Conjunction
-        public var conditions: [Condition]
+        public var conjunction: Conjunction?
+        public var conditions: [Condition]?
         public var conditionOmitted: Bool?
-        public init(conjunction: Conjunction, conditions: [Condition], conditionOmitted: Bool? = nil) {
+        public init(conjunction: Conjunction? = nil, conditions: [Condition]? = nil, conditionOmitted: Bool? = nil) {
             self.conjunction = conjunction
             self.conditions = conditions
             self.conditionOmitted = conditionOmitted
@@ -2517,8 +2517,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.conjunction = try c.lenientRequired(.conjunction)
-            self.conditions = try c.lenientRequired(.conditions)
+            self.conjunction = c.lenient(.conjunction)
+            self.conditions = c.lenient(.conditions)
             self.conditionOmitted = c.lenient(.conditionOmitted)
         }
     }
@@ -2694,8 +2694,8 @@ extension Bitable {
     }
 
     public struct AppTableFormGetResponse: Codable, Sendable {
-        public var form: AppTableFormGetResponseForm
-        public init(form: AppTableFormGetResponseForm) {
+        public var form: AppTableFormGetResponseForm?
+        public init(form: AppTableFormGetResponseForm? = nil) {
             self.form = form
         }
         enum CodingKeys: String, CodingKey {
@@ -2703,7 +2703,7 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.form = try c.lenientRequired(.form)
+            self.form = c.lenient(.form)
         }
     }
 
@@ -2796,10 +2796,10 @@ extension Bitable {
 
     public struct FieldGroup: Codable, Sendable {
         public var id: String?
-        public var name: String
-        public var children: [FieldGroupChildren]
+        public var name: String?
+        public var children: [FieldGroupChildren]?
         public var description: String?
-        public init(id: String? = nil, name: String, children: [FieldGroupChildren], description: String? = nil) {
+        public init(id: String? = nil, name: String? = nil, children: [FieldGroupChildren]? = nil, description: String? = nil) {
             self.id = id
             self.name = name
             self.children = children
@@ -2814,16 +2814,16 @@ extension Bitable {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.name = try c.lenientRequired(.name)
-            self.children = try c.lenientRequired(.children)
+            self.name = c.lenient(.name)
+            self.children = c.lenient(.children)
             self.description = c.lenient(.description)
         }
     }
 
     public struct FieldGroupChildren: Codable, Sendable {
-        public var type: FieldGroupChildrenType
-        public var id: String
-        public init(type: FieldGroupChildrenType, id: String) {
+        public var type: FieldGroupChildrenType?
+        public var id: String?
+        public init(type: FieldGroupChildrenType? = nil, id: String? = nil) {
             self.type = type
             self.id = id
         }
@@ -2833,8 +2833,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.id = try c.lenientRequired(.id)
+            self.type = c.lenient(.type)
+            self.id = c.lenient(.id)
         }
     }
 
@@ -2894,10 +2894,10 @@ extension Bitable {
     }
 
     public struct RichDescription: Codable, Sendable {
-        public var segmentType: SegmentType
-        public var text: String
+        public var segmentType: SegmentType?
+        public var text: String?
         public var link: String?
-        public init(segmentType: SegmentType, text: String, link: String? = nil) {
+        public init(segmentType: SegmentType? = nil, text: String? = nil, link: String? = nil) {
             self.segmentType = segmentType
             self.text = text
             self.link = link
@@ -2909,8 +2909,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.segmentType = try c.lenientRequired(.segmentType)
-            self.text = try c.lenientRequired(.text)
+            self.segmentType = c.lenient(.segmentType)
+            self.text = c.lenient(.text)
             self.link = c.lenient(.link)
         }
     }
@@ -2972,11 +2972,11 @@ extension Bitable {
     }
 
     public struct AppTableFormFieldListResponse: Codable, Sendable {
-        public var items: [AppTableFormField]
-        public var pageToken: String
-        public var hasMore: Bool
-        public var total: Int
-        public init(items: [AppTableFormField], pageToken: String, hasMore: Bool, total: Int) {
+        public var items: [AppTableFormField]?
+        public var pageToken: String?
+        public var hasMore: Bool?
+        public var total: Int?
+        public init(items: [AppTableFormField]? = nil, pageToken: String? = nil, hasMore: Bool? = nil, total: Int? = nil) {
             self.items = items
             self.pageToken = pageToken
             self.hasMore = hasMore
@@ -2990,10 +2990,10 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
-            self.pageToken = try c.lenientRequired(.pageToken)
-            self.hasMore = try c.lenientRequired(.hasMore)
-            self.total = try c.lenientRequired(.total)
+            self.items = c.lenient(.items)
+            self.pageToken = c.lenient(.pageToken)
+            self.hasMore = c.lenient(.hasMore)
+            self.total = c.lenient(.total)
         }
     }
 
@@ -3046,8 +3046,8 @@ extension Bitable {
     }
 
     public struct AppWorkflowListResponse: Codable, Sendable {
-        public var workflows: [Workflow]
-        public init(workflows: [Workflow]) {
+        public var workflows: [Workflow]?
+        public init(workflows: [Workflow]? = nil) {
             self.workflows = workflows
         }
         enum CodingKeys: String, CodingKey {
@@ -3055,15 +3055,15 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.workflows = try c.lenientRequired(.workflows)
+            self.workflows = c.lenient(.workflows)
         }
     }
 
     public struct Workflow: Codable, Sendable {
-        public var workflowId: String
+        public var workflowId: String?
         public var status: String?
         public var title: String?
-        public init(workflowId: String, status: String? = nil, title: String? = nil) {
+        public init(workflowId: String? = nil, status: String? = nil, title: String? = nil) {
             self.workflowId = workflowId
             self.status = status
             self.title = title
@@ -3075,7 +3075,7 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.workflowId = try c.lenientRequired(.workflowId)
+            self.workflowId = c.lenient(.workflowId)
             self.status = c.lenient(.status)
             self.title = c.lenient(.title)
         }
@@ -3152,15 +3152,15 @@ extension Bitable {
     }
 
     public struct AppTableField: Codable, Sendable {
-        public var fieldName: String
-        public var type: Int
+        public var fieldName: String?
+        public var type: Int?
         public var property: TableFieldProperty?
         public var description: String?
         public var isPrimary: Bool?
         public var fieldId: String?
         public var uiType: UiType?
         public var isHidden: Bool?
-        public init(fieldName: String, type: Int, property: TableFieldProperty? = nil, description: String? = nil, isPrimary: Bool? = nil, fieldId: String? = nil, uiType: UiType? = nil, isHidden: Bool? = nil) {
+        public init(fieldName: String? = nil, type: Int? = nil, property: TableFieldProperty? = nil, description: String? = nil, isPrimary: Bool? = nil, fieldId: String? = nil, uiType: UiType? = nil, isHidden: Bool? = nil) {
             self.fieldName = fieldName
             self.type = type
             self.property = property
@@ -3182,8 +3182,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldName = try c.lenientRequired(.fieldName)
-            self.type = try c.lenientRequired(.type)
+            self.fieldName = c.lenient(.fieldName)
+            self.type = c.lenient(.type)
             self.property = c.lenient(.property)
             self.description = c.lenient(.description)
             self.isPrimary = c.lenient(.isPrimary)
@@ -3292,15 +3292,15 @@ extension Bitable {
     }
 
     public struct AppTableFieldUpdateResponseField: Codable, Sendable {
-        public var fieldName: String
-        public var type: Int
+        public var fieldName: String?
+        public var type: Int?
         public var property: TableFieldProperty?
         public var description: Description?
         public var isPrimary: Bool?
         public var fieldId: String?
         public var uiType: AppTableFieldUpdateBodyUiType?
         public var isHidden: Bool?
-        public init(fieldName: String, type: Int, property: TableFieldProperty? = nil, description: Description? = nil, isPrimary: Bool? = nil, fieldId: String? = nil, uiType: AppTableFieldUpdateBodyUiType? = nil, isHidden: Bool? = nil) {
+        public init(fieldName: String? = nil, type: Int? = nil, property: TableFieldProperty? = nil, description: Description? = nil, isPrimary: Bool? = nil, fieldId: String? = nil, uiType: AppTableFieldUpdateBodyUiType? = nil, isHidden: Bool? = nil) {
             self.fieldName = fieldName
             self.type = type
             self.property = property
@@ -3322,8 +3322,8 @@ extension Bitable {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.fieldName = try c.lenientRequired(.fieldName)
-            self.type = try c.lenientRequired(.type)
+            self.fieldName = c.lenient(.fieldName)
+            self.type = c.lenient(.type)
             self.property = c.lenient(.property)
             self.description = c.lenient(.description)
             self.isPrimary = c.lenient(.isPrimary)

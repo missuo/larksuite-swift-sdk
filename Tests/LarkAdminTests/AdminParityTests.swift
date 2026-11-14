@@ -110,7 +110,7 @@ import LarkAdmin
 
     @Test("POST /open-apis/admin/v1/password/reset") func v1_password_reset() async throws {
         let (client, http) = try ParityHarness.client(json: ##"{"code":0,"msg":"success","data":{}}"##)
-        let resp = try await client.admin.v1.password.reset(params: Admin.PasswordResetQuery(userIdType: "open_id"), body: Admin.PasswordResetBody(password: Admin.Password(entEmailPassword: "s"), userId: "s"))
+        let resp = try await client.admin.v1.password.reset(params: Admin.PasswordResetQuery(userIdType: "open_id"), body: Admin.PasswordResetBody(password: Admin.Password(), userId: "s"))
         #expect(resp.code == 0)
         let req = try #require(http.apiRequest)
         #expect(req.method.rawValue == "POST")

@@ -19,13 +19,13 @@ extension Tenant {
     }
 
     public struct Tenant: Codable, Sendable {
-        public var name: String
-        public var displayId: String
-        public var tenantTag: Int
-        public var tenantKey: String
-        public var avatar: Avatar
+        public var name: String?
+        public var displayId: String?
+        public var tenantTag: Int?
+        public var tenantKey: String?
+        public var avatar: Avatar?
         public var domain: String?
-        public init(name: String, displayId: String, tenantTag: Int, tenantKey: String, avatar: Avatar, domain: String? = nil) {
+        public init(name: String? = nil, displayId: String? = nil, tenantTag: Int? = nil, tenantKey: String? = nil, avatar: Avatar? = nil, domain: String? = nil) {
             self.name = name
             self.displayId = displayId
             self.tenantTag = tenantTag
@@ -43,11 +43,11 @@ extension Tenant {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
-            self.displayId = try c.lenientRequired(.displayId)
-            self.tenantTag = try c.lenientRequired(.tenantTag)
-            self.tenantKey = try c.lenientRequired(.tenantKey)
-            self.avatar = try c.lenientRequired(.avatar)
+            self.name = c.lenient(.name)
+            self.displayId = c.lenient(.displayId)
+            self.tenantTag = c.lenient(.tenantTag)
+            self.tenantKey = c.lenient(.tenantKey)
+            self.avatar = c.lenient(.avatar)
             self.domain = c.lenient(.domain)
         }
     }

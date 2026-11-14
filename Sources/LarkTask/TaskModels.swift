@@ -42,9 +42,7 @@ extension TaskAPI {
 
     public typealias TaskFollowerDeleteQuery = TaskGetQuery
 
-    public typealias TaskAddDependenciesResponse = TaskAddDependenciesBody
-
-    public typealias TaskRemoveDependenciesResponse = TaskAddDependenciesBody
+    public typealias TaskRemoveDependenciesResponse = TaskAddDependenciesResponse
 
     public typealias TaskSearchQuery = TaskCollaboratorListQuery
 
@@ -193,7 +191,7 @@ extension TaskAPI {
         public var createTime: String?
         public var updateTime: String?
         public var due: Due?
-        public var origin: Origin
+        public var origin: Origin?
         public var canEdit: Bool?
         public var custom: String?
         public var source: Int?
@@ -204,7 +202,7 @@ extension TaskAPI {
         public var repeatRule: String?
         public var richSummary: String?
         public var richDescription: String?
-        public init(id: String? = nil, summary: String? = nil, description: String? = nil, completeTime: String? = nil, creatorId: String? = nil, extra: String? = nil, createTime: String? = nil, updateTime: String? = nil, due: Due? = nil, origin: Origin, canEdit: Bool? = nil, custom: String? = nil, source: Int? = nil, followers: [Follower]? = nil, collaborators: [Follower]? = nil, collaboratorIds: [String]? = nil, followerIds: [String]? = nil, repeatRule: String? = nil, richSummary: String? = nil, richDescription: String? = nil) {
+        public init(id: String? = nil, summary: String? = nil, description: String? = nil, completeTime: String? = nil, creatorId: String? = nil, extra: String? = nil, createTime: String? = nil, updateTime: String? = nil, due: Due? = nil, origin: Origin? = nil, canEdit: Bool? = nil, custom: String? = nil, source: Int? = nil, followers: [Follower]? = nil, collaborators: [Follower]? = nil, collaboratorIds: [String]? = nil, followerIds: [String]? = nil, repeatRule: String? = nil, richSummary: String? = nil, richDescription: String? = nil) {
             self.id = id
             self.summary = summary
             self.description = description
@@ -259,7 +257,7 @@ extension TaskAPI {
             self.createTime = c.lenient(.createTime)
             self.updateTime = c.lenient(.updateTime)
             self.due = c.lenient(.due)
-            self.origin = try c.lenientRequired(.origin)
+            self.origin = c.lenient(.origin)
             self.canEdit = c.lenient(.canEdit)
             self.custom = c.lenient(.custom)
             self.source = c.lenient(.source)
@@ -296,9 +294,9 @@ extension TaskAPI {
     }
 
     public struct Origin: Codable, Sendable {
-        public var platformI18nName: String
+        public var platformI18nName: String?
         public var href: Href?
-        public init(platformI18nName: String, href: Href? = nil) {
+        public init(platformI18nName: String? = nil, href: Href? = nil) {
             self.platformI18nName = platformI18nName
             self.href = href
         }
@@ -308,7 +306,7 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.platformI18nName = try c.lenientRequired(.platformI18nName)
+            self.platformI18nName = c.lenient(.platformI18nName)
             self.href = c.lenient(.href)
         }
     }
@@ -555,7 +553,7 @@ extension TaskAPI {
         public var createTime: String?
         public var updateTime: String?
         public var due: Due?
-        public var origin: Origin
+        public var origin: Origin?
         public var custom: String?
         public var source: Int?
         public var followers: [Follower]?
@@ -565,7 +563,7 @@ extension TaskAPI {
         public var repeatRule: String?
         public var richSummary: String?
         public var richDescription: String?
-        public init(id: String? = nil, summary: String? = nil, description: String? = nil, completeTime: String? = nil, creatorId: String? = nil, extra: String? = nil, createTime: String? = nil, updateTime: String? = nil, due: Due? = nil, origin: Origin, custom: String? = nil, source: Int? = nil, followers: [Follower]? = nil, collaborators: [Follower]? = nil, collaboratorIds: [String]? = nil, followerIds: [String]? = nil, repeatRule: String? = nil, richSummary: String? = nil, richDescription: String? = nil) {
+        public init(id: String? = nil, summary: String? = nil, description: String? = nil, completeTime: String? = nil, creatorId: String? = nil, extra: String? = nil, createTime: String? = nil, updateTime: String? = nil, due: Due? = nil, origin: Origin? = nil, custom: String? = nil, source: Int? = nil, followers: [Follower]? = nil, collaborators: [Follower]? = nil, collaboratorIds: [String]? = nil, followerIds: [String]? = nil, repeatRule: String? = nil, richSummary: String? = nil, richDescription: String? = nil) {
             self.id = id
             self.summary = summary
             self.description = description
@@ -618,7 +616,7 @@ extension TaskAPI {
             self.createTime = c.lenient(.createTime)
             self.updateTime = c.lenient(.updateTime)
             self.due = c.lenient(.due)
-            self.origin = try c.lenientRequired(.origin)
+            self.origin = c.lenient(.origin)
             self.custom = c.lenient(.custom)
             self.source = c.lenient(.source)
             self.followers = c.lenient(.followers)
@@ -874,8 +872,8 @@ extension TaskAPI {
     }
 
     public struct TaskCollaboratorCreateResponse: Codable, Sendable {
-        public var collaborator: Follower
-        public init(collaborator: Follower) {
+        public var collaborator: Follower?
+        public init(collaborator: Follower? = nil) {
             self.collaborator = collaborator
         }
         enum CodingKeys: String, CodingKey {
@@ -883,13 +881,13 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.collaborator = try c.lenientRequired(.collaborator)
+            self.collaborator = c.lenient(.collaborator)
         }
     }
 
     public struct TaskFollowerCreateResponse: Codable, Sendable {
-        public var follower: Follower
-        public init(follower: Follower) {
+        public var follower: Follower?
+        public init(follower: Follower? = nil) {
             self.follower = follower
         }
         enum CodingKeys: String, CodingKey {
@@ -897,7 +895,7 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.follower = try c.lenientRequired(.follower)
+            self.follower = c.lenient(.follower)
         }
     }
 
@@ -943,8 +941,8 @@ extension TaskAPI {
 
     public struct TaskReminder: Codable, Sendable {
         public var id: String?
-        public var relativeFireMinute: Int
-        public init(id: String? = nil, relativeFireMinute: Int) {
+        public var relativeFireMinute: Int?
+        public init(id: String? = nil, relativeFireMinute: Int? = nil) {
             self.id = id
             self.relativeFireMinute = relativeFireMinute
         }
@@ -955,7 +953,7 @@ extension TaskAPI {
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             self.id = c.lenient(.id)
-            self.relativeFireMinute = try c.lenientRequired(.relativeFireMinute)
+            self.relativeFireMinute = c.lenient(.relativeFireMinute)
         }
     }
 
@@ -1034,9 +1032,9 @@ extension TaskAPI {
     }
 
     public struct Dependency: Codable, Sendable {
-        public var type: DependencyType
-        public var taskGuid: String
-        public init(type: DependencyType, taskGuid: String) {
+        public var type: DependencyType?
+        public var taskGuid: String?
+        public init(type: DependencyType? = nil, taskGuid: String? = nil) {
             self.type = type
             self.taskGuid = taskGuid
         }
@@ -1046,8 +1044,8 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try c.lenientRequired(.type)
-            self.taskGuid = try c.lenientRequired(.taskGuid)
+            self.type = c.lenient(.type)
+            self.taskGuid = c.lenient(.taskGuid)
         }
     }
 
@@ -1057,6 +1055,20 @@ extension TaskAPI {
         public init(rawValue: String) { self.rawValue = rawValue }
         public static let prev: Self = "prev"
         public static let next: Self = "next"
+    }
+
+    public struct TaskAddDependenciesResponse: Codable, Sendable {
+        public var dependencies: [Dependency]?
+        public init(dependencies: [Dependency]? = nil) {
+            self.dependencies = dependencies
+        }
+        enum CodingKeys: String, CodingKey {
+            case dependencies
+        }
+        public init(from decoder: any Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            self.dependencies = c.lenient(.dependencies)
+        }
     }
 
     public struct TaskRemoveDependenciesBody: Codable, Sendable {
@@ -1074,8 +1086,8 @@ extension TaskAPI {
     }
 
     public struct TaskRemoveDependenciesBodyDependency: Codable, Sendable {
-        public var taskGuid: String
-        public init(taskGuid: String) {
+        public var taskGuid: String?
+        public init(taskGuid: String? = nil) {
             self.taskGuid = taskGuid
         }
         enum CodingKeys: String, CodingKey {
@@ -1083,7 +1095,7 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.taskGuid = try c.lenientRequired(.taskGuid)
+            self.taskGuid = c.lenient(.taskGuid)
         }
     }
 
@@ -1154,12 +1166,12 @@ extension TaskAPI {
     }
 
     public struct TaskSearchResponse: Codable, Sendable {
-        public var items: [TaskSearchResponseItem]
+        public var items: [TaskSearchResponseItem]?
         public var total: Int?
-        public var hasMore: Bool
+        public var hasMore: Bool?
         public var pageToken: String?
         public var notice: String?
-        public init(items: [TaskSearchResponseItem], total: Int? = nil, hasMore: Bool, pageToken: String? = nil, notice: String? = nil) {
+        public init(items: [TaskSearchResponseItem]? = nil, total: Int? = nil, hasMore: Bool? = nil, pageToken: String? = nil, notice: String? = nil) {
             self.items = items
             self.total = total
             self.hasMore = hasMore
@@ -1175,19 +1187,19 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.items = try c.lenientRequired(.items)
+            self.items = c.lenient(.items)
             self.total = c.lenient(.total)
-            self.hasMore = try c.lenientRequired(.hasMore)
+            self.hasMore = c.lenient(.hasMore)
             self.pageToken = c.lenient(.pageToken)
             self.notice = c.lenient(.notice)
         }
     }
 
     public struct TaskSearchResponseItem: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var displayInfo: String?
         public var metaData: MetaData?
-        public init(id: String, displayInfo: String? = nil, metaData: MetaData? = nil) {
+        public init(id: String? = nil, displayInfo: String? = nil, metaData: MetaData? = nil) {
             self.id = id
             self.displayInfo = displayInfo
             self.metaData = metaData
@@ -1199,7 +1211,7 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.displayInfo = c.lenient(.displayInfo)
             self.metaData = c.lenient(.metaData)
         }
@@ -1282,11 +1294,11 @@ extension TaskAPI {
     }
 
     public struct Member: Codable, Sendable {
-        public var id: String
+        public var id: String?
         public var type: String?
-        public var role: String
+        public var role: String?
         public var name: String?
-        public init(id: String, type: String? = nil, role: String, name: String? = nil) {
+        public init(id: String? = nil, type: String? = nil, role: String? = nil, name: String? = nil) {
             self.id = id
             self.type = type
             self.role = role
@@ -1300,9 +1312,9 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try c.lenientRequired(.id)
+            self.id = c.lenient(.id)
             self.type = c.lenient(.type)
-            self.role = try c.lenientRequired(.role)
+            self.role = c.lenient(.role)
             self.name = c.lenient(.name)
         }
     }
@@ -1327,8 +1339,8 @@ extension TaskAPI {
         public var description: String?
         public var due: TaskAddMembersResponseTaskDue?
         public var reminders: [TaskReminder]?
-        public var creator: Creator?
-        public var members: [Creator]?
+        public var creator: Member?
+        public var members: [Member]?
         public var completedAt: String?
         public var attachments: [Attachment]?
         public var origin: TaskAddMembersResponseTaskOrigin?
@@ -1356,7 +1368,7 @@ extension TaskAPI {
         public var textDeliveries: [String]?
         public var attachmentDeliveries: [AttachmentDelivery]?
         public var nextTaskGuid: String?
-        public init(guid: String? = nil, summary: String? = nil, description: String? = nil, due: TaskAddMembersResponseTaskDue? = nil, reminders: [TaskReminder]? = nil, creator: Creator? = nil, members: [Creator]? = nil, completedAt: String? = nil, attachments: [Attachment]? = nil, origin: TaskAddMembersResponseTaskOrigin? = nil, extra: String? = nil, tasklists: [Tasklist]? = nil, repeatRule: String? = nil, parentTaskGuid: String? = nil, mode: Int? = nil, source: Int? = nil, customComplete: CustomComplete? = nil, taskId: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, status: String? = nil, url: String? = nil, start: TaskAddMembersResponseTaskDue? = nil, subtaskCount: Int? = nil, isMilestone: Bool? = nil, customFields: [CustomField]? = nil, dependencies: [Dependency]? = nil, assigneeRelated: [AssigneeRelated]? = nil, positiveReminders: [TaskReminder]? = nil, agentTaskStatus: Int? = nil, agentTaskProgress: String? = nil, textDeliveries: [String]? = nil, attachmentDeliveries: [AttachmentDelivery]? = nil, nextTaskGuid: String? = nil) {
+        public init(guid: String? = nil, summary: String? = nil, description: String? = nil, due: TaskAddMembersResponseTaskDue? = nil, reminders: [TaskReminder]? = nil, creator: Member? = nil, members: [Member]? = nil, completedAt: String? = nil, attachments: [Attachment]? = nil, origin: TaskAddMembersResponseTaskOrigin? = nil, extra: String? = nil, tasklists: [Tasklist]? = nil, repeatRule: String? = nil, parentTaskGuid: String? = nil, mode: Int? = nil, source: Int? = nil, customComplete: CustomComplete? = nil, taskId: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, status: String? = nil, url: String? = nil, start: TaskAddMembersResponseTaskDue? = nil, subtaskCount: Int? = nil, isMilestone: Bool? = nil, customFields: [CustomField]? = nil, dependencies: [Dependency]? = nil, assigneeRelated: [AssigneeRelated]? = nil, positiveReminders: [TaskReminder]? = nil, agentTaskStatus: Int? = nil, agentTaskProgress: String? = nil, textDeliveries: [String]? = nil, attachmentDeliveries: [AttachmentDelivery]? = nil, nextTaskGuid: String? = nil) {
             self.guid = guid
             self.summary = summary
             self.description = description
@@ -1485,42 +1497,16 @@ extension TaskAPI {
         }
     }
 
-    public struct Creator: Codable, Sendable {
-        public var id: String?
-        public var type: String?
-        public var role: String?
-        public var name: String?
-        public init(id: String? = nil, type: String? = nil, role: String? = nil, name: String? = nil) {
-            self.id = id
-            self.type = type
-            self.role = role
-            self.name = name
-        }
-        enum CodingKeys: String, CodingKey {
-            case id
-            case type
-            case role
-            case name
-        }
-        public init(from decoder: any Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = c.lenient(.id)
-            self.type = c.lenient(.type)
-            self.role = c.lenient(.role)
-            self.name = c.lenient(.name)
-        }
-    }
-
     public struct Attachment: Codable, Sendable {
         public var guid: String?
         public var fileToken: String?
         public var name: String?
         public var size: Int?
         public var resource: Resource?
-        public var uploader: Creator?
+        public var uploader: Member?
         public var isCover: Bool?
         public var uploadedAt: String?
-        public init(guid: String? = nil, fileToken: String? = nil, name: String? = nil, size: Int? = nil, resource: Resource? = nil, uploader: Creator? = nil, isCover: Bool? = nil, uploadedAt: String? = nil) {
+        public init(guid: String? = nil, fileToken: String? = nil, name: String? = nil, size: Int? = nil, resource: Resource? = nil, uploader: Member? = nil, isCover: Bool? = nil, uploadedAt: String? = nil) {
             self.guid = guid
             self.fileToken = fileToken
             self.name = name
@@ -1740,12 +1726,12 @@ extension TaskAPI {
         public var type: String?
         public var numberValue: String?
         public var datetimeValue: String?
-        public var memberValue: [Creator]?
+        public var memberValue: [Member]?
         public var singleSelectValue: String?
         public var multiSelectValue: [String]?
         public var name: String?
         public var textValue: String?
-        public init(guid: String? = nil, type: String? = nil, numberValue: String? = nil, datetimeValue: String? = nil, memberValue: [Creator]? = nil, singleSelectValue: String? = nil, multiSelectValue: [String]? = nil, name: String? = nil, textValue: String? = nil) {
+        public init(guid: String? = nil, type: String? = nil, numberValue: String? = nil, datetimeValue: String? = nil, memberValue: [Member]? = nil, singleSelectValue: String? = nil, multiSelectValue: [String]? = nil, name: String? = nil, textValue: String? = nil) {
             self.guid = guid
             self.type = type
             self.numberValue = numberValue
@@ -1805,11 +1791,11 @@ extension TaskAPI {
         public var name: String?
         public var size: Int?
         public var resource: Resource?
-        public var uploader: Creator?
+        public var uploader: Member?
         public var isCover: Bool?
         public var uploadedAt: String?
         public var url: String?
-        public init(guid: String? = nil, fileToken: String? = nil, name: String? = nil, size: Int? = nil, resource: Resource? = nil, uploader: Creator? = nil, isCover: Bool? = nil, uploadedAt: String? = nil, url: String? = nil) {
+        public init(guid: String? = nil, fileToken: String? = nil, name: String? = nil, size: Int? = nil, resource: Resource? = nil, uploader: Member? = nil, isCover: Bool? = nil, uploadedAt: String? = nil, url: String? = nil) {
             self.guid = guid
             self.fileToken = fileToken
             self.name = name
@@ -1916,8 +1902,8 @@ extension TaskAPI {
     }
 
     public struct Reminder: Codable, Sendable {
-        public var relativeFireMinute: Int
-        public init(relativeFireMinute: Int) {
+        public var relativeFireMinute: Int?
+        public init(relativeFireMinute: Int? = nil) {
             self.relativeFireMinute = relativeFireMinute
         }
         enum CodingKeys: String, CodingKey {
@@ -1925,7 +1911,7 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.relativeFireMinute = try c.lenientRequired(.relativeFireMinute)
+            self.relativeFireMinute = c.lenient(.relativeFireMinute)
         }
     }
 
@@ -2052,14 +2038,14 @@ extension TaskAPI {
     }
 
     public struct TaskCreateBodyV2CustomField: Codable, Sendable {
-        public var guid: String
+        public var guid: String?
         public var numberValue: String?
         public var memberValue: [MemberValue]?
         public var datetimeValue: String?
         public var singleSelectValue: String?
         public var multiSelectValue: [String]?
         public var textValue: String?
-        public init(guid: String, numberValue: String? = nil, memberValue: [MemberValue]? = nil, datetimeValue: String? = nil, singleSelectValue: String? = nil, multiSelectValue: [String]? = nil, textValue: String? = nil) {
+        public init(guid: String? = nil, numberValue: String? = nil, memberValue: [MemberValue]? = nil, datetimeValue: String? = nil, singleSelectValue: String? = nil, multiSelectValue: [String]? = nil, textValue: String? = nil) {
             self.guid = guid
             self.numberValue = numberValue
             self.memberValue = memberValue
@@ -2079,7 +2065,7 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.guid = try c.lenientRequired(.guid)
+            self.guid = c.lenient(.guid)
             self.numberValue = c.lenient(.numberValue)
             self.memberValue = c.lenient(.memberValue)
             self.datetimeValue = c.lenient(.datetimeValue)
@@ -2112,9 +2098,9 @@ extension TaskAPI {
     }
 
     public struct DocxSource: Codable, Sendable {
-        public var token: String
-        public var blockId: String
-        public init(token: String, blockId: String) {
+        public var token: String?
+        public var blockId: String?
+        public init(token: String? = nil, blockId: String? = nil) {
             self.token = token
             self.blockId = blockId
         }
@@ -2124,8 +2110,8 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.token = try c.lenientRequired(.token)
-            self.blockId = try c.lenientRequired(.blockId)
+            self.token = c.lenient(.token)
+            self.blockId = c.lenient(.blockId)
         }
     }
 
@@ -2266,13 +2252,13 @@ extension TaskAPI {
     public struct CommentGetResponseComment: Codable, Sendable {
         public var id: String?
         public var content: String?
-        public var creator: Creator?
+        public var creator: Member?
         public var replyToCommentId: String?
         public var createdAt: String?
         public var updatedAt: String?
         public var resourceType: String?
         public var resourceId: String?
-        public init(id: String? = nil, content: String? = nil, creator: Creator? = nil, replyToCommentId: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, resourceType: String? = nil, resourceId: String? = nil) {
+        public init(id: String? = nil, content: String? = nil, creator: Member? = nil, replyToCommentId: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, resourceType: String? = nil, resourceId: String? = nil) {
             self.id = id
             self.content = content
             self.creator = creator
@@ -2446,11 +2432,11 @@ extension TaskAPI {
         public var name: String?
         public var resourceType: String?
         public var isDefault: Bool?
-        public var creator: Creator?
+        public var creator: Member?
         public var tasklist: SectionTasklist?
         public var createdAt: String?
         public var updatedAt: String?
-        public init(guid: String? = nil, name: String? = nil, resourceType: String? = nil, isDefault: Bool? = nil, creator: Creator? = nil, tasklist: SectionTasklist? = nil, createdAt: String? = nil, updatedAt: String? = nil) {
+        public init(guid: String? = nil, name: String? = nil, resourceType: String? = nil, isDefault: Bool? = nil, creator: Member? = nil, tasklist: SectionTasklist? = nil, createdAt: String? = nil, updatedAt: String? = nil) {
             self.guid = guid
             self.name = name
             self.resourceType = resourceType
@@ -2563,9 +2549,9 @@ extension TaskAPI {
         public var completedAt: String?
         public var start: TaskAddMembersResponseTaskDue?
         public var due: TaskAddMembersResponseTaskDue?
-        public var members: [Creator]?
+        public var members: [Member]?
         public var subtaskCount: Int?
-        public init(guid: String? = nil, summary: String? = nil, completedAt: String? = nil, start: TaskAddMembersResponseTaskDue? = nil, due: TaskAddMembersResponseTaskDue? = nil, members: [Creator]? = nil, subtaskCount: Int? = nil) {
+        public init(guid: String? = nil, summary: String? = nil, completedAt: String? = nil, start: TaskAddMembersResponseTaskDue? = nil, due: TaskAddMembersResponseTaskDue? = nil, members: [Member]? = nil, subtaskCount: Int? = nil) {
             self.guid = guid
             self.summary = summary
             self.completedAt = completedAt
@@ -2760,14 +2746,14 @@ extension TaskAPI {
     public struct TasklistGetResponseTasklist: Codable, Sendable {
         public var guid: String?
         public var name: String?
-        public var creator: Creator?
-        public var owner: Creator?
-        public var members: [Creator]?
+        public var creator: Member?
+        public var owner: Member?
+        public var members: [Member]?
         public var url: String?
         public var createdAt: String?
         public var updatedAt: String?
         public var archiveMsec: String?
-        public init(guid: String? = nil, name: String? = nil, creator: Creator? = nil, owner: Creator? = nil, members: [Creator]? = nil, url: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, archiveMsec: String? = nil) {
+        public init(guid: String? = nil, name: String? = nil, creator: Member? = nil, owner: Member? = nil, members: [Member]? = nil, url: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, archiveMsec: String? = nil) {
             self.guid = guid
             self.name = name
             self.creator = creator
@@ -2848,8 +2834,8 @@ extension TaskAPI {
     }
 
     public struct TasklistAddMembersBody: Codable, Sendable {
-        public var members: [Creator]
-        public init(members: [Creator]) {
+        public var members: [Member]
+        public init(members: [Member]) {
             self.members = members
         }
         enum CodingKeys: String, CodingKey {
@@ -2863,9 +2849,9 @@ extension TaskAPI {
 
     public struct TasklistCreateBody: Codable, Sendable {
         public var name: String
-        public var members: [Creator]?
+        public var members: [Member]?
         public var archiveTasklist: Bool?
-        public init(name: String, members: [Creator]? = nil, archiveTasklist: Bool? = nil) {
+        public init(name: String, members: [Member]? = nil, archiveTasklist: Bool? = nil) {
             self.name = name
             self.members = members
             self.archiveTasklist = archiveTasklist
@@ -2907,9 +2893,9 @@ extension TaskAPI {
 
     public struct TasklistPatchBodyTasklist: Codable, Sendable {
         public var name: String?
-        public var owner: Creator?
+        public var owner: Member?
         public var archiveTasklist: Bool?
-        public init(name: String? = nil, owner: Creator? = nil, archiveTasklist: Bool? = nil) {
+        public init(name: String? = nil, owner: Member? = nil, archiveTasklist: Bool? = nil) {
             self.name = name
             self.owner = owner
             self.archiveTasklist = archiveTasklist
@@ -3009,11 +2995,11 @@ extension TaskAPI {
         public var datetimeSetting: DatetimeSetting?
         public var singleSelectSetting: SingleSelectSetting?
         public var multiSelectSetting: SingleSelectSetting?
-        public var creator: Creator?
+        public var creator: Member?
         public var createdAt: String?
         public var updatedAt: String?
         public var textSetting: JSONValue?
-        public init(guid: String? = nil, name: String? = nil, type: String? = nil, numberSetting: NumberSetting? = nil, memberSetting: MemberSetting? = nil, datetimeSetting: DatetimeSetting? = nil, singleSelectSetting: SingleSelectSetting? = nil, multiSelectSetting: SingleSelectSetting? = nil, creator: Creator? = nil, createdAt: String? = nil, updatedAt: String? = nil, textSetting: JSONValue? = nil) {
+        public init(guid: String? = nil, name: String? = nil, type: String? = nil, numberSetting: NumberSetting? = nil, memberSetting: MemberSetting? = nil, datetimeSetting: DatetimeSetting? = nil, singleSelectSetting: SingleSelectSetting? = nil, multiSelectSetting: SingleSelectSetting? = nil, creator: Member? = nil, createdAt: String? = nil, updatedAt: String? = nil, textSetting: JSONValue? = nil) {
             self.guid = guid
             self.name = name
             self.type = type
@@ -3260,10 +3246,10 @@ extension TaskAPI {
     }
 
     public struct CustomFieldCreateBodySingleSelectSettingOption: Codable, Sendable {
-        public var name: String
+        public var name: String?
         public var colorIndex: Int?
         public var isHidden: Bool?
-        public init(name: String, colorIndex: Int? = nil, isHidden: Bool? = nil) {
+        public init(name: String? = nil, colorIndex: Int? = nil, isHidden: Bool? = nil) {
             self.name = name
             self.colorIndex = colorIndex
             self.isHidden = isHidden
@@ -3275,7 +3261,7 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try c.lenientRequired(.name)
+            self.name = c.lenient(.name)
             self.colorIndex = c.lenient(.colorIndex)
             self.isHidden = c.lenient(.isHidden)
         }
@@ -3478,10 +3464,10 @@ extension TaskAPI {
     public struct ActivitySubscription: Codable, Sendable {
         public var guid: String?
         public var name: String?
-        public var subscribers: [Creator]?
+        public var subscribers: [Member]?
         public var includeKeys: [Int]?
         public var disabled: Bool?
-        public init(guid: String? = nil, name: String? = nil, subscribers: [Creator]? = nil, includeKeys: [Int]? = nil, disabled: Bool? = nil) {
+        public init(guid: String? = nil, name: String? = nil, subscribers: [Member]? = nil, includeKeys: [Int]? = nil, disabled: Bool? = nil) {
             self.guid = guid
             self.name = name
             self.subscribers = subscribers
@@ -3912,8 +3898,8 @@ extension TaskAPI {
         public var description: String?
         public var due: TaskAddMembersResponseTaskDue?
         public var reminders: [TaskReminder]?
-        public var creator: Creator?
-        public var members: [Creator]?
+        public var creator: Member?
+        public var members: [Member]?
         public var completedAt: String?
         public var attachments: [AttachmentDelivery]?
         public var origin: TaskAddMembersResponseTaskOrigin?
@@ -3941,7 +3927,7 @@ extension TaskAPI {
         public var textDeliveries: [String]?
         public var attachmentDeliveries: [AttachmentDelivery]?
         public var nextTaskGuid: String?
-        public init(guid: String? = nil, summary: String? = nil, description: String? = nil, due: TaskAddMembersResponseTaskDue? = nil, reminders: [TaskReminder]? = nil, creator: Creator? = nil, members: [Creator]? = nil, completedAt: String? = nil, attachments: [AttachmentDelivery]? = nil, origin: TaskAddMembersResponseTaskOrigin? = nil, extra: String? = nil, tasklists: [Tasklist]? = nil, repeatRule: String? = nil, parentTaskGuid: String? = nil, mode: Int? = nil, source: Int? = nil, customComplete: CustomComplete? = nil, taskId: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, status: String? = nil, url: String? = nil, start: TaskAddMembersResponseTaskDue? = nil, subtaskCount: Int? = nil, isMilestone: Bool? = nil, customFields: [CustomField]? = nil, dependencies: [Dependency]? = nil, assigneeRelated: [AssigneeRelated]? = nil, positiveReminders: [TaskReminder]? = nil, agentTaskStatus: Int? = nil, agentTaskProgress: String? = nil, textDeliveries: [String]? = nil, attachmentDeliveries: [AttachmentDelivery]? = nil, nextTaskGuid: String? = nil) {
+        public init(guid: String? = nil, summary: String? = nil, description: String? = nil, due: TaskAddMembersResponseTaskDue? = nil, reminders: [TaskReminder]? = nil, creator: Member? = nil, members: [Member]? = nil, completedAt: String? = nil, attachments: [AttachmentDelivery]? = nil, origin: TaskAddMembersResponseTaskOrigin? = nil, extra: String? = nil, tasklists: [Tasklist]? = nil, repeatRule: String? = nil, parentTaskGuid: String? = nil, mode: Int? = nil, source: Int? = nil, customComplete: CustomComplete? = nil, taskId: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, status: String? = nil, url: String? = nil, start: TaskAddMembersResponseTaskDue? = nil, subtaskCount: Int? = nil, isMilestone: Bool? = nil, customFields: [CustomField]? = nil, dependencies: [Dependency]? = nil, assigneeRelated: [AssigneeRelated]? = nil, positiveReminders: [TaskReminder]? = nil, agentTaskStatus: Int? = nil, agentTaskProgress: String? = nil, textDeliveries: [String]? = nil, attachmentDeliveries: [AttachmentDelivery]? = nil, nextTaskGuid: String? = nil) {
             self.guid = guid
             self.summary = summary
             self.description = description
@@ -4143,14 +4129,14 @@ extension TaskAPI {
     }
 
     public struct TaskSubtaskCreateBodyCustomField: Codable, Sendable {
-        public var guid: String
+        public var guid: String?
         public var numberValue: String?
-        public var memberValue: [Creator]?
+        public var memberValue: [Member]?
         public var datetimeValue: String?
         public var singleSelectValue: String?
         public var multiSelectValue: [String]?
         public var textValue: String?
-        public init(guid: String, numberValue: String? = nil, memberValue: [Creator]? = nil, datetimeValue: String? = nil, singleSelectValue: String? = nil, multiSelectValue: [String]? = nil, textValue: String? = nil) {
+        public init(guid: String? = nil, numberValue: String? = nil, memberValue: [Member]? = nil, datetimeValue: String? = nil, singleSelectValue: String? = nil, multiSelectValue: [String]? = nil, textValue: String? = nil) {
             self.guid = guid
             self.numberValue = numberValue
             self.memberValue = memberValue
@@ -4170,7 +4156,7 @@ extension TaskAPI {
         }
         public init(from decoder: any Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
-            self.guid = try c.lenientRequired(.guid)
+            self.guid = c.lenient(.guid)
             self.numberValue = c.lenient(.numberValue)
             self.memberValue = c.lenient(.memberValue)
             self.datetimeValue = c.lenient(.datetimeValue)
