@@ -115,8 +115,8 @@ persistent connection"; subscribe to the events/callbacks you need. Self-built a
 ```swift
 let dispatcher = EventDispatcher()
     .register(.imMessageReceiveV1) { e, _ in            // typed: IM.MessageReceiveV1Event
-        let m = e.message                                 // messageId, chatId, chatType, messageType, content, mentions, rootId, parentId
-        let sender = e.sender.senderId?.openId
+        guard let m = e.message else { return nil }       // messageId, chatId, chatType, messageType, content, mentions, rootId, parentId
+        let sender = e.sender?.senderId?.openId
         Task {                                            // keep handlers fast; do slow work in a Task
             do { try await handle(m, sender, e.text) } catch { print("handler failed:", error) }
         }
@@ -212,6 +212,9 @@ All 55 node-sdk API categories (1,680 APIs) are available, one module each:
 - Models live in a namespace per category: `IM.MessageListQuery`, `Contact.UserGetQuery`, ...
   (`TaskAPI` and `CalendarAPI` avoid clashing with Swift's `Task` / Foundation's `Calendar`;
   the `event` category's module is `LarkEventAPI`).
+- Everything decoded from the server is optional (node-sdk never validates responses), so read
+  fields with `?.` / `??`, e.g. `e.message?.messageId`. Only top-level request `Query`/`Body`
+  fields keep node's required markers. Open enums take literals or members (`"PENDING"` / `.pending`).
 - Request types are named `<Resource><Method>Query` / `<Resource><Method>Body`, responses
   `<Resource><Method>Response`; every method has doc comments with the official doc link.
 - Typed event keys: `.<category><Resource><Event>` (e.g. `.contactUserCreatedV3`,
@@ -219,3 +222,10 @@ All 55 node-sdk API categories (1,680 APIs) are available, one module each:
   (`message`, `add_bot`, `app_ticket`, ...) are in `LarkOtherEvents`.
 - To find a method: grep `Sources/Lark<Category>/<Category>Service.swift` for the HTTP path
   from the official docs (each method's doc comment ends with `` `METHOD /open-apis/...` ``).
+
+## Category skills
+
+Dedicated skills with compile-checked recipes for the heavier categories live next to this one:
+`lark-swift-docx`, `lark-swift-wiki`, `lark-swift-drive`, `lark-swift-bitable`, `lark-swift-sheets`,
+`lark-swift-task`, `lark-swift-approval`, `lark-swift-calendar`, `lark-swift-contact`
+(`skills/<name>/SKILL.md`).

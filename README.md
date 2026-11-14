@@ -79,10 +79,11 @@ let client = try LarkClient(appId: "cli_xxx", appSecret: "xxx")   // domain: .la
 
 let dispatcher = EventDispatcher()
     .register(.imMessageReceiveV1) { event, _ in                   // typed IM.MessageReceiveV1Event
+        guard let messageId = event.message?.messageId else { return nil }
         Task {
             do {
                 _ = try await client.im.v1.message.reply(
-                    messageId: event.message.messageId,
+                    messageId: messageId,
                     body: .text("echo: \(event.text ?? "")"))
             } catch {
                 print("reply failed: \(error)")
@@ -291,12 +292,18 @@ business errors, typed events, …) are listed in
 ## For AI agents
 
 [`skills/lark-swift-sdk/SKILL.md`](skills/lark-swift-sdk/SKILL.md) is an agent skill that
-teaches coding agents how to use this SDK.
+teaches coding agents how to use this SDK. Category skills add task recipes for the heavier
+APIs: [Docx](skills/lark-swift-docx/SKILL.md), [Wiki](skills/lark-swift-wiki/SKILL.md),
+[Drive](skills/lark-swift-drive/SKILL.md), [Bitable](skills/lark-swift-bitable/SKILL.md),
+[Sheets](skills/lark-swift-sheets/SKILL.md), [Task](skills/lark-swift-task/SKILL.md),
+[Approval](skills/lark-swift-approval/SKILL.md), [Calendar](skills/lark-swift-calendar/SKILL.md)
+and [Contact](skills/lark-swift-contact/SKILL.md). Every snippet in every skill is
+compile-checked by the test suite.
 
 ## Development
 
 ```bash
-swift build && swift test           # ~1.9k tests
+swift build && swift test           # ~2.4k tests
 
 # Regenerate the APIs from a node-sdk checkout
 cd Tools/codegen && npm install

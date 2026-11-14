@@ -169,8 +169,15 @@ Driven by the first consumer, a long-connection Feishu bot (`feishu-agent`).
   swift-crypto 4.x) could not resolve both packages. Only `SHA256`, `Insecure.SHA1` and
   `AES._CBC` are used, all present in 4.x; the LarkCore and LarkChannel suites pass against
   swift-crypto 4.5.0, and the lockfile / CI still resolve 5.1.1.
-- ⬜ Per-category skills (the main skill covers all modules generically; dedicated skills for heavy
-  categories such as Docx/Bitable/Approval could follow).
+- ✅ Per-category skills: Docx, Wiki, Drive, Bitable, Sheets, Task, Approval, Calendar, Contact
+  (`skills/lark-swift-<category>/`), each with a compile-check test of every snippet.
+- ✅ Model robustness: response/event types and all nested object types are all-optional (node-sdk
+  never validates server data; previously an object missing a node-"required" field such as a
+  contact user's `mobile` was dropped or decoded as `nil`). Top-level request fields keep their
+  required markers. Nested request/response shapes now share one type (fewer duplicates).
+- ✅ Generated identifier names: SCREAMING_CASE values and leading acronyms are lower-cased
+  (`.pending`, `.publicMailbox`, `.asc`, `ip`) instead of `.pENDING` / `.aSC` / `iP`; later
+  acronyms keep their case (`.zhCN`).
 
 ## 4. How to refresh this file
 
